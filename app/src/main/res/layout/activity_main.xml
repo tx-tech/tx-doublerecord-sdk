@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/tx_white"
+    tools:context=".MainActivity">
+
+
+
+    <android.support.constraint.Group
+        android:id="@+id/group2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:constraint_referenced_ids="tv_flowId,et_flowid"
+        />
+
+
+
+    <ImageView
+        android:id="@+id/iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_login"
+        android:visibility="visible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="10dp"
+        />
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="编号"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:padding="@dimen/tx_dp_10"
+        android:textColor="#000000"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@+id/iv"
+        app:layout_constraintRight_toLeftOf="@+id/et"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+    <EditText
+        android:id="@+id/et"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:hint="请填入编号"
+        android:textSize="18sp"
+        android:background="@null"
+        android:layout_marginLeft="30dp"
+        app:layout_constraintTop_toTopOf="@+id/name"
+        app:layout_constraintBottom_toBottomOf="@+id/name"
+        app:layout_constraintLeft_toRightOf="@+id/name"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <View
+        android:id="@+id/xpopup_divider"
+        android:layout_width="0dp"
+        android:layout_height="0.5dp"
+        app:layout_constraintLeft_toLeftOf="@+id/name"
+        app:layout_constraintRight_toRightOf="@+id/et"
+        app:layout_constraintTop_toBottomOf="@+id/name"
+        android:background="@color/tx_divider"
+        />
+
+    <EditText
+        android:id="@+id/et_account"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="请填入机构代码"
+        android:textSize="18sp"
+        android:background="@null"
+        app:layout_constraintTop_toBottomOf="@+id/et"
+        app:layout_constraintTop_toTopOf="@+id/tv_account"
+        app:layout_constraintRight_toRightOf="@+id/et"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_account"
+        app:layout_constraintLeft_toLeftOf="@+id/et"
+        />
+    <TextView
+        android:id="@+id/tv_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="机构名"
+        android:textStyle="bold"
+        android:padding="@dimen/tx_dp_10"
+        android:textSize="18sp"
+        android:textColor="#000000"
+        android:layout_marginTop="@dimen/tx_dp_10"
+        app:layout_constraintTop_toBottomOf="@+id/name"
+        app:layout_constraintLeft_toLeftOf="@+id/name"
+        />
+
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0.5dp"
+        android:background="@color/tx_divider"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_account"
+        app:layout_constraintRight_toRightOf="@+id/et_account"
+        app:layout_constraintTop_toBottomOf="@+id/tv_account" />
+
+    <View
+        android:id="@+id/tx_divider4"
+        android:layout_width="0dp"
+        android:layout_height="0.5dp"
+        android:background="@color/tx_divider"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_mimpro"
+        app:layout_constraintRight_toRightOf="@+id/et_account"
+        app:layout_constraintTop_toBottomOf="@+id/tv_roomid" />
+
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0.5dp"
+        android:background="@color/tx_divider"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_mimpro"
+        app:layout_constraintRight_toRightOf="@+id/et_account"
+        app:layout_constraintTop_toBottomOf="@+id/tv_mimpro" />
+
+
+
+    <TextView
+        android:id="@+id/tv_mimpro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="小程序/app"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:padding="@dimen/tx_dp_10"
+        android:textSize="18sp"
+        android:layout_marginTop="@dimen/tx_dp_10"
+        app:layout_constraintTop_toBottomOf="@+id/tv_account"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_account"
+        />
+
+    <TextView
+        android:id="@+id/tv_roomid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="姓名"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:padding="@dimen/tx_dp_10"
+        android:textSize="18sp"
+        android:layout_marginTop="@dimen/tx_dp_10"
+        app:layout_constraintTop_toBottomOf="@+id/tv_mimpro"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_mimpro"
+        />
+    <TextView
+        android:id="@+id/tv_flowId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="业务单号"
+        android:textStyle="bold"
+        android:textColor="#000000"
+        android:padding="@dimen/tx_dp_10"
+        android:textSize="18sp"
+        android:layout_marginTop="@dimen/tx_dp_10"
+        app:layout_constraintTop_toBottomOf="@+id/tv_roomid"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_roomid"
+        />
+
+    <Button
+        android:id="@+id/bt"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/demo_shape_round_3"
+        app:layout_constraintLeft_toLeftOf="@+id/name"
+        app:layout_constraintRight_toRightOf="@+id/et"
+        app:layout_constraintTop_toBottomOf="@+id/tv_flowId"
+        tools:text="开始会议"
+        />
+
+
+
+
+    <TextView
+        android:id="@+id/check_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="选择环境"
+        android:textColor="@color/tx_black"
+        android:textSize="16sp"
+        app:layout_constraintTop_toTopOf="@+id/tv_mimpro"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_mimpro"
+        app:layout_constraintLeft_toLeftOf="@+id/et"
+
+        />
+
+    <EditText
+        android:id="@+id/et_fullname"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="请填入姓名"
+        android:textSize="18sp"
+        android:background="@null"
+        app:layout_constraintTop_toBottomOf="@+id/check_bt"
+        app:layout_constraintTop_toTopOf="@+id/tv_roomid"
+        app:layout_constraintRight_toRightOf="@+id/et"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_roomid"
+        app:layout_constraintLeft_toLeftOf="@+id/check_bt"
+        />
+
+
+    <EditText
+        android:id="@+id/et_flowid"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="请填入业务单号"
+        android:textSize="18sp"
+        android:background="@null"
+        app:layout_constraintTop_toBottomOf="@+id/et_fullname"
+        app:layout_constraintTop_toTopOf="@+id/tv_flowId"
+        app:layout_constraintRight_toRightOf="@+id/et"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_flowId"
+        app:layout_constraintLeft_toLeftOf="@+id/check_bt"
+        />
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/tx_bg_lineup_shape"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/tx_dimen_10dp"
+    android:layout_marginLeft="@dimen/tx_dimen_10dp"
+    android:layout_marginRight="@dimen/tx_dimen_10dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include layout="@layout/tx_include_layout_item_common" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginStart="@dimen/tx_dimen_16dp"
+            android:layout_marginTop="@dimen/tx_dimen_10dp"
+            android:layout_marginEnd="@dimen/tx_dimen_16dp"
+            android:background="#eeeeee" />
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_item2_play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="开始上传"
+                android:layout_marginRight="@dimen/tx_dimen_20dp"
+                android:layout_marginTop="@dimen/tx_dimen_10dp"
+                style="@style/txButtonStyle_1"
+                android:layout_marginBottom="@dimen/tx_dimen_10dp" />
+
+            <TextView
+                android:id="@+id/tv_replay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/tx_dimen_15sp"
+                android:paddingTop="@dimen/tx_dimen_5dp"
+                android:paddingBottom="@dimen/tx_dimen_5dp"
+                android:paddingStart="@dimen/tx_dimen_20dp"
+                android:paddingEnd="@dimen/tx_dimen_20dp"
+                android:layout_marginRight="@dimen/tx_dimen_20dp"
+                android:text="重新录制"
+                android:textColor="@color/colorPrimary"
+                android:gravity="center"
+                android:background="@drawable/tx_countdown_selector"
+                android:layout_marginTop="@dimen/tx_dimen_10dp"
+                android:layout_marginBottom="@dimen/tx_dimen_10dp" />
+        </android.support.v7.widget.LinearLayoutCompat>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_unupload_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/tx_dimen_10dp"
+        android:padding="@dimen/tx_dimen_10dp"
+        android:text="播放"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/tx_dimen_15sp"
+        android:drawableLeft="@drawable/tx_playvideo_icon"
+        android:drawablePadding="@dimen/tx_dimen_5dp"
+        />
+</RelativeLayout>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/tx_bg_lineup_shape"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/tx_dimen_5dp"
+    android:layout_marginTop="@dimen/tx_dimen_10dp"
+    android:layout_marginLeft="@dimen/tx_dimen_10dp"
+    android:layout_marginRight="@dimen/tx_dimen_10dp">
+
+    <include layout="@layout/tx_include_layout_item_common" />
+
+    <TextView
+        android:id="@+id/tv_playremotevideo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/tx_dimen_20dp"
+        android:padding="@dimen/tx_dimen_10dp"
+        android:text="播放"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/tx_dimen_15sp"
+        android:drawableLeft="@drawable/tx_playvideo_icon"
+        android:drawablePadding="@dimen/tx_dimen_5dp"
+        />
+
+</RelativeLayout>

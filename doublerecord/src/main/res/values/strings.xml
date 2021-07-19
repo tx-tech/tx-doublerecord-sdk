@@ -1,0 +1,36 @@
+<resources>
+    <string name="tx_app_name">智能双录</string>
+
+    <string name="tx_edit_car_number">请输入自定义内容</string>
+
+    <string name="tx_i_see">好的</string>
+
+
+    <string name="tx_phone_not_support_screen_record">抱歉，你的手机暂不支持录屏</string>
+    <string name="tx_permission_denied">请允许申请的权限，否则无法录屏</string>
+    <string name="tx_record_faild">录屏失败，请检查日志!</string>
+    <string name="tx_save_to_album_success">保存到相册成功！</string>
+
+
+    <string name="tx_rtc_room_input_error_tip">"房间号和用户名不能为空"</string>
+    <string name="tx_rtc_permisson_error_tip">"用户没有允许需要的权限"</string>
+
+    <string name="tx_network_err">"请求失败"</string>
+    <string name="tx_loading_login">"正在登陆"</string>
+
+
+    <string name="tx_title_ready">正式开始录制前，请代理人与投保人按照画面引导位置进行双录若位置不正确，请调整位置，确保录制过程中人脸核身的准确率</string>
+    <string name="tx_title_ready_oneperson">正式开始录制前，请代理人确认全脸入镜，确保双录的视频录制的质量。</string>
+    <string name="tx_title_ready1">温馨提示，请代理人与投保人沟通交流，并进行录制前沟通:\n
+
+1、确认视频通话画面是否流畅，声音是否清晰。\n
+2、请代理人确认与投保人屏幕内容显示是否一致。\n
+3、请参与人员全程将头像保持在视频内。</string>
+
+    <string name="tx_title_ready2">温馨提示，请代理人与投保人沟通交流，并进行录制前沟通</string>
+    <string name="tx_title_ready3">1、确认视频通话画面是否流畅，声音是否清晰。\n2、请代理人确认与投保人屏幕内容显示是否一致。\n3、请参与人员全程将头像保持在视频内。</string>
+
+    <string name="tx_str_endRecord">确认完成</string>
+    <string name="tx_common_loading">加载中...</string>
+    <string name="tx_str">人脸未入镜</string>
+</resources>

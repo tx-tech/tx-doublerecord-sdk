@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/tx_dialog_background"
+    >
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/tx_dimen_20dp"
+        android:text="正在上传"
+        android:layout_marginBottom="@dimen/tx_dimen_10dp"
+        android:textColor="@color/color_00965E"
+        />
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:max="100"
+        android:layout_marginBottom="3dp"
+        android:progressDrawable="@drawable/tx_color_progressbar"
+        style="@android:style/Widget.Material.ProgressBar.Horizontal"
+        android:layout_below="@+id/tv_title"
+        tools:targetApi="lollipop" />
+
+    <TextView
+        android:id="@+id/tvPercent"
+        android:layout_below="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0%"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/progressBar"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/tx_dimen_30dp"
+        >
+
+        <TextView
+            android:id="@+id/tv_videosize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="视频大小："
+            android:textSize="@dimen/tx_dimen_12sp"
+            />
+
+        <TextView
+            android:id="@+id/tv_videotime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/tx_dimen_20dp"
+            android:textSize="@dimen/tx_dimen_12sp"
+            android:text="视频时长：" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            />
+        <TextView
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="取消上传"
+            android:textColor="@color/color_00965E"
+            android:textSize="@dimen/tx_dimen_16sp"
+            />
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_FFFFFF"
+    android:orientation="vertical"
+    tools:context="com.txt.sl.ui.createorder.WorkerListActivity">
+
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="@android:dimen/app_icon_size"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_new"
+            android:layout_width="@dimen/tx_dimen_60dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="新建"
+            android:textColor="#101010" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="远程双录"
+            android:textColor="@color/black"
+            android:textSize="@dimen/tx_dimen_18sp" />
+
+        <TextView
+            android:id="@+id/tv_exit"
+            android:layout_width="@dimen/tx_dimen_60dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="退出"
+            android:textColor="#101010" />
+
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/color_FFFFFF"
+        app:tabSelectedTextColor="@color/colorPrimary"
+        app:tabTextColor="@color/color_000000"
+        app:tabIndicatorColor="@color/colorPrimary"
+        app:tabMode="scrollable"
+        />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+
+
+
+</android.support.v7.widget.LinearLayoutCompat>

@@ -1,0 +1,701 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <TextView
+        android:id="@+id/tv_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="暂无质检信息"
+        android:layout_centerInParent="true"
+        android:textColor="@color/color_00965E"
+        android:textSize="@dimen/tx_dimen_16sp"
+        />
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/ll_check"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingEnd="@dimen/tx_dimen_20dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tx_dimen_16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/tx_dimen_26dp">
+
+                <LinearLayout
+                    android:id="@+id/ll_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text=""
+                        android:textColor="#101010"
+                        android:textSize="@dimen/tx_dimen_13sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="1.双录行为客户确认"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/tx_dimen_20dp"
+                        android:layout_marginEnd="@dimen/tx_dimen_20dp"
+                        android:textColor="#101010"
+                        android:textSize="@dimen/tx_dimen_13sp" />
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_below="@+id/ll_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/tx_dimen_10dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text=""
+                        android:textColor="#101010"
+                        android:textSize="@dimen/tx_dimen_13sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="1分30秒"
+                        android:textSize="@dimen/tx_dimen_13sp"
+                        android:textColor="@color/gray_text" />
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/tx_dimen_20dp"
+                        android:layout_marginEnd="@dimen/tx_dimen_20dp"
+                        android:textColor="@color/color_00965E"
+                        android:text="通过"
+                        android:gravity="right"
+
+                        android:textSize="@dimen/tx_dimen_14sp" />
+
+
+                </LinearLayout>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tx_dimen_16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/tx_dimen_26dp">
+
+                <LinearLayout
+                    android:id="@+id/ll_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text=""
+                        android:textColor="#101010"
+                        android:textSize="@dimen/tx_dimen_13sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="2.代理人自我介绍"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/tx_dimen_20dp"
+                        android:layout_marginEnd="@dimen/tx_dimen_20dp"
+                        android:textColor="#101010"
+                        android:textSize="@dimen/tx_dimen_13sp" />
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_below="@+id/ll_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="@dimen/tx_dimen_10dp"
+                    >
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        >
+
+                        <LinearLayout
+                            android:id="@+id/ll_3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text=""
+                                android:textColor="#101010"
+                                android:textSize="@dimen/tx_dimen_13sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="2.1  自我介绍"
+                                android:textSize="@dimen/tx_dimen_13sp"
+                                android:textColor="@color/black" />
+
+                            <TextView
+                                android:layout_height="wrap_content"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_marginStart="@dimen/tx_dimen_20dp"
+                                android:layout_marginEnd="@dimen/tx_dimen_20dp"
+                                android:textColor="#101010"
+                                android:textSize="@dimen/tx_dimen_13sp" />
+
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/ll_3_1"
+                            android:layout_below="@+id/ll_3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="@dimen/tx_dimen_10dp"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text=""
+                                android:textColor="#101010"
+                                android:textSize="@dimen/tx_dimen_13sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="2分30秒"
+                                android:textSize="@dimen/tx_dimen_13sp"
+                                android:textColor="@color/gray_text" />
+
+                            <TextView
+                                android:layout_height="wrap_content"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_marginStart="@dimen/tx_dimen_20dp"
+                                android:layout_marginEnd="@dimen/tx_dimen_20dp"
+                                android:textColor="@color/color_00965E"
+                                android:text="通过"
+                                android:gravity="right"
+
+                                android:textSize="@dimen/tx_dimen_14sp" />
+
+
+                        </LinearLayout>
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        >
+
+                        <LinearLayout
+                            android:id="@+id/ll_3_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text=""
+                                android:textColor="#101010"
+                                android:textSize="@dimen/tx_dimen_13sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="2.2  出示证件"
+                                android:textSize="@dimen/tx_dimen_13sp"
+                                android:textColor="@color/black" />
+
+                            <TextView
+                                android:layout_height="wrap_content"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_marginStart="@dimen/tx_dimen_20dp"
+                                android:layout_marginEnd="@dimen/tx_dimen_20dp"
+                                android:textColor="#101010"
+                                android:textSize="@dimen/tx_dimen_13sp" />
+
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_below="@+id/ll_3_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="@dimen/tx_dimen_10dp"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text=""
+                                android:textColor="#101010"
+                                android:textSize="@dimen/tx_dimen_13sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="2分50秒"
+                                android:textSize="@dimen/tx_dimen_13sp"
+                                android:textColor="@color/gray_text" />
+
+                            <TextView
+                                android:layout_height="wrap_content"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_marginStart="@dimen/tx_dimen_20dp"
+                                android:layout_marginEnd="@dimen/tx_dimen_20dp"
+                                android:textColor="@color/color_00965E"
+                                android:text="通过"
+                                android:gravity="right"
+
+                                android:textSize="@dimen/tx_dimen_14sp" />
+
+
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tx_dimen_16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/tx_dimen_26dp">
+
+                <LinearLayout
+                    android:id="@+id/ll_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text=""
+                        android:textColor="#101010"
+                        android:textSize="@dimen/tx_dimen_13sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="3.投保人人脸核身"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/tx_dimen_20dp"
+                        android:layout_marginEnd="@dimen/tx_dimen_20dp"
+                        android:textColor="#101010"
+                        android:textSize="@dimen/tx_dimen_13sp" />
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_below="@+id/ll_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="@dimen/tx_dimen_10dp"
+                    >
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        >
+
+                        <LinearLayout
+                            android:id="@+id/ll_4_1"
+                            android:visibility="gone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text=""
+                                android:textColor="#101010"
+                                android:textSize="@dimen/tx_dimen_13sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="2.1  自我介绍"
+                                android:textSize="@dimen/tx_dimen_13sp"
+                                android:textColor="@color/black" />
+
+                            <TextView
+                                android:layout_height="wrap_content"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_marginStart="@dimen/tx_dimen_20dp"
+                                android:layout_marginEnd="@dimen/tx_dimen_20dp"
+                                android:textColor="#101010"
+                                android:textSize="@dimen/tx_dimen_13sp" />
+
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/ll_4_2"
+                            android:layout_below="@+id/ll_4_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="@dimen/tx_dimen_10dp"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text=""
+                                android:textColor="#101010"
+                                android:textSize="@dimen/tx_dimen_13sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="3分30秒"
+                                android:textSize="@dimen/tx_dimen_13sp"
+                                android:textColor="@color/gray_text" />
+
+                            <TextView
+                                android:layout_height="wrap_content"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_marginStart="@dimen/tx_dimen_20dp"
+                                android:layout_marginEnd="@dimen/tx_dimen_20dp"
+                                android:textColor="@color/color_DF0125"
+                                android:text="不通过"
+                                android:gravity="right"
+
+                                android:textSize="@dimen/tx_dimen_14sp" />
+
+
+                        </LinearLayout>
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="@dimen/tx_dimen_10dp"
+                            >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text=""
+                                android:textColor="#101010"
+                                android:textSize="@dimen/tx_dimen_13sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="3分40秒"
+                                android:textSize="@dimen/tx_dimen_13sp"
+                                android:textColor="@color/gray_text" />
+
+                            <TextView
+                                android:layout_height="wrap_content"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_marginStart="@dimen/tx_dimen_20dp"
+                                android:layout_marginEnd="@dimen/tx_dimen_20dp"
+                                android:textColor="@color/color_00965E"
+                                android:text="通过"
+                                android:gravity="right"
+
+                                android:textSize="@dimen/tx_dimen_14sp" />
+
+
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tx_dimen_16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/tx_dimen_26dp">
+
+                <LinearLayout
+                    android:id="@+id/ll_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text=""
+                        android:textColor="#101010"
+                        android:textSize="@dimen/tx_dimen_13sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="4.投保人确认投保信息"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/tx_dimen_20dp"
+                        android:layout_marginEnd="@dimen/tx_dimen_20dp"
+                        android:textColor="#101010"
+                        android:textSize="@dimen/tx_dimen_13sp" />
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_below="@+id/ll_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/tx_dimen_10dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text=""
+                        android:textColor="#101010"
+                        android:textSize="@dimen/tx_dimen_13sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="5分30秒"
+                        android:textSize="@dimen/tx_dimen_13sp"
+                        android:textColor="@color/gray_text" />
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/tx_dimen_20dp"
+                        android:layout_marginEnd="@dimen/tx_dimen_20dp"
+                        android:textColor="@color/color_00965E"
+                        android:text="通过"
+                        android:gravity="right"
+
+                        android:textSize="@dimen/tx_dimen_14sp" />
+
+
+                </LinearLayout>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tx_dimen_16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/tx_dimen_26dp">
+
+                <LinearLayout
+                    android:id="@+id/ll_6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text=""
+                        android:textColor="#101010"
+                        android:textSize="@dimen/tx_dimen_13sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="5.保险责任告知"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/tx_dimen_20dp"
+                        android:layout_marginEnd="@dimen/tx_dimen_20dp"
+                        android:textColor="#101010"
+                        android:textSize="@dimen/tx_dimen_13sp" />
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_below="@+id/ll_6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/tx_dimen_10dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text=""
+                        android:textColor="#101010"
+                        android:textSize="@dimen/tx_dimen_13sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="1分30秒"
+                        android:textSize="@dimen/tx_dimen_13sp"
+                        android:textColor="@color/gray_text" />
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/tx_dimen_20dp"
+                        android:layout_marginEnd="@dimen/tx_dimen_20dp"
+                        android:textColor="@color/color_00965E"
+                        android:text="通过"
+                        android:gravity="right"
+
+                        android:textSize="@dimen/tx_dimen_14sp" />
+
+
+                </LinearLayout>
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/tx_dimen_16dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/tx_dimen_26dp">
+
+                <LinearLayout
+                    android:id="@+id/ll_7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text=""
+                        android:textColor="#101010"
+                        android:textSize="@dimen/tx_dimen_13sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="6.投保人远程签署保单"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/tx_dimen_20dp"
+                        android:layout_marginEnd="@dimen/tx_dimen_20dp"
+                        android:textColor="#101010"
+                        android:textSize="@dimen/tx_dimen_13sp" />
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_below="@+id/ll_7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/tx_dimen_10dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text=""
+                        android:textColor="#101010"
+                        android:textSize="@dimen/tx_dimen_13sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="6分30秒"
+                        android:textSize="@dimen/tx_dimen_13sp"
+                        android:textColor="@color/gray_text" />
+
+                    <TextView
+                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="@dimen/tx_dimen_20dp"
+                        android:layout_marginEnd="@dimen/tx_dimen_20dp"
+                        android:textColor="@color/color_00965E"
+                        android:text="通过"
+                        android:gravity="right"
+
+                        android:textSize="@dimen/tx_dimen_14sp" />
+
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+
+
+
+</RelativeLayout>

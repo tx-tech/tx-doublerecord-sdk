@@ -1,0 +1,106 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    ext.kotlin_version = '1.3.72'
+
+    repositories {
+
+        google()
+//        jcenter()
+        maven { url "https://maven.aliyun.com/repository/public" }
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:4.1.3'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
+        //Bugly符号表插件
+        classpath 'com.tencent.bugly:symtabfileuploader:2.1.0'
+    }
+}
+
+
+allprojects {
+    repositories {
+        google()
+//        jcenter()
+        maven { url "https://maven.aliyun.com/repository/public" }
+        maven { url "https://jitpack.io" }
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+
+
+static def computeVersionName() {
+    String date = new Date().format("yyMMddHHmm")
+    return Integer.parseInt(date)
+
+}
+ext {
+appconfig = [
+        isShowOut          : "1",// 1 测试 ;2 dev ;3 正式;
+//        rb_test_IP         : "https://developer.ikandy.cn:62727", //呼叫中心地址 测试环境
+        rb_test_IP         : "https://new-2record.ikandy.cn", //呼叫中心地址 测试环境
+//        rb_test_IP         : "https://doublerecord.cloud-ins.cn", //呼叫中心地址 测试环境
+        rb_demo_IP         : "https://developer.ikandy.cn:62727", //呼叫中心地址 demo环境
+        rb_IP              : "https://hc-mcu.ikandy.cn",//呼叫中心地址 正式环境
+        rb_test_business_IP: "https://developer.ikandy.cn:62728", //业务接口地址 测试环境
+//        rb_test_business_IP: "https://service-support-test.ikandy.cn", //业务接口地址 测试环境
+//        rb_test_business_IP: "https://common.cloud-ins.cn", //业务接口地址 测试环境
+        rb_demo_business_IP: "https://tx-demo.ikandy.cn", //业务接口地址 demo环境
+        rb_business_IP     : "https://hc-api.ikandy.cn",//业务接口地址 正式环境
+        rb_test_socket_IP  : "https://jx-api-test.ikandy.cn:5000",//呼叫中心socket地址 测试环境
+        rb_demo_socket_IP  : "https://tx-demo.ikandy.cn:5000",//呼叫中心socket地址  demo环境
+        rb_socket_IP       : "https://hc-mcu.ikandy.cn:5000",//呼叫中心socket地址  正式环境
+        rb_test_h5_IP      : "https://jx-h5-test.ikandy.cn:4002",//访问合同书 测试环境
+        rb_demo_h5_IP      : "https://tx-api-demo.ikandy.cn:4002",//访问合同书 demo环境
+        rb_h5_IP           : "https://app-hc.ikandy.cn"//访问合同书 正式环境
+]
+
+
+    // Sdk and tools
+    configuration = [
+            applicationId    : "com.txt.znsl",
+            compileSdkVersion: 28,
+            targetSdkVersion : 28,
+            minSdkVersion    : 19,
+            buildToolsVersion: '28.0.0',
+            versionName      : "v1.2.0",
+            versionCode : computeVersionName()
+
+
+    ]
+    // App dependencies
+    libraries = [
+            guavaVersion                : '18.0',
+            constraintLayoutVersion     : '1.1.3',
+            glideVersion                : '4.7.1',
+            gsonVersion                 : '2.6.2',
+            okioVersion                 : '1.7.0',
+            okhttpVersion               : '3.2.0',
+            retrofitVersion             : '2.4.0',
+            converterGsonVersion        : '2.1.0',
+            adapterRxjavaVersion        : '2.1.0',
+            rxandroidVersion            : '1.2.1',
+            rxjavaVersion               : '1.1.6',
+            timberVersion               : '4.5.1',
+            rxlifecycleVersion          : '0.4.0',
+            rxlifecycleComponentsVersion: '0.4.0',
+            supportLibraryVersion       : '28.0.0',
+            fragmentationVersion : '1.3.3',
+            fragmentationEventBusVersion : '1.1.0'
+    ]
+
+}
+

@@ -1,0 +1,50 @@
+<html><head><title>JSSDK Demo</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="initial-scale=1,width=device-width,height=device-height"><script src="../api/api.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"><style>body {
+            padding: 20px;
+            width: 100%;
+        }
+
+        label {
+            margin: 5px 0 0 0;
+        }
+
+        .button-margin {
+            margin-top: 6px;
+            margin-bottom: 6px;
+        }</style><body><ul class="nav nav-tabs"><li role="presentation"><a href="index.html">Main</a></li><li role="presentation"><a href="device.html">设备</a></li><li role="presentation"><a href="filemanager.html">文件管理</a></li><li role="presentation"><a href="uicontrol.html">UI</a></li><li role="presentation"><a href="contact.html">通讯录</a></li><li role="presentation"><a href="scanner.html">扫一扫</a></li><li role="presentation"><a href="menu.html">菜单</a></li><li role="presentation"><a href="idcreader.html">读卡器</a></li><li role="presentation"><a href="printer.html">打印机</a></li><li role="presentation"><a href="ocr.html">OCR</a></li><li role="presentation"><a href="baiduocr.html">百度OCR</a></li><li role="presentation"><a href="share.html">微信分享</a></li><li role="presentation"><a href="lbs.html">LBS</a></li><li role="presentation"><a href="faceid.html">FaceID</a></li><li role="presentation"><a href="xylink.html">小鱼易连</a></li><li role="presentation"><a href="event.html">事件</a></li><li role="presentation" class="active"><a href="txtFaceTime.html">展业工具</a></li></ul><form class="form-horizontal"><div class="form-group"><label for="account" class="col-xs-4 control-label">账号:</label><div class="col-xs-8"><input type="text" class="form-control" id="account" value=""></div><label for="org" class="col-xs-4 control-label">组织:</label><div class="col-xs-8"><input type="text" class="form-control" id="org" value=""></div><label for="sign" class="col-xs-4 control-label">签名(可不填):</label><div class="col-xs-8"><input type="text" class="form-control" id="sign" value=""></div><button class="col-xs-12 btn btn-default" style="margin-bottom: 10px" onclick="txtFaceTime()" type="button">在线视频</button></div></form><p style="color:orange">结果：</p><div style="border:1px solid #444; padding:8px; word-break:break-all"><p id="result"></p></div><br><br><script>let event_log = document.getElementById('result');
+    function appendLog(type, detail) {
+
+        let text = type + ", 内容: " + (detail ? JSON.stringify(detail) : "null");
+
+        let tmp = event_log.innerText;
+        if (!tmp) {
+            tmp = text;
+        } else {
+            tmp = tmp + "\n" + text;
+        }
+
+        event_log.innerText = tmp
+    }
+
+    function txtFaceTime() {
+
+        let account = document.getElementById('account').value;
+        let org = document.getElementById('account').value;
+        let sign = document.getElementById('account').value;
+        if (!account || !org) {
+            window.alert("请输入账号和组织");
+            return;
+        }
+
+        yzl.txtFaceTime({
+            account: account,
+            org: org,
+            sign: sign,
+            success: function (result) {
+                appendLog('txtFaceTime', result);
+            },
+            fail: function (error) {
+                appendLog('txtFaceTime', error);
+                window.alert("在线视频失败");
+            }
+        });
+    }</script></body></head></html>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="@dimen/tx_dimen_10dp"
+    android:gravity="left"
+    >
+
+    <TextView
+        android:id="@+id/tv_title1"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/tx_dimen_20dp"
+        android:textColor="@color/gray_text"
+        android:textSize="@dimen/tx_dimen_14sp"
+        android:gravity="center"
+        android:paddingEnd="@dimen/tx_dimen_5dp"
+        tools:text="1"
+        />
+
+    <TextView
+        android:id="@+id/tv_value1"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginEnd="@dimen/tx_dimen_20dp"
+        android:textColor="@color/gray_text"
+        android:textSize="@dimen/tx_dimen_14sp"
+        tools:text="投保人证件号码"
+        />
+
+</LinearLayout>

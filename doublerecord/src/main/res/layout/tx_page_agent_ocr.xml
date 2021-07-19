@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_page8"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:visibility="gone"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/tx_dimen_20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/ll_page8_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="@dimen/tx_dimen_4dp"
+         />
+
+        <TextView
+            android:id="@+id/page_8_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/tx_dimen_15dp"
+            android:lineSpacingExtra="@dimen/tx_dimen_4dp"
+            android:text="请代理人人脸保持在镜头内 倒计时3S" />
+
+        <TextView
+            android:id="@+id/page_8_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/tx_dimen_15dp"
+            android:lineSpacingExtra="@dimen/tx_dimen_4dp"
+            android:text="证件识别中..."
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/page_8_yes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/tx_dimen_35dp"
+            android:drawableStart="@drawable/tx_icon_yes"
+            android:drawablePadding="@dimen/tx_dimen_8dp"
+            android:lineSpacingExtra="@dimen/tx_dimen_4dp"
+            android:text="代理人身份识别成功"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/page_8_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/tx_dimen_35dp"
+            android:drawableStart="@drawable/tx_nopass_icon"
+            android:drawablePadding="@dimen/tx_dimen_8dp"
+            android:lineSpacingExtra="@dimen/tx_dimen_4dp"
+            android:text="代理人身份识别不成功"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/page_8_voice_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/tx_dimen_10dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/page_8_voice_result_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/tx_nopass_icon"
+                android:drawablePadding="@dimen/tx_dimen_10dp"
+                android:text="质检未通过，请再重试" />
+
+            <TextView
+                android:id="@+id/page_8_voice_result_yes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/tx_icon_yes"
+                android:drawablePadding="@dimen/tx_dimen_10dp"
+                android:gravity="center"
+                android:text="质检通过..."
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/page_8_voice_result_retry"
+                android:layout_width="@dimen/tx_dimen_60dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/tx_dimen_20dp"
+                android:layout_marginEnd="@dimen/tx_dimen_35dp"
+                android:background="@drawable/tx_shape_goods_item_thespot_yes"
+                android:gravity="center"
+                android:text="重试"
+                android:textColor="@color/color_FFFFFF"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tx_dimen_40dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/tx_shape_goodsdetails_thespot_add_normal"
+        android:gravity="center"
+        android:text="请代理人向客户出示身份证件后点击下一步"
+        android:textColor="@color/color_FFFFFF" />
+
+</RelativeLayout>

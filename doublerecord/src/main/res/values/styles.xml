@@ -1,0 +1,202 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="tx_AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/color_FFFFFF</item>
+        <item name="colorPrimaryDark">@color/color_FFFFFF</item>
+        <item name="colorAccent">@color/color_c7c7c7</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@color/white</item>
+    </style>
+
+
+    <style name="tx_DialogStyle" parent="@android:style/Theme.Dialog">
+        <!-- 边框 -->
+        <item name="android:windowFrame">@null</item>
+        <!-- 是否浮现在activity之上 -->
+        <item name="android:windowIsFloating">true</item>
+        <!-- 半透明 -->
+        <item name="android:windowIsTranslucent">false</item>
+        <!-- 无标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="tx_MyDialog" parent="android:style/Theme.Dialog">
+        <!--背景颜色及和透明程度-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!--是否去除标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!--是否去除边框-->
+        <item name="android:windowFrame">@null</item>
+        <!--是否浮现在activity之上-->
+        <item name="android:windowIsFloating">true</item>
+        <!--是否模糊-->
+        <!--<item name="android:backgroundDimEnabled">true</item>-->
+    </style>
+
+    <style name="tx_dialog_style" parent="android:style/Theme.Dialog">
+        <!--背景颜色及和透明程度-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!--是否去除标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!--是否去除边框-->
+        <item name="android:windowFrame">@null</item>
+        <!--是否浮现在activity之上-->
+        <item name="android:windowIsFloating">true</item>
+        <!--是否模糊-->
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="tx_divider_horizontal">
+        <!-- 水平分割线 -->
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/color_ecebeb</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="tx_divider_horizontal_constraintLayout">
+        <!-- 水平分割线 -->
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/color_ecebeb</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+
+    <style name="tx_divider_vertical">
+        <!-- 垂直分割线 -->
+        <item name="android:layout_width">0.01dp</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:background">@android:color/darker_gray</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+
+    <style name="tx_TranslucentTheme" parent="tx_AppTheme">
+
+        <item name="android:windowBackground">@color/color_FFFFFF</item>
+        <!--<item name="android:windowFullscreen">true</item>-->
+        <!--<item name="android:windowNoTitle">true</item>-->
+
+    </style>
+
+    <!-- dialog 的anim-->
+    <style name="tx_DialogAnimations" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@anim/tx_slide_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/tx_slide_bottom_out</item>
+
+    </style>
+
+    <style name="tx_AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="txAppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="txAppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="txTripFun.TabLayoutText" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">@dimen/tx_dimen_16sp</item>
+    </style>
+
+
+    <style name="txTripFunClick">
+        <item name="android:clickable">true</item>
+        <item name="android:background">@drawable/tx_selector_white_stoke_no_corner</item>
+    </style>
+
+    <!-- 默认编辑框样式 -->
+    <style name="txEditTextStyle">
+        <item name="android:background">@null</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColorHint">#A4A7AC</item>
+        <item name="android:textColor">#333333</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+    </style>
+
+    <!-- 默认文本框样式 -->
+    <style name="txTextViewStyle">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">#888888</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+    </style>
+
+    <!-- 默认文本框样式 -->
+    <style name="txTextViewStyle_black">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">14dp</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+    </style>
+
+    <!-- 默认文本框样式 -->
+    <style name="txTextViewStyle_1">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">#333333</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+    </style>
+
+    <!-- 默认圆角按钮样式 -->
+    <style name="txButtonStyle" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/white90</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/tx_button_round_selector</item>
+        <item name="android:foreground">@null</item>
+    </style>
+
+    <style name="txButtonStyle_1">
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/color_FFFFFF</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/tx_button_round_selector</item>
+        <item name="android:foreground">@null</item>
+    </style>
+
+    <style name="txButtonStyle_2">
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/color_FFFFFF</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/tx_shape_green_15</item>
+        <item name="android:foreground">@null</item>
+    </style>
+
+    <!-- 不带圆角按钮样式 -->
+    <style name="txRectButtonStyle" parent="txButtonStyle">
+        <item name="android:paddingStart">15dp</item>
+        <item name="android:paddingEnd">15dp</item>
+        <item name="android:background">@drawable/tx_button_rect_selector</item>
+    </style>
+
+
+</resources>
+

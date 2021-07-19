@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@color/tx_white"
+    tools:context="com.txt.myapplication.MeetingActivity">
+
+    <Button
+        android:id="@+id/tv_createroom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="创建保单信息"
+        android:textSize="16sp"
+        android:textColor="@color/tx_white"
+        android:gravity="center"
+        android:layout_margin="30dp"
+        android:onClick="onMeetClick"
+        android:background="@drawable/demo_shape_round_3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+
+    <Button
+        android:id="@+id/tv_joinroom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="投保中的双录"
+        android:textSize="16sp"
+        android:textColor="@color/tx_white"
+        android:gravity="center"
+        android:layout_margin="30dp"
+        android:onClick="onMeetClick"
+        android:background="@drawable/demo_shape_round_3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+
+    <Button
+        android:id="@+id/tv_reservationroom"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="我的双录"
+        android:textSize="16sp"
+        android:textColor="@color/tx_white"
+        android:gravity="center"
+        android:layout_margin="30dp"
+        android:background="@drawable/demo_shape_round_3"
+        android:onClick="onMeetClick"
+        />
+
+    <Button
+        android:id="@+id/tv_reservationroom1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="双录上传"
+        android:textSize="16sp"
+        android:textColor="@color/tx_white"
+        android:gravity="center"
+        android:layout_margin="30dp"
+        android:background="@drawable/demo_shape_round_3"
+        android:onClick="onMeetClick"
+        />
+
+    <TextView
+        android:id="@+id/tv_config"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="设置配置信息"
+        android:onClick="onMeetClick"/>
+
+
+    <TextView
+        android:id="@+id/tv_dep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/tx_dp_10"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:text = "123123"
+        />
+</LinearLayout>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_page14"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:visibility="gone">
+
+    <TextView
+        android:id="@+id/ll_page14_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="@dimen/tx_dimen_4dp"
+        android:textColor="@color/color_787878"
+        android:textSize="@dimen/tx_dimen_14sp" />
+
+    <TextView
+        android:id="@+id/ll_page14_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="@dimen/tx_dimen_4dp"
+        android:layout_marginTop="@dimen/tx_dimen_30dp"
+        android:textColor="@color/color_787878"
+        android:textSize="@dimen/tx_dimen_18sp" />
+
+    <LinearLayout
+        android:id="@+id/ll_page14_voice_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:visibility="gone"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/tx_dimen_10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/ll_page14_voice_result_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="质检未通过，请再重试"
+            android:drawableStart="@drawable/tx_nopass_icon"
+            android:drawablePadding="@dimen/tx_dimen_10dp"
+            />
+
+        <TextView
+            android:id="@+id/ll_page14_voice_result_yes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="质检通过..."
+            android:drawableStart="@drawable/tx_icon_yes"
+            android:drawablePadding="@dimen/tx_dimen_10dp"
+            android:gravity="center"
+            android:visibility="gone"
+            />
+        <TextView
+            android:id="@+id/ll_page14_voice_result_retry"
+            android:layout_width="@dimen/tx_dimen_60dp"
+            android:layout_height="match_parent"
+            android:text="重试"
+            android:clickable="true"
+            android:gravity="center"
+            android:textColor="@color/color_FFFFFF"
+            android:layout_marginEnd="@dimen/tx_dimen_35dp"
+            android:layout_marginStart="@dimen/tx_dimen_20dp"
+            android:background="@drawable/tx_shape_goods_item_thespot_yes"
+            />
+
+    </LinearLayout>
+</LinearLayout>

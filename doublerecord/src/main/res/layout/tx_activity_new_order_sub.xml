@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_FFFFFF"
+    android:orientation="vertical">
+
+
+    <com.common.widget.titlebar.TitleBar
+        android:id="@+id/titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:titleColor="@color/white"
+        />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <android.support.v7.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <View
+                android:id="@+id/view5"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tx_dimen_10dp"
+                android:background="#eeeeee" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+              >
+
+                <TextView
+                    android:text="主附险类型"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/txTextViewStyle_black"/>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/tv_insurance1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/tx_dimen_20dp"
+                    android:text="请选择"
+                    android:padding="@dimen/tx_dimen_10dp"
+                    android:textColor="@color/color_A5A7AC"
+                    android:textSize="@dimen/tx_dimen_13sp"
+                    android:onClick="txClick"
+                    />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tx_dimen_1dp"
+                android:background="#eeeeee" />
+
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+               >
+
+                <TextView
+                    android:text="产品类型"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/txTextViewStyle_black" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/tv_insurancetype"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/tx_dimen_20dp"
+                    android:text="请选择"
+                    android:padding="@dimen/tx_dimen_10dp"
+                    android:textColor="@color/color_A5A7AC"
+                    android:textSize="@dimen/tx_dimen_13sp"
+                    android:onClick="txClick"/>
+
+
+            </LinearLayout>
+
+            <View
+
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tx_dimen_1dp"
+                android:background="#eeeeee" />
+
+
+
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                >
+
+                <TextView
+                    android:text="产品名称"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/txTextViewStyle_black" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/tv_policyholdercertificatetype"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/tx_dimen_20dp"
+                    android:text="请选择"
+                    android:padding="@dimen/tx_dimen_10dp"
+                    android:textColor="@color/color_A5A7AC"
+                    android:textSize="@dimen/tx_dimen_13sp"
+                    android:onClick="txClick" />
+
+
+
+            </LinearLayout>
+
+            <View
+
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tx_dimen_1dp"
+                android:background="#eeeeee" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                >
+
+                <TextView
+                    android:text="产品首期保费（元）"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/txTextViewStyle_black" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <com.common.widget.view.ClearEditText
+                    android:id="@+id/et_insurancePaymentDown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/tx_dimen_20dp"
+                    android:maxLength="11"
+                    android:inputType="number"
+                    android:hint="请输入产品首期保费"
+                    android:singleLine="true"
+                    android:gravity="center_vertical|end"
+                    style="@style/txEditTextStyle"/>
+
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tx_dimen_1dp"
+                android:background="#eeeeee" />
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+              >
+
+                <TextView
+                    android:text="缴费频次"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/txTextViewStyle_black"/>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/tv_insurancePaymentMethod"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/tx_dimen_20dp"
+                    android:text="请选择"
+                    android:padding="@dimen/tx_dimen_10dp"
+                    android:textColor="@color/color_A5A7AC"
+                    android:textSize="@dimen/tx_dimen_13sp"
+                    android:onClick="txClick" />
+
+
+            </LinearLayout>
+
+            <View
+
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tx_dimen_1dp"
+                android:background="#eeeeee" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                >
+
+                <TextView
+                    android:text="缴费期（期）"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/txTextViewStyle_black"/>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <com.common.widget.view.ClearEditText
+                    android:id="@+id/et_insurancePaymentPeriods"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/tx_dimen_20dp"
+                    android:maxLength="11"
+                    android:inputType="number"
+                    android:hint="请输入缴费期"
+                    android:singleLine="true"
+                    android:gravity="center_vertical|end"
+                    style="@style/txEditTextStyle" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tx_dimen_1dp"
+                android:background="#eeeeee" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+               >
+
+                <TextView
+                    android:text="每期保费（元）"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/txTextViewStyle_black" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <com.common.widget.view.ClearEditText
+                    android:id="@+id/et_insurancePaymentPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/tx_dimen_20dp"
+                    android:maxLength="11"
+                    android:inputType="number"
+                    android:hint="请输入每期保费"
+                    android:singleLine="true"
+                    android:gravity="center_vertical|end"
+                    style="@style/txEditTextStyle" />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tx_dimen_1dp"
+                android:background="#eeeeee" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+               >
+
+                <TextView
+                    android:text="保险期间单位"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/txTextViewStyle_black" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/tv_insurancePaymentYearUnit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/tx_dimen_20dp"
+                    android:text="请选择"
+                    android:padding="@dimen/tx_dimen_10dp"
+                    android:textColor="@color/color_A5A7AC"
+                    android:textSize="@dimen/tx_dimen_13sp"
+                    android:onClick="txClick" />
+
+
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tx_dimen_1dp"
+                android:background="#eeeeee" />
+
+            <LinearLayout
+                android:id="@+id/ll_insurancePaymentYear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                >
+
+                <TextView
+                    android:text="保险期间"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/txTextViewStyle_black" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <com.common.widget.view.ClearEditText
+                    android:id="@+id/et_insurancePaymentYear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/tx_dimen_20dp"
+                    android:maxLength="11"
+                    android:inputType="number"
+                    android:hint="请输入保险期间"
+                    android:singleLine="true"
+                    android:gravity="center_vertical|end"
+                    style="@style/txEditTextStyle" />
+
+
+
+            </LinearLayout>
+            <Button
+                android:id="@+id/btn_commit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:text="保存"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/tx_dimen_20dp"
+                android:padding="@dimen/tx_dimen_10dp"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:layout_marginLeft="@dimen/tx_dimen_30dp"
+                android:layout_marginRight="@dimen/tx_dimen_30dp"
+                />
+        </android.support.v7.widget.LinearLayoutCompat>
+
+    </android.support.v4.widget.NestedScrollView>
+
+
+
+
+
+</android.support.v7.widget.LinearLayoutCompat>

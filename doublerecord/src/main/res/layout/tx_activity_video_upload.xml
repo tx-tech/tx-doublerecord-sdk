@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.invite.VideoUploadActivity">
+
+    <com.common.widget.titlebar.TitleBar
+        android:id="@+id/titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title=""
+        app:titleColor="@color/white" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/tx_dimen_20dp"
+        android:layout_marginTop="@dimen/tx_dimen_20dp"
+        android:text="业务单号"
+        android:textColor="@color/color_A5A7AC"
+        android:textSize="@dimen/tx_dimen_12sp" />
+
+    <TextView
+        android:id="@+id/tv_invite_wx"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/tx_dimen_10dp"
+        android:drawablePadding="@dimen/tx_dimen_10dp"
+        android:paddingLeft="@dimen/tx_dimen_20dp"
+        android:paddingTop="@dimen/tx_dimen_10dp"
+        android:paddingBottom="@dimen/tx_dimen_10dp"
+        android:textColor="@color/black"
+        android:background="@color/tx_white"
+        tools:text="131343445"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/tx_dimen_20dp"
+        android:layout_marginTop="@dimen/tx_dimen_20dp"
+        android:text="文件上传进度"
+        android:textColor="@color/color_A5A7AC"
+        android:textSize="@dimen/tx_dimen_12sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingLeft="@dimen/tx_dimen_20dp"
+        android:paddingRight="@dimen/tx_dimen_20dp"
+        android:paddingTop="@dimen/tx_dimen_10dp"
+        android:paddingBottom="@dimen/tx_dimen_10dp"
+        android:background="@color/tx_white"
+        >
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="0dp"
+            android:layout_height="5dp"
+            android:layout_weight="1"
+            android:max="100"
+            android:layout_marginBottom="3dp"
+            android:progressDrawable="@drawable/tx_color_progressbar"
+            style="@android:style/Widget.Material.ProgressBar.Horizontal"
+            android:layout_below="@+id/tv_title"
+            tools:targetApi="lollipop" />
+
+        <TextView
+            android:id="@+id/tvPercent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/tx_dimen_20dp"
+            android:text="0%"/>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/tx_dimen_10dp"
+        android:paddingLeft="@dimen/tx_dimen_20dp"
+        android:paddingRight="@dimen/tx_dimen_20dp"
+        >
+
+        <TextView
+            android:id="@+id/tv_videosize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="视频大小："
+            android:textSize="@dimen/tx_dimen_12sp"
+            />
+
+        <TextView
+            android:id="@+id/tv_videotime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/tx_dimen_20dp"
+            android:textSize="@dimen/tx_dimen_12sp"
+            android:text="视频时长：" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_gotovideo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/tx_dimen_10dp"
+        android:paddingTop="@dimen/tx_dimen_10dp"
+        android:paddingBottom="@dimen/tx_dimen_10dp"
+        android:text="开始上传"
+        android:gravity="center"
+        android:textColor="@color/colorPrimary"
+        style="@style/txTripFunClick"
+        />
+
+</LinearLayout>

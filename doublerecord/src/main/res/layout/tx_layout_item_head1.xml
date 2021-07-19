@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:padding="@dimen/tx_dimen_5dp"
+    android:layout_marginTop="@dimen/tx_dimen_5dp"
+    >
+
+    <TextView
+        android:id="@+id/tx_tv_headtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/tx_dimen_10dp"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintRight_toLeftOf="@+id/tx_iv_arrow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="个人素材库12312312313213123123123123123123123123" />
+
+    <ImageView
+        android:id="@+id/tx_iv_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/tx_up_icon"
+        app:layout_constraintRight_toLeftOf="@+id/rl_state"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RelativeLayout
+        android:id="@+id/rl_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:paddingStart="@dimen/tx_dimen_10dp"
+        android:paddingEnd="@dimen/tx_dimen_10dp"
+        android:paddingTop="@dimen/tx_dimen_5dp"
+        android:paddingBottom="@dimen/tx_dimen_5dp"
+        android:gravity="center_vertical"
+        >
+        <TextView
+            android:id="@+id/tv_state"
+            android:layout_width="@dimen/tx_dimen_9dp"
+            android:layout_height="@dimen/tx_dimen_9dp"
+            android:background="@drawable/tx_shape_red_oval"
+            android:layout_centerVertical="true"
+            />
+        <TextView
+            android:id="@+id/tv_state1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/color_ED6656"
+            android:text="不通过"
+            android:textSize="@dimen/tx_dimen_13sp"
+            android:layout_toRightOf="@+id/tv_state"
+            android:layout_marginLeft="@dimen/tx_dimen_10dp"
+            />
+    </RelativeLayout>
+
+
+
+</android.support.constraint.ConstraintLayout>

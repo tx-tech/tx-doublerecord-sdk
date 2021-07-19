@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.txt.sl.ui.invite.InviteActivity">
+
+    <com.common.widget.titlebar.TitleBar
+        android:id="@+id/titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title=""
+        app:titleColor="@color/white" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/tx_dimen_20dp"
+        android:layout_marginTop="@dimen/tx_dimen_20dp"
+        android:textColor="@color/color_A5A7AC"
+        android:textSize="@dimen/tx_dimen_12sp"
+        tools:text="远程双录前请发送邀约给双录对象"
+        />
+
+    <TextView
+        android:id="@+id/tv_invite_wx"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/tx_dimen_10dp"
+        style="@style/txTripFunClick"
+        android:drawableStart="@drawable/tx_invite_wx"
+        android:drawablePadding="@dimen/tx_dimen_10dp"
+        android:paddingLeft="@dimen/tx_dimen_20dp"
+        android:paddingTop="@dimen/tx_dimen_10dp"
+        android:paddingBottom="@dimen/tx_dimen_10dp"
+        android:textColor="@color/black"
+        tools:text="微信转发双录邀请"
+        />
+
+    <TextView
+        android:id="@+id/tv_invite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/tx_dimen_20dp"
+        android:layout_marginTop="@dimen/tx_dimen_20dp"
+        android:text="邀约发送完成后，可以开始进行双录"
+        android:textColor="@color/color_A5A7AC"
+        android:textSize="@dimen/tx_dimen_12sp" />
+
+    <TextView
+        android:id="@+id/tv_gotovideo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/tx_dimen_10dp"
+        android:paddingTop="@dimen/tx_dimen_10dp"
+        android:paddingBottom="@dimen/tx_dimen_10dp"
+        android:text="立即双录"
+        android:gravity="center"
+        android:textColor="@color/colorPrimary"
+        style="@style/txTripFunClick"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/tx_dimen_20dp"
+        android:textColor="@color/tx_color_9C101010"
+        android:text="双录前注意事项：\n
+1.摄像头、麦克风权限均打开，不要连接蓝牙耳机；\n
+2.将手机调整为飞行模式，连接wifi，避免电话干扰中断；\n
+3.在相对安静和封闭的环境进行录制，避免干扰；\n
+4.如客户明确表示不同意，无需继续进行。客户表示不清楚的，
+为客户进行讲解，得到客户明确肯定答复，再继续向下进行；"
+        />
+
+</LinearLayout>

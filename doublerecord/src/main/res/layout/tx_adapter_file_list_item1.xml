@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_point"
+        android:layout_width="5dp"
+        android:layout_height="5dp"
+        android:background="@drawable/tx_shape_goods_item_footer"
+        android:layout_marginLeft="@dimen/tx_dimen_40dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv"
+        app:layout_constraintBottom_toBottomOf="@+id/tv"
+        />
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/tx_dimen_10dp"
+        app:layout_constraintLeft_toRightOf="@+id/tv_point"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="@dimen/tx_dimen_10dp"
+        tools:text ="12313"
+        />
+
+    <TextView
+        android:id="@+id/tv_title1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text = "不通过类型:"
+        android:layout_marginTop="@dimen/tx_dimen_15dp"
+        app:layout_constraintLeft_toLeftOf="@+id/tv"
+        app:layout_constraintTop_toBottomOf="@+id/tv"
+        />
+
+    <TextView
+        android:id="@+id/tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/tx_dimen_10dp"
+        app:layout_constraintLeft_toRightOf="@+id/tv_title1"
+        app:layout_constraintTop_toTopOf="@+id/tv_title1"
+        tools:text ="12313"
+        />
+
+
+    <TextView
+        android:id="@+id/tv_title2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text = "不通过原因:"
+        android:layout_marginTop="@dimen/tx_dimen_5dp"
+        app:layout_constraintLeft_toLeftOf="@+id/tv"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title1"
+        />
+
+    <TextView
+        android:id="@+id/tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/tx_dimen_10dp"
+        app:layout_constraintLeft_toRightOf="@+id/tv_title2"
+        app:layout_constraintTop_toTopOf="@+id/tv_title2"
+        tools:text ="12313"
+        />
+
+
+
+
+</android.support.constraint.ConstraintLayout>
+

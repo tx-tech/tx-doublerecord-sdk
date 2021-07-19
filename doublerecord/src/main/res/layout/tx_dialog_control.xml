@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/tx_dialog_background">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/tx_dimen_30dp"
+        android:text="自定义域名"
+        android:textColor="@color/black"
+        android:textSize="@dimen/tx_dimen_20sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_ip"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="@dimen/tx_dimen_30dp"
+        android:gravity="center"
+        android:text="ip:"
+        android:textColor="@color/black"
+        android:textSize="@dimen/tx_dimen_16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/et_ip"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <EditText
+        android:id="@+id/et_ip"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        app:layout_constraintLeft_toRightOf="@+id/tv_ip"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_ip"
+        tools:text="13052335273" />
+
+    <TextView
+        android:id="@+id/tv_port"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="@dimen/tx_dimen_30dp"
+        android:gravity="center"
+        android:text="端口:"
+        android:textColor="@color/black"
+        android:textSize="@dimen/tx_dimen_16sp"
+        app:layout_constraintLeft_toLeftOf="@+id/tv_ip"
+        app:layout_constraintTop_toBottomOf="@+id/tv_ip" />
+
+    <EditText
+        android:id="@+id/et_port"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:textColor="@color/black"
+        app:layout_constraintLeft_toLeftOf="@+id/et_ip"
+        app:layout_constraintLeft_toRightOf="@+id/tv_port"
+        app:layout_constraintTop_toTopOf="@+id/tv_port"
+        tools:text="1111" />
+
+    <TextView
+        android:id="@+id/tv_current"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/tx_dimen_10dp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_confirm"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_port"
+        tools:text ="12313123123"
+        />
+
+    <TextView
+        android:id="@+id/tv_confirm"
+        android:layout_width="@dimen/tx_dimen_100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/tx_dimen_20dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:padding="@dimen/tx_dimen_10dp"
+        android:text="确定"
+        android:textColor="@color/color_FFFFFF"
+        android:textSize="@dimen/tx_dimen_18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_current" />
+
+</android.support.constraint.ConstraintLayout>

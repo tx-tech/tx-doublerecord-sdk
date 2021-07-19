@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/page_readnext"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="12dp"
+    android:visibility="gone"
+    tools:visibility="visible">
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_readNext_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/tx_dimen_14sp" />
+
+            <TextView
+                android:id="@+id/tv_readNext_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_333333"
+                android:layout_marginTop="@dimen/tx_dimen_5dp"
+                android:lineSpacingExtra="@dimen/tx_dimen_10dp"
+                android:textSize="@dimen/tx_dimen_14sp" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+    <LinearLayout
+        android:id="@+id/ll_skip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_CCFFFFFF"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="完成操作后，请点击【下一步】"
+            android:textColor="@color/color_333333"
+            android:textSize="@dimen/tx_dimen_14sp" />
+
+        <TextView
+            android:id="@+id/tv_readnext_skip"
+            style="@style/txButtonStyle_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/tx_dimen_20dp"
+            android:text="下一步"
+            android:textColor="@color/color_FFFFFF" />
+    </LinearLayout>
+</LinearLayout>
