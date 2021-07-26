@@ -118,16 +118,9 @@ class OrderDetailsFragment : BaseLazyViewPagerFragment() {
                         }
                         orderDetailsItemlists.add(OrderDetailsItem("双录类型", remoteStr))
                         orderDetailsItemlists.add(OrderDetailsItem("业务单号", fields.optString("taskId")))
-                        orderDetailsItemlists.add(OrderDetailsItem("机构名称", if (Constant.orgname.isEmpty()) {
-                            "暂无"
-                        } else {
-                            Constant.orgname
-                        }))
-                        orderDetailsItemlists.add(OrderDetailsItem("代理人姓名", if (Constant.fullName.isEmpty()) {
-                            "暂无"
-                        } else {
-                            Constant.fullName
-                        }))
+                        orderDetailsItemlists.add(OrderDetailsItem("机构名称", TXManagerImpl.instance!!.getOrgAccountName()))
+                        orderDetailsItemlists.add(OrderDetailsItem("代理人姓名", TXManagerImpl.instance!!.getFullName()))
+
                         val filterStr = mDataList?.filter { it.name == "投保人证件类型" }
                         val filterStr1 = filterStr?.get(0)!!.options.filter { it.key == fields.optString("agentCertificateType") }
                         if (filterStr1.isNotEmpty()&&filterStr1.size>0) {

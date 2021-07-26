@@ -42,18 +42,18 @@
             android:name=".ui.order.OrderDetailsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.VideoPlayActivity"
+            android:name=".ui.video.VideoPlayActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.createorder.NewOrderActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".ui.HomeActivity"
+            android:name=".ui.home.HomeActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.login.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 

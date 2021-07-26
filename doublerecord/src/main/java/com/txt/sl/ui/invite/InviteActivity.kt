@@ -27,6 +27,7 @@ import com.txt.sl.ui.video.OfflineActivity
 import com.txt.sl.ui.video.RoomActivity
 import com.txt.sl.utils.LogUtils
 import com.txt.sl.utils.ToastUtils
+import com.txt.sl.utils.TxPermissionConstants
 import com.txt.sl.utils.TxPermissionUtils
 import com.txt.sl.widget.LoadingView
 import kotlinx.android.synthetic.main.tx_activity_invite.*
@@ -60,14 +61,13 @@ public class InviteActivity : BaseActivity() {
             tv_invite.text = "电子签名发送完成后，可以开始进行双录"
             titleBar?.title = "发送电子签名"
         }
-
         tv_gotovideo.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 TxPermissionUtils.permission(
                         PermissionConstants.CAMERA,
                         PermissionConstants.MICROPHONE,
-                        PermissionConstants.PHONE,
-                        PermissionConstants.LOCATION
+                        PermissionConstants.LOCATION,
+                    TxPermissionConstants.STORAGE
                 ).callback(object : TxPermissionUtils.FullCallback {
                     override fun onGranted(permissionsGranted: List<String>) {
 

@@ -106,16 +106,6 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness, TR
     //      : TXCloudVideoView? = null
     private var mBackButton //【控件】返回上一级页面
             : ImageView? = null
-    private val mMuteVideo //【控件】是否停止推送本地的视频数据
-            : Button? = null
-    private val mMuteAudio //【控件】开启、关闭本地声音采集并上行
-            : Button? = null
-    private val mSwitchCamera //【控件】切换摄像头
-            : Button? = null
-    private val mLogInfo //【控件】开启、关闭日志显示
-            : Button? = null
-    private var mVideoMutedTipsView //【控件】关闭视频时，显示默认头像
-            : LinearLayout? = null
     private var mTRTCCloud // SDK 核心类
             : TRTCCloud? = null
     private var mIsFrontCamera = true // 默认摄像头前置
@@ -123,9 +113,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness, TR
             : MutableList<String>? = null
     private var mRemoteViewList // 远端画面列表
             : MutableList<TXCloudVideoView>? = null
-    private var mGrantedCount = 0 // 权限个数计数，获取Android系统权限
     private val mUserCount = 0 // 房间通话人数个数
-    private var mLogLevel = 0 // 日志等级
     private var mRoomId // 房间Id
             : String? = null
     private var mUserId // 用户Id
@@ -163,13 +151,9 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness, TR
         handleIntent()
         // 先检查权限再加入通话
         this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-        if (checkPermission()) {
+        initView1()
 
-            initView1()
-
-            showPageCheck()
-        }
-
+        showPageCheck()
         inflate()
     }
 
@@ -383,6 +367,9 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness, TR
     var roomPerson = ""
     var canCheck = false //判断是否为第一次点击下一步触发定时器
     var jsonObject1: JSONObject? = null
+    var mAppid = 0L
+    var mSecretId = ""
+    var mSecretKey = ""
     fun getServiceId() {
         jsonObject1 = JSONObject(mRoomInfo)
         mServiceId = jsonObject1!!.optString("serviceId", "")
@@ -390,6 +377,10 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness, TR
         agentName = jsonObject1!!.optString("agentName", "")
         policyholderName = jsonObject1!!.optString("policyholderName", "")
         insuredName = jsonObject1!!.optString("insuredName", "")
+        val wxCloudConfJO = jsonObject1!!.getJSONObject("wxCloudConf")
+        mSecretId = wxCloudConfJO!!.getString("SecretId")
+        mSecretKey = wxCloudConfJO!!.getString("SecretKey")
+        mAppid = wxCloudConfJO!!.getString("AppId").toLong()
         initTtsController()
 
     }
@@ -399,9 +390,9 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness, TR
         longTextTtsController = LongTextTtsController()
         longTextTtsController?.init(
                 this,
-                1255383806,
-                "AKIDWzLYikcrFZlpjWmkED8xdCh3IOfuM3yp",
-                "yoU1OkwQlz9B3lJoEpOsKk2BB3rZASfj"
+                mAppid,
+                mSecretId,
+                mSecretKey
         )
         longTextTtsController?.apply {
             setVoiceSpeed(VoiceSpeed.VOICE_SPEED_NORMAL.getNum())
@@ -668,18 +659,6 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness, TR
 
         mTRTCCloud?.startLocalPreview(mIsFrontCamera, allocCloudVideoView1)
 
-        /**
-         * 设置默认美颜效果（美颜效果：自然，美颜级别：5, 美白级别：1）
-         * 美颜风格.三种美颜风格：0 ：光滑  1：自然  2：朦胧
-         * 视频通话场景推荐使用“自然”美颜效果
-         */
-//        val beautyManager = mTRTCCloud?.getBeautyManager()
-//        beautyManager?.apply {
-//            setBeautyStyle(Constant.BEAUTY_STYLE_SMOOTH)
-//            setBeautyLevel(0)
-//            setWhitenessLevel(0)
-//        }
-
         val encParam = TRTCVideoEncParam()
         encParam.videoResolution = TRTCCloudDef.TRTC_VIDEO_RESOLUTION_640_360
         encParam.videoFps = Constant.VIDEO_FPS
@@ -746,32 +725,6 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness, TR
 
     }
 
-    //////////////////////////////////    Android动态权限申请   ////////////////////////////////////////
-    private fun checkPermission(): Boolean {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val permissions: MutableList<String> = ArrayList()
-            if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            }
-            if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA)) {
-                permissions.add(Manifest.permission.CAMERA)
-            }
-            if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)) {
-                permissions.add(Manifest.permission.RECORD_AUDIO)
-            }
-            if (PackageManager.PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE)
-            }
-            if (permissions.size != 0) {
-                ActivityCompat.requestPermissions(this@OfflineActivity,
-                        permissions.toTypedArray(),
-                        REQ_PERMISSION_CODE)
-                return false
-            }
-        }
-        return true
-    }
-
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -790,22 +743,6 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness, TR
             }
             else -> {
             }
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == REQ_PERMISSION_CODE) {
-            for (ret in grantResults) {
-                if (PackageManager.PERMISSION_GRANTED == ret) mGrantedCount++
-            }
-            if (mGrantedCount == permissions.size) {
-                initView1()
-
-            } else {
-                Toast.makeText(this, getString(R.string.tx_rtc_permisson_error_tip), Toast.LENGTH_SHORT).show()
-            }
-            mGrantedCount = 0
         }
     }
 
@@ -2781,17 +2718,13 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness, TR
         LogUtils.i("room-----agentOnline")
     }
 
-    var appid = 1255383806
-    var secretId = "AKIDbZOwEG2cWBnoYo5o0wg9dszqspWxEsd0"
-    var secretKey = "EQQAyXhaBVlqeHdqnzzvhCVryoTs8crq"
-
     var credentialProvider: LocalCredentialProvider? = null
     var aaiClient: AAIClient? = null
     var audioRecognizeRequest: AudioRecognizeRequest? = null
     var audioRecognizeConfiguration: AudioRecognizeConfiguration? = null
     private fun initAbsCredentialProvider() {
 
-        credentialProvider = LocalCredentialProvider(secretKey)
+        credentialProvider = LocalCredentialProvider(mSecretKey)
 
         // 用户配置
         //        ClientConfiguration.setServerProtocolHttps(false) // 是否启用https，默认启用
@@ -2907,7 +2840,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness, TR
         try {
             // 1、初始化AAIClient对象。
             if (aaiClient == null) {
-                aaiClient = AAIClient(this, appid, 0, secretId, credentialProvider)
+                aaiClient = AAIClient(this, mAppid.toInt(), 0, mSecretId, credentialProvider)
             }
             // 2、初始化语音识别请求。
 
@@ -3041,23 +2974,26 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness, TR
                         } else {//有人脸
                             false
                         }
-                        sendMsg1(JSONObject().apply {
-                            put("serviceId", mServiceId)
-                            put("type", "faceDetection")
-                            put("step", JSONObject().apply {
-                                put("roomType", "faceDetection")
-                                put("haveFace", haveFace)
-                                put("userId", mUserId)
+//                        sendMsg1(JSONObject().apply {
+//                            put("serviceId", mServiceId)
+//                            put("type", "faceDetection")
+//                            put("step", JSONObject().apply {
+//                                put("roomType", "faceDetection")
+//                                put("haveFace", haveFace)
+//                                put("userId", mUserId)
+//
+//                            })
+//                        }, object : OfflineActivity.RoomHttpCallBack {
+//                            override fun onSuccess(json: String?) {
+//                            }
+//
+//                            override fun onFail(err: String?, code: Int) {
+//                            }
+//                        })
+                       runOnUiThread {
+                           Handler().postDelayed({ checkPhotoInVideo() }, 3000)
+                       }
 
-                            })
-                        }, object : OfflineActivity.RoomHttpCallBack {
-                            override fun onSuccess(json: String?) {
-                            }
-
-                            override fun onFail(err: String?, code: Int) {
-                            }
-                        })
-                        Handler().postDelayed({ checkPhotoInVideo() }, 3000)
                     }
 
                     override fun onFail(err: String?, code: Int) {

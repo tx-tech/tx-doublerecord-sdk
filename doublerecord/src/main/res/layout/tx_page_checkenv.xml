@@ -20,15 +20,15 @@
         android:text="监测中"
         android:textColor="@color/color_FFFFFF"
         android:layout_marginTop="@dimen/tx_dimen_50dp"
-        android:layout_marginLeft="@dimen/tx_dimen_100dp"
+        android:layout_marginLeft="@dimen/tx_dimen_50dp"
         />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/checkenv_recyclerview"
-        android:layout_width="400dp"
+        android:layout_width="500dp"
         android:layout_height="match_parent"
         android:layout_toRightOf="@+id/tv_checkenvstate"
-        android:layout_marginLeft="@dimen/tx_dimen_100dp"
+        android:layout_marginLeft="@dimen/tx_dimen_50dp"
         android:layout_marginBottom="@dimen/tx_dimen_40dp"
         />
 

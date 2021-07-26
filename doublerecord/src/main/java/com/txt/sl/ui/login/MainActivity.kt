@@ -1,15 +1,12 @@
-package com.txt.sl.ui
+package com.txt.sl.ui.login
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
-import com.txt.sl.BuildConfig
 import com.txt.sl.R
 import com.txt.sl.entity.constant.SPConstant
-import com.txt.sl.ui.login.LoginActivity
-import com.txt.sl.ui.login.LoginContract
-import com.txt.sl.ui.login.LoginPresenter
+import com.txt.sl.ui.home.HomeActivity
 import com.txt.sl.utils.ApplicationUtils
 import com.txt.sl.utils.LogUtils
 import com.txt.sl.utils.TxSPUtils

@@ -7,10 +7,9 @@ import com.txt.sl.R
 import com.txt.sl.entity.bean.OrderRecordBean
 import com.txt.sl.http.https.HttpRequestClient
 import com.txt.sl.system.SystemHttpRequest
-import com.txt.sl.ui.VideoPlayActivity
+import com.txt.sl.ui.video.VideoPlayActivity
 import com.txt.sl.ui.adpter.QualityInspectionItemAdapter
 import com.txt.sl.ui.home.BaseLazyViewPagerFragment
-import com.txt.sl.utils.LogUtils
 import kotlinx.android.synthetic.main.tx_fragment_check_list.*
 import org.json.JSONObject
 

@@ -1,10 +1,8 @@
-package com.txt.sl.ui;
+package com.txt.sl.utils;
 
 import android.content.Context;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-
-import com.txt.sl.utils.LogUtils;
 
 import java.util.ArrayList;
 

@@ -14,8 +14,7 @@ import com.txt.sl.R
 import com.txt.sl.entity.bean.WorkItemBean
 import com.txt.sl.http.https.HttpRequestClient
 import com.txt.sl.system.SystemHttpRequest
-import com.txt.sl.ui.HomeActivity
-import com.txt.sl.ui.VideoPlayActivity
+import com.txt.sl.ui.video.VideoPlayActivity
 import com.txt.sl.ui.adpter.OrderListNodeAdapter
 import com.txt.sl.ui.adpter.OrderListNodeAdapter.*
 import com.txt.sl.ui.adpter.WorkerItemTypeBean

@@ -1,6 +1,7 @@
 package com.txt.sl.ui.dialog;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.constraint.Group;
 import android.support.v4.content.ContextCompat;
@@ -9,9 +10,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.common.widget.dialog.core.BottomPopupView;
+import com.common.widget.dialog.util.PermissionConstants;
 import com.txt.sl.R;
+import com.txt.sl.utils.TxPermissionConstants;
+import com.txt.sl.utils.TxPermissionUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by JustinWjq
@@ -23,6 +28,7 @@ import java.util.ArrayList;
 public class CheckRemoteDialog extends BottomPopupView implements View.OnClickListener {
     Context mContext;
     ArrayList<String> mMemberArray;
+
     public CheckRemoteDialog(@NonNull Context context) {
         super(context);
         mContext = context;
@@ -32,7 +38,7 @@ public class CheckRemoteDialog extends BottomPopupView implements View.OnClickLi
     TextView tv_local;
     TextView tv_confirm;
     TextView tv_remote;
-    TextView tv_person1,tv_person2,tv_text1;
+    TextView tv_person1, tv_person2, tv_text1;
     LinearLayout ll_person;
     Group group;
 
@@ -76,15 +82,17 @@ public class CheckRemoteDialog extends BottomPopupView implements View.OnClickLi
         } else if (v.getId() == R.id.tv_remote) {
             changeView(true);
         } else if (v.getId() == R.id.tv_confirm) {
-            if (null!= mOnItemClickListener) {
+            if (null != mOnItemClickListener) {
                 mMemberArray.add("agent");
-                mOnItemClickListener.onConfirmClick(isRemote,mFlowId,phone,taskId,mMemberArray);
+                mOnItemClickListener.onConfirmClick(isRemote, mFlowId, phone, taskId, mMemberArray);
                 dismiss();
+
+
             }
-        }else if (v.getId() == R.id.tv_person1){
-            changeView1(tv_person1,"policyholder");
-        }else if (v.getId() == R.id.tv_person2){
-            changeView1(tv_person2,"insured");
+        } else if (v.getId() == R.id.tv_person1) {
+            changeView1(tv_person1, "policyholder");
+        } else if (v.getId() == R.id.tv_person2) {
+            changeView1(tv_person2, "insured");
         }
     }
 
@@ -94,22 +102,23 @@ public class CheckRemoteDialog extends BottomPopupView implements View.OnClickLi
     }
 
     boolean isRemote = false;
+
     private void changeView(boolean isRemoteBo) {
         isRemote = isRemoteBo;
         if (!isRemoteBo) {
             tv_confirm.setEnabled(true);
-            tv_local.setBackground(ContextCompat.getDrawable(mContext,R.drawable.tx_bg_item_blue_20));
+            tv_local.setBackground(ContextCompat.getDrawable(mContext, R.drawable.tx_bg_item_blue_20));
 
-            tv_remote.setBackground(ContextCompat.getDrawable(mContext,R.drawable.tx_button_gray_all_20));
+            tv_remote.setBackground(ContextCompat.getDrawable(mContext, R.drawable.tx_button_gray_all_20));
 //            group.setVisibility(INVISIBLE);
             tv_text1.setVisibility(INVISIBLE);
             ll_person.setVisibility(INVISIBLE);
         } else {
 
             tv_confirm.setEnabled(false);
-            tv_local.setBackground(ContextCompat.getDrawable(mContext,R.drawable.tx_button_gray_all_20));
+            tv_local.setBackground(ContextCompat.getDrawable(mContext, R.drawable.tx_button_gray_all_20));
 
-            tv_remote.setBackground(ContextCompat.getDrawable(mContext,R.drawable.tx_bg_item_blue_20));
+            tv_remote.setBackground(ContextCompat.getDrawable(mContext, R.drawable.tx_bg_item_blue_20));
             tv_text1.setVisibility(VISIBLE);
             ll_person.setVisibility(VISIBLE);
             resetMembers();
@@ -117,38 +126,38 @@ public class CheckRemoteDialog extends BottomPopupView implements View.OnClickLi
 
     }
 
-    private void resetMembers(){
-        tv_person1.setBackground(ContextCompat.getDrawable(mContext,R.drawable.tx_button_gray_all_20));
-        tv_person2.setBackground(ContextCompat.getDrawable(mContext,R.drawable.tx_button_gray_all_20));
+    private void resetMembers() {
+        tv_person1.setBackground(ContextCompat.getDrawable(mContext, R.drawable.tx_button_gray_all_20));
+        tv_person2.setBackground(ContextCompat.getDrawable(mContext, R.drawable.tx_button_gray_all_20));
         mMemberArray.clear();
     }
 
-    private void changeView1(View view,String role) {
+    private void changeView1(View view, String role) {
         int index = mMemberArray.indexOf(role);
-        if (-1!=index) {
-            view.setBackground(ContextCompat.getDrawable(mContext,R.drawable.tx_button_gray_all_20));
+        if (-1 != index) {
+            view.setBackground(ContextCompat.getDrawable(mContext, R.drawable.tx_button_gray_all_20));
             mMemberArray.remove(role);
-        }else {
-            view.setBackground(ContextCompat.getDrawable(mContext,R.drawable.tx_bg_item_blue_20));
+        } else {
+            view.setBackground(ContextCompat.getDrawable(mContext, R.drawable.tx_bg_item_blue_20));
             mMemberArray.add(role);
         }
         updateNextBt();
     }
 
-    private void updateNextBt(){
-        if (mMemberArray.size()==0) {
+    private void updateNextBt() {
+        if (mMemberArray.size() == 0) {
             tv_confirm.setEnabled(false);
-        }else{
+        } else {
             tv_confirm.setEnabled(true);
         }
     }
 
-    private void changeMembersView(ArrayList<String> membersArray){
+    private void changeMembersView(ArrayList<String> membersArray) {
         for (int i = 0; i < membersArray.size(); i++) {
             String members = membersArray.get(i);
-            if ("policyholder".equals(members)){
+            if ("policyholder".equals(members)) {
                 tv_person1.setVisibility(VISIBLE);
-            }else if ("insured".equals(members)){
+            } else if ("insured".equals(members)) {
                 tv_person2.setVisibility(VISIBLE);
             }
         }
@@ -157,14 +166,16 @@ public class CheckRemoteDialog extends BottomPopupView implements View.OnClickLi
 
     public interface OnRemoteClickListener {
 
-        void onConfirmClick(boolean isRemote,String flowId,String phone,String taskId,  ArrayList<String> membersArray);
+        void onConfirmClick(boolean isRemote, String flowId, String phone, String taskId, ArrayList<String> membersArray);
 
     }
+
     private String mFlowId;
     private String phone;
     private String taskId;
-    private  ArrayList<String> membersArray;
-    public void setFlowId(String flowId, String phone, String taskId, ArrayList<String> membersArray){
+    private ArrayList<String> membersArray;
+
+    public void setFlowId(String flowId, String phone, String taskId, ArrayList<String> membersArray) {
         this.mFlowId = flowId;
         this.phone = phone;
         this.taskId = taskId;

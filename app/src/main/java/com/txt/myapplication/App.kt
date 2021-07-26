@@ -10,7 +10,7 @@ import com.txt.sl.TxConfig
 /**
  * Created by JustinWjq
  * @date 2020/8/31.
- * description：
+ * description：com.github.tx-tech:tx-doublerecord-sdk:1.1.2 这样
  */
 class App : Application() {
     override fun onCreate() {
@@ -27,7 +27,8 @@ class App : Application() {
 //        txConfig.userName = "gh_fe0a27ed0ba5"
         //小程序跳转参数
 //        txConfig.userName = "gh_fe0a27ed0ba5"
-        txConfig.userName = "gh_72cea2621d8b" //公司测试环境小程序
+//        txConfig.userName = "gh_72cea2621d8b" //公司测试环境小程序
+        txConfig.userName = "gh_20a61ca39c2f" //公司测试环境小程序
 
 //        txConfig.userName = "gh_856cb9aba549"  //腾讯测试环境小程序
         //        txConfig.userName = "gh_856cb9aba549"  //腾讯测试环境小程序

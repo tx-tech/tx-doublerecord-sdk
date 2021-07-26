@@ -9,8 +9,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.tencent.rtmp.ui.TXCloudVideoView;
-import com.tencent.trtc.TRTCCloudDef;
-import com.txt.sl.ui.RoomVideoUiUtils;
+import com.txt.sl.utils.RoomVideoUiUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

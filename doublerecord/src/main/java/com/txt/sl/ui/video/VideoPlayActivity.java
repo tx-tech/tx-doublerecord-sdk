@@ -1,4 +1,4 @@
-package com.txt.sl.ui;
+package com.txt.sl.ui.video;
 
 import android.app.Activity;
 import android.content.Context;

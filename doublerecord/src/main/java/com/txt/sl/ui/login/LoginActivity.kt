@@ -18,7 +18,7 @@ import com.txt.sl.base.AppMVPActivity
 import com.txt.sl.entity.constant.Constant
 import com.txt.sl.entity.constant.SPConstant
 import com.txt.sl.system.SystemHttpRequest
-import com.txt.sl.ui.HomeActivity
+import com.txt.sl.ui.home.HomeActivity
 import com.txt.sl.ui.dialog.CustomDialog
 import com.txt.sl.utils.InfoUtils
 import com.txt.sl.utils.TxSPUtils

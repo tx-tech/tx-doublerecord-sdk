@@ -10,7 +10,7 @@ import com.txt.sl.callback.onCreateRoomListener
 import com.txt.sl.entity.constant.SPConstant
 import com.txt.sl.http.https.HttpRequestClient
 import com.txt.sl.system.SystemHttpRequest
-import com.txt.sl.ui.HomeActivity
+import com.txt.sl.ui.home.HomeActivity
 import com.txt.sl.ui.createorder.NewOrderActivity
 import com.txt.sl.ui.invite.VideoUploadActivity
 import com.txt.sl.ui.order.OrderDetailsPageActivity
@@ -65,7 +65,8 @@ class TXManagerImpl : ITXManager {
             TxPermissionUtils.permission(
                     TxPermissionConstants.CAMERA,
                     TxPermissionConstants.MICROPHONE,
-                    TxPermissionConstants.PHONE
+                    TxPermissionConstants.PHONE,
+                    TxPermissionConstants.STORAGE
             ).callback(object : TxPermissionUtils.FullCallback {
                 override fun onGranted(permissionsGranted: List<String>) {
 
