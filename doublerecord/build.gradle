@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
-
+apply plugin: 'com.kezong.fat-aar'
 def configuration = rootProject.ext.configuration
 def libraries = rootProject.ext.libraries
 def appconfig = rootProject.ext.appconfig
@@ -79,8 +79,8 @@ dependencies {
 //    implementation project(':LocalRepo')
 //    implementation project(':ttssdk')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation fileTree(include: ['*.aar'], dir: 'libs')
-//    api(name: 'speech_release',ext:'aar')
+//    implementation fileTree(include: ['*.aar'], dir: 'libs')
+    embed(name: 'speech_release',ext:'aar')
 //    api fileTree(include: ['*.aar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support:support-v4:28.0.0'
