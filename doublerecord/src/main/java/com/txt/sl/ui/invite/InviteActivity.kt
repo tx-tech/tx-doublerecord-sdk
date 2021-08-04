@@ -26,7 +26,6 @@ import com.txt.sl.ui.video.Constant
 import com.txt.sl.ui.video.OfflineActivity
 import com.txt.sl.ui.video.RoomActivity
 import com.txt.sl.utils.LogUtils
-import com.txt.sl.utils.ToastUtils
 import com.txt.sl.utils.TxPermissionConstants
 import com.txt.sl.utils.TxPermissionUtils
 import com.txt.sl.widget.LoadingView
@@ -49,6 +48,8 @@ public class InviteActivity : BaseActivity() {
         val phone = intent.getStringExtra(InviteActivity.ARG_PARAM3)
         val taskId = intent.getStringExtra(InviteActivity.ARG_PARAM4)
         val membersArray = intent.getStringArrayListExtra(InviteActivity.ARG_PARAM5)
+        val selfInsurance = intent.getBooleanExtra(InviteActivity.ARG_PARAM6,false)
+        val recordType = intent.getStringExtra(InviteActivity.ARG_PARAM7)
         //远程
         if (isRemote) {
             tv_title.text = "远程双录前请发送邀约给双录对象"
@@ -70,16 +71,17 @@ public class InviteActivity : BaseActivity() {
                     TxPermissionConstants.STORAGE
                 ).callback(object : TxPermissionUtils.FullCallback {
                     override fun onGranted(permissionsGranted: List<String>) {
+                        LogUtils.i("permissionsGranted"+permissionsGranted)
 
                         if (permissionsGranted.contains("android.permission.CAMERA") && permissionsGranted.contains(
                                         "android.permission.RECORD_AUDIO"
-                                )
+                                )&&permissionsGranted.contains("android.permission.ACCESS_FINE_LOCATION")
                         ) {
 
-                            requestRoom(isRemote,flowId,membersArray)
-                        } else if (permissionsGranted.contains("android.permission.LOCATION")) {
+                            requestRoom(isRemote,flowId,membersArray,selfInsurance,taskId,recordType)
                             SystemBaiduLocation.instance!!.requestLocation()
-
+                        } else {
+                            showToastMsg("视频权限或音频权限未申请！")
                         }
                     }
 
@@ -98,7 +100,7 @@ public class InviteActivity : BaseActivity() {
                 }
                 ).request()
             } else {
-                requestRoom(isRemote,flowId,membersArray)
+                requestRoom(isRemote, flowId, membersArray, selfInsurance, taskId,recordType)
             }
 
 
@@ -111,7 +113,13 @@ public class InviteActivity : BaseActivity() {
         regToWx()
     }
 
-    private fun startEnterRoom(roomId: String, userID: String, roomInfo: String,isRemote :Boolean) {
+    private fun startEnterRoom(roomId: String,
+                               userID: String,
+                               roomInfo: String,
+                               isRemote :Boolean,
+                               selfInsurance:Boolean,
+                               taskId:String
+    ) {
         val intent =  if (isRemote) {
             Intent(this, RoomActivity::class.java)
         }else{
@@ -122,9 +130,12 @@ public class InviteActivity : BaseActivity() {
         intent.putExtra(Constant.ROOM_ID, roomId)
         intent.putExtra(Constant.USER_ID, userID)
         intent.putExtra(Constant.ROOM_INFO, roomInfo)
+        intent.putExtra(Constant.SELFINSURANCE, selfInsurance)
+        intent.putExtra(Constant.TASKID, taskId)
         startActivity(intent)
         finish()
     }
+
     private var mLoadingView: LoadingView? = null
 
     fun showLoading() {
@@ -140,13 +151,21 @@ public class InviteActivity : BaseActivity() {
             mLoadingView!!.dismiss()
     }
 
-    private fun requestRoom(isRemote: Boolean, flowId: String, membersArray: java.util.ArrayList<String>) {
+    private fun requestRoom(
+        isRemote: Boolean,
+        flowId: String,
+        membersArray: java.util.ArrayList<String>,
+        selfInsurance: Boolean,
+        taskId: String,
+        recordType:String
+    ) {
 
 
         val sdkVersion = TRTCCloud.getSDKVersion()
         LogUtils.i("sdkVersion", sdkVersion)
         showLoading()
-        SystemHttpRequest.getInstance().startAgent(flowId, isRemote, membersArray ,object : HttpRequestClient.RequestHttpCallBack {
+        SystemHttpRequest.getInstance().startAgent(flowId, isRemote, membersArray ,recordType,
+            object : HttpRequestClient.RequestHttpCallBack {
             override fun onSuccess(json: String?) {
                 runOnUiThread {
                    hideLoading()
@@ -154,8 +173,8 @@ public class InviteActivity : BaseActivity() {
                         val jsonObject = JSONObject(json)
                         val roomId = jsonObject.getString("roomId")
                         val agentIdStr = jsonObject.getString("agentId")
-//                                    val agentId = jsonObject.getString("customerCode")
-                        startEnterRoom(roomId, agentIdStr, jsonObject.toString(),isRemote)
+
+                        startEnterRoom(roomId, agentIdStr, jsonObject.toString(),isRemote,selfInsurance,taskId)
 
                     }, 80)
 
@@ -167,7 +186,7 @@ public class InviteActivity : BaseActivity() {
             override fun onFail(err: String?, code: Int) {
                 runOnUiThread {
                     hideLoading()
-                    ToastUtils.showShort(err!!)
+                    showToastMsg(err!!)
                 }
             }
 
@@ -258,6 +277,8 @@ public class InviteActivity : BaseActivity() {
         private const val ARG_PARAM3 = "phone"
         private const val ARG_PARAM4 = "taskId"
         private const val ARG_PARAM5 = "membersArray"
+        private const val ARG_PARAM6 = "selfInsurance"
+        private const val ARG_PARAM7 = "recordType"
 
         @JvmStatic
         fun newInstance(context: Context,
@@ -265,7 +286,9 @@ public class InviteActivity : BaseActivity() {
                         applyStatusParams1:String,
                         applyStatusParams2:String,
                         applyStatusParams3:String,
-                        applyStatusParams4:ArrayList<String>
+                        applyStatusParams4:ArrayList<String>,
+                        selfInsurance:Boolean,
+                        recordType:String
                         ) {
             val intent = Intent(context, InviteActivity::class.java)
             intent.putExtra(InviteActivity.ARG_PARAM1, applyStatusParams)
@@ -273,6 +296,8 @@ public class InviteActivity : BaseActivity() {
             intent.putExtra(InviteActivity.ARG_PARAM3, applyStatusParams2)
             intent.putExtra(InviteActivity.ARG_PARAM4, applyStatusParams3)
             intent.putExtra(InviteActivity.ARG_PARAM5, applyStatusParams4)
+            intent.putExtra(InviteActivity.ARG_PARAM6, selfInsurance)
+            intent.putExtra(InviteActivity.ARG_PARAM7, recordType)
             context.startActivity(intent)
         }
     }

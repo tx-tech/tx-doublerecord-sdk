@@ -8,14 +8,7 @@
       "__v":0,
       "backgroundColor":"#00965E"
     },
-    {
-      "_id":"60598e70eb8ddb4538e47d9e",
-      "code":"Refused",
-      "name":"已驳回",
-      "color":"#FFFFFF",
-      "__v":0,
-      "backgroundColor":"#FF0000"
-    },
+
     {
       "_id":"60598e9aeb8ddb4538e47d9f",
       "code":"UnUploaded",
@@ -31,6 +24,14 @@
       "color":"#FFFFFF",
       "__v":0,
       "backgroundColor":"#7F7F7F"
+    },
+    {
+      "_id":"60598e70eb8ddb4538e47d9e",
+      "code":"Refused",
+      "name":"已驳回",
+      "color":"#FFFFFF",
+      "__v":0,
+      "backgroundColor":"#FF0000"
     },
     {
       "_id":"60598e9aeb8ddb4538e47d9f",

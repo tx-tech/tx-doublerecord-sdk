@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="@color/tx_white"
+    android:background="@color/tx_txcolor_FFFFFF"
     tools:context="com.txt.myapplication.MeetingActivity">
 
     <Button
@@ -15,7 +15,7 @@
         android:layout_height="50dp"
         android:text="创建保单信息"
         android:textSize="16sp"
-        android:textColor="@color/tx_white"
+        android:textColor="@color/tx_txcolor_FFFFFF"
         android:gravity="center"
         android:layout_margin="30dp"
         android:onClick="onMeetClick"
@@ -32,7 +32,7 @@
         android:layout_height="50dp"
         android:text="投保中的双录"
         android:textSize="16sp"
-        android:textColor="@color/tx_white"
+        android:textColor="@color/tx_txcolor_FFFFFF"
         android:gravity="center"
         android:layout_margin="30dp"
         android:onClick="onMeetClick"
@@ -49,7 +49,7 @@
         android:layout_height="50dp"
         android:text="我的双录"
         android:textSize="16sp"
-        android:textColor="@color/tx_white"
+        android:textColor="@color/tx_txcolor_FFFFFF"
         android:gravity="center"
         android:layout_margin="30dp"
         android:background="@drawable/demo_shape_round_3"
@@ -62,7 +62,7 @@
         android:layout_height="50dp"
         android:text="双录上传"
         android:textSize="16sp"
-        android:textColor="@color/tx_white"
+        android:textColor="@color/tx_txcolor_FFFFFF"
         android:gravity="center"
         android:layout_margin="30dp"
         android:background="@drawable/demo_shape_round_3"
@@ -82,10 +82,15 @@
         android:id="@+id/tv_dep"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/tx_dp_10"
+        android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         tools:text = "123123"
         />
+
+    <EditText
+        android:id="@+id/et_test"
+        android:layout_width="@dimen/tx_dimen_50dp"
+        android:layout_height="@dimen/tx_dimen_50dp"/>
 </LinearLayout>

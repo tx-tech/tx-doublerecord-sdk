@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_FFFFFF"
+    android:background="@color/tx_txcolor_FFFFFF"
     android:fitsSystemWindows="true"
     android:keepScreenOn="true"
    >
@@ -16,7 +16,7 @@
         android:layout_height="40dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:background="@color/white"
+        android:background="@color/tx_txwhite"
         >
 
 
@@ -30,13 +30,37 @@
 
         <TextView
             android:id="@+id/room_time"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/tx_dimen_15dp"
-            android:layout_weight="1"
             android:gravity="center_vertical"
-            android:textColor="@color/color_000000"
+            android:textColor="@color/tx_txcolor_000000"
             android:visibility="invisible" />
+
+
+        <TextView
+            android:id="@+id/tv_linkname"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:gravity="right"
+            android:ellipsize="end"
+            android:textSize="@dimen/tx_dimen_16sp"
+            android:textColor="@color/tx_txcolor_333333"
+            />
+
+        <TextView
+            android:id="@+id/tv_linknameindex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/tx_dimen_16sp"
+            android:textColor="@color/tx_txcolor_333333"
+            android:layout_marginRight="@dimen/tx_dimen_20dp"
+            />
+
+
+
         <TextView
             android:id="@+id/tv_text_continue"
             android:layout_width="wrap_content"
@@ -54,7 +78,7 @@
             android:gravity="center"
             android:paddingStart="@dimen/tx_dimen_15dp"
             android:paddingEnd="@dimen/tx_dimen_15dp"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/tx_txcolorPrimary"
             android:text="补充录制"
             android:visibility="gone" />
         <TextView
@@ -65,23 +89,6 @@
             style="@style/txButtonStyle_1"
             android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/tv_linkname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:lines="1"
-            android:textSize="@dimen/tx_dimen_16sp"
-            android:textColor="@color/color_333333"
-            />
-
-        <TextView
-            android:id="@+id/tv_linknameindex"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/tx_dimen_16sp"
-            android:textColor="@color/color_333333"
-            android:layout_marginRight="@dimen/tx_dimen_20dp"
-            />
 
     </LinearLayout>
 
@@ -96,11 +103,8 @@
 
 
 
-    <include layout="@layout/tx_page_3"/>
-    <include layout="@layout/tx_page_welcome1"/>
-
+    <include layout="@layout/tx_page_envpreview"/>
+    <include layout="@layout/tx_page_linkpreview"/>
     <include layout="@layout/tx_page_checkenv" />
-
-
 
 </FrameLayout>

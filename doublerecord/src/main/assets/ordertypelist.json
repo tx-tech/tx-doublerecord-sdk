@@ -81,7 +81,7 @@
       ]
     },
     {
-      "name": "缴费频次",
+      "name": "缴费频率",
       "key": "payType",
       "options":[
         {"key": "OneOff", "name": "趸缴", "children":[]},

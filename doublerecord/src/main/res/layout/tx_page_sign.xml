@@ -14,7 +14,7 @@
         android:text="电子签名展示\n此区域未来将会对接保险公司或经代公司的电子签名模块，以H5的形式嵌入双录"
         android:gravity="center"
         android:textSize="@dimen/tx_dimen_14sp"
-        android:textColor="@color/color_333333"
+        android:textColor="@color/tx_txcolor_333333"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"

@@ -5,7 +5,7 @@ import android.content.Context
 import android.support.multidex.MultiDex
 import com.tencent.bugly.crashreport.CrashReport
 import com.txt.sl.TXSdk
-import com.txt.sl.TxConfig
+import com.txt.sl.config.TxConfig
 
 /**
  * Created by JustinWjq

@@ -212,7 +212,7 @@ public class CheckEnvUtils {
         noiseItem.setValue("环境噪音值合格");
         //获取光线
         float lux = getLux();
-        if (lux > 50 && lux < 500) {
+        if (lux > 20 && lux < 500) {
             luxItem.setUploading(true);
             luxItem.setPass(true);
             luxItem.setValue("环境光线合格");
@@ -307,24 +307,24 @@ public class CheckEnvUtils {
         mCheckEnvResult = true;
         checkEnvItems.clear();
         //获取噪音
-        noiseItem = new CheckEnvItem(true, "环境噪音值监测中", false);
+        noiseItem = new CheckEnvItem(true, "环境噪音值检测中", false);
         checkEnvItems.add(noiseItem);
 
-        luxItem = new CheckEnvItem(true, "环境光线值监测中", false);
+        luxItem = new CheckEnvItem(true, "环境光线值检测中", false);
         checkEnvItems.add(luxItem);
 
-        mBatterLevelAndStatusItem = new CheckEnvItem(true, "手机电量监测中", false);
+        mBatterLevelAndStatusItem = new CheckEnvItem(true, "手机电量检测中", false);
         checkEnvItems.add(mBatterLevelAndStatusItem);
         //获取存储空间
 
-        mMemoryItem = new CheckEnvItem(true, "手机存储空间监测中", false);
+        mMemoryItem = new CheckEnvItem(true, "手机存储空间检测中", false);
         checkEnvItems.add(mMemoryItem);
 
-        volumeItem = new CheckEnvItem(true, "手机扬声器音量监测中", false);
+        volumeItem = new CheckEnvItem(true, "手机扬声器音量检测中", false);
         checkEnvItems.add(volumeItem);
 
 
-        netSpeedItem = new CheckEnvItem(true, "网络带宽监测中", false);
+        netSpeedItem = new CheckEnvItem(true, "网络带宽检测中", false);
         checkEnvItems.add(netSpeedItem);
 
 

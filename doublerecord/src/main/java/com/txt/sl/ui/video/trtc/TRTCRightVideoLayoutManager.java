@@ -2,6 +2,7 @@ package com.txt.sl.ui.video.trtc;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +12,8 @@ import android.widget.RelativeLayout;
 import com.tencent.rtmp.ui.TXCloudVideoView;
 import com.tencent.trtc.TRTCCloudDef;
 import com.txt.sl.utils.RoomVideoUiUtils;
+
+import org.json.JSONArray;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -389,6 +392,17 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
         }
     }
 
+    public void updateToastStr(String userId, String name,@ColorInt int color) {
+        if (userId == null) return;
+        for (TRTCLayoutEntity entity : mLayoutEntityList) {
+            if (entity.layout.getVisibility() == VISIBLE) {
+                if (userId.equals(entity.userId)) {
+                    entity.layout.setToastStr(name,color);
+                }
+            }
+        }
+    }
+
     public void updateToastStrByType(String userType, String name) {
         if (userType == null) return;
         for (TRTCLayoutEntity entity : mLayoutEntityList) {
@@ -518,7 +532,7 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
     public void hideAllStateView(){
         for (TRTCLayoutEntity entity : mLayoutEntityList) {
             if (entity.layout.getVisibility() == VISIBLE) {
-                entity.layout.setll_page_voice_result(View.GONE,true,"");
+                entity.layout.setll_page_voice_result(View.GONE,true,"",null);
                 entity.layout.setOcrStatus("",View.GONE,"0");
                 entity.layout.setll_remote_skip("",View.GONE,View.GONE);
             }
@@ -531,12 +545,12 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
      * @param userType
      * @param visibility
      */
-    public void updateResultLayoutByType(String userType, int visibility,boolean isSuccess,String successStr) {
+    public void updateResultLayoutByType(String userType, int visibility,boolean isSuccess,String successStr, JSONArray btArray) {
         if (userType == null) return;
         for (TRTCLayoutEntity entity : mLayoutEntityList) {
             if (entity.layout.getVisibility() == VISIBLE) {
                 if (userType.equals(entity.userType)) {
-                    entity.layout.setll_page_voice_result(visibility,isSuccess,successStr);
+                    entity.layout.setll_page_voice_result(visibility,isSuccess,successStr,btArray);
                 }
             }
         }

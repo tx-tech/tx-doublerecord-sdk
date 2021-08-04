@@ -17,7 +17,7 @@ import com.common.widget.recyclerviewadapterhelper.base.entity.MultiItemEntity
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.txt.sl.R
-import com.txt.sl.TXManagerImpl
+import com.txt.sl.config.TXManagerImpl
 import com.txt.sl.TXSdk
 import com.txt.sl.entity.bean.*
 import com.txt.sl.entity.constant.SPConstant
@@ -117,8 +117,6 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
 
         tv_fullName.text = TXManagerImpl.instance!!.getFullName()
 
-        tv_orgName.text = TXManagerImpl.instance!!.getOrgAccountName()
-
         initRecyclerview()
         getInsuranceData()
     }
@@ -181,19 +179,21 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
             insuredAge = insuredAgeStr.toInt()
             insuredPhone = insuredPhoneStr
             insuranceAllPaymentDown = insuranceAllPaymentDownStr
+            institutions = arrayListOf("60efdba39418525ea664d9b9","60efdba39418525ea664da1d","60efdba49418525ea664e146")
+            IntermediaryInstitutions = "我是李垒我最帅机构"
+            agentCode = "12313"
         }
 
         val insurancesLists = TxSPUtils.get(this, SPConstant.INSURANCES_LISTS, "") as String
         if (insurancesLists.isEmpty()) {
-            ToastUtils.showShort("该账号没有配置险种信息")
+            showToastMsg("该账号没有配置险种信息")
             return
         }
         val insurancesListsJsonArray = JSONArray(insurancesLists)
         var mSelectBeanList = ArrayList<SelectBean>()
         var mSelectBeanStrList = ArrayList<String>()
         if (insurancesListsJsonArray.length() == 0) {
-            ToastUtils.showShort("该账号没有配置险种信息")
-
+            showToastMsg("该账号没有配置险种信息")
             return
         } else {
             for (index in 0 until insurancesListsJsonArray.length()) {
@@ -234,8 +234,16 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
                 requestOrderBean?.insurancePaymentYearUnit?.add(it.insurancePaymentYearUnit)
                 requestOrderBean?.insurancePaymentYear?.add(it.insurancePaymentYear)
                 requestOrderBean?.insuranceCode?.add(it.insuranceCode)
+                requestOrderBean?.insuranceCompany?.add(it.insuranceCompany)
+                requestOrderBean?.ensureTheRenewal?.add(it.ensureTheRenewal)
 
             }
+            //     JSONArray insuranceCompanyArray = new JSONArray();
+            //            insuranceCompanyArray.put("60ed47deda28f16c75966b0d");
+            //            JSONArray ensureTheRenewalArray = new JSONArray();
+            //            ensureTheRenewalArray.put(false);
+            //            fieldsJsonObject.put("insuranceCompany",insuranceCompanyArray);
+            //            fieldsJsonObject.put( "ensureTheRenewal",ensureTheRenewalArray);
             SystemHttpRequest.getInstance().update(
                     mSelectBeanList[0].id,
                     TXManagerImpl.instance!!.getAgentId(),
@@ -353,8 +361,6 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
     }
 
 
-
-
     var mDataList: ArrayList<OrderBean>? = null
 
     var requestOrderBean: RequestOrderBean? = null
@@ -392,7 +398,7 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
         relationshipOptions = OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
             tv_relationship.apply {
                 text = dataList[options1]
-                setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.color_000000))
+                setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.tx_txcolor_000000))
             }
             if ("本人" == dataList[options1]) {
                 et_insurancePaymentDown.setText(et_policyholderName.text)
@@ -404,12 +410,12 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
 
                 tv_insuredCertificateType.apply {
                     text = tv_policyholderCertificateType.text
-                    setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.color_000000))
+                    setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.tx_txcolor_000000))
                 }
 
                 tv_insuredGender.apply {
                     text = tv_policyholderGender.text
-                    setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.color_000000))
+                    setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.tx_txcolor_000000))
                 }
             } else {
                 et_insurancePaymentDown.setText("")
@@ -421,15 +427,15 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
                 requestOrderBean?.insuredGender = ""
                 tv_insuredCertificateType.apply {
                     text = "请选择"
-                    setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.color_A5A7AC))
+                    setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.tx_txcolor_A5A7AC))
                 }
                 tv_insuredCertificateType.apply {
                     text = "请选择"
-                    setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.color_A5A7AC))
+                    setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.tx_txcolor_A5A7AC))
                 }
                 tv_insuredGender.apply {
                     text = "请选择"
-                    setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.color_A5A7AC))
+                    setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.tx_txcolor_A5A7AC))
                 }
             }
             requestOrderBean?.relationship = data?.options?.get(options1)?.key!!
@@ -438,7 +444,7 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
                 .setDividerColor(Color.BLACK)
                 .setTextColorCenter(Color.BLACK)
                 .setContentTextSize(20)
-                .setCancelColor(ContextCompat.getColor(this, R.color.gray_text))
+                .setCancelColor(ContextCompat.getColor(this, R.color.tx_txgray_text))
                 .build()
 
 
@@ -459,7 +465,7 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
         policyholderCertificateTypeOptions1 = OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
             tv_agentCertificateType.apply {
                 text = dataList[options1]
-                setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.color_000000))
+                setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.tx_txcolor_000000))
             }
             requestOrderBean?.agentCertificateType = data?.options?.get(options1)?.key!!
 
@@ -468,7 +474,7 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
                 .setDividerColor(Color.BLACK)
                 .setTextColorCenter(Color.BLACK)
                 .setContentTextSize(20)
-                .setCancelColor(ContextCompat.getColor(this, R.color.gray_text))
+                .setCancelColor(ContextCompat.getColor(this, R.color.tx_txgray_text))
                 .build()
 
 
@@ -498,13 +504,13 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
             if (insuredPerson) {
                 tv_insuredCertificateType.apply {
                     text = dataList[options1]
-                    setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.color_000000))
+                    setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.tx_txcolor_000000))
                 }
                 requestOrderBean?.insuredCertificateType = data?.options?.get(options1)?.key!!
             } else {
                 tv_policyholderCertificateType.apply {
                     text = dataList[options1]
-                    setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.color_000000))
+                    setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.tx_txcolor_000000))
                 }
                 requestOrderBean?.policyholderCertificateType = data?.options?.get(options1)?.key!!
             }
@@ -514,7 +520,7 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
                 .setDividerColor(Color.BLACK)
                 .setTextColorCenter(Color.BLACK)
                 .setContentTextSize(20)
-                .setCancelColor(ContextCompat.getColor(this, R.color.gray_text))
+                .setCancelColor(ContextCompat.getColor(this, R.color.tx_txgray_text))
                 .build()
 
 
@@ -546,7 +552,7 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
         saleFromOptions = OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
             tv_saleFrom.apply {
                 text = dataList[options1]
-                setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.color_000000))
+                setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.tx_txcolor_000000))
             }
             requestOrderBean?.saleFrom = data?.options?.get(options1)?.key!!
         })
@@ -554,7 +560,7 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
                 .setDividerColor(Color.BLACK)
                 .setTextColorCenter(Color.BLACK)
                 .setContentTextSize(20)
-                .setCancelColor(ContextCompat.getColor(this, R.color.gray_text))
+                .setCancelColor(ContextCompat.getColor(this, R.color.tx_txgray_text))
                 .build()
 
 
@@ -577,7 +583,7 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
         taskFromOptions = OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
             tv_taskFrom.apply {
                 text = dataList[options1]
-                setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.color_000000))
+                setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.tx_txcolor_000000))
             }
             requestOrderBean?.taskFrom = data?.options?.get(options1)?.key!!
         })
@@ -585,7 +591,7 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
                 .setDividerColor(Color.BLACK)
                 .setTextColorCenter(Color.BLACK)
                 .setContentTextSize(20)
-                .setCancelColor(ContextCompat.getColor(this, R.color.gray_text))
+                .setCancelColor(ContextCompat.getColor(this, R.color.tx_txgray_text))
                 .build()
 
 
@@ -609,7 +615,7 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
         policyholderGenderOptions = OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
             tv_policyholderGender.apply {
                 text = dataList[options1]
-                setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.color_000000))
+                setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.tx_txcolor_000000))
             }
             requestOrderBean?.policyholderGender = data?.options?.get(options1)?.key!!
         })
@@ -617,7 +623,7 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
                 .setDividerColor(Color.BLACK)
                 .setTextColorCenter(Color.BLACK)
                 .setContentTextSize(20)
-                .setCancelColor(ContextCompat.getColor(this, R.color.gray_text))
+                .setCancelColor(ContextCompat.getColor(this, R.color.tx_txgray_text))
                 .build()
 
 
@@ -640,7 +646,7 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
         insuredGenderOptions = OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
             tv_insuredGender.apply {
                 text = dataList[options1]
-                setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.color_000000))
+                setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.tx_txcolor_000000))
             }
             requestOrderBean?.insuredGender = data?.options?.get(options1)?.key!!
         })
@@ -648,7 +654,7 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
                 .setDividerColor(Color.BLACK)
                 .setTextColorCenter(Color.BLACK)
                 .setContentTextSize(20)
-                .setCancelColor(ContextCompat.getColor(this, R.color.gray_text))
+                .setCancelColor(ContextCompat.getColor(this, R.color.tx_txgray_text))
                 .build()
 
 
@@ -673,7 +679,7 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
         insuredCertificateTypeOptions = OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
             tv_insuredCertificateType.apply {
                 text = dataList[options1]
-                setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.color_000000))
+                setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.tx_txcolor_000000))
             }
             requestOrderBean?.insuredCertificateType = data?.options?.get(options1)?.key!!
         })
@@ -681,7 +687,7 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
                 .setDividerColor(Color.BLACK)
                 .setTextColorCenter(Color.BLACK)
                 .setContentTextSize(20)
-                .setCancelColor(ContextCompat.getColor(this, R.color.gray_text))
+                .setCancelColor(ContextCompat.getColor(this, R.color.tx_txgray_text))
                 .build()
 
 

@@ -6,6 +6,8 @@ public class Constant {
     public static final String USER_ID = "user_id";
     public static final String ROOM_INFO = "room_info";
     public static final String ROLE_TYPE = "role_type";
+    public static final String SELFINSURANCE = "selfInsurance"; //自保件
+    public static final String TASKID = "taskid";
 
     // 美颜风格.三种美颜风格：0 ：光滑  1：自然  2：朦胧
     public static final int BEAUTY_STYLE_SMOOTH              = 0;

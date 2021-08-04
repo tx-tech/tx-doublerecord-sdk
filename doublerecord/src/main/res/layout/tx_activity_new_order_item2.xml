@@ -13,7 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/tx_txwhite"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         >
@@ -36,7 +36,7 @@
             android:layout_marginStart="@dimen/tx_dimen_20dp"
             android:text="请选择"
             android:padding="@dimen/tx_dimen_10dp"
-            android:textColor="@color/color_A5A7AC"
+            android:textColor="@color/tx_txcolor_A5A7AC"
             android:textSize="@dimen/tx_dimen_13sp"
             />
     </LinearLayout>
@@ -50,7 +50,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/tx_txwhite"
         android:gravity="center_vertical"
         android:orientation="horizontal"
        >
@@ -87,7 +87,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/tx_txwhite"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         >
@@ -111,7 +111,7 @@
             android:gravity="center"
             android:text="请选择"
             android:padding="@dimen/tx_dimen_10dp"
-            android:textColor="@color/color_A5A7AC"
+            android:textColor="@color/tx_txcolor_A5A7AC"
             android:textSize="@dimen/tx_dimen_13sp" />
     </LinearLayout>
 
@@ -123,7 +123,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/tx_txwhite"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -157,7 +157,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/tx_txwhite"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         >
@@ -194,7 +194,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/tx_txwhite"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         >
@@ -217,7 +217,7 @@
             android:layout_marginStart="@dimen/tx_dimen_20dp"
             android:text="请选择"
             android:padding="@dimen/tx_dimen_10dp"
-            android:textColor="@color/color_A5A7AC"
+            android:textColor="@color/tx_txcolor_A5A7AC"
             android:textSize="@dimen/tx_dimen_13sp" />
     </LinearLayout>
 
@@ -230,7 +230,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/tx_txwhite"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         >
@@ -270,7 +270,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/tx_txwhite"
         android:gravity="center_vertical"
         android:orientation="horizontal"
        >
@@ -295,7 +295,7 @@
             android:gravity="center"
             android:text="请选择"
             android:padding="@dimen/tx_dimen_10dp"
-            android:textColor="@color/color_A5A7AC"
+            android:textColor="@color/tx_txcolor_A5A7AC"
             android:textSize="@dimen/tx_dimen_13sp"  />
 
 
@@ -310,7 +310,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/tx_txwhite"
         android:gravity="center_vertical"
         android:orientation="horizontal"
       >
@@ -333,7 +333,7 @@
             android:layout_marginStart="@dimen/tx_dimen_20dp"
             android:text="请选择"
             android:padding="@dimen/tx_dimen_10dp"
-            android:textColor="@color/color_A5A7AC"
+            android:textColor="@color/tx_txcolor_A5A7AC"
             android:textSize="@dimen/tx_dimen_13sp" />
     </LinearLayout>
 
@@ -346,7 +346,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/tx_txwhite"
         android:gravity="center_vertical"
         android:orientation="horizontal"
       >
@@ -386,7 +386,7 @@
         android:paddingTop="@dimen/tx_dimen_10dp"
         android:paddingBottom="@dimen/tx_dimen_10dp"
         android:text="添加产品"
-        android:textColor="@color/color_000000"
+        android:textColor="@color/tx_txcolor_000000"
         android:textSize="@dimen/tx_dimen_16sp"
         android:drawableLeft="@drawable/tx_add_icon"
         />
@@ -401,9 +401,9 @@
         android:id="@+id/btn_commit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:background="@color/tx_txcolorPrimary"
         android:text="下一步"
-        android:textColor="@color/white"
+        android:textColor="@color/tx_txwhite"
         android:textSize="18sp"
         android:layout_marginTop="@dimen/tx_dimen_20dp"
         android:layout_marginLeft="@dimen/tx_dimen_30dp"

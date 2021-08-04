@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_FFFFFF"
+    android:background="@color/tx_txcolor_FFFFFF"
     android:orientation="vertical"
     tools:context="com.txt.sl.ui.createorder.WorkerListActivity">
 
@@ -13,7 +13,7 @@
         android:id="@+id/titlebar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:titleColor="@color/white"
+        app:titleColor="@color/tx_txwhite"
         />
     <View
 
@@ -24,10 +24,10 @@
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@color/color_FFFFFF"
-        app:tabSelectedTextColor="@color/colorPrimary"
-        app:tabTextColor="@color/color_000000"
-        app:tabIndicatorColor="@color/colorPrimary"
+        android:background="@color/tx_txcolor_FFFFFF"
+        app:tabSelectedTextColor="@color/tx_txcolorPrimary"
+        app:tabTextColor="@color/tx_txcolor_000000"
+        app:tabIndicatorColor="@color/tx_txcolorPrimary"
         />
     <View
 

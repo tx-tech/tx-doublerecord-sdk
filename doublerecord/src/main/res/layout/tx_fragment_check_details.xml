@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:text="暂无质检信息"
         android:layout_centerInParent="true"
-        android:textColor="@color/color_00965E"
+        android:textColor="@color/tx_txcolor_00965E"
         android:textSize="@dimen/tx_dimen_16sp"
         />
     <android.support.v4.widget.NestedScrollView
@@ -51,7 +51,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="1.双录行为客户确认"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/tx_txblack" />
 
                     <TextView
                         android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
                         android:layout_height="match_parent"
                         android:text="1分30秒"
                         android:textSize="@dimen/tx_dimen_13sp"
-                        android:textColor="@color/gray_text" />
+                        android:textColor="@color/tx_txgray_text" />
 
                     <TextView
                         android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
                         android:layout_weight="1"
                         android:layout_marginStart="@dimen/tx_dimen_20dp"
                         android:layout_marginEnd="@dimen/tx_dimen_20dp"
-                        android:textColor="@color/color_00965E"
+                        android:textColor="@color/tx_txcolor_00965E"
                         android:text="通过"
                         android:gravity="right"
 
@@ -126,7 +126,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="2.代理人自我介绍"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/tx_txblack" />
 
                     <TextView
                         android:layout_height="wrap_content"
@@ -171,7 +171,7 @@
                                 android:layout_height="match_parent"
                                 android:text="2.1  自我介绍"
                                 android:textSize="@dimen/tx_dimen_13sp"
-                                android:textColor="@color/black" />
+                                android:textColor="@color/tx_txblack" />
 
                             <TextView
                                 android:layout_height="wrap_content"
@@ -204,7 +204,7 @@
                                 android:layout_height="match_parent"
                                 android:text="2分30秒"
                                 android:textSize="@dimen/tx_dimen_13sp"
-                                android:textColor="@color/gray_text" />
+                                android:textColor="@color/tx_txgray_text" />
 
                             <TextView
                                 android:layout_height="wrap_content"
@@ -212,7 +212,7 @@
                                 android:layout_weight="1"
                                 android:layout_marginStart="@dimen/tx_dimen_20dp"
                                 android:layout_marginEnd="@dimen/tx_dimen_20dp"
-                                android:textColor="@color/color_00965E"
+                                android:textColor="@color/tx_txcolor_00965E"
                                 android:text="通过"
                                 android:gravity="right"
 
@@ -246,7 +246,7 @@
                                 android:layout_height="match_parent"
                                 android:text="2.2  出示证件"
                                 android:textSize="@dimen/tx_dimen_13sp"
-                                android:textColor="@color/black" />
+                                android:textColor="@color/tx_txblack" />
 
                             <TextView
                                 android:layout_height="wrap_content"
@@ -278,7 +278,7 @@
                                 android:layout_height="match_parent"
                                 android:text="2分50秒"
                                 android:textSize="@dimen/tx_dimen_13sp"
-                                android:textColor="@color/gray_text" />
+                                android:textColor="@color/tx_txgray_text" />
 
                             <TextView
                                 android:layout_height="wrap_content"
@@ -286,7 +286,7 @@
                                 android:layout_weight="1"
                                 android:layout_marginStart="@dimen/tx_dimen_20dp"
                                 android:layout_marginEnd="@dimen/tx_dimen_20dp"
-                                android:textColor="@color/color_00965E"
+                                android:textColor="@color/tx_txcolor_00965E"
                                 android:text="通过"
                                 android:gravity="right"
 
@@ -324,7 +324,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="3.投保人人脸核身"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/tx_txblack" />
 
                     <TextView
                         android:layout_height="wrap_content"
@@ -370,7 +370,7 @@
                                 android:layout_height="match_parent"
                                 android:text="2.1  自我介绍"
                                 android:textSize="@dimen/tx_dimen_13sp"
-                                android:textColor="@color/black" />
+                                android:textColor="@color/tx_txblack" />
 
                             <TextView
                                 android:layout_height="wrap_content"
@@ -403,7 +403,7 @@
                                 android:layout_height="match_parent"
                                 android:text="3分30秒"
                                 android:textSize="@dimen/tx_dimen_13sp"
-                                android:textColor="@color/gray_text" />
+                                android:textColor="@color/tx_txgray_text" />
 
                             <TextView
                                 android:layout_height="wrap_content"
@@ -411,7 +411,7 @@
                                 android:layout_weight="1"
                                 android:layout_marginStart="@dimen/tx_dimen_20dp"
                                 android:layout_marginEnd="@dimen/tx_dimen_20dp"
-                                android:textColor="@color/color_DF0125"
+                                android:textColor="@color/tx_txcolor_DF0125"
                                 android:text="不通过"
                                 android:gravity="right"
 
@@ -445,7 +445,7 @@
                                 android:layout_height="match_parent"
                                 android:text="3分40秒"
                                 android:textSize="@dimen/tx_dimen_13sp"
-                                android:textColor="@color/gray_text" />
+                                android:textColor="@color/tx_txgray_text" />
 
                             <TextView
                                 android:layout_height="wrap_content"
@@ -453,7 +453,7 @@
                                 android:layout_weight="1"
                                 android:layout_marginStart="@dimen/tx_dimen_20dp"
                                 android:layout_marginEnd="@dimen/tx_dimen_20dp"
-                                android:textColor="@color/color_00965E"
+                                android:textColor="@color/tx_txcolor_00965E"
                                 android:text="通过"
                                 android:gravity="right"
 
@@ -491,7 +491,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="4.投保人确认投保信息"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/tx_txblack" />
 
                     <TextView
                         android:layout_height="wrap_content"
@@ -523,7 +523,7 @@
                         android:layout_height="match_parent"
                         android:text="5分30秒"
                         android:textSize="@dimen/tx_dimen_13sp"
-                        android:textColor="@color/gray_text" />
+                        android:textColor="@color/tx_txgray_text" />
 
                     <TextView
                         android:layout_height="wrap_content"
@@ -531,7 +531,7 @@
                         android:layout_weight="1"
                         android:layout_marginStart="@dimen/tx_dimen_20dp"
                         android:layout_marginEnd="@dimen/tx_dimen_20dp"
-                        android:textColor="@color/color_00965E"
+                        android:textColor="@color/tx_txcolor_00965E"
                         android:text="通过"
                         android:gravity="right"
 
@@ -566,7 +566,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="5.保险责任告知"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/tx_txblack" />
 
                     <TextView
                         android:layout_height="wrap_content"
@@ -598,7 +598,7 @@
                         android:layout_height="match_parent"
                         android:text="1分30秒"
                         android:textSize="@dimen/tx_dimen_13sp"
-                        android:textColor="@color/gray_text" />
+                        android:textColor="@color/tx_txgray_text" />
 
                     <TextView
                         android:layout_height="wrap_content"
@@ -606,7 +606,7 @@
                         android:layout_weight="1"
                         android:layout_marginStart="@dimen/tx_dimen_20dp"
                         android:layout_marginEnd="@dimen/tx_dimen_20dp"
-                        android:textColor="@color/color_00965E"
+                        android:textColor="@color/tx_txcolor_00965E"
                         android:text="通过"
                         android:gravity="right"
 
@@ -641,7 +641,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:text="6.投保人远程签署保单"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/tx_txblack" />
 
                     <TextView
                         android:layout_height="wrap_content"
@@ -673,7 +673,7 @@
                         android:layout_height="match_parent"
                         android:text="6分30秒"
                         android:textSize="@dimen/tx_dimen_13sp"
-                        android:textColor="@color/gray_text" />
+                        android:textColor="@color/tx_txgray_text" />
 
                     <TextView
                         android:layout_height="wrap_content"
@@ -681,7 +681,7 @@
                         android:layout_weight="1"
                         android:layout_marginStart="@dimen/tx_dimen_20dp"
                         android:layout_marginEnd="@dimen/tx_dimen_20dp"
-                        android:textColor="@color/color_00965E"
+                        android:textColor="@color/tx_txcolor_00965E"
                         android:text="通过"
                         android:gravity="right"
 

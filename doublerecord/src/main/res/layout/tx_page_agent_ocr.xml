@@ -95,7 +95,7 @@
                 android:background="@drawable/tx_shape_goods_item_thespot_yes"
                 android:gravity="center"
                 android:text="重试"
-                android:textColor="@color/color_FFFFFF"
+                android:textColor="@color/tx_txcolor_FFFFFF"
                 android:visibility="gone" />
 
         </LinearLayout>
@@ -112,6 +112,6 @@
         android:background="@drawable/tx_shape_goodsdetails_thespot_add_normal"
         android:gravity="center"
         android:text="请代理人向客户出示身份证件后点击下一步"
-        android:textColor="@color/color_FFFFFF" />
+        android:textColor="@color/tx_txcolor_FFFFFF" />
 
 </RelativeLayout>

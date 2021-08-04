@@ -49,7 +49,7 @@
         <TextView
             android:layout_width="@dimen/tx_dimen_100dp"
             android:layout_height="wrap_content"
-            android:text="缴费频次："
+            android:text="缴费频率："
             android:textColor="#101010"
             android:textSize="@dimen/tx_dimen_14sp" />
 
@@ -100,7 +100,7 @@
         <TextView
             android:layout_width="@dimen/tx_dimen_100dp"
             android:layout_height="wrap_content"
-            android:text="缴费期："
+            android:text="缴费期间："
             android:textColor="#101010"
             android:textSize="@dimen/tx_dimen_14sp" />
 
@@ -184,7 +184,7 @@
             android:padding="@dimen/tx_dimen_5dp"
             android:text="删除"
             android:gravity="center"
-            android:textColor="@color/red"
+            android:textColor="@color/tx_txred"
             android:background="@drawable/tx_shape_red_15"
             />
         <TextView
@@ -194,7 +194,7 @@
             android:padding="@dimen/tx_dimen_5dp"
             android:text="修改"
             android:gravity="center"
-            android:textColor="@color/color_007aff"
+            android:textColor="@color/tx_txcolor_007aff"
             android:background="@drawable/tx_shape_goods_item_thespot_yes_15"
             android:layout_marginLeft="@dimen/tx_dimen_20dp"
             />

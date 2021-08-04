@@ -41,14 +41,18 @@ class HomeActivity : BaseActivity() {
 
     private fun showDialog() {
         TxPopup.Builder(this).asConfirm("退出", "确认退出智能双录？", "取消", "确认",
-            { finish() }, null, false).show()
+            {
+                if (null != TXSdk.getInstance().onTxPageListener) {
+                    TXSdk.getInstance().onTxPageListener.onSuccess()
+                }
+
+                finish()
+            }, null, false).show()
     }
 
     override fun initView() {
         super.initView()
         initFragment()
-        //        val initAuth = YTCommonInterface.initAuth(getApplicationContext(), "https://license.youtu.qq.com/youtu/sdklicenseapi/license_generate", "10240298", "HI4dv50kEQM9j1DAs50f5E6pHfmcCXbU", false)
-//        Auth.authWithDeviceSn(this, WXApi.YT_ID /*修改APPID为实际的值*/, WXApi.YT_SECRETKEY /*修改SECRET_KEY为实际的值*/)
 
         val get = TxSPUtils.get(this, SPConstant.REPORT_STATESLIST, "") as String
         val applyStatusParams = ArrayList<PagerBean>()
@@ -116,5 +120,8 @@ class HomeActivity : BaseActivity() {
 
     }
 
+    override fun onDestroy() {
 
+        super.onDestroy()
+    }
 }

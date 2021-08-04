@@ -3,9 +3,11 @@ package com.txt.sl.ui.invite
 import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
+import android.view.View
 import com.common.widget.base.BaseActivity
 import com.common.widget.dialog.TxPopup
 import com.txt.sl.R
+import com.txt.sl.TXSdk
 import com.txt.sl.system.SystemHttpRequest
 import com.txt.sl.utils.*
 import kotlinx.android.synthetic.main.tx_activity_video_upload.*
@@ -63,7 +65,7 @@ class VideoUploadActivity : BaseActivity() {
 //                        val pathFile = PathUtils.getExternalStoragePath() + "/txsl/"+"txsl_1591525938353.mp4"
 
             LogUtils.i("开始上传")
-            tv_gotovideo.text = "取消上传"
+            tv_gotovideo.visibility = View.GONE
             SystemHttpRequest.getInstance().uploadLogFile(pathFile, preTime
                     , serviceId, { size, time ->
                 val byteToMB = byteToMB(size)
@@ -76,8 +78,7 @@ class VideoUploadActivity : BaseActivity() {
             }, object : SystemHttpRequest.onRequestCallBack {
                 override fun onSuccess() {
                     MainThreadUtil.run(Runnable {
-                        ToastUtils.showShort("上传成功！！！")
-                        tv_gotovideo.text = "开始上传"
+                       showToastMsg("上传成功")
                         finish()
                     })
 
@@ -85,7 +86,8 @@ class VideoUploadActivity : BaseActivity() {
 
                 override fun onFail(msg: String?) {
                     MainThreadUtil.run(Runnable {
-                        ToastUtils.showShort(msg)
+                        showToastMsg("上传失败")
+                        tv_gotovideo.visibility = View.VISIBLE
                         tv_gotovideo.text = "开始上传"
                     })
 
@@ -110,12 +112,12 @@ class VideoUploadActivity : BaseActivity() {
 
 
     }
-
+    var mFlowId =""
     // 进度对话框
     open fun initProgressDialog() {
 
         progressBar?.max = 100
-        val mFlowId = intent.extras.getString(VideoUploadActivity.flowIdStr)
+        mFlowId = intent.extras.getString(VideoUploadActivity.flowIdStr)
         val screenRecordStr = TxSPUtils.get(this, mFlowId, "" ) as String
         if (screenRecordStr.isEmpty()) {
             TxPopup.Builder(this).asConfirm("退出",
@@ -126,17 +128,12 @@ class VideoUploadActivity : BaseActivity() {
                     null,
                     false).show()
         }else{
-
+            upload(mFlowId,screenRecordStr)
         }
 
         tv_invite_wx.text = "$mFlowId"
         tv_gotovideo.setOnClickListener {
-            if (tv_gotovideo.text =="开始上传") {
-                upload(mFlowId,screenRecordStr)
-            }else{
-                SystemHttpRequest.getInstance().cancelClient()
-            }
-
+            upload(mFlowId,screenRecordStr)
         }
 
     }
@@ -164,5 +161,11 @@ class VideoUploadActivity : BaseActivity() {
 
     }
 
+    override fun onDestroy() {
+        if (null != TXSdk.getInstance().onTxPageListener) {
+            TXSdk.getInstance().onTxPageListener.onSuccess(mFlowId!!)
+        }
+        super.onDestroy()
+    }
 
 }

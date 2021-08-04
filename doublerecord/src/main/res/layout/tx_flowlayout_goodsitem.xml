@@ -14,6 +14,6 @@
         android:id="@+id/tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/color_6D7278"
+        android:textColor="@color/tx_txcolor_6D7278"
         />
 </LinearLayout>

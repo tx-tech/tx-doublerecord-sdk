@@ -67,7 +67,7 @@ public class OrderExpandableItemAdapter(var data: ArrayList<MultiItemEntity>) :
                 val mRequestSubOrderBean = item as RequestSubOrderBean
                 mDataList = Gson().fromJson<java.util.ArrayList<OrderBean>>(jsonarr.toString(), object : TypeToken<java.util.ArrayList<OrderBean>>() {}.type)
 
-                val insurancePaymentMethodfilter = mDataList?.filter { it.name == "缴费频次" }
+                val insurancePaymentMethodfilter = mDataList?.filter { it.name == "缴费频率" }
 
                 val data = insurancePaymentMethodfilter?.get(0)
                 val filter1 = data?.options?.filter {

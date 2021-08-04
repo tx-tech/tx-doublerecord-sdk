@@ -19,7 +19,9 @@ data class RequestSubOrderBean(
         var insurancePaymentPrice: String = "",
         var insurancePaymentYearUnit: String = "",
         var insurancePaymentYear: Int = -1,
-        var insuranceCode: String = ""
+        var insuranceCode: String = "",
+        var insuranceCompany: String = "",
+        var ensureTheRenewal: Boolean = false
 ) : Serializable, MultiItemEntity {
 
 

@@ -14,7 +14,7 @@
         android:layout_marginTop="@dimen/tx_dimen_20dp"
         android:text="正在上传"
         android:layout_marginBottom="@dimen/tx_dimen_10dp"
-        android:textColor="@color/color_00965E"
+        android:textColor="@color/tx_txcolor_00965E"
         />
     <ProgressBar
         android:id="@+id/progressBar"
@@ -69,7 +69,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="取消上传"
-            android:textColor="@color/color_00965E"
+            android:visibility="invisible"
+            android:textColor="@color/tx_txcolor_00965E"
             android:textSize="@dimen/tx_dimen_16sp"
             />
 

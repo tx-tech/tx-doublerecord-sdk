@@ -23,7 +23,7 @@
             android:layout_marginRight="@dimen/tx_dimen_10dp"
             android:padding="@dimen/tx_dimen_10dp"
             android:text="质检详情"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/tx_txcolorPrimary"
             android:textSize="@dimen/tx_dimen_15sp"
             android:drawableLeft="@drawable/tx_detail_icon"
             android:drawablePadding="@dimen/tx_dimen_5dp"

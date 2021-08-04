@@ -4,6 +4,7 @@
     android:id="@+id/ll_page_voice"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/tx_txcolor_F6F7F9"
     android:orientation="vertical">
 
     <LinearLayout
@@ -18,7 +19,7 @@
             android:id="@+id/tv_asr_prompt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/tx_txcolorPrimary"
             android:textSize="@dimen/tx_dimen_16sp"
             tools:text="请投保人回复：" />
 
@@ -27,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:lineSpacingExtra="@dimen/tx_dimen_10dp"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/tx_txcolorPrimary"
             android:textSize="@dimen/tx_dimen_16sp"
             tools:text="12313131312312312312312312312313131321331231313131313131313" />
 
@@ -46,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="听到了："
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/tx_txcolorPrimary"
             android:textSize="@dimen/tx_dimen_16sp" />
 
         <TextView
@@ -56,7 +57,7 @@
             android:layout_marginStart="@dimen/tx_dimen_20dp"
             android:layout_marginEnd="@dimen/tx_dimen_20dp"
             android:lineSpacingExtra="@dimen/tx_dimen_10dp"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/tx_txcolorPrimary"
             android:textSize="@dimen/tx_dimen_16sp"
             tools:text="123131313123123123" />
 
@@ -85,7 +86,7 @@
             android:gravity="center"
             android:lineSpacingExtra="@dimen/tx_dimen_10dp"
             android:text="请讲普通话，音量清晰，语速适中"
-            android:textColor="@color/color_AAAAAA"
+            android:textColor="@color/tx_txcolor_A5A7AC"
             android:textSize="@dimen/tx_dimen_14sp" />
 
 
@@ -107,7 +108,7 @@
                 android:gravity="center"
                 android:lineSpacingExtra="@dimen/tx_dimen_10dp"
                 android:text="请"
-                android:textColor="@color/color_333333"
+                android:textColor="@color/tx_txcolor_333333"
                 android:textSize="@dimen/tx_dimen_14sp" />
 
             <TextView
@@ -117,7 +118,7 @@
                 android:gravity="center"
                 android:lineSpacingExtra="@dimen/tx_dimen_10dp"
                 android:text=""
-                android:textColor="@color/color_ED6656"
+                android:textColor="@color/tx_txcolor_ED6656"
                 android:textSize="@dimen/tx_dimen_14sp" />
 
             <TextView
@@ -126,7 +127,7 @@
                 android:gravity="center"
                 android:lineSpacingExtra="@dimen/tx_dimen_10dp"
                 android:text="内完成回复"
-                android:textColor="@color/color_333333"
+                android:textColor="@color/tx_txcolor_333333"
                 android:textSize="@dimen/tx_dimen_14sp" />
         </LinearLayout>
 
@@ -141,7 +142,7 @@
         android:drawableStart="@drawable/tx_nopass_icon"
         android:drawablePadding="@dimen/tx_dimen_10dp"
         android:text="质检未通过"
-        android:textColor="@color/color_333333"
+        android:textColor="@color/tx_txcolor_333333"
         android:textSize="@dimen/tx_dimen_16sp"
         android:visibility="gone" />
 
@@ -161,7 +162,7 @@
         android:id="@+id/ll_page_voice_result"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/tx_txwhite"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/tx_dimen_25dp"
         android:paddingTop="@dimen/tx_dimen_15dp"
@@ -179,7 +180,7 @@
             android:background="@drawable/tx_shape_goods_item_thespot_no_15"
             android:gravity="center"
             android:text="标记成功"
-            android:textColor="@color/color_868789"
+            android:textColor="@color/tx_txcolor_868789"
             android:textSize="@dimen/tx_dimen_14sp" />
 
         <TextView
@@ -190,7 +191,7 @@
             android:background="@drawable/tx_shape_goods_item_thespot_no_15"
             android:gravity="center"
             android:text="跳过"
-            android:textColor="@color/color_868789"
+            android:textColor="@color/tx_txcolor_868789"
             android:textSize="@dimen/tx_dimen_14sp" />
 
         <TextView
@@ -202,7 +203,7 @@
             android:clickable="true"
             android:gravity="center"
             android:text="重试"
-            android:textColor="@color/color_FFFFFF" />
+            android:textColor="@color/tx_txcolor_FFFFFF" />
 
     </LinearLayout>
 </LinearLayout>

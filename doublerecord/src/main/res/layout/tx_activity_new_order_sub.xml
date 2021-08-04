@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_FFFFFF"
+    android:background="@color/tx_txcolor_FFFFFF"
     android:orientation="vertical">
 
 
@@ -12,7 +12,7 @@
         android:id="@+id/titlebar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:titleColor="@color/white"
+        app:titleColor="@color/tx_txwhite"
         />
 
     <android.support.v4.widget.NestedScrollView
@@ -34,7 +34,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@color/tx_txwhite"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
               >
@@ -56,7 +56,7 @@
                     android:layout_marginStart="@dimen/tx_dimen_20dp"
                     android:text="请选择"
                     android:padding="@dimen/tx_dimen_10dp"
-                    android:textColor="@color/color_A5A7AC"
+                    android:textColor="@color/tx_txcolor_A5A7AC"
                     android:textSize="@dimen/tx_dimen_13sp"
                     android:onClick="txClick"
                     />
@@ -74,7 +74,7 @@
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@color/tx_txwhite"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                >
@@ -97,7 +97,7 @@
                     android:layout_marginStart="@dimen/tx_dimen_20dp"
                     android:text="请选择"
                     android:padding="@dimen/tx_dimen_10dp"
-                    android:textColor="@color/color_A5A7AC"
+                    android:textColor="@color/tx_txcolor_A5A7AC"
                     android:textSize="@dimen/tx_dimen_13sp"
                     android:onClick="txClick"/>
 
@@ -117,7 +117,7 @@
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@color/tx_txwhite"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 >
@@ -140,7 +140,7 @@
                     android:layout_marginStart="@dimen/tx_dimen_20dp"
                     android:text="请选择"
                     android:padding="@dimen/tx_dimen_10dp"
-                    android:textColor="@color/color_A5A7AC"
+                    android:textColor="@color/tx_txcolor_A5A7AC"
                     android:textSize="@dimen/tx_dimen_13sp"
                     android:onClick="txClick" />
 
@@ -157,7 +157,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@color/tx_txwhite"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 >
@@ -198,13 +198,13 @@
 
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@color/tx_txwhite"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
               >
 
                 <TextView
-                    android:text="缴费频次"
+                    android:text="缴费频率"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/txTextViewStyle_black"/>
@@ -220,7 +220,7 @@
                     android:layout_marginStart="@dimen/tx_dimen_20dp"
                     android:text="请选择"
                     android:padding="@dimen/tx_dimen_10dp"
-                    android:textColor="@color/color_A5A7AC"
+                    android:textColor="@color/tx_txcolor_A5A7AC"
                     android:textSize="@dimen/tx_dimen_13sp"
                     android:onClick="txClick" />
 
@@ -235,13 +235,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@color/tx_txwhite"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 >
 
                 <TextView
-                    android:text="缴费期（期）"
+                    android:text="缴费期间（期）"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/txTextViewStyle_black"/>
@@ -258,7 +258,7 @@
                     android:layout_marginStart="@dimen/tx_dimen_20dp"
                     android:maxLength="11"
                     android:inputType="number"
-                    android:hint="请输入缴费期"
+                    android:hint="请输入缴费期间"
                     android:singleLine="true"
                     android:gravity="center_vertical|end"
                     style="@style/txEditTextStyle" />
@@ -273,7 +273,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@color/tx_txwhite"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                >
@@ -311,7 +311,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@color/tx_txwhite"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                >
@@ -334,7 +334,7 @@
                     android:layout_marginStart="@dimen/tx_dimen_20dp"
                     android:text="请选择"
                     android:padding="@dimen/tx_dimen_10dp"
-                    android:textColor="@color/color_A5A7AC"
+                    android:textColor="@color/tx_txcolor_A5A7AC"
                     android:textSize="@dimen/tx_dimen_13sp"
                     android:onClick="txClick" />
 
@@ -349,7 +349,7 @@
                 android:id="@+id/ll_insurancePaymentYear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@color/tx_txwhite"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:visibility="gone"
@@ -385,12 +385,12 @@
                 android:id="@+id/btn_commit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
+                android:background="@color/tx_txcolorPrimary"
                 android:text="保存"
                 android:gravity="center"
                 android:layout_marginTop="@dimen/tx_dimen_20dp"
                 android:padding="@dimen/tx_dimen_10dp"
-                android:textColor="@color/white"
+                android:textColor="@color/tx_txwhite"
                 android:textSize="18sp"
                 android:layout_marginLeft="@dimen/tx_dimen_30dp"
                 android:layout_marginRight="@dimen/tx_dimen_30dp"

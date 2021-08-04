@@ -17,8 +17,8 @@
         android:layout_height="150dp"
         android:background="@drawable/tx_checkenv_bg"
         android:gravity="center"
-        android:text="监测中"
-        android:textColor="@color/color_FFFFFF"
+        android:text="检测中"
+        android:textColor="@color/tx_txcolor_FFFFFF"
         android:layout_marginTop="@dimen/tx_dimen_50dp"
         android:layout_marginLeft="@dimen/tx_dimen_50dp"
         />
@@ -81,7 +81,7 @@
             android:paddingEnd="@dimen/tx_dimen_10dp"
             android:paddingBottom="@dimen/tx_dimen_5dp"
             android:text="坚持录制"
-            android:textColor="@color/color_868789"
+            android:textColor="@color/tx_txcolor_868789"
             android:textSize="@dimen/tx_dimen_14sp" />
 
         <TextView
@@ -98,7 +98,7 @@
             android:paddingEnd="@dimen/tx_dimen_10dp"
             android:paddingBottom="@dimen/tx_dimen_5dp"
             android:text="退出录制"
-            android:textColor="@color/color_868789"
+            android:textColor="@color/tx_txcolor_868789"
             android:textSize="@dimen/tx_dimen_14sp" />
 
 

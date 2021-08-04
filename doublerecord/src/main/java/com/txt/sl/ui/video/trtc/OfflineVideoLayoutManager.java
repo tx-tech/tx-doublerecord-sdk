@@ -94,6 +94,7 @@ public class OfflineVideoLayoutManager extends RelativeLayout implements TRTCVid
                 TRTCLayoutEntity entity = new TRTCLayoutEntity();
                 entity.layout = videoLayout;
                 entity.index = i;
+                entity.userId = ""+i;
                 mLayoutEntityList.add(entity);
             }
         }
@@ -221,12 +222,9 @@ public class OfflineVideoLayoutManager extends RelativeLayout implements TRTCVid
         if (userType =="agent") {
              trtcLayoutEntity = mLayoutEntityList.get(0);
 //            content = "代理人等待进入";
-        }else if(userType =="policyholder"){
+        }else if(userType =="2"){
              trtcLayoutEntity = mLayoutEntityList.get(2);
 //            content = "投保人等待进入";
-        }else if(userType =="insured"){
-             trtcLayoutEntity = mLayoutEntityList.get(3);
-//            content = "被保人等待进入";
         }else{
             trtcLayoutEntity = mLayoutEntityList.get(1);
 //            content = "代理人等待进入";

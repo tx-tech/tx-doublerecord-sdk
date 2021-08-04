@@ -3,7 +3,7 @@ package com.txt.sl.entity.bean
 /**
  * Created by JustinWjq
  * @date 2020/6/17.
- * description：
+ * description：institutions==>所属区域 IntermediaryInstitutions==>中介机构. agentCode==>代理人编码
  */
 
 data class RequestOrderBean(
@@ -25,6 +25,9 @@ data class RequestOrderBean(
         var insuredPhone: String = "",
         var saleFrom: String = "",
         var taskFrom: String = "",
+        var institutions: ArrayList<String> =ArrayList(),
+        var IntermediaryInstitutions: String = "",
+        var agentCode: String = "",
         var insuranceAllPaymentDown: String = "",
         var insuranceIsMain :ArrayList<Int> =ArrayList(),
         var insuranceType :ArrayList<String> =ArrayList(),
@@ -35,7 +38,9 @@ data class RequestOrderBean(
         var insurancePaymentPrice :ArrayList<String> =ArrayList(),
         var insurancePaymentYearUnit:ArrayList<String> =ArrayList(),
         var insurancePaymentYear:ArrayList<Int> =ArrayList(),
-        var insuranceCode:ArrayList<String> =ArrayList()
+        var insuranceCode:ArrayList<String> =ArrayList(),
+        var insuranceCompany:ArrayList<String> =ArrayList(),
+        var ensureTheRenewal:ArrayList<Boolean> =ArrayList()
 ) {
     override fun toString(): String {
         return "RequestOrderBean(taskId='$taskId', policyholderName='$policyholderName', policyholderCertificateType='$policyholderCertificateType', policyholderCertificateNo='$policyholderCertificateNo', policyholderAge='$policyholderAge', policyholderGender='$policyholderGender', policyholderPhone='$policyholderPhone', relationship='$relationship', insuredName='$insuredName', insuredCertificateType='$insuredCertificateType', insuredCertificateNo='$insuredCertificateNo', insuredAge='$insuredAge', insuredGender='$insuredGender', insuredPhone='$insuredPhone', saleFrom='$saleFrom', taskFrom='$taskFrom', insuranceAllPaymentDown='$insuranceAllPaymentDown', insuranceIsMain=$insuranceIsMain, insuranceType=$insuranceType, insuranceName=$insuranceName, insurancePaymentDown=$insurancePaymentDown, insurancePaymentMethod=$insurancePaymentMethod, insurancePaymentPeriods=$insurancePaymentPeriods, insurancePaymentPrice=$insurancePaymentPrice, insurancePaymentYearUnit=$insurancePaymentYearUnit, insurancePaymentYear=$insurancePaymentYear, insuranceCode=$insuranceCode)"

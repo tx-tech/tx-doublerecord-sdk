@@ -159,10 +159,10 @@ public class RoomVideoUiUtils {
         RelativeLayout.LayoutParams layoutParams1 = new RelativeLayout.LayoutParams(grid4W * 3, grid4H);
         layoutParams1.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 
-        RelativeLayout.LayoutParams layoutParams2 = new RelativeLayout.LayoutParams(grid4W * 3, grid4H);
-        layoutParams2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        layoutParams2.topMargin = grid4H;
 
+        LogUtils.i("layoutWidth-"+layoutWidth+"layoutHeight"+layoutHeight);
+        RelativeLayout.LayoutParams layoutParams2 = new RelativeLayout.LayoutParams(grid4W * 3, ViewGroup.LayoutParams.MATCH_PARENT);
+        layoutParams2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
         list.add(layoutParams0);
         list.add(layoutParams1);
         list.add(layoutParams2);

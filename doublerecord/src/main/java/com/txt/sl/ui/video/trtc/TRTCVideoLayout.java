@@ -3,6 +3,7 @@ package com.txt.sl.ui.video.trtc;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
@@ -25,6 +26,10 @@ import com.tencent.trtc.TRTCCloudDef;
 import com.txt.sl.R;
 import com.txt.sl.widget.HollowOutView;
 import com.txt.sl.widget.RoundView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -228,6 +233,19 @@ public class TRTCVideoLayout extends RelativeLayout implements View.OnClickListe
         }
     }
 
+    public void setToastStr(String toast,@ColorInt int color){
+        if (mTvToast !=null) {
+            mTvToast.setText(toast);
+            if (toast.isEmpty()){
+                mTvToast.setVisibility(GONE);
+            }else{
+                mTvToast.setTextColor(color);
+                mTvToast.setVisibility(VISIBLE);
+            }
+
+        }
+    }
+
     public void setll_remote_skip(String toast,int visibility,int skipVisibility){
         if (ll_remote_skip !=null) {
             if (ll_remote_skip.getVisibility() != visibility){
@@ -241,7 +259,7 @@ public class TRTCVideoLayout extends RelativeLayout implements View.OnClickListe
         }
     }
 
-    public void setll_page_voice_result(int visibility,boolean isSuccess,String successStr){
+    public void setll_page_voice_result(int visibility, boolean isSuccess, String successStr, JSONArray btArray)  {
         if (ll_page_voice_result !=null) {
             if (ll_page_voice_result.getVisibility() != visibility){
                 ll_page_voice_result.setVisibility(visibility);
@@ -256,9 +274,47 @@ public class TRTCVideoLayout extends RelativeLayout implements View.OnClickListe
                 ll_page_voice_result_retry.setVisibility(GONE);
             }else{
                 ll_page12_result_fail.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(mContext,R.drawable.tx_nopass_icon),null,null,null);
-                ll_page_voice_result_mark.setVisibility(VISIBLE);
-                ll_page_voice_result_jump.setVisibility(VISIBLE);
-                ll_page_voice_result_retry.setVisibility(VISIBLE);
+//                ll_page_voice_result_mark.setVisibility(VISIBLE);
+//                ll_page_voice_result_jump.setVisibility(VISIBLE);
+//                ll_page_voice_result_retry.setVisibility(VISIBLE);
+                try {
+                    if (null != btArray) {
+                        //显示按钮的值
+                        for (int i = 0; i < btArray.length(); i++) {
+                            JSONObject btJSONObject = btArray.getJSONObject(i);
+                            String key = btJSONObject.optString("key" ,"");
+                            String buttonName = btJSONObject.optString("buttonName" ,"");
+                            boolean check = btJSONObject.optBoolean("check" ,true);
+                            if ("releaseSuccessful".equals(key)) {
+                                if (check) {
+                                    ll_page_voice_result_mark.setVisibility(VISIBLE);
+                                }else{
+                                    ll_page_voice_result_mark.setVisibility(GONE);
+                                }
+                                ll_page_voice_result_mark.setText(buttonName);
+                            }else if("releaseFailure".equals(key)){
+                                if (check) {
+                                    ll_page_voice_result_jump.setVisibility(VISIBLE);
+                                }else{
+                                    ll_page_voice_result_jump.setVisibility(GONE);
+                                }
+                                ll_page_voice_result_jump.setText(buttonName);
+                            }else if("retry".equals(key)){
+                                if (check) {
+                                    ll_page_voice_result_retry.setVisibility(VISIBLE);
+                                }else{
+                                    ll_page_voice_result_retry.setVisibility(GONE);
+                                }
+                                ll_page_voice_result_retry.setText(buttonName);
+                            }else {
+
+                            }
+                        }
+                    }
+                }catch (JSONException exception){
+
+                }
+
             }
         }
     }

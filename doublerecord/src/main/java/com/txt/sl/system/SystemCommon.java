@@ -399,9 +399,9 @@ public class SystemCommon  {
     }
 
     public byte saveBitmap(Bitmap bitmap)[] {
-        if (isBlack(bitmap)) {
-            return null;
-        }
+//        if (isBlack(bitmap)) {
+//            return null;
+//        }
 
         String fileDir;
         if (Environment.getExternalStorageState().equals(

@@ -4,7 +4,7 @@ import android.media.MediaPlayer;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
-import com.txt.sl.TXManagerImpl;
+import com.txt.sl.config.TXManagerImpl;
 import com.txt.sl.TXSdk;
 import com.txt.sl.entity.bean.UploadSignPic;
 import com.txt.sl.entity.bean.UploadShotPic;
@@ -28,10 +28,6 @@ import java.util.Map;
 
 
 public class SystemHttpRequest {
-
-    //通用后台
-    //private String mCommonIp = "https://service-support-test.ikandy.cn";
-    //private String mCommonIp = "https://developer.ikandy.cn:62728";
 
     private String port = "";
 
@@ -184,10 +180,14 @@ public class SystemHttpRequest {
             }
         }, back);
     }
+    public void getRecordInstitutionList(String tenantId, HttpRequestClient.RequestHttpCallBack callback) {
 
 
+        HttpRequestClient.getIntance().get(mDoubleRecordIP + "/api/record/institutions?tenantId=" + tenantId,  TXManagerImpl.getInstance().getToken(), callback);
+    }
 
-    public void startAgent1(String json, HttpRequestClient.RequestHttpCallBack callback) {
+
+    public void pushMessage(String json, HttpRequestClient.RequestHttpCallBack callback) {
 
 
         HttpRequestClient.getIntance().post(mDoubleRecordIP + "/api/serviceRoom/pushMessage", json,  TXManagerImpl.getInstance().getToken(), callback);
@@ -207,12 +207,6 @@ public class SystemHttpRequest {
         HttpRequestClient.getIntance().post(mDoubleRecordIP + "/api/serviceRoom/nextStep", jsonObject.toString(),  TXManagerImpl.getInstance().getToken(), callback);
     }
 
-    public void preStep(String jsonObject, HttpRequestClient.RequestHttpCallBack callback) {
-
-
-        HttpRequestClient.getIntance().post(mDoubleRecordIP + "/api/serviceRoom/preStep", jsonObject.toString(),  TXManagerImpl.getInstance().getToken(), callback);
-    }
-
 
     public void endRecord(String jsonObject, HttpRequestClient.RequestHttpCallBack callback) {
 
@@ -227,7 +221,11 @@ public class SystemHttpRequest {
     }
 
 
-    public void startAgent(String flowId, boolean isRemote, ArrayList<String> roleArray, HttpRequestClient.RequestHttpCallBack callback) {
+    public void startAgent(String flowId,
+                           boolean isRemote,
+                           ArrayList<String> roleArray,
+                           String recordType,
+                           HttpRequestClient.RequestHttpCallBack callback) {
         JSONArray jsonArray = new JSONArray();
 
         JSONObject jsonObject = new JSONObject();
@@ -238,7 +236,9 @@ public class SystemHttpRequest {
                 jsonArray.put(roleArray.get(i));
             }
             jsonObject.put("role", jsonArray);
-
+            if (isRemote) {
+                jsonObject.put("recordType", recordType);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -318,8 +318,8 @@ public class SystemHttpRequest {
 
             Gson gson = new Gson();
             String s = gson.toJson(bean);
-
-            jsonObject.put("fields", new JSONObject(s));
+            JSONObject fieldsJsonObject = new JSONObject(s);
+            jsonObject.put("fields",fieldsJsonObject);
         } catch (Exception e) {
 
         }
@@ -356,6 +356,11 @@ public class SystemHttpRequest {
     public void getFlowDetails(String flowid , HttpRequestClient.RequestHttpCallBack callback) {
 
         HttpRequestClient.getIntance().get(mDoubleRecordIP + "/api/record/tasks/app/getReportInfo?flowId=" + flowid,  TXManagerImpl.getInstance().getToken(), callback);
+    }
+
+    public void getFlowDetailsByTaskid(String taskid , HttpRequestClient.RequestHttpCallBack callback) {
+
+        HttpRequestClient.getIntance().get(mDoubleRecordIP + "/api/record/tasks/app/getReportInfo?taskId=" + taskid,  TXManagerImpl.getInstance().getToken(), callback);
     }
 
     public void passwordFreeLogin(String orgCode, String sign,String loginName, String fullName,  HttpRequestClient.RequestHttpCallBack callback) {

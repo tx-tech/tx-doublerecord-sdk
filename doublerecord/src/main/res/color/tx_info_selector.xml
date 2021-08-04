@@ -2,12 +2,12 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:color="@color/white"
+        android:color="@color/tx_txwhite"
         android:state_checked="true"
         />
 
     <item
-        android:color="@color/color_959595"
+        android:color="@color/tx_txcolor_959595"
         android:state_checked="false"
         />
 

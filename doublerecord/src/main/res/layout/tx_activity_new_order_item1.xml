@@ -12,7 +12,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/tx_txwhite"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -46,7 +46,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/tx_txwhite"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -67,7 +67,7 @@
             android:layout_marginStart="@dimen/tx_dimen_20dp"
             android:text="请选择"
             android:padding="@dimen/tx_dimen_10dp"
-            android:textColor="@color/color_A5A7AC"
+            android:textColor="@color/tx_txcolor_A5A7AC"
             android:textSize="@dimen/tx_dimen_13sp" />
 
 
@@ -82,7 +82,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/tx_txwhite"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -117,7 +117,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/tx_txwhite"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -154,7 +154,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/tx_txwhite"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -175,7 +175,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/tx_dimen_20dp"
             android:text="请选择"
-            android:textColor="@color/color_A5A7AC"
+            android:textColor="@color/tx_txcolor_A5A7AC"
             android:textSize="@dimen/tx_dimen_13sp"
             android:padding="@dimen/tx_dimen_10dp"
             />
@@ -190,7 +190,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/tx_txwhite"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 

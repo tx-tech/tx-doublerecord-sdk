@@ -28,7 +28,7 @@ public class ApplyHomeFragmentAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return TravelApplyHomeItemListFragment.newInstance(mApplyStatusParams.get(position).status);
+        return HomeItemListFragment.newInstance(mApplyStatusParams.get(position).status);
     }
 
     @Override

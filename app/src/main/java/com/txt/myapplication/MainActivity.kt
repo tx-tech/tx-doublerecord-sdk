@@ -9,10 +9,12 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.txt.sl.TXSdk
+import com.txt.sl.callback.onSDKListener
+import com.txt.sl.callback.onTxPageListener
 import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONObject
 
-class MainActivity : AppCompatActivity()  {
+class MainActivity : AppCompatActivity(), onTxPageListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +32,7 @@ class MainActivity : AppCompatActivity()  {
 
     var type = ""
     fun initView() {
+        TXSdk.getInstance().addOnTxPageListener(this)
         if (intent != null) {
             type = if (intent?.getStringExtra("type") != null) {
                 intent?.getStringExtra("type")!!
@@ -146,19 +149,55 @@ class MainActivity : AppCompatActivity()  {
 
         when (pageType) {
             "1"-> {//创建保单
-                TXSdk.getInstance().gotoCreateDetailsPage(this,loginName,fullname,orgAccount,encrypt)
+                TXSdk.getInstance().gotoCreateDetailsPage(this,loginName,fullname,orgAccount,encrypt,object :onSDKListener{
+                    override fun onResultSuccess(result: String) {
+
+                    }
+
+                    override fun onResultFail(errCode: Int, errMsg: String) {
+
+                    }
+
+                })
 
             }
 
             "2"-> {//跳到详情页面
-                TXSdk.getInstance().gotoOrderDetaisPage(this,loginName,fullname,flowid,orgAccount,encrypt)
+                TXSdk.getInstance().gotoOrderDetaisPage(this,loginName,fullname,flowid,orgAccount,encrypt,object :onSDKListener{
+                    override fun onResultSuccess(result: String) {
+
+                    }
+
+                    override fun onResultFail(errCode: Int, errMsg: String) {
+
+                    }
+
+                })
 
             }
             "3"->{//跳到列表页面
-                TXSdk.getInstance().gotoOrderListPage(this,loginName,fullname,orgAccount,encrypt)
+                TXSdk.getInstance().gotoOrderListPage(this,loginName,fullname,orgAccount,encrypt,object :onSDKListener{
+                    override fun onResultSuccess(result: String) {
+
+                    }
+
+                    override fun onResultFail(errCode: Int, errMsg: String) {
+
+                    }
+
+                })
             }
             "4"->{ //双录上传
-                TXSdk.getInstance().gotoVideoUploadPage(this,loginName,fullname,flowid,orgAccount,encrypt)
+                TXSdk.getInstance().gotoVideoUploadPage(this,loginName,fullname,flowid,orgAccount,encrypt,object :onSDKListener{
+                    override fun onResultSuccess(result: String) {
+
+                    }
+
+                    override fun onResultFail(errCode: Int, errMsg: String) {
+
+                    }
+
+                })
             }
 
             else -> {
@@ -181,6 +220,17 @@ class MainActivity : AppCompatActivity()  {
             )
 
         }
+    }
+
+    override fun onSuccess(taskId: String) {
+        Toast.makeText(this@MainActivity,"返回的业务单号为："+ taskId, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onSuccess() {
+        Toast.makeText(this@MainActivity,"返回了", Toast.LENGTH_SHORT).show()
+    }
+    override fun onFail(errCode: Int, errMsg: String) {
+
     }
 
 

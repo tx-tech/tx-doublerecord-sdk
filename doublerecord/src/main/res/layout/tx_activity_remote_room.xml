@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_FFFFFF"
+    android:background="@color/tx_txcolor_FFFFFF"
     android:fitsSystemWindows="true"
     android:keepScreenOn="true"
     android:orientation="vertical">
@@ -15,7 +15,7 @@
         android:id="@+id/ll_title"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@color/white"
+        android:background="@color/tx_txwhite"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -31,13 +31,33 @@
 
         <TextView
             android:id="@+id/room_time"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/tx_dimen_15dp"
-            android:layout_weight="1"
             android:gravity="center_vertical"
-            android:textColor="@color/color_000000"
+            android:textColor="@color/tx_txcolor_000000"
             android:visibility="invisible" />
+
+
+        <TextView
+            android:id="@+id/tv_linkname"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:gravity="right"
+            android:ellipsize="end"
+            android:textSize="@dimen/tx_dimen_16sp"
+            android:textColor="@color/tx_txcolor_333333"
+            />
+
+        <TextView
+            android:id="@+id/tv_linknameindex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/tx_dimen_16sp"
+            android:textColor="@color/tx_txcolor_333333"
+            />
 
         <TextView
             android:id="@+id/tv_text_continue"
@@ -56,7 +76,7 @@
             android:gravity="center"
             android:paddingStart="@dimen/tx_dimen_15dp"
             android:paddingEnd="@dimen/tx_dimen_15dp"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/tx_txcolorPrimary"
             android:text="补充录制"
             android:visibility="gone" />
         <TextView
@@ -67,22 +87,6 @@
             android:layout_marginEnd="@dimen/tx_dimen_35dp"
             android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/tv_linkname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:textSize="@dimen/tx_dimen_16sp"
-            android:textColor="@color/color_333333"
-            />
-
-        <TextView
-            android:id="@+id/tv_linknameindex"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/tx_dimen_16sp"
-            android:textColor="@color/color_333333"
-            />
 
     </LinearLayout>
 
@@ -106,7 +110,7 @@
             android:id="@+id/layout_right"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="@color/color_F6F7F9"
+            android:background="@color/tx_txcolor_F6F7F9"
             android:layout_weight="7">
 
             <include layout="@layout/tx_page_readnext" />
@@ -124,7 +128,7 @@
 
             <include layout="@layout/tx_page_asr_user" />
 
-            <include layout="@layout/tx_page_welcome1" />
+            <include layout="@layout/tx_page_linkpreview" />
 
         </RelativeLayout>
 
@@ -144,5 +148,5 @@
 
     <include layout="@layout/tx_page_checkenv" />
 
-    <include layout="@layout/tx_page_3" />
+    <include layout="@layout/tx_page_envpreview" />
 </FrameLayout>

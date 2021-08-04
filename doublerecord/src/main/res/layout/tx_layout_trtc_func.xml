@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:textColor="@color/color_FFFFFF"
+        android:textColor="@color/tx_txcolor_FFFFFF"
         tools:text="代理人"
         />
 
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
-        android:textColor="@color/color_FFFFFF"
+        android:textColor="@color/tx_txcolor_FFFFFF"
         tools:text="代理人"
         />
 
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:textColor="@color/color_FFFFFF"
+        android:textColor="@color/tx_txcolor_FFFFFF"
         android:textSize="@dimen/tx_dimen_14sp"
         tools:text="识别中..."
         />
@@ -52,7 +52,7 @@
         android:layout_below="@+id/tv_name"
         android:layout_marginLeft="@dimen/tx_dimen_5dp"
         android:gravity="center"
-        android:textColor="@color/color_DF0125"
+        android:textColor="@color/tx_txcolor_DF0125"
         android:visibility="gone"
         tools:text="@string/tx_str"
         />
@@ -60,10 +60,10 @@
       android:id="@+id/tv_novideo"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:background="@color/color_000000"
+      android:background="@color/tx_txcolor_000000"
       android:text="123231"
       android:gravity="center"
-      android:textColor="@color/white"
+      android:textColor="@color/tx_txwhite"
       android:visibility="gone"
       />
     <LinearLayout
@@ -71,7 +71,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@color/color_CCFFFFFF"
+        android:background="@color/tx_txcolor_CCFFFFFF"
         android:visibility="gone"
         android:padding="@dimen/tx_dimen_10dp"
         android:layout_alignParentBottom="true"
@@ -85,7 +85,7 @@
             android:layout_height="wrap_content"
             android:text="1231312313"
             android:textSize="@dimen/tx_dimen_14sp"
-            android:textColor="@color/color_333333"
+            android:textColor="@color/tx_txcolor_333333"
             android:gravity="center_vertical"
             />
 
@@ -111,9 +111,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-        >
-
-    </com.txt.sl.widget.RoundView>
+       />
 
     <LinearLayout
         android:id="@+id/ll_page_voice_result"
@@ -124,7 +122,7 @@
         android:paddingTop="@dimen/tx_dimen_5dp"
         android:paddingBottom="@dimen/tx_dimen_5dp"
         android:paddingLeft="@dimen/tx_dimen_25dp"
-        android:background="@color/color_CCFFFFFF"
+        android:background="@color/tx_txcolor_CCFFFFFF"
         tools:visibility="visible"
         android:layout_alignParentBottom="true"
         android:layout_above="@+id/trtc_tc_cloud_view"
@@ -148,7 +146,7 @@
             android:text="标记成功"
             android:gravity="center"
             android:layout_gravity="center"
-            android:textColor="@color/color_868789"
+            android:textColor="@color/tx_txcolor_868789"
             android:textSize="@dimen/tx_dimen_14sp"
             android:paddingStart="@dimen/tx_dimen_10dp"
             android:paddingEnd="@dimen/tx_dimen_10dp"
@@ -164,7 +162,7 @@
             android:text="跳过"
             android:gravity="center"
             android:layout_gravity="center"
-            android:textColor="@color/color_868789"
+            android:textColor="@color/tx_txcolor_868789"
             android:textSize="@dimen/tx_dimen_14sp"
             android:paddingStart="@dimen/tx_dimen_10dp"
             android:paddingEnd="@dimen/tx_dimen_10dp"

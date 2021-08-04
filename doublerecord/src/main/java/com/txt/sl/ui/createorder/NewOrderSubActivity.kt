@@ -14,9 +14,8 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.common.widget.base.BaseActivity
 import com.txt.sl.R
-import com.txt.sl.TXManagerImpl
+import com.txt.sl.config.TXManagerImpl
 import com.txt.sl.entity.bean.*
-import com.txt.sl.entity.constant.SPConstant
 import com.txt.sl.http.https.HttpRequestClient
 import com.txt.sl.system.SystemHttpRequest
 import com.txt.sl.utils.*
@@ -49,7 +48,7 @@ class NewOrderSubActivity : BaseActivity() {
         SystemHttpRequest.getInstance().getProductData(TXManagerImpl.instance!!.getTenantId(), object : HttpRequestClient.RequestHttpCallBack {
             override fun onSuccess(json: String?) {
                 if (json!!.isEmpty()) {
-                    ToastUtils.showShort("没有产品")
+                    showToastMsg("insurances 为空")
                     runOnUiThread {
                         finish()
                     }
@@ -57,12 +56,12 @@ class NewOrderSubActivity : BaseActivity() {
                     runOnUiThread {
                         val insurancesLists = json
                         if (insurancesLists.isEmpty()) {
-                            ToastUtils.showShort("没有产品")
+                            showToastMsg("insurances 为空")
                             finish()
                         }
                         orderSubItemBeanList = Gson().fromJson<java.util.ArrayList<OrderSubItemBean>>(insurancesLists.toString(), object : TypeToken<java.util.ArrayList<OrderSubItemBean>>() {}.type)
                         if (orderSubItemBeanList?.isEmpty()!!) {
-                            ToastUtils.showShort("没有产品")
+                            showToastMsg("insurances 为空")
                         }
                         //如果有值，说明是编辑按钮过来的
                         val serializableExtra = intent.getSerializableExtra(ARG_PARAM2)
@@ -150,14 +149,14 @@ class NewOrderSubActivity : BaseActivity() {
                 "附加险"
             }
 
-            setTextColor(ContextCompat.getColor(this@NewOrderSubActivity, R.color.color_000000))
+            setTextColor(ContextCompat.getColor(this@NewOrderSubActivity, R.color.tx_txcolor_000000))
         }
 
         tv_policyholdercertificatetype.apply {
             text = requestSubOrderBean?.insuranceName
-            setTextColor(ContextCompat.getColor(this@NewOrderSubActivity, R.color.color_000000))
+            setTextColor(ContextCompat.getColor(this@NewOrderSubActivity, R.color.tx_txcolor_000000))
         }
-        val insurancePaymentMethodfilter = mDataList?.filter { it.name == "缴费频次" }
+        val insurancePaymentMethodfilter = mDataList?.filter { it.name == "缴费频率" }
 
         val data = insurancePaymentMethodfilter?.get(0)
         val insurancePaymentMethodfilter1 = data?.options?.filter {
@@ -168,7 +167,7 @@ class NewOrderSubActivity : BaseActivity() {
         val filter = insurancetypeDatas?.options?.filter { it.key == requestSubOrderBean?.insuranceType }
         tv_insurancetype.apply {
             text = filter?.get(0)!!.name
-            setTextColor(ContextCompat.getColor(this@NewOrderSubActivity, R.color.color_000000))
+            setTextColor(ContextCompat.getColor(this@NewOrderSubActivity, R.color.tx_txcolor_000000))
         }
 
         filterProductDatas = filterProductDatas(isMainInt = requestSubOrderBean?.insuranceIsMain!!,
@@ -185,7 +184,7 @@ class NewOrderSubActivity : BaseActivity() {
         et_insurancePaymentDown.setText(requestSubOrderBean?.insurancePaymentDown)
         tv_insurancePaymentMethod.apply {
             text = insurancePaymentMethodfilter1?.get(0)!!.name
-            setTextColor(ContextCompat.getColor(this@NewOrderSubActivity, R.color.color_000000))
+            setTextColor(ContextCompat.getColor(this@NewOrderSubActivity, R.color.tx_txcolor_000000))
         }
         et_insurancePaymentPeriods.setText(requestSubOrderBean?.insurancePaymentPeriods)
         et_insurancePaymentPrice.setText(requestSubOrderBean?.insurancePaymentPrice)
@@ -199,7 +198,7 @@ class NewOrderSubActivity : BaseActivity() {
         val insurancePaymentYearUnitName = filter2?.get(0)?.name
         tv_insurancePaymentYearUnit.apply {
             text = insurancePaymentYearUnitName
-            setTextColor(ContextCompat.getColor(this@NewOrderSubActivity, R.color.color_000000))
+            setTextColor(ContextCompat.getColor(this@NewOrderSubActivity, R.color.tx_txcolor_000000))
         }
         if (insurancePaymentYearUnitName == "终身") {
             ll_insurancePaymentYear.visibility = View.GONE
@@ -254,13 +253,13 @@ class NewOrderSubActivity : BaseActivity() {
         insuredDateOptions = OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
             tv_insurance1.apply {
                 text = dataList[options1]
-                setTextColor(ContextCompat.getColor(this@NewOrderSubActivity, R.color.color_000000))
+                setTextColor(ContextCompat.getColor(this@NewOrderSubActivity, R.color.tx_txcolor_000000))
             }
             requestSubOrderBean?.insuranceName = ""
             requestSubOrderBean?.insuranceCode = ""
             tv_policyholdercertificatetype.apply {
                 text = "请选择"
-                setTextColor(ContextCompat.getColor(this@NewOrderSubActivity, R.color.color_A5A7AC))
+                setTextColor(ContextCompat.getColor(this@NewOrderSubActivity, R.color.tx_txcolor_A5A7AC))
             }
             val key = data?.options?.get(options1)?.key!!
             requestSubOrderBean?.insuranceIsMain = key.toInt()
@@ -274,6 +273,9 @@ class NewOrderSubActivity : BaseActivity() {
                     dataList.add(it.name)
                 }
                 policyholdercertificatetypeOptions?.setPicker(dataList)
+            }else{
+                var dataList = ArrayList<String>()
+                policyholdercertificatetypeOptions?.setPicker(dataList)
             }
 
         })
@@ -281,7 +283,7 @@ class NewOrderSubActivity : BaseActivity() {
                 .setDividerColor(Color.BLACK)
                 .setTextColorCenter(Color.BLACK)
                 .setContentTextSize(20)
-                .setCancelColor(ContextCompat.getColor(this, R.color.gray_text))
+                .setCancelColor(ContextCompat.getColor(this, R.color.tx_txgray_text))
                 .build()
 
         insuredDateOptions?.setPicker(dataList)
@@ -294,22 +296,29 @@ class NewOrderSubActivity : BaseActivity() {
         policyholdercertificatetypeOptions = OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
             tv_policyholdercertificatetype.apply {
                 text = filterProductDatas?.get(options1)!!.name
-                setTextColor(ContextCompat.getColor(this@NewOrderSubActivity, R.color.color_000000))
+                setTextColor(ContextCompat.getColor(this@NewOrderSubActivity, R.color.tx_txcolor_000000))
             }
             requestSubOrderBean?.insuranceName = filterProductDatas?.get(options1)!!.name
             requestSubOrderBean?.insuranceCode = filterProductDatas?.get(options1)!!.code
+            requestSubOrderBean?.insuranceCompany = filterProductDatas?.get(options1)!!.insuranceCompany
+            requestSubOrderBean?.ensureTheRenewal = filterProductDatas?.get(options1)!!.isEnsureTheRenewal
         })
                 .setTitleText("产品名称")
                 .setDividerColor(Color.BLACK)
                 .setTextColorCenter(Color.BLACK)
                 .setContentTextSize(20)
-                .setCancelColor(ContextCompat.getColor(this, R.color.gray_text))
+                .setCancelColor(ContextCompat.getColor(this, R.color.tx_txgray_text))
                 .build()
 
 
         tv_policyholdercertificatetype.setOnClickListener {
             if (requestSubOrderBean?.insuranceName!!.isEmpty() && requestSubOrderBean?.insuranceType!!.isEmpty()) {
-                ToastUtils.showShort("请选择！！！")
+                showToastMsg("请选择!")
+                return@setOnClickListener
+            }
+
+            if(filterProductDatas!!.size==0){
+                showToastMsg("没有产品名称")
                 return@setOnClickListener
             }
             hideInput()
@@ -334,7 +343,7 @@ class NewOrderSubActivity : BaseActivity() {
 
     var insuredDateOptions1: OptionsPickerView<String>? = null
     fun initInsuredDatePicker1() {
-        val filter = mDataList?.filter { it.name == "缴费频次" }
+        val filter = mDataList?.filter { it.name == "缴费频率" }
         val data = filter?.get(0)
         var dataList = ArrayList<String>()
         data?.options?.forEach {
@@ -345,7 +354,7 @@ class NewOrderSubActivity : BaseActivity() {
         insuredDateOptions1 = OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
             tv_insurancePaymentMethod.apply {
                 text = dataList[options1]
-                setTextColor(ContextCompat.getColor(this@NewOrderSubActivity, R.color.color_000000))
+                setTextColor(ContextCompat.getColor(this@NewOrderSubActivity, R.color.tx_txcolor_000000))
             }
             requestSubOrderBean?.insurancePaymentMethod = data?.options?.get(options1)?.key!!
         })
@@ -353,7 +362,7 @@ class NewOrderSubActivity : BaseActivity() {
                 .setDividerColor(Color.BLACK)
                 .setTextColorCenter(Color.BLACK)
                 .setContentTextSize(20)
-                .setCancelColor(ContextCompat.getColor(this, R.color.gray_text))
+                .setCancelColor(ContextCompat.getColor(this, R.color.tx_txgray_text))
                 .build()
 
         insuredDateOptions1?.setPicker(dataList)
@@ -377,7 +386,7 @@ class NewOrderSubActivity : BaseActivity() {
         insuredDateOptions2 = OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
             tv_insurancePaymentYearUnit.apply {
                 text = dataList[options1]
-                setTextColor(ContextCompat.getColor(this@NewOrderSubActivity, R.color.color_000000))
+                setTextColor(ContextCompat.getColor(this@NewOrderSubActivity, R.color.tx_txcolor_000000))
             }
             requestSubOrderBean?.insurancePaymentYearUnit = data?.options?.get(options1)?.key!!
             ll_insurancePaymentYear.visibility = if (requestSubOrderBean?.insurancePaymentYearUnit != "LifeLong") {
@@ -392,7 +401,7 @@ class NewOrderSubActivity : BaseActivity() {
                 .setDividerColor(Color.BLACK)
                 .setTextColorCenter(Color.BLACK)
                 .setContentTextSize(20)
-                .setCancelColor(ContextCompat.getColor(this, R.color.gray_text))
+                .setCancelColor(ContextCompat.getColor(this, R.color.tx_txgray_text))
                 .build()
 
         insuredDateOptions2?.setPicker(dataList)
@@ -415,13 +424,13 @@ class NewOrderSubActivity : BaseActivity() {
         var payTypeOptions = OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
             tv_insurancetype.apply {
                 text = dataList!![options1]
-                setTextColor(ContextCompat.getColor(this@NewOrderSubActivity, R.color.color_000000))
+                setTextColor(ContextCompat.getColor(this@NewOrderSubActivity, R.color.tx_txcolor_000000))
             }
             requestSubOrderBean?.insuranceName = ""
             requestSubOrderBean?.insuranceCode = ""
             tv_policyholdercertificatetype.apply {
                 text = "请选择"
-                setTextColor(ContextCompat.getColor(this@NewOrderSubActivity, R.color.color_A5A7AC))
+                setTextColor(ContextCompat.getColor(this@NewOrderSubActivity, R.color.tx_txcolor_A5A7AC))
             }
 
             requestSubOrderBean?.insuranceType = data?.options!![options1].key
@@ -441,7 +450,7 @@ class NewOrderSubActivity : BaseActivity() {
                 .setDividerColor(Color.BLACK)
                 .setTextColorCenter(Color.BLACK)
                 .setContentTextSize(20)
-                .setCancelColor(ContextCompat.getColor(this, R.color.gray_text))
+                .setCancelColor(ContextCompat.getColor(this, R.color.tx_txgray_text))
                 .build<String>()
 
 

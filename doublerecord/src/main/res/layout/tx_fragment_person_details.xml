@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_FFFFFF"
+    android:background="@color/tx_txcolor_FFFFFF"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
@@ -13,7 +13,7 @@
 
         android:layout_width="match_parent"
         android:layout_height="@dimen/tx_dimen_50dp"
-        android:background="@color/white"
+        android:background="@color/tx_txwhite"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="12dp">
@@ -29,7 +29,7 @@
             android:layout_width="@dimen/tx_dimen_1dp"
             android:layout_height="wrap_content"
             android:text=""
-            android:textColor="@color/orange" />
+            android:textColor="@color/tx_txorange" />
 
         <View
             android:layout_width="0dp"
@@ -58,7 +58,7 @@
 
         android:layout_width="match_parent"
         android:layout_height="@dimen/tx_dimen_50dp"
-        android:background="@color/white"
+        android:background="@color/tx_txwhite"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="12dp">
@@ -74,7 +74,7 @@
             android:layout_width="@dimen/tx_dimen_1dp"
             android:layout_height="wrap_content"
             android:text=""
-            android:textColor="@color/orange" />
+            android:textColor="@color/tx_txorange" />
 
         <View
             android:layout_width="0dp"
@@ -106,7 +106,7 @@
 
         android:layout_width="match_parent"
         android:layout_height="@dimen/tx_dimen_50dp"
-        android:background="@color/white"
+        android:background="@color/tx_txwhite"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="12dp">
@@ -122,7 +122,7 @@
             android:layout_width="@dimen/tx_dimen_1dp"
             android:layout_height="wrap_content"
             android:text=""
-            android:textColor="@color/orange" />
+            android:textColor="@color/tx_txorange" />
 
         <View
             android:layout_width="0dp"
@@ -151,7 +151,7 @@
 
         android:layout_width="match_parent"
         android:layout_height="@dimen/tx_dimen_50dp"
-        android:background="@color/white"
+        android:background="@color/tx_txwhite"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="12dp">
@@ -167,7 +167,7 @@
             android:layout_width="@dimen/tx_dimen_1dp"
             android:layout_height="wrap_content"
             android:text=""
-            android:textColor="@color/orange" />
+            android:textColor="@color/tx_txorange" />
 
         <View
             android:layout_width="0dp"
@@ -196,7 +196,7 @@
 
         android:layout_width="match_parent"
         android:layout_height="@dimen/tx_dimen_50dp"
-        android:background="@color/white"
+        android:background="@color/tx_txwhite"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="12dp">
@@ -212,7 +212,7 @@
             android:layout_width="@dimen/tx_dimen_1dp"
             android:layout_height="wrap_content"
             android:text=""
-            android:textColor="@color/orange" />
+            android:textColor="@color/tx_txorange" />
 
         <View
             android:layout_width="0dp"
@@ -243,7 +243,7 @@
         android:layout_height="@dimen/tx_dimen_50dp"
         android:gravity="center"
         android:text="退出登录"
-        android:textColor="@color/red"
+        android:textColor="@color/tx_txred"
         android:textSize="@dimen/tx_dimen_16sp"
         style="@style/txTripFunClick"
         />

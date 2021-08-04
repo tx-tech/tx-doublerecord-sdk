@@ -21,7 +21,7 @@
         android:layout_marginRight="@dimen/tx_dimen_20dp"
         android:padding="@dimen/tx_dimen_10dp"
         android:text="播放"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/tx_txcolorPrimary"
         android:textSize="@dimen/tx_dimen_15sp"
         android:drawableLeft="@drawable/tx_playvideo_icon"
         android:drawablePadding="@dimen/tx_dimen_5dp"

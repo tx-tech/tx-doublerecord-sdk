@@ -21,7 +21,6 @@
     <uses-permission android:name="com.android.launcher.permission.WRITE_SETTINGS" /> <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
 
@@ -35,9 +34,15 @@
         <activity
             android:name=".ui.invite.InviteActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.createorder.NewOrderSubActivity" />
-        <activity android:name=".ui.search.SearchActivity" />
-        <activity android:name=".ui.order.OrderActivity" />
+        <activity android:name=".ui.createorder.NewOrderSubActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.search.SearchActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.order.OrderActivity"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".ui.order.OrderDetailsActivity"
             android:screenOrientation="portrait" />
@@ -52,11 +57,6 @@
             android:name=".ui.home.HomeActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.login.MainActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-
 
 
         <provider
@@ -82,10 +82,7 @@
             android:name=".ui.video.OfflineActivity"
             android:configChanges="screenLayout|screenSize|smallestScreenSize|orientation"
             android:screenOrientation="landscape" />
-        <activity
-            android:name=".ui.login.LoginActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+
 
         <activity
             android:name=".utils.TxPermissionUtils$TransActivity"

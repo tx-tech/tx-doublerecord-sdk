@@ -91,7 +91,6 @@ class UploadVideoDialog(context: Context) : CenterPopupView(context) {
             }, object : SystemHttpRequest.onRequestCallBack {
                 override fun onSuccess() {
                     MainThreadUtil.run(Runnable {
-                        ToastUtils.showShort("上传成功！！！")
                         mOnItemClickListener?.onVideoUpload(true)
                         dismiss()
                     })

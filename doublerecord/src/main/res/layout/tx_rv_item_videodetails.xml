@@ -13,7 +13,7 @@
         android:id="@+id/tv_title1"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/tx_dimen_20dp"
-        android:textColor="@color/gray_text"
+        android:textColor="@color/tx_txgray_text"
         android:textSize="@dimen/tx_dimen_14sp"
         android:gravity="center"
         android:paddingEnd="@dimen/tx_dimen_5dp"
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_marginEnd="@dimen/tx_dimen_20dp"
-        android:textColor="@color/gray_text"
+        android:textColor="@color/tx_txgray_text"
         android:textSize="@dimen/tx_dimen_14sp"
         tools:text="投保人证件号码"
         />

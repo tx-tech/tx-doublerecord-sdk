@@ -7,7 +7,7 @@
     android:layout_marginTop="12dp"
     android:orientation="vertical"
     android:visibility="gone"
-    android:background="@color/white"
+    android:background="@color/tx_txwhite"
     tools:visibility="visible">
 
 
@@ -22,11 +22,11 @@
         android:background="@drawable/bg_sign"
         >
 
-
-        <com.txt.sl.widget.SignView
-            android:id="@+id/iv_page_sign_12"
+        <WebView
+            android:id="@+id/webView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            />
     </RelativeLayout>
 
     <LinearLayout
@@ -52,7 +52,7 @@
             android:gravity="center"
             android:padding="@dimen/tx_dimen_5dp"
             android:text="当前是投保人屏幕，无法操作"
-            android:textColor="@color/color_FFFFFF" />
+            android:textColor="@color/tx_txcolor_FFFFFF" />
 
 
     </LinearLayout>
@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="12dp"
-            android:textColor="@color/black" />
+            android:textColor="@color/tx_txblack" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -120,7 +120,7 @@
                 android:layout_marginLeft="@dimen/tx_dimen_20dp"
                 android:gravity="center"
                 android:text="重试"
-                android:textColor="@color/color_00965E"
+                android:textColor="@color/tx_txcolor_00965E"
                 style="@style/txButtonStyle_2"/>
         </LinearLayout>
 

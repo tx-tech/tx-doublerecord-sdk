@@ -1,7 +1,6 @@
 package com.txt.sl.system
 
 import android.annotation.SuppressLint
-import com.txt.sl.TXManagerImpl
 import com.txt.sl.config.socket.SocketBusiness
 import com.txt.sl.config.socket.SocketConfig
 import com.txt.sl.config.socket.SocketI

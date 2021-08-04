@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
 import android.text.TextUtils
 import android.util.Log
-import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.common.widget.dialog.TxPopup
 import com.common.widget.dialog.interfaces.XPopupCallback
@@ -22,26 +21,23 @@ import com.txt.sl.ui.adpter.OrderListNodeAdapter
 import com.txt.sl.ui.adpter.WorkerItemTypeBean
 import com.txt.sl.ui.dialog.CheckRemoteDialog
 import com.txt.sl.ui.dialog.UploadVideoDialog
-import com.txt.sl.ui.home.HomeActivity
 import com.txt.sl.ui.invite.InviteActivity
 import com.txt.sl.ui.order.OrderActivity
 import com.txt.sl.ui.order.OrderDetailsActivity
 import com.txt.sl.ui.video.VideoPlayActivity
 import com.txt.sl.utils.LogUtils
-import com.txt.sl.utils.ToastUtils
 import com.txt.sl.utils.TxSPUtils
 import com.txt.sl.widget.LoadingView
 import kotlinx.android.synthetic.main.tx_activity_search.*
 import kotlinx.android.synthetic.main.tx_activity_search.recyclerView
 import kotlinx.android.synthetic.main.tx_activity_search.swipeRefreshLayout
-import kotlinx.android.synthetic.main.tx_fragment_recycler_list_no_toolbar.*
 import org.json.JSONObject
 import java.util.*
 
 
 private val TAG = SearchActivity::class.java.simpleName
 
-class SearchActivity : AppMVPActivity<SearchContract.View,SearchPresenter>(), SearchContract.View,
+class SearchActivity : AppMVPActivity<SearchContract.View, SearchPresenter>(), SearchContract.View,
     CheckRemoteDialog.OnRemoteClickListener {
 
     companion object {
@@ -70,6 +66,7 @@ class SearchActivity : AppMVPActivity<SearchContract.View,SearchPresenter>(), Se
             finish()
         }
     }
+
     val mDataList = ArrayList<MultiItemEntity>()
     private fun initSearchView() {
 
@@ -108,20 +105,20 @@ class SearchActivity : AppMVPActivity<SearchContract.View,SearchPresenter>(), Se
         searchView.onActionViewExpanded()
 
 
-
     }
 
-    public  var customDialog : CheckRemoteDialog?=null
-    public fun showDialog(){
+    public var customDialog: CheckRemoteDialog? = null
+    public fun showDialog() {
 
         TxPopup.Builder(this).asCustom(customDialog).show()
 
     }
+
     private var mLoadingView: LoadingView? = null
     private fun initRecyclerview() {
 
 
-        customDialog  = CheckRemoteDialog(this)
+        customDialog = CheckRemoteDialog(this)
         customDialog?.setOnRemoteClickListener(this)
         mLoadingView = LoadingView(this, "发起录制...", LoadingView.SHOWLOADING)
 
@@ -139,25 +136,33 @@ class SearchActivity : AppMVPActivity<SearchContract.View,SearchPresenter>(), Se
                 }
                 R.id.tv_item1_sl, R.id.tv_replay -> {
                     val bean = mDataList[position] as WorkerItemTypeBean
-                    customDialog?.setFlowId(bean.workItemBean.flowId,bean.workItemBean.insuredPhone,bean.workItemBean.taskId, bean.workItemBean.membersArray as java.util.ArrayList<String>?)
+                    customDialog?.setData(
+                        bean.workItemBean.flowId,
+                        bean.workItemBean.insuredPhone,
+                        bean.workItemBean.taskId,
+                        bean.workItemBean.membersArray as java.util.ArrayList<String>?,
+                        bean.workItemBean.isSelfInsurance
+                    )
                     showDialog()
                 }
                 R.id.tv_unupload_play -> { //播放本地视频
                     val bean = mDataList[position] as WorkerItemTypeBean
-                    val screenRecordStr = TxSPUtils.get(this, bean.workItemBean.flowId, "") as String
+                    val screenRecordStr =
+                        TxSPUtils.get(this, bean.workItemBean.flowId, "") as String
                     LogUtils.i("screenRecordStr---$screenRecordStr")
                     if (!TextUtils.isEmpty(screenRecordStr)) {
                         val jsonObject = JSONObject(screenRecordStr)
-                        val pathFile =jsonObject.getString("path")
-                        VideoPlayActivity.Builder().setVideoSource(pathFile!!,false).start(this)
-                    }else{
-                        ToastUtils.showShort("没有录屏文件")
+                        val pathFile = jsonObject.getString("path")
+                        VideoPlayActivity.Builder().setVideoSource(pathFile!!, false).start(this)
+                    } else {
+                        showToastMsg("没有录屏文件")
                     }
 
                 }
                 R.id.tv_playremotevideo -> { //播放远端视频
                     val bean = mDataList[position] as WorkerItemTypeBean
-                    VideoPlayActivity.Builder().setVideoSource(bean.workItemBean.recordUrl!!,true).start(this)
+                    VideoPlayActivity.Builder().setVideoSource(bean.workItemBean.recordUrl!!, true)
+                        .start(this)
                 }
                 R.id.tv_item2_play -> { //上传视频
                     val bean = mDataList[position] as WorkerItemTypeBean
@@ -188,6 +193,7 @@ class SearchActivity : AppMVPActivity<SearchContract.View,SearchPresenter>(), Se
 
 
     }
+
     fun upload(flowId: String) {
         val screenRecordStr = TxSPUtils.get(TXSdk.getInstance().application, flowId, "") as String
         if (!screenRecordStr.isEmpty()) {
@@ -213,7 +219,9 @@ class SearchActivity : AppMVPActivity<SearchContract.View,SearchPresenter>(), Se
                     return true
                 }
 
-            }).asCustom(customDialog).show()
+            }).dismissOnBackPressed(false)
+                .dismissOnTouchOutside(false)
+                .asCustom(customDialog).show()
         } else {
             showToastMsg("没有找到对应的录屏文件")
         }
@@ -226,88 +234,91 @@ class SearchActivity : AppMVPActivity<SearchContract.View,SearchPresenter>(), Se
 
         }
     }
-    fun refreshData(name:String) {
-        SystemHttpRequest.getInstance().list("",name, object : HttpRequestClient.RequestHttpCallBack {
-            override fun onSuccess(json: String?) {
-                val jsonOb = JSONObject(json)
-                val jsonArray = jsonOb.getJSONArray("list")
-                val arrayList = ArrayList<WorkItemBean>()
-                for (index in 0 until jsonArray.length()) {
-                    val jsonObject = jsonArray.getJSONObject(index)
-                    val policyholderObject = jsonObject.getJSONObject("policyholder")
-                    val insurancesObject = jsonObject.getJSONArray("insurances")
-                    val stringBuffer = StringBuffer("")
-                    for (index in 0 until insurancesObject.length()) {
-                        val jsonObject1 = insurancesObject.getJSONObject(index)
-                        val infoObject = jsonObject1.getJSONObject("info")
-                        stringBuffer.append(infoObject.getString("name")+" ")
-                    }
-                    var list = ArrayList<String>()
-                    val optJSONArray = jsonObject.optJSONArray("membersArray")
-                    if (null != optJSONArray &&optJSONArray.length()>0){
-                        for (index in 0 until  optJSONArray.length()) {
-                            list.add(optJSONArray.getString(index))
+
+    fun refreshData(name: String) {
+        SystemHttpRequest.getInstance()
+            .list("", name, object : HttpRequestClient.RequestHttpCallBack {
+                override fun onSuccess(json: String?) {
+                    val jsonOb = JSONObject(json)
+                    val jsonArray = jsonOb.getJSONArray("list")
+                    val arrayList = ArrayList<WorkItemBean>()
+                    for (index in 0 until jsonArray.length()) {
+                        val jsonObject = jsonArray.getJSONObject(index)
+                        val policyholderObject = jsonObject.getJSONObject("policyholder")
+                        val insurancesObject = jsonObject.getJSONArray("insurances")
+                        val stringBuffer = StringBuffer("")
+                        for (index in 0 until insurancesObject.length()) {
+                            val jsonObject1 = insurancesObject.getJSONObject(index)
+                            val infoObject = jsonObject1.getJSONObject("info")
+                            stringBuffer.append(infoObject.getString("name") + " ")
                         }
-                    }
-
-                    arrayList.add(WorkItemBean().apply {
-                        flowId = jsonObject.getString("flowId")
-                        recordUrl = jsonObject.optString("videoUrl")
-                        membersArray = list
-                        insurantName = policyholderObject.optString("name")
-                        insuredPhone = policyholderObject.optString("phone")
-                        utime = jsonObject.optString("utime")
-                        status = jsonObject.optString("status")
-                        taskId = jsonObject.optString("taskId")
-                        isIsRemote = jsonObject.optBoolean("isRemote")
-                        insuranceName = stringBuffer.toString()
-                    })
-
-                }
-
-               runOnUiThread {
-                    mDataList.clear()
-                    swipeRefreshLayout?.isRefreshing = false
-
-                    arrayList.forEach {
-                        val workerItemTypeBean = WorkerItemTypeBean(it)
-                        workerItemTypeBean.itemType = when (it.status) {
-
-                            "Refused" -> {
-                                OrderListNodeAdapter.TYPE_Refused
-                            }
-                            "UnUploaded" -> {
-                                OrderListNodeAdapter.TYPE_UnUploaded
-                            }
-                            "UnChecked" -> {
-                                OrderListNodeAdapter.TYPE_UnChecked
-                            }
-                            "Completed", "Accepted" -> {
-                                OrderListNodeAdapter.TYPE_Completed
-                            }
-                            else -> {
-                                OrderListNodeAdapter.TYPE_UnRecorded
+                        var list = ArrayList<String>()
+                        val optJSONArray = jsonObject.optJSONArray("membersArray")
+                        if (null != optJSONArray && optJSONArray.length() > 0) {
+                            for (index in 0 until optJSONArray.length()) {
+                                list.add(optJSONArray.getString(index))
                             }
                         }
 
-                        mDataList.add(workerItemTypeBean)
+                        arrayList.add(WorkItemBean().apply {
+                            flowId = jsonObject.getString("flowId")
+                            recordUrl = jsonObject.optString("videoUrl")
+                            membersArray = list
+                            insurantName = policyholderObject.optString("name")
+                            insuredPhone = policyholderObject.optString("phone")
+                            utime = jsonObject.optString("utime")
+                            status = jsonObject.optString("status")
+                            taskId = jsonObject.optString("taskId")
+                            isIsRemote = jsonObject.optBoolean("isRemote")
+                            isSelfInsurance = jsonObject.optBoolean("selfInsurance") //是否自保件
+                            insuranceName = stringBuffer.toString()
+                        })
+
                     }
 
+                    runOnUiThread {
+                        mDataList.clear()
+                        swipeRefreshLayout?.isRefreshing = false
+
+                        arrayList.forEach {
+                            val workerItemTypeBean = WorkerItemTypeBean(it)
+                            workerItemTypeBean.itemType = when (it.status) {
+
+                                "Refused" -> {
+                                    OrderListNodeAdapter.TYPE_Refused
+                                }
+                                "UnUploaded" -> {
+                                    OrderListNodeAdapter.TYPE_UnUploaded
+                                }
+                                "UnChecked" -> {
+                                    OrderListNodeAdapter.TYPE_UnChecked
+                                }
+                                "Completed", "Accepted" -> {
+                                    OrderListNodeAdapter.TYPE_Completed
+                                }
+                                else -> {
+                                    OrderListNodeAdapter.TYPE_UnRecorded
+                                }
+                            }
+
+                            mDataList.add(workerItemTypeBean)
+                        }
 
 
-                    mAdapter.setNewData(mDataList)
 
+                        mAdapter.setNewData(mDataList)
+
+                    }
                 }
-            }
 
-            override fun onFail(err: String?, code: Int) {
-                runOnUiThread {
-                    swipeRefreshLayout.isRefreshing = false
+                override fun onFail(err: String?, code: Int) {
+                    runOnUiThread {
+                        swipeRefreshLayout.isRefreshing = false
+                    }
+                    LogUtils.i("$err")
                 }
-                LogUtils.i("$err")
-            }
 
-        })
+            })
 
 
     }
@@ -321,24 +332,29 @@ class SearchActivity : AppMVPActivity<SearchContract.View,SearchPresenter>(), Se
     }
 
 
-
     var mAdapter = OrderListNodeAdapter(null)
 
-    override fun createPresenter(): SearchPresenter?  = SearchPresenter(this,this)
-    override fun getLayoutId(): Int  = R.layout.tx_activity_search
+    override fun createPresenter(): SearchPresenter? = SearchPresenter(this, this)
+    override fun getLayoutId(): Int = R.layout.tx_activity_search
     override fun onConfirmClick(
         isRemote: Boolean,
         flowId: String,
         phone: String,
         taskId: String,
-        membersArray: ArrayList<String>
+        membersArray: ArrayList<String>,
+        isSelfInsurance: Boolean,
+        recordType: String
     ) {
-        if (isRemote){
-            InviteActivity.newInstance(this,isRemote,flowId,phone,taskId,membersArray)
-        }else{
-            InviteActivity.newInstance(this,isRemote,flowId,phone,taskId,membersArray)
-//            requestRoom(false,flowId,membersArray)
-        }
+        InviteActivity.newInstance(
+            this,
+            isRemote,
+            flowId,
+            phone,
+            taskId,
+            membersArray,
+            isSelfInsurance,
+            recordType
+        )
     }
 
 }

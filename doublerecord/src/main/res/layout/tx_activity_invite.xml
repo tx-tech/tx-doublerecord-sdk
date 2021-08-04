@@ -15,7 +15,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:title=""
-        app:titleColor="@color/white" />
+        app:titleColor="@color/tx_txwhite" />
 
     <TextView
         android:id="@+id/tv_title"
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/tx_dimen_20dp"
         android:layout_marginTop="@dimen/tx_dimen_20dp"
-        android:textColor="@color/color_A5A7AC"
+        android:textColor="@color/tx_txcolor_A5A7AC"
         android:textSize="@dimen/tx_dimen_12sp"
         tools:text="远程双录前请发送邀约给双录对象"
         />
@@ -39,7 +39,7 @@
         android:paddingLeft="@dimen/tx_dimen_20dp"
         android:paddingTop="@dimen/tx_dimen_10dp"
         android:paddingBottom="@dimen/tx_dimen_10dp"
-        android:textColor="@color/black"
+        android:textColor="@color/tx_txblack"
         tools:text="微信转发双录邀请"
         />
 
@@ -50,7 +50,7 @@
         android:layout_marginLeft="@dimen/tx_dimen_20dp"
         android:layout_marginTop="@dimen/tx_dimen_20dp"
         android:text="邀约发送完成后，可以开始进行双录"
-        android:textColor="@color/color_A5A7AC"
+        android:textColor="@color/tx_txcolor_A5A7AC"
         android:textSize="@dimen/tx_dimen_12sp" />
 
     <TextView
@@ -62,7 +62,7 @@
         android:paddingBottom="@dimen/tx_dimen_10dp"
         android:text="立即双录"
         android:gravity="center"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/tx_txcolorPrimary"
         style="@style/txTripFunClick"
         />
 

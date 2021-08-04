@@ -11,7 +11,7 @@
         android:id="@+id/titlebar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:titleColor="@color/white"
+        app:titleColor="@color/tx_txwhite"
         app:title=""
         />
 
@@ -34,7 +34,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@color/tx_txwhite"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
               >
@@ -68,12 +68,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@color/tx_txwhite"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:text="机构名称"
+                    android:text="所属区域"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/txTextViewStyle_black" />
@@ -84,14 +84,16 @@
                     android:layout_weight="1" />
 
                 <TextView
-                    android:id="@+id/tv_orgName"
+                   
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/tx_dimen_20dp"
-                    android:textColor="#101010"
+                    android:text="请选择"
+                    android:textColor="@color/tx_txcolor_A5A7AC"
                     android:textSize="@dimen/tx_dimen_13sp"
                     android:padding="@dimen/tx_dimen_10dp"
                     />
+
 
             </LinearLayout>
 
@@ -99,11 +101,43 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/tx_dimen_1dp"
                 android:background="#eeeeee" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@color/tx_txwhite"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:text="中介机构"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/txTextViewStyle_black" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <com.common.widget.view.ClearEditText
+
+                    android:hint="请输入中介机构"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|end"
+                    style="@style/txEditTextStyle" />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tx_dimen_1dp"
+                android:background="#eeeeee" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/tx_txwhite"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -139,7 +173,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@color/tx_txwhite"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -160,7 +194,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/tx_dimen_20dp"
                     android:text="请选择"
-                    android:textColor="@color/color_A5A7AC"
+                    android:textColor="@color/tx_txcolor_A5A7AC"
                     android:textSize="@dimen/tx_dimen_13sp"
                     android:padding="@dimen/tx_dimen_10dp"
                     />
@@ -176,7 +210,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@color/tx_txwhite"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 

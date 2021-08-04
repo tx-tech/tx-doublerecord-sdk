@@ -4,5 +4,5 @@
     <corners android:radius="80dip"
         />
 
-    <solid android:color="@color/color_gray" /> <!-- 填充色 -->
+    <solid android:color="@color/tx_txcolor_gray" /> <!-- 填充色 -->
 </shape>

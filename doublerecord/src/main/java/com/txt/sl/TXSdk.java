@@ -8,13 +8,14 @@ import com.common.widget.titlebar.TitleBar;
 import com.common.widget.base.SystemBase;
 import com.common.widget.base.SystemManager;
 import com.common.widget.toast.ToastUtils;
-import com.txt.sl.callback.onCreateRoomListener;
+import com.txt.sl.callback.onSDKListener;
+import com.txt.sl.callback.onTxPageListener;
 import com.txt.sl.config.AppBarInitializer;
+import com.txt.sl.config.ITXSDKApi;
+import com.txt.sl.config.TXManagerImpl;
+import com.txt.sl.config.TxConfig;
 import com.txt.sl.receive.SystemBaiduLocation;
-import com.txt.sl.system.SystemCrashHandler;
 import com.txt.sl.system.SystemHttpRequest;
-import com.txt.sl.system.SystemLogHelper;
-import com.txt.sl.system.SystemSocket;
 import com.txt.sl.utils.AppUtils;
 import com.txt.sl.utils.ApplicationUtils;
 import com.txt.sl.utils.TxLogUtils;
@@ -190,27 +191,43 @@ public class TXSdk implements ITXSDKApi {
     }
 
     @Override
-    public void gotoOrderDetaisPage(Activity context, String loginName, String fullName, String flowId, String org, String sign) {
-        TXManagerImpl.getInstance().gotoOrderDetaisPage(context, loginName, fullName, org, flowId, sign, new onCreateRoomListener() {
-        });
+    public void gotoOrderDetaisPage(Activity context, String loginName, String fullName, String taskId, String org, String sign, onSDKListener onSDKListener) {
+        TXManagerImpl.getInstance().gotoOrderDetaisPage(context, loginName, fullName, org, taskId, sign, onSDKListener);
+
     }
 
     @Override
-    public void gotoOrderListPage(Activity context, String loginName, String fullName, String org, String sign) {
-        TXManagerImpl.getInstance().gotoOrderListPage(context, loginName, fullName, org, sign, new onCreateRoomListener() {
-        });
+    public void gotoOrderListPage(Activity context, String loginName, String fullName, String org, String sign, onSDKListener onSDKListener) {
+        TXManagerImpl.getInstance().gotoOrderListPage(context, loginName, fullName, org, sign, onSDKListener);
+
     }
 
     @Override
-    public void gotoVideoUploadPage(Activity context, String loginName, String fullName, String flowId, String org, String sign) {
-        TXManagerImpl.getInstance().gotoVideoUploadPage(context, loginName, fullName, org,flowId, sign, new onCreateRoomListener() {
-        });
+    public void gotoVideoUploadPage(Activity context, String loginName, String fullName, String taskId, String org, String sign, onSDKListener onSDKListener) {
+        TXManagerImpl.getInstance().gotoVideoUploadPage(context, loginName, fullName, org, taskId, sign, onSDKListener);
+
     }
 
     @Override
-    public void gotoCreateDetailsPage(Activity context, String loginName, String fullName, String org, String sign) {
-        TXManagerImpl.getInstance().gotoCreateDetaisPage(context, loginName, fullName, org, sign, new onCreateRoomListener() {
-        });
+    public void gotoCreateDetailsPage(Activity context, String loginName, String fullName, String org, String sign,onSDKListener onSDKListener) {
+        TXManagerImpl.getInstance().gotoCreateDetaisPage(context, loginName, fullName, org, sign, onSDKListener);
+    }
+
+    @Override
+    public void addOnTxPageListener(onTxPageListener onTxPageListener) {
+        this.onTxPageListener = onTxPageListener;
+    }
+
+    @Override
+    public void removeOnTxPageListener(onTxPageListener onTxPageListener) {
+        this.onTxPageListener =null;
+    }
+
+    private onTxPageListener onTxPageListener;
+
+    public onTxPageListener getOnTxPageListener() {
+
+        return this.onTxPageListener;
     }
 
 
@@ -222,7 +239,6 @@ public class TXSdk implements ITXSDKApi {
 
     public interface TXSDKErrorCode {
         int TXSDK_ERROR_INVITENUMBER_INVALID = 1;
-
     }
 
     public static TXSdk getInstance() {

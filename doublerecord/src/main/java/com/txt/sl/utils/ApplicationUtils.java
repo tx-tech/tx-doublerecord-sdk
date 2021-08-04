@@ -22,18 +22,15 @@ public final class ApplicationUtils {
 
     static WeakReference<Activity> sTopActivityWeakRef;
     static List<Activity> sActivityList = new LinkedList<>();
-    public static boolean isContainVideo = false;
 
     private static ActivityLifecycleCallbacks mCallbacks = new ActivityLifecycleCallbacks() {
         @Override
         public void onActivityCreated(Activity activity, Bundle bundle) {
-//            ScreenRecordHelper.bapd();
-            if (activity instanceof RoomActivity) {
-                isContainVideo = true;
+            TxLogUtils.i("ApplicationUtils",activity.getLocalClassName());
+            if (activity.getLocalClassName().startsWith("com.txt.sl")) {
+                //说明是双录里面的页面
+                sActivityList.add(activity);
             }
-
-
-            sActivityList.add(activity);
 
         }
 
@@ -64,11 +61,11 @@ public final class ApplicationUtils {
 
         @Override
         public void onActivityDestroyed(Activity activity) {
-            if (activity instanceof RoomActivity) {
-                isContainVideo = false;
+            if (activity.getLocalClassName().startsWith("com.txt.sl")) {
+                //说明是双录里面的页面
+                sActivityList.remove(activity);
             }
 
-            sActivityList.remove(activity);
         }
     };
 

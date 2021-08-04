@@ -24,7 +24,7 @@
             android:layout_marginTop="16dp"
             android:singleLine="true"
             android:text="正在加载..."
-            android:textColor="@color/white"
+            android:textColor="@color/tx_txwhite"
             android:textSize="16sp" />
 
         <LinearLayout
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"
-                android:textColor="@color/white"/>
+                android:textColor="@color/tx_txwhite"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -48,7 +48,7 @@
                 android:layout_marginTop="10dp"
                 android:singleLine="true"
                 android:text="发送中..."
-                android:textColor="@color/white"
+                android:textColor="@color/tx_txwhite"
                 android:textSize="16sp" />
 
         </LinearLayout>

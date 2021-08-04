@@ -35,12 +35,12 @@ public class ExpandableItem1Adapter(var data: ArrayList<MultiItemEntity>) :
                     helper.setVisible(R.id.tx_iv_arrow,false)
                     helper.getView<TextView>(R.id.tv_state).background =ContextCompat.getDrawable(helper.itemView.context,R.drawable.tx_shape_green_oval)
                     helper.getView<TextView>(R.id.tv_state1).text = "通过"
-                    helper.getView<TextView>(R.id.tv_state1).setTextColor(ContextCompat.getColor(helper.itemView.context,R.color.color_40D4A1))
+                    helper.getView<TextView>(R.id.tv_state1).setTextColor(ContextCompat.getColor(helper.itemView.context,R.color.tx_txcolor_40D4A1))
                 }else{
                     helper.setVisible(R.id.tx_iv_arrow,true)
                     helper.getView<TextView>(R.id.tv_state).background =ContextCompat.getDrawable(helper.itemView.context,R.drawable.tx_shape_red_oval)
                     helper.getView<TextView>(R.id.tv_state1).text = "不通过"
-                    helper.getView<TextView>(R.id.tv_state1).setTextColor(ContextCompat.getColor(helper.itemView.context,R.color.color_ED6656))
+                    helper.getView<TextView>(R.id.tv_state1).setTextColor(ContextCompat.getColor(helper.itemView.context,R.color.tx_txcolor_ED6656))
                 }
                 helper.setText(R.id.tx_tv_headtitle, ""+(helper.adapterPosition+1)+"、"+levelItem1.title)
 

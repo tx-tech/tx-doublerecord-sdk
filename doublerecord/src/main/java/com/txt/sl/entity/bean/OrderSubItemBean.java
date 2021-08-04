@@ -22,6 +22,24 @@ public class OrderSubItemBean {
     private String code;
     private boolean isMain;
     private TenantBean tenant;
+    private String insuranceCompany;
+    private boolean ensureTheRenewal;
+
+    public String getInsuranceCompany() {
+        return insuranceCompany;
+    }
+
+    public void setInsuranceCompany(String insuranceCompany) {
+        this.insuranceCompany = insuranceCompany;
+    }
+
+    public boolean isEnsureTheRenewal() {
+        return ensureTheRenewal;
+    }
+
+    public void setEnsureTheRenewal(boolean ensureTheRenewal) {
+        this.ensureTheRenewal = ensureTheRenewal;
+    }
 
     public String get_id() {
         return _id;

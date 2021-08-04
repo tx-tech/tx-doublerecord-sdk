@@ -1,97 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#006EFF</color>
-    <color name="colorPrimaryDark">#3a3542</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="tx_txcolorPrimary">#006EFF</color>
+    <color name="tx_txcolorPrimaryDark">#3a3542</color>
+    <color name="tx_txcolorAccent">#FF4081</color>
 
-    <color name="white">#ffffff</color>
-    <color name="orange">#ff6223</color>
-    <color name="color_ED6656">#ED6656</color>
+    <color name="tx_txwhite">#ffffff</color>
+    <color name="tx_txorange">#ff6223</color>
+    <color name="tx_txcolor_ED6656">#ED6656</color>
 
-    <color name="red">#FFCE1B2B</color>
+    <color name="tx_txred">#FFCE1B2B</color>
 
-    <color name="color_gray">#ccc</color>
+    <color name="tx_txcolor_gray">#ccc</color>
 
-    <color name="color_gray_2">#DDDDDD</color>
-    <color name="color_007aff">#007aff</color>
-    <color name="black">#000000</color>
-    <color name="color_333333">#333333</color>
-    <color name="color_868789">#868789</color>
-    <color name="gray_text">#FF858585</color>
+    <color name="tx_txcolor_gray_2">#DDDDDD</color>
+    <color name="tx_txcolor_007aff">#007aff</color>
+    <color name="tx_txblack">#000000</color>
+    <color name="tx_txcolor_333333">#333333</color>
+    <color name="tx_txcolor_868789">#868789</color>
+    <color name="tx_txgray_text">#FF858585</color>
 
-    <color name="color_66000000">#66000000</color>
-    <color name="color_7F000000">#7F000000</color>
-    <color name="color_d2d2d2">#d2d2d2</color>
+    <color name="tx_txcolor_66000000">#66000000</color>
+    <color name="tx_txcolor_7F000000">#7F000000</color>
+    <color name="tx_txcolor_d2d2d2">#d2d2d2</color>
 
-    <color name="color_ffcf4b">#ffcf4b</color>
+    <color name="tx_txcolor_ffcf4b">#ffcf4b</color>
 
-    <color name="color_ecebeb">#ecebeb</color>
-    <color name="color_c7c7c7">#c7c7c7</color>
-    <color name="color_f1f1f1">#f1f1f1</color>
+    <color name="tx_txcolor_ecebeb">#ecebeb</color>
+    <color name="tx_txcolor_c7c7c7">#c7c7c7</color>
+    <color name="tx_txcolor_f1f1f1">#f1f1f1</color>
 
-    <color name="color_d9d9d9">#d9d9d9</color>
-    <color name="color_e3e3e3">#e3e3e3</color>
-    <color name="color_EFEFEF">#EFEFEF</color>
-    <color name="color_D4D4D4">#D4D4D4</color>
-    <color name="color_e7e7e7">#e7e7e7</color>
-    <color name="color_eeeeee">#eeeeee</color>
+    <color name="tx_txcolor_d9d9d9">#d9d9d9</color>
+    <color name="tx_txcolor_e3e3e3">#e3e3e3</color>
+    <color name="tx_txcolor_EFEFEF">#EFEFEF</color>
+    <color name="tx_txcolor_D4D4D4">#D4D4D4</color>
+    <color name="tx_txcolor_e7e7e7">#e7e7e7</color>
+    <color name="tx_txcolor_eeeeee">#eeeeee</color>
 
-    <color name="color_959595">#959595</color>
-    <color name="color_9F9F9F">#9F9F9F</color>
-    <color name="color_6D7278">#6D7278</color>
-    <color name="color_FA6400">#FA6400</color>
-    <color name="color_F6F7F9">#F6F7F9</color>
-    <color name="color_BABABA">#BABABA</color>
+    <color name="tx_txcolor_959595">#959595</color>
+    <color name="tx_txcolor_9F9F9F">#9F9F9F</color>
+    <color name="tx_txcolor_6D7278">#6D7278</color>
+    <color name="tx_txcolor_FA6400">#FA6400</color>
+    <color name="tx_txcolor_F6F7F9">#F6F7F9</color>
+    <color name="tx_txcolor_BABABA">#BABABA</color>
 
-    <color name="color_E02020">#E02020</color>
-    <color name="color_F8FAFC">#F8FAFC</color>
-    <color name="color_DE0025">#DE0025</color>
-    <color name="color_AAAAAA">#AAAAAA</color>
-    <color name="color_ECECEC">#ECECEC</color>
-    <color name="color_FFECEC">#FFECEC</color>
-    <color name="color_FFFFFF">#FFFFFF</color>
-    <color name="color_CCFFFFFF">#CCFFFFFF</color>
-    <color name="color_DFDFDF">#DFDFDF</color>
-    <color name="color_0091FF">#0091FF</color>
-    <color name="color_DF0125">#DF0125</color>
+    <color name="tx_txcolor_E02020">#E02020</color>
+    <color name="tx_txcolor_F8FAFC">#F8FAFC</color>
+    <color name="tx_tx_DE0025">#DE0025</color>
+    <color name="tx_tx_AAAAAA">#AAAAAA</color>
+    <color name="tx_tx_ECECEC">#ECECEC</color>
+    <color name="tx_txcolor_FFECEC">#FFECEC</color>
+    <color name="tx_txcolor_FFFFFF">#FFFFFF</color>
+    <color name="tx_txcolor_CCFFFFFF">#CCFFFFFF</color>
+    <color name="tx_txcolor_DFDFDF">#DFDFDF</color>
+    <color name="tx_txcolor_0091FF">#0091FF</color>
+    <color name="tx_txcolor_DF0125">#DF0125</color>
 
-    <color name="color_565656">#565656</color>
+    <color name="tx_txcolor_565656">#565656</color>
 
-    <color name="color_000000">#000000</color>
-    <color name="color_888888">#888888</color>
-    <color name="color_fff6f6f6">#fff6f6f6</color>
-    <color name="color_ffdadee3">#ffdadee3</color>
-    <color name="color_ffdfdfdf">#ffdfdfdf</color>
-    <color name="color_00599D">#00599D</color>
-    <color name="color_939393">#939393</color>
-    <color name="color_101010">#101010</color>
-    <color name="color_666666">#666666</color>
+    <color name="tx_txcolor_000000">#000000</color>
+    <color name="tx_txcolor_888888">#888888</color>
+    <color name="tx_txcolor_fff6f6f6">#fff6f6f6</color>
+    <color name="tx_txcolor_ffdadee3">#ffdadee3</color>
+    <color name="tx_txcolor_ffdfdfdf">#ffdfdfdf</color>
+    <color name="tx_txcolor_00599D">#00599D</color>
+    <color name="tx_txcolor_939393">#939393</color>
+    <color name="tx_txcolor_101010">#101010</color>
+    <color name="tx_txcolor_666666">#666666</color>
 
-    <color name="color_FF7373">#FF7373</color>
-    <color name="color_00965E">#4e8efe</color>
-    <color name="color_787878">#787878</color>
-    <color name="color_A5A7AC">#A5A7AC</color>
-    <color name="color_99000000">#99000000</color>
+    <color name="tx_txcolor_FF7373">#FF7373</color>
+    <color name="tx_txcolor_00965E">#4e8efe</color>
+    <color name="tx_txcolor_787878">#787878</color>
+    <color name="tx_txcolor_A5A7AC">#A5A7AC</color>
+    <color name="tx_txcolor_99000000">#99000000</color>
 
-    <color name="common_icon_color">#7C7C7C</color>
+    <color name="tx_common_icon_color">#7C7C7C</color>
 
-    <color name="black85">#D9000000</color>
-    <color name="white35">#59FFFFFF</color>
-    <color name="white25">#40FFFFFF</color>
+    <color name="tx_black85">#D9000000</color>
+    <color name="tx_white35">#59FFFFFF</color>
+    <color name="tx_white25">#40FFFFFF</color>
 
 
     <!-- 按钮按压时的颜色 -->
-    <color name="common_button_pressed_color">#AA5A8DDF</color>
-    <color name="common_button_pressed_white_color">#AAFFFFFF</color>
+    <color name="tx_common_button_pressed_color">#AA5A8DDF</color>
+    <color name="tx_common_button_pressed_white_color">#AAFFFFFF</color>
     <!-- 按钮禁用时的颜色 -->
-    <color name="common_button_disable_color">#BBBBBB</color>
+    <color name="tx_common_button_disable_color">#BBBBBB</color>
 
-    <color name="common_accent_color">#006EFF</color>
-    <color name="color_40D4A1">#40D4A1</color>
+    <color name="tx_common_accent_color">#006EFF</color>
+    <color name="tx_txcolor_40D4A1">#40D4A1</color>
 
-    <color name="white90">#E6FFFFFF</color>
-    <color name="light_blue_400">#FF29B6F6</color>
-    <color name="light_blue_600">#FF039BE5</color>
-    <color name="gray_400">#FFBDBDBD</color>
-    <color name="gray_600">#FF757575</color>
+    <color name="tx_white90">#E6FFFFFF</color>
+    <color name="tx_light_blue_400">#FF29B6F6</color>
+    <color name="tx_light_blue_600">#FF039BE5</color>
+    <color name="tx_gray_400">#FFBDBDBD</color>
+    <color name="tx_gray_600">#FF757575</color>
 </resources>

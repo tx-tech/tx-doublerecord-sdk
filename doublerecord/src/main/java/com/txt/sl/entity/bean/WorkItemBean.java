@@ -83,6 +83,15 @@ public class WorkItemBean implements Serializable {
      */
 
     private boolean isRemote;
+    private boolean selfInsurance;
+
+    public boolean isSelfInsurance() {
+        return selfInsurance;
+    }
+
+    public void setSelfInsurance(boolean selfInsurance) {
+        this.selfInsurance = selfInsurance;
+    }
 
     public String get_id() {
         return _id;

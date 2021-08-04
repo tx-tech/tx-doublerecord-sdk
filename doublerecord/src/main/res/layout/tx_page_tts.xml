@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/tx_txcolor_FFFFFF"
     android:padding="12dp"
     android:visibility="visible">
 
@@ -18,7 +19,7 @@
             android:layout_height="wrap_content"
             android:lineSpacingExtra="@dimen/tx_dimen_10dp"
             android:textSize="@dimen/tx_dimen_14sp"
-            android:textColor="@color/color_333333"
+            android:textColor="@color/tx_txcolor_333333"
             tools:text="12131231231231231232" />
 
     </android.support.v4.widget.NestedScrollView>

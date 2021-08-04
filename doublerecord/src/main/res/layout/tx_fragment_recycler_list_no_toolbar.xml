@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_f1f1f1"
+    android:background="@color/tx_txcolor_f1f1f1"
     >
 
    <TextView
        android:id="@+id/tv_unupload"
        android:layout_width="0dp"
        android:layout_height="wrap_content"
-       android:textColor="@color/color_ED6656"
+       android:textColor="@color/tx_txcolor_ED6656"
        android:text="录制完成后请尽快上传，避免影响保单承保时效！"
        android:padding="@dimen/tx_dimen_10dp"
        android:visibility="gone"

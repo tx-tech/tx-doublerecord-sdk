@@ -13,13 +13,13 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:title=""
-        app:titleColor="@color/white" />
+        app:titleColor="@color/tx_txwhite" />
     <LinearLayout
         android:id="@+id/ll_searchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/tx_dimen_10dp"
-        android:background="@color/white"
+        android:background="@color/tx_txwhite"
         android:orientation="horizontal"
         android:layout_below="@+id/titlebar"
         >
@@ -44,7 +44,7 @@
             android:layout_height="@dimen/tx_dimen_40dp"
             android:layout_alignParentRight="true"
             android:layout_toRightOf="@id/ll_searchView"
-            android:background="@color/white"
+            android:background="@color/tx_txwhite"
             android:gravity="center"
             android:text="@string/tx_cancel" />
 

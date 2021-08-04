@@ -4,18 +4,15 @@ import android.content.Context
 import android.content.Intent
 import android.os.Handler
 import android.support.v7.widget.LinearLayoutManager
-import android.view.View
 import com.common.widget.dialog.TxPopup
-import com.common.widget.dialog.interfaces.OnConfirmListener
 import com.common.widget.recyclerviewadapterhelper.base.entity.MultiItemEntity
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.tencent.trtc.TRTCCloud
 import com.common.widget.base.BaseActivity
 import com.txt.sl.R
-import com.txt.sl.TXManagerImpl
+import com.txt.sl.config.TXManagerImpl
 import com.txt.sl.entity.bean.*
-import com.txt.sl.entity.constant.Constant
 import com.txt.sl.http.https.HttpRequestClient
 import com.txt.sl.system.SystemHttpRequest
 import com.txt.sl.ui.adpter.OrderDetailsItemAdapter
@@ -37,10 +34,10 @@ class OrderDetailsPageActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClick
     override fun getLayoutId(): Int  = R.layout.tx_activity_order_details_page
 
     companion object {
-        var flowIdStr = "flowId"
+        var taskIdStr = "taskId"
         fun newActivity(context: Context, flowId:String) {
             val intent = Intent(context, OrderDetailsPageActivity::class.java)
-            intent.putExtra(flowIdStr,flowId)
+            intent.putExtra(taskIdStr,flowId)
             context.startActivity(intent)
         }
 
@@ -79,7 +76,13 @@ class OrderDetailsPageActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClick
         customDialog  = CheckRemoteDialog(this)
         customDialog?.setOnRemoteClickListener(this)
         btn_commit.setOnClickListener {
-            customDialog?.setFlowId(workItemBean?.flowId,workItemBean?.insuredPhone,workItemBean?.taskId, workItemBean?.membersArray as java.util.ArrayList<String>?)
+            customDialog?.setData(
+                workItemBean?.flowId,
+                workItemBean?.insuredPhone,
+                workItemBean?.taskId,
+                workItemBean?.membersArray as java.util.ArrayList<String>?,
+                workItemBean?.isSelfInsurance!!
+            )
 
             showCheckRemoteDialog()
         }
@@ -108,8 +111,8 @@ class OrderDetailsPageActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClick
     var list = ArrayList<OrderDetailsItem>()
     var workItemBean: WorkItemBean? = null
     fun requestData() {
-        val mFlowId = intent.extras.getString(OrderActivity.flowIdStr)
-        SystemHttpRequest.getInstance().getFlowDetails(mFlowId, object : HttpRequestClient.RequestHttpCallBack {
+        val mFlowId = intent.extras.getString(OrderDetailsPageActivity.taskIdStr)
+        SystemHttpRequest.getInstance().getFlowDetailsByTaskid(mFlowId, object : HttpRequestClient.RequestHttpCallBack {
             override fun onSuccess(json: String?) {
                 LogUtils.i("onSuccess$json")
                 //todo 数据为空
@@ -154,14 +157,10 @@ class OrderDetailsPageActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClick
                             repordId = fields.optString("reportId")
                             insurance = _id //险种id
                         }
-                        var remoteStr =  if (workItemBean!!.isIsRemote) {
-                            "远程双录"
-                        }else{
-                            "现场双录"
-                        }
-                        orderDetailsItemlists.add(OrderDetailsItem("双录类型", remoteStr))
+
                         orderDetailsItemlists.add(OrderDetailsItem("业务单号", fields.optString("taskId")))
-                        orderDetailsItemlists.add(OrderDetailsItem("机构名称", TXManagerImpl.instance!!.getOrgAccountName()))
+                        orderDetailsItemlists.add(OrderDetailsItem("所属区域",""))
+                        orderDetailsItemlists.add(OrderDetailsItem("中介机构", fields.optString("IntermediaryInstitutions")))
                         orderDetailsItemlists.add(OrderDetailsItem("代理人姓名", TXManagerImpl.instance!!.getFullName()))
                         val filterStr = mDataList?.filter { it.name == "投保人证件类型" }
                         val filterStr1 = filterStr?.get(0)!!.options.filter { it.key == fields.optString("agentCertificateType") }
@@ -221,21 +220,7 @@ class OrderDetailsPageActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClick
                         }else{
                             orderDetailsItemlists.add(OrderDetailsItem("被保人性别","暂无"))
                         }
-                        val saleFromfilter = mDataList?.filter { it.name == "销售渠道" }
-                        val saleFromfilter1 = saleFromfilter?.get(0)!!.options.filter { it.key == fields.optString("saleFrom") }
-                        if (saleFromfilter1.isNotEmpty()) {
-                            orderDetailsItemlists.add(OrderDetailsItem("销售渠道", saleFromfilter1[0].name))
-                        }else{
-                            orderDetailsItemlists.add(OrderDetailsItem("销售渠道", "暂无"))
-                        }
 
-                        val taskFromfilter = mDataList?.filter { it.name == "投单渠道" }
-                        val taskFromfilter1 = taskFromfilter?.get(0)!!.options.filter { it.key == fields.optString("taskFrom") }
-                        if (taskFromfilter1.isNotEmpty()) {
-                            orderDetailsItemlists.add(OrderDetailsItem("投单渠道", taskFromfilter1[0].name))
-                        }else{
-                            orderDetailsItemlists.add(OrderDetailsItem("投单渠道", "暂无"))
-                        }
                         orderDetailsItemlists.add(OrderDetailsItem("整单首期保费", fields.optString("insuranceAllPaymentDown")))
                         val jsonArray = fields.getJSONArray("insuranceIsMain")
                         list1.clear()
@@ -266,6 +251,11 @@ class OrderDetailsPageActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClick
 
             override fun onFail(err: String?, code: Int) {
                     //todo 页面出错
+                runOnUiThread {
+                    showToastMsg(err)
+                    Handler().postDelayed({ finish()},1000)
+
+                }
             }
 
         })
@@ -287,7 +277,6 @@ class OrderDetailsPageActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClick
     }
 
     fun addProductData(requestSubOrderBean: RequestSubOrderBean){
-//        val isPubliclist: java.util.ArrayList<MultiItemEntity> = java.util.ArrayList<MultiItemEntity>()
         val levelItem1 = ProductLevelItem()
         levelItem1.insuranceName = requestSubOrderBean.insuranceName
         levelItem1.insuranceIsMain = requestSubOrderBean.insuranceIsMain
@@ -295,60 +284,22 @@ class OrderDetailsPageActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClick
         baseQuickAdapter1?.addData(levelItem1)
     }
 
-    override fun onConfirmClick(isRemote: Boolean, flowId: String, phone: String, taskId: String, membersArray: java.util.ArrayList<String>) {
-        if (isRemote){
-            InviteActivity.newInstance(this,isRemote,flowId,phone,taskId,membersArray)
-        }else{
-            InviteActivity.newInstance(this,isRemote,flowId,phone,taskId,membersArray)
-//            requestRoom(false,flowId,membersArray)
-        }
+    override fun onConfirmClick(
+        isRemote: Boolean,
+        flowId: String,
+        phone: String,
+        taskId: String,
+        membersArray: java.util.ArrayList<String>,
+        isSelfInsurance: Boolean,
+        recordType: String
+    ) {
+        InviteActivity.newInstance(
+            this,isRemote,
+            flowId,phone,taskId,membersArray,
+            isSelfInsurance,recordType)
     }
 
 
-    private fun requestRoom(isRemote: Boolean, flowId: String, membersArray: java.util.ArrayList<String>) {
-
-
-        val sdkVersion = TRTCCloud.getSDKVersion()
-        LogUtils.i("sdkVersion", sdkVersion)
-        SystemHttpRequest.getInstance().startAgent(flowId, isRemote, membersArray ,object : HttpRequestClient.RequestHttpCallBack {
-            override fun onSuccess(json: String?) {
-                runOnUiThread {
-                    Handler().postDelayed({
-                        val jsonObject = JSONObject(json)
-                        val roomId = jsonObject.getString("roomId")
-                        val agentIdStr = jsonObject.getString("agentId")
-                        startEnterRoom(roomId, agentIdStr, jsonObject.toString(),isRemote)
-
-                    }, 80)
-
-                }
-
-
-            }
-
-            override fun onFail(err: String?, code: Int) {
-                runOnUiThread {
-                    ToastUtils.showShort(err)
-                }
-            }
-
-        })
-
-
-    }
-
-    private fun startEnterRoom(roomId: String, userID: String, roomInfo: String,isRemote :Boolean) {
-        val intent =  if (isRemote) {
-            Intent(this, RoomActivity::class.java)
-        }else{
-            Intent(this, OfflineActivity ::class.java)
-        }
-
-        intent.putExtra(com.txt.sl.ui.video.Constant.ROOM_ID, roomId)
-        intent.putExtra(com.txt.sl.ui.video.Constant.USER_ID, userID)
-        intent.putExtra(com.txt.sl.ui.video.Constant.ROOM_INFO, roomInfo)
-        startActivity(intent)
-    }
 
 
 }

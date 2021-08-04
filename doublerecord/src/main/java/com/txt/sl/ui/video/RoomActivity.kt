@@ -1,15 +1,12 @@
 package com.txt.sl.ui.video
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.content.pm.PackageManager
 import android.media.AudioManager
 import android.os.*
 import android.support.annotation.RequiresApi
-import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Base64
@@ -19,16 +16,17 @@ import android.view.View
 import android.view.View.GONE
 import android.view.Window
 import android.view.WindowManager
+import android.webkit.WebChromeClient
+import android.webkit.WebSettings
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.*
 import com.common.widget.base.BaseActivity
 import com.common.widget.dialog.TxPopup
 import com.common.widget.dialog.interfaces.OnConfirmListener
 import com.common.widget.dialog.interfaces.XPopupCallback
-import com.common.widget.glide.TxGlide
 import com.common.widget.recyclerviewadapterhelper.base.entity.MultiItemEntity
 import com.common.widget.immersionbar.TxBarHide
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.tencent.aai.AAIClient
 import com.tencent.aai.audio.data.AudioRecordDataSource
 import com.tencent.aai.auth.LocalCredentialProvider
@@ -46,7 +44,8 @@ import com.tencent.trtc.TRTCCloudDef
 import com.tencent.trtc.TRTCCloudDef.*
 import com.tencent.trtc.TRTCCloudListener
 import com.txt.sl.R
-import com.txt.sl.TXManagerImpl
+import com.txt.sl.config.TXManagerImpl
+import com.txt.sl.TXSdk
 import com.txt.sl.config.socket.SocketBusiness
 import com.txt.sl.entity.bean.FileBean
 import com.txt.sl.entity.bean.LevelItem1
@@ -65,18 +64,17 @@ import com.txt.sl.ui.dialog.UploadVideoDialog
 import com.txt.sl.ui.video.trtc.TRTCRightVideoLayoutManager
 import com.txt.sl.utils.*
 import com.txt.sl.utils.FileUtils
-import com.txt.sl.widget.PointBean
 import kotlinx.android.synthetic.main.tx_activity_remote_room.*
 import kotlinx.android.synthetic.main.tx_page_textread.*
-import kotlinx.android.synthetic.main.tx_page_3.*
 import kotlinx.android.synthetic.main.tx_page_sign1.*
 import kotlinx.android.synthetic.main.tx_page_checkenv.*
 import kotlinx.android.synthetic.main.tx_page_tts.*
 import kotlinx.android.synthetic.main.tx_page_asr_user.*
 import kotlinx.android.synthetic.main.tx_page_end.*
+import kotlinx.android.synthetic.main.tx_page_envpreview.*
+import kotlinx.android.synthetic.main.tx_page_linkpreview.*
 import kotlinx.android.synthetic.main.tx_page_readnext_title.*
 import kotlinx.android.synthetic.main.tx_page_tts.tts_page_content
-import kotlinx.android.synthetic.main.tx_page_welcome1.*
 import kotlinx.android.synthetic.main.tx_page_readnext.*
 import org.json.JSONArray
 import org.json.JSONException
@@ -105,6 +103,8 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     private var mRoomInfo // 房间信息
             : String? = null
 
+    private var mTaskId // 房间信息
+            : String? = null
 
     override fun isFullScreen() {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -172,6 +172,9 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             }
             if (intent.getStringExtra(Constant.ROOM_INFO) != null) {
                 mRoomInfo = intent.getStringExtra(Constant.ROOM_INFO)
+            }
+            if (intent.getStringExtra(Constant.TASKID) != null) {
+                mTaskId = intent.getStringExtra(Constant.TASKID)
             }
         }
 
@@ -332,7 +335,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
 
         SystemHttpRequest.getInstance()
-            .startAgent1(jsonObject.toString(), object : HttpRequestClient.RequestHttpCallBack {
+            .pushMessage(jsonObject.toString(), object : HttpRequestClient.RequestHttpCallBack {
                 override fun onSuccess(json: String?) {
                     runOnUiThread {
                         listener.onSuccess(json!!)
@@ -448,14 +451,13 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                     }
                                 }
 
-                                val jsonObject1 = JSONObject(mRoomInfo)
-                                val flowId = jsonObject1.optString("flowId", "")
+
                                 val df = DecimalFormat("#.000")
                                 val mTimeMillis =
                                     (mStartRecordNetMillis - mStartRecordTimeMillis) / 1000f
                                 var minSize = df.format(mTimeMillis)
                                 val jsonObject = JSONObject().apply {
-                                    put("flowId", flowId)
+                                    put("flowId", mTaskId)
                                     put("preTime", minSize)
                                     put("serviceId", serviceId)
                                     put("path", screenRecordHelper?.getSavaName())
@@ -473,15 +475,17 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                         if (!isFinish) {
                                             TxSPUtils.put(
                                                 this@RoomActivity,
-                                                flowId,
+                                                mTaskId,
                                                 jsonObject.toString()
                                             )
                                         }
-                                        finish()
+                                        showToastMsg("上传完成")
+                                        Handler().postDelayed({ finish() }, 200)
                                     }
 
                                 })
                                 TxPopup.Builder(this@RoomActivity)
+                                    .maxWidth(1200)
                                     .setPopupCallback(object : XPopupCallback {
                                         override fun onCreated() {
 
@@ -501,14 +505,17 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                             return true
                                         }
 
-                                    }).asCustom(customDialog).show()
+                                    })
+                                    .dismissOnTouchOutside(false)
+                                    .dismissOnBackPressed(false)
+                                    .asCustom(customDialog).show()
                             }
                         }
 
                         override fun onFail(err: String?, code: Int) {
                             runOnUiThread {
                                 LogUtils.d(err!!)
-                                ToastUtils.showShort(err)
+                                showToastMsg(err)
                             }
                         }
 
@@ -659,7 +666,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
     private fun enterRoom() {
         tv_skip.visibility(true)
-        ll_title.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+        ll_title.setBackgroundColor(ContextCompat.getColor(this, R.color.tx_txwhite))
         mTrtcrightvideolayoutmanager?.visibility(true)
         mTRTCCloud = TRTCCloud.sharedInstance(applicationContext)
 
@@ -736,7 +743,11 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
         }
 
+        if (null != TXSdk.getInstance().onTxPageListener) {
+            TXSdk.getInstance().onTxPageListener.onSuccess(mTaskId!!)
+        }
         super.onDestroy()
+        ApplicationUtils.finishActivity()
     }
 
 
@@ -858,7 +869,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
     private fun end() {
         TxPopup.Builder(this).maxWidth(700)
-            .asConfirm("退出", "确认退出？", "取消", "确认", object : OnConfirmListener {
+            .asConfirm("退出", "您即将退出视频录制，视频数据将不被保存", "取消", "确认", object : OnConfirmListener {
                 override fun onConfirm() {
 
                     endRecord(object : RoomHttpCallBack {
@@ -1178,7 +1189,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         hideView()
         tv_skip.visibility(true)
         tv_skip.text = "开始检测"
-        ll_welcome.visibility(true)
+        ll_envpreview.visibility(true)
     }
 
     private fun showPageOne() {
@@ -1209,7 +1220,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     private fun startCheckEnv() {
         pagetwo_count.visibility(false)
         ll_checkenv.visibility(false)
-        tv_checkenvstate.text = "监测中"
+        tv_checkenvstate.text = "检测中"
         tv_checkenvstate.background = ContextCompat.getDrawable(this, R.drawable.tx_checkenv_bg)
         val envData = CheckEnvUtils.getInstance().getEnvData()
         CheckEnvUtils.getInstance().startCheckEnv(this, false)
@@ -1278,7 +1289,6 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         hideView()
         hideVideoView()
         page_readnext.visibility(true)
-        tv_readNext_title.text = title
         tv_readNext_content.text = titleContent
     }
 
@@ -1531,8 +1541,11 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     }
 
     var llPage8timer: CountDownTimer? = null
-    var handler: Handler? = null
-    private fun showidComparisonPage(jsonArray: JSONArray, isRetry: Boolean) {
+    var handler: Handler? = null //显示标记，跳过，重试按钮
+    private fun showidComparisonPage(
+        jsonArray: JSONArray,
+        isRetry: Boolean
+    ) {
         mSuccessCacheArray.clear()
         mFailCacheArray.clear()
         if (!isRetry) {
@@ -1699,7 +1712,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     }
 
 
-    private fun showTextReadPage(promtStr: String, obj: String) {
+    private fun showTextReadPage(promtStr: String, obj: String,url:String) {
         hideView()
         hideVideoView()
         tv_textread_skip.visibility = if ("agent".equals(obj)) {
@@ -1707,27 +1720,76 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         } else {
             View.INVISIBLE
         }
-
+        val settings: WebSettings = textreadWebView?.getSettings()!!
+        settings.javaScriptEnabled = true
+        settings.setSupportZoom(true)
+        settings.builtInZoomControls = true
+        settings.displayZoomControls = false
+        settings.cacheMode = WebSettings.LOAD_NO_CACHE
+        settings.setAppCacheEnabled(true)
+        settings.defaultTextEncodingName = "UTF-8"
+        settings.domStorageEnabled = true
+        settings.javaScriptCanOpenWindowsAutomatically = true
+        webView?.setWebChromeClient(object : WebChromeClient() {
+            override fun onProgressChanged(view: WebView, newProgress: Int) {
+                if (newProgress == 100) {
+                }
+            }
+        })
+        webView?.setWebViewClient(object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+                view.loadUrl(url)
+                return true
+            }
+        })
+        if (!url.isEmpty()) {
+            webView.loadUrl(url)
+        }else{
+            showToastMsg("url为空")
+        }
         page_basetype_textread.visibility(true)
         LogUtils.i("promtStr------$promtStr")
         tv_prompt1.text = promtStr
-        ll_page11_content.isEnabled = false
-        ll_keepout.isClickable = true
-        ll_keepout.isFocusable = true
         tv_textread_skip.setOnClickListener {
             autoCheckBoolean = true
             quickEnterRoom(false)
         }
     }
 
-    private fun showSignFilePage() {
+    private fun showSignFilePage(url: String) {
         hideView()
         hideVideoView()
         ll_page12_bottom.visibility(true)
         ll_page12_result.visibility(false)
         page_sign.visibility(true)
         rl_sign.visibility(true)
-
+        val settings: WebSettings = webView?.getSettings()!!
+        settings.javaScriptEnabled = true
+        settings.setSupportZoom(true)
+        settings.builtInZoomControls = true
+        settings.displayZoomControls = false
+        settings.cacheMode = WebSettings.LOAD_NO_CACHE
+        settings.setAppCacheEnabled(true)
+        settings.defaultTextEncodingName = "UTF-8"
+        settings.domStorageEnabled = true
+        settings.javaScriptCanOpenWindowsAutomatically = true
+        webView?.setWebChromeClient(object : WebChromeClient() {
+            override fun onProgressChanged(view: WebView, newProgress: Int) {
+                if (newProgress == 100) {
+                }
+            }
+        })
+        webView?.setWebViewClient(object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+                view.loadUrl(url)
+                return true
+            }
+        })
+        if (!url.isEmpty()) {
+            webView.loadUrl(url)
+        }else{
+            showToastMsg("url为空")
+        }
     }
 
 
@@ -1936,6 +1998,8 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
 
     private var stepDataNode: JSONObject? = null
+    private var failureButtonJSONArray: JSONArray? = null //重试文案
+    private var keywordsRuleJSONObject: JSONObject? = null //重试文案
     private var stepDataNodeType = ""
 
     private fun showNextStep(buttonStr: String) {
@@ -2121,11 +2185,11 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 //            tv_continue.visibility(true)
             tv_text_continue.visibility(true)
             tv_text_continue.text = "AI预质检：不合格"
-            tv_text_continue.setTextColor(ContextCompat.getColor(this, R.color.color_ED6656))
+            tv_text_continue.setTextColor(ContextCompat.getColor(this, R.color.tx_txcolor_ED6656))
         } else {
             tv_text_continue.visibility(true)
             tv_text_continue.text = "AI预质检：合格"
-            tv_text_continue.setTextColor(ContextCompat.getColor(this, R.color.color_40D4A1))
+            tv_text_continue.setTextColor(ContextCompat.getColor(this, R.color.tx_txcolor_40D4A1))
         }
         endpage_recyclerview.layoutManager = LinearLayoutManager(this)
         mExpandableItemAdapter = ExpandableItem1Adapter(list!!)
@@ -2230,6 +2294,28 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                         ll_page_voice_result.visibility(true)
                                         ll_page_voice_result_no.visibility(true)
                                         ll_page_voice_result_yes.visibility(false)
+                                        //显示按钮的值
+                                        for (i in 0 until failureButtonJSONArray?.length()!!) {
+                                            val btJSONObject: JSONObject =
+                                                failureButtonJSONArray!!.getJSONObject(i)
+                                            val key = btJSONObject.optString("key", "")
+                                            val buttonName =
+                                                btJSONObject.optString("buttonName", "")
+                                            val checkBoolean =
+                                                btJSONObject.optBoolean("check", true)
+                                            if ("releaseSuccessful" == key) {
+                                                ll_page_voice_result_mark.text = buttonName
+                                                ll_page_voice_result_mark.visibility(checkBoolean)
+                                            } else if ("releaseFailure" == key) {
+                                                ll_page_voice_result_jump.text = buttonName
+                                                ll_page_voice_result_jump.visibility(checkBoolean)
+                                            } else if ("retry" == key) {
+                                                ll_page_voice_result_retry.text = buttonName
+                                                ll_page_voice_result_retry.visibility(checkBoolean)
+                                            } else {
+                                            }
+                                        }
+
                                         page_asr_voice.visibility(false)
                                         ll_page_voice_result.visibility(true)
                                         val jsonObject = stepDataJson?.getJSONObject("data")
@@ -2293,7 +2379,8 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                             "agent",
                                             View.VISIBLE,
                                             true,
-                                            "质检成功"
+                                            "质检成功",
+                                            null
                                         )
                                         startAutoNextStep(true)
                                     }
@@ -2308,7 +2395,8 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                             "agent",
                                             View.VISIBLE,
                                             false,
-                                            roomMessage
+                                            roomMessage,
+                                            failureButtonJSONArray
                                         )
                                     }
 
@@ -2319,7 +2407,8 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                             "agent",
                                             View.GONE,
                                             true,
-                                            ""
+                                            "",
+                                            null
                                         )
                                         val jsonArray = stepDataNode!!.getJSONArray("target")!!
                                         showidComparisonPage(jsonArray, true)
@@ -2341,132 +2430,32 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                     }
                                 }
 
-                                "onScroll" -> { //滑动中
-                                    val stepData = data.getJSONObject("step")
-                                    val jsonObject = stepData.getJSONObject("data")
-                                    val string = jsonObject.getInt("roomMessage")
-                                    runOnUiThread {
-                                        ll_page11_content.smoothScrollBy(0, string)
-                                    }
-
-                                }
-                                "onScrollToUpper" -> {//滑到顶
-//                                        if (isshowPage21){
-//                                        ll_page13_content.smoothScrollBy(0, string)
-//                                    }else{
-//                                        ll_page11_content.smoothScrollBy(0, string)
-//                                    }
-
-                                }
-                                "onScrollToLower" -> { //滑到底
-//                                         if (isshowPage21){
-//                                        ll_page13_content.smoothScrollBy(0, string)
-//                                    }else{
-//                                        ll_page11_content.smoothScrollBy(0, string)
-//                                    }
-
-                                }
-                                "onTouchEnd" -> {
-                                    val stepData = data.getJSONObject("step")
-                                    val dataJson = stepData.getJSONObject("data")
-                                    val imageByte = dataJson.getString("roomMessage")
-                                    LogUtils.i("imageByte--------------" + imageByte)
-                                    var mDataList = ArrayList<PointBean>()
-                                    mDataList = Gson().fromJson(
-                                        imageByte,
-                                        object : TypeToken<java.util.ArrayList<PointBean>>() {}.type
-                                    )
-                                    runOnUiThread {
-                                        iv_page_sign_12.clear()
-                                        iv_page_sign_12.drawPath(mDataList)
-                                    }
-                                }
-                                "clearCanvas" -> {
-                                    runOnUiThread {
-                                        //清除
-//                                    iv_page_12.invalidate()
-//                                    iv_page_12.setImageBitmap(null)
-                                        ll_page12_bottom.visibility(true)
-                                        ll_page12_result.visibility(false)
-                                        iv_page_sign_12.clear()
-                                    }
-                                }
-                                "signFile-fail" -> {
-                                    runOnUiThread {
-                                        autoCheckBoolean = false
-                                        setFailType("识别失败", "签字内容与保单信息不匹配")
-                                        isPassed = false
-                                        val stepData = data.getJSONObject("step")
-                                        val dataJson = stepData.getJSONObject("data")
-                                        val imageByte = dataJson.getString("roomMessage")
-                                        page12_sign_result.text =
-                                            "投保人：${userName}   签名：${imageByte}"
-                                        ll_page12_bottom.visibility(false)
-                                        ll_page12_result.visibility(true)
-                                        ll_page12_result_fail.visibility(true)
-                                        tv_page12_sign_nextstep.visibility(true)
-                                        tv_page12_sign__retry.visibility(true)
-                                        ll_page12_result_success.visibility(false)
-                                        tv_page12_sign_nextstep.setOnClickListener {
-                                            quickEnterRoom(isSystem = false)
-                                        }
-
-                                        tv_page12_sign__retry.setOnClickListener {
-                                            mCurrentMsg!!.getJSONObject("step")
-                                                .put("roomType", "signFile-retry")
-                                            sendMsg1(mCurrentMsg!!, object : RoomHttpCallBack {
-                                                override fun onSuccess(json: String?) {
-
-                                                }
-
-                                                override fun onFail(err: String?, code: Int) {
-
-                                                }
-                                            })
-
-                                        }
-                                    }
-
-
-                                }
-                                "signFile-retry" -> {
-                                    runOnUiThread {
-                                        ll_page12_bottom.visibility(true)
-                                        ll_page12_result.visibility(false)
-                                        ll_page12_result_success.visibility(false)
-                                        ll_page12_result_fail.visibility(false)
-                                        tv_page12_sign_nextstep.visibility(false)
-                                        tv_page12_sign__retry.visibility(false)
-                                        iv_page_sign_12.clear()
-                                    }
-
-                                }
-                                "signFile-success" -> {
-                                    runOnUiThread {
-                                        autoCheckBoolean = true
-                                        isPassed = true
-                                        val stepData = data.getJSONObject("step")
-                                        val dataJson = stepData.getJSONObject("data")
-                                        val imageByte = dataJson.getString("roomMessage")
-                                        page12_sign_result.text =
-                                            "投保人：${userName}   签名：${imageByte}"
-                                        ll_page12_bottom.visibility(false)
-                                        ll_page12_result.visibility(true)
-                                        ll_page12_result_success.visibility(true)
-                                        ll_page12_result_fail.visibility(false)
-                                        tv_page12_sign_nextstep.visibility(false)
-                                        tv_page12_sign__retry.visibility(false)
-
-                                        Handler().postDelayed({
-                                            quickEnterRoom(isSystem = true)
-                                        }, 2000)
-
-                                    }
-                                }
                                 "recordExchange" -> { //暂时录制前环节页面
                                     runOnUiThread {
                                         showRecordBefore()
                                         showNextStep("startRecord")
+                                    }
+                                }
+                                "faceDetection"->{
+                                    runOnUiThread {
+                                        val jsonObject = data.getJSONObject("step")
+                                        var userId = jsonObject.optString("userId")
+                                        var haveFace = jsonObject.optBoolean("haveFace")
+
+                                        //有无人脸
+                                        if (haveFace) {
+
+                                            //判断入镜人数 tx_txcolor_40D4A1
+                                            mTrtcrightvideolayoutmanager?.updateToastStr(userId, "")
+                                        }else{
+                                            mTrtcrightvideolayoutmanager?.updateToastStr(
+                                                userId,
+                                                getString(R.string.tx_str),
+                                                ContextCompat.getColor(
+                                                this,
+                                                R.color.tx_txred
+                                            ))
+                                        }
                                     }
                                 }
                                 else -> {
@@ -2522,10 +2511,14 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                                 tv_skip.visibility(false)
                                                 targetJSONArray =
                                                     stepDataNode!!.getJSONArray("target")!!
+                                                failureButtonJSONArray =
+                                                    stepDataNode!!.getJSONArray("failureButton")!!
+                                                keywordsRuleJSONObject =
+                                                    stepDataNode!!.optJSONObject("keywordsRule")!!
                                                 val targetOb = targetJSONArray!!.getString(0)
                                                 val jsonArray = stepDataNode?.getJSONObject("data")
                                                     ?.getJSONArray("textArray")
-                                                agentASRPassword = jsonArray!!.getString(1)!!
+                                                agentASRPassword = jsonArray!!.getString(0)!!
                                                 if ("agent" == targetOb) {
                                                     showUserASR(
                                                         "请代理人回复：",
@@ -2578,22 +2571,26 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                         "idComparison" -> { //人脸核身
                                             runOnUiThread {
                                                 tv_skip.visibility(false)
+
+                                                failureButtonJSONArray =
+                                                    stepDataNode!!.optJSONArray("failureButton")!!
                                                 showidComparisonPage(
                                                     stepDataNode!!.getJSONArray("target")!!,
                                                     false
                                                 )
+
                                             }
 
                                         }
-                                        "signFile" -> { //投保人签字
-                                            runOnUiThread {
-                                                layout_right.visibility = View.VISIBLE
-                                                tv_skip.visibility(false)
-                                                showSignFilePage()
-                                            }
-
-                                        }
-                                        "textRead" -> {
+//                                        "signFile" -> { //投保人签字
+//                                            runOnUiThread {
+//                                                layout_right.visibility = View.VISIBLE
+//                                                tv_skip.visibility(false)
+//                                                showSignFilePage( stepDataNode!!.optString("agentUrl")!!)
+//                                            }
+//
+//                                        }
+                                        "signFile" , "textRead" -> {
                                             runOnUiThread {
                                                 layout_right.visibility = View.VISIBLE
                                                 tv_skip.visibility(false)
@@ -2606,19 +2603,15 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                                     showTextReadPage(
                                                         jsonArray.getString(0) + "完成阅读后，请点击【下一步】",
                                                         stepDataNode!!.getJSONArray("target")!!
-                                                            .getString(0)
+                                                            .getString(0),
+                                                        stepDataNode!!.optString("agentUrl", "")
                                                     )
                                                 } else {
                                                     ToastUtils.showShort("没有textArray字段！！！")
                                                 }
 
-                                                val fileUrl =
-                                                    stepDataNode!!.optString("fileUrl", "")
-                                                if (fileUrl.isNotEmpty()) {
-                                                    TxGlide.with(this)
-                                                        .load(fileUrl)
-                                                        .into(iv_textRead)
-                                                }
+
+
 
 
                                             }
@@ -2715,29 +2708,6 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                     serverException: ServerException?
                 ) {
                     LogUtils.i("onFailure-------$clientException------$serverException")
-//                cancelAbsCredentialProvider()
-//                voiceTimer1?.cancel()
-//                sendMsg1(JSONObject().apply {
-//                    put("serviceId", serviceId)
-//                    put("type", "soundOCR")
-//
-//                    put("step", JSONObject().apply {
-//                        put("data", JSONObject().apply {
-//                            put("roomMessage", strBuffer.toString())
-//                        })
-//                        put("roomType", "soundOCR-fail")
-//                        put("target", targetJSONArray)
-//                    })
-//                }, object : RoomHttpCallBack {
-//                    override fun onSuccess(json: String?) {
-//
-//                    }
-//
-//                    override fun onFail(err: String?, code: Int) {
-//
-//                    }
-//                })
-//                strBuffer.delete(0, strBuffer.length)
                     LogUtils.i("onFinish", stepDataNode.toString())
                 }
 
@@ -2759,16 +2729,14 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                     strBuffer.append(result?.text)
 
                     mOldSegmentStr = strBuffer.toString()
-                    val text = replaceTV(result?.text!!)
+                    val replaceTV1 = replaceTV(result?.text!!)
 
-                    val replaceTV = replaceTV(agentASRPassword)
+                    LogUtils.i("replaceTV------$replaceTV1")
 
-                    LogUtils.i("replaceTV------$replaceTV")
-                    LogUtils.i("replaceTV------$text")
+                    //判断通不通过
+                    val filterASRPassword = filterASRPassword(replaceTV1)
 
-                    val numJewelsInStones = numJewelsInStones(text, replaceTV)
-
-                    if (numJewelsInStones in 0..2) {
+                    if (filterASRPassword) {
                         //识别成功
                         strBuffer.delete(0, strBuffer.length)
                         cancelAbsCredentialProvider()
@@ -2782,7 +2750,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                     put("roomMessage", agentASRPassword)
                                 })
                                 put("roomType", "soundOCR-success")
-                                put("target", targetJSONArray)
+                                put("target", replaceTV1)
                             })
                         }, object : RoomHttpCallBack {
                             override fun onSuccess(json: String?) {
@@ -2804,7 +2772,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                             put("type", "soundOCR")
                             put("step", JSONObject().apply {
                                 put("data", JSONObject().apply {
-                                    put("roomMessage", text!!)
+                                    put("roomMessage",replaceTV1)
                                 })
                                 put("roomType", "soundOCR-fail")
                                 put("target", targetJSONArray)
@@ -2879,6 +2847,54 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                 aaiClient!!.cancelAudioRecognize(requestId!!)
             }
         }).start()
+    }
+
+    private fun filterASRPassword(word: String): Boolean {
+
+        val notContainArray = keywordsRuleJSONObject!!.getJSONArray("notContain")
+        var contain = true
+        for (index in 0 until notContainArray.length()) {
+            val notContainStr = notContainArray.getString(index)
+            contain = word.contains(notContainStr)
+            if (contain) {
+                return false
+            }
+        }
+        //如果存在不包含数组中
+        if (contain) {
+            //不通过
+            return false
+        } else {
+            //
+            val containsArray = keywordsRuleJSONObject!!.getJSONArray("contains")
+            val stringBuilder = StringBuilder("")
+            for (index in 0 until containsArray.length()) {
+                val containsStr = containsArray.getJSONObject(index)
+                val conditionsStr = containsStr.optString("conditions")
+                val nameStr = containsStr.optString("name")
+                if (conditionsStr.isEmpty() || conditionsStr == "and") {
+                    stringBuilder.append(nameStr + "@")
+                } else {
+                    stringBuilder.append(nameStr + ",")
+                }
+            }
+            var contain = true
+            val split = stringBuilder.split("@")
+            split.forEach {
+                val split1 = it.split(",")
+                split1.forEach {
+                    val contains = word.contains(it)
+                    contain = contains
+                    if (contains) {
+                        return@forEach
+                    }
+                }
+            }
+
+            return contain
+        }
+
+
     }
 
     public fun numJewelsInStones(newWord: String, oldWord: String): Int {
@@ -3026,7 +3042,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         page_sign.visibility(false)
 
         ll_page_voice.visibility(false)
-        ll_welcome.visibility(false)
+        ll_envpreview.visibility(false)
 
         ll_page_voice_result.visibility(false)
         ll_page12_result_fail.visibility(false)
@@ -3036,7 +3052,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         ll_pageend.visibility(false)
         tv_text_continue.visibility(false)
 //            tv_continue.visibility(false)
-        iv_page_sign_12.clear()
+//        iv_page_sign_12.clear()
     }
 
     override fun onConnect() {

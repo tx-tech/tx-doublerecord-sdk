@@ -3,11 +3,11 @@
     <!-- Base application theme. -->
     <style name="tx_AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/color_FFFFFF</item>
-        <item name="colorPrimaryDark">@color/color_FFFFFF</item>
-        <item name="colorAccent">@color/color_c7c7c7</item>
+        <item name="colorPrimary">@color/tx_txwhite</item>
+        <item name="colorPrimaryDark">@color/tx_txwhite</item>
+        <item name="colorAccent">@color/tx_txcolor_c7c7c7</item>
         <item name="android:background">@android:color/transparent</item>
-        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:navigationBarColor">@color/tx_txwhite</item>
     </style>
 
 
@@ -55,7 +55,7 @@
         <!-- 水平分割线 -->
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">1dp</item>
-        <item name="android:background">@color/color_ecebeb</item>
+        <item name="android:background">@color/tx_txcolor_ecebeb</item>
         <item name="android:orientation">vertical</item>
     </style>
 
@@ -63,7 +63,7 @@
         <!-- 水平分割线 -->
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">1dp</item>
-        <item name="android:background">@color/color_ecebeb</item>
+        <item name="android:background">@color/tx_txcolor_ecebeb</item>
         <item name="android:orientation">vertical</item>
     </style>
 
@@ -79,7 +79,7 @@
 
     <style name="tx_TranslucentTheme" parent="tx_AppTheme">
 
-        <item name="android:windowBackground">@color/color_FFFFFF</item>
+        <item name="android:windowBackground">@color/tx_txwhite</item>
         <!--<item name="android:windowFullscreen">true</item>-->
         <!--<item name="android:windowNoTitle">true</item>-->
 
@@ -160,7 +160,7 @@
         <item name="android:paddingTop">8dp</item>
         <item name="android:paddingBottom">8dp</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/white90</item>
+        <item name="android:textColor">@color/tx_white90</item>
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/tx_button_round_selector</item>
         <item name="android:foreground">@null</item>
@@ -172,7 +172,7 @@
         <item name="android:paddingTop">5dp</item>
         <item name="android:paddingBottom">5dp</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/color_FFFFFF</item>
+        <item name="android:textColor">@color/tx_txwhite</item>
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/tx_button_round_selector</item>
         <item name="android:foreground">@null</item>
@@ -184,7 +184,7 @@
         <item name="android:paddingTop">5dp</item>
         <item name="android:paddingBottom">5dp</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/color_FFFFFF</item>
+        <item name="android:textColor">@color/tx_txwhite</item>
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/tx_shape_green_15</item>
         <item name="android:foreground">@null</item>
