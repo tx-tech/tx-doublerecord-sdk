@@ -74,7 +74,7 @@ dependencies {
 
     implementation project(':doublerecord')
     implementation 'com.lxj:xpopup:1.8.8'
-//    implementation 'com.github.tx-tech:tx-doublerecord-sdk:11.0.2'
+//    implementation 'com.github.tx-tech:tx-doublerecord-sdk:1.0.0'
 //    implementation 'com.tencent.cloud:insurance-video:1.0.0'
 //    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.50'
 //    implementation ('com.tencent.cloud:insurance-video:1.2.0.4'){

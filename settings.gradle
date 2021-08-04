@@ -1,4 +1,4 @@
 include ':doublerecord'
 include ':app'
-include ':LocalRepo'
+//include ':LocalRepo'
 //include ':ttssdk'
