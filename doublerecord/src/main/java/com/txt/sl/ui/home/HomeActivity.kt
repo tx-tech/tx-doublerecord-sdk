@@ -36,6 +36,7 @@ class HomeActivity : BaseActivity() {
 
     override fun onRightClick(view: View?) {
         SearchActivity.newActivity(this)
+//        TestActivity.newActivity(this)
     }
 
 

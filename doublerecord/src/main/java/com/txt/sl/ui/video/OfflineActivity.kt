@@ -77,7 +77,8 @@ import com.txt.sl.ui.video.trtc.BusinessLayout
 import com.txt.sl.ui.video.trtc.TRTCVideoLayout
 import com.txt.sl.ui.video.trtc.TRTCVideoLayoutManager
 import com.txt.sl.utils.*
-import com.txt.sl.widget.PointBean
+import com.txt.sl.entity.PointBean
+import com.txt.sl.ui.home.HomeActivity
 import kotlinx.android.synthetic.main.tx_activity_offline_room.*
 import kotlinx.android.synthetic.main.tx_page_checkenv.*
 import kotlinx.android.synthetic.main.tx_page_envpreview.*
@@ -370,9 +371,9 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         agentName = jsonObject1!!.optString("agentName", "")
         policyholderName = jsonObject1!!.optString("policyholderName", "")
         insuredName = jsonObject1!!.optString("insuredName", "")
-        val wxCloudConfJO = jsonObject1!!.getJSONObject("wxCloudConf")
-        mSecretId = wxCloudConfJO!!.getString("SecretId")
-        mSecretKey = wxCloudConfJO!!.getString("SecretKey")
+        val wxCloudConfJO = jsonObject1!!.optJSONObject("wxCloudConf")
+        mSecretId = wxCloudConfJO!!.optString("SecretId")
+        mSecretKey = wxCloudConfJO!!.optString("SecretKey")
         mAppid = wxCloudConfJO!!.optString("AppId").toLong()
 
         agentID = jsonObject1!!.optString("agentID", "")
@@ -639,6 +640,12 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         mTextBusinessLayout = findRightFullEntityBytype?.layout as BusinessLayout
 //        mTextBusinessLayout?.visibility = View.GONE
         mTextBusinessLayout?.contentView?.removeAllViews()
+        mTextBusinessLayout?.contentView?.setBackgroundColor(
+            ContextCompat.getColor(
+                this,
+                R.color.tx_txcolor_F6F7F9
+            )
+        )
         mTextBusinessLayout?.contentView?.addView(page_readnextPage1)
 
         mTrtcVideolayout = findEntityBytype.layout as TRTCVideoLayout
@@ -703,11 +710,15 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             }
 
         }
-        if (null != TXSdk.getInstance().onTxPageListener) {
-            TXSdk.getInstance().onTxPageListener.onSuccess(mTaskId!!)
-        }
+
         super.onDestroy()
-        ApplicationUtils.finishActivity()
+        val containActivity = ApplicationUtils.isContainActivity(HomeActivity::class.java)
+        if (!containActivity) {
+            if (null != TXSdk.getInstance().onTxPageListener) {
+                TXSdk.getInstance().onTxPageListener.onSuccess(mTaskId!!)
+            }
+            ApplicationUtils.finishActivity()
+        }
     }
 
 
@@ -959,7 +970,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         ll_showLink.visibility(true)
         tv_skip.visibility(true)
         tv_skip.text = "开始录制"
-        val jsonArray = jsonObject1!!.getJSONArray("process")
+        val jsonArray = jsonObject1!!.optJSONArray("process")
         initRecyclerview(jsonArray)
         startTitleTimer()
     }
@@ -1542,8 +1553,8 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             quickEnterRoom(isSystem = true)
         }
 
-           val webView =
-               page_11Page?.findViewById<WebView>(R.id.textreadWebView)
+        val webView =
+            page_11Page?.findViewById<WebView>(R.id.textreadWebView)
         val settings: WebSettings = webView?.getSettings()!!
         settings.javaScriptEnabled = true
         settings.setSupportZoom(true)
@@ -1568,7 +1579,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         })
         if (!url.isEmpty()) {
             webView.loadUrl(url)
-        }else{
+        } else {
             showToastMsg("url为空")
         }
 
@@ -1629,7 +1640,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         })
         if (!url.isEmpty()) {
             webView.loadUrl(url)
-        }else{
+        } else {
             showToastMsg("url为空")
         }
 
@@ -1727,17 +1738,17 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         var isFailBoolean = false
         for (index in 0 until jsonArray.length()) {
             val jsonObject = jsonArray.getJSONObject(index)
-            val name = jsonObject.getString("name")
-            val stepsJsonArray = jsonObject.getJSONArray("steps")
+            val name = jsonObject.optString("name")
+            val stepsJsonArray = jsonObject.optJSONArray("steps")
             val isPubliclist: java.util.ArrayList<MultiItemEntity> =
                 java.util.ArrayList<MultiItemEntity>()
             val isNoPublicItem = LevelItem1(isPubliclist, name)
             for (index1 in 0 until stepsJsonArray.length()) {
-                val jsonObject1 = stepsJsonArray.getJSONObject(index1)
+                val jsonObject1 = stepsJsonArray.optJSONObject(index1)
                 val fileBean = FileBean()
-                fileBean.name = jsonObject1.getString("name")
-                fileBean.failType = jsonObject1.getString("autoFailType")
-                fileBean.failReason = jsonObject1.getString("autoFailReason")
+                fileBean.name = jsonObject1.optString("name")
+                fileBean.failType = jsonObject1.optString("autoFailType")
+                fileBean.failReason = jsonObject1.optString("autoFailReason")
                 isFailBoolean = true
                 isNoPublicItem.addSubItem(
                     fileBean
@@ -2380,7 +2391,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
                                         }
 
-                                       "signFile", "textRead" -> {
+                                        "signFile", "textRead" -> {
                                             runOnUiThread {
 
                                                 val dataObject2 =
@@ -2466,30 +2477,27 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                 val containsStr = containsArray.getJSONObject(index)
                 val conditionsStr = containsStr.optString("conditions")
                 val nameStr = containsStr.optString("name")
-                if (conditionsStr.isEmpty() || conditionsStr == "and") {
-                    stringBuilder.append(nameStr + "@")
+                if (conditionsStr == "and") {
+                    stringBuilder.append("$nameStr@")
                 } else {
-                    stringBuilder.append(nameStr + ",")
+                    stringBuilder.append("$nameStr,")
                 }
             }
-            var contain = true
-            val split = stringBuilder.split("@")
-            if (split.size==1){
+
+            val split = stringBuilder.split(",")
+            if (split.size == 1) {
                 contain = word.contains(split[0])
-            }else{
+            } else {
                 split.forEach {
-                    val split1 = it.split(",")
-                    split1.forEach {
+                    if (it.isNotEmpty()) {
                         val contains = word.contains(it)
                         contain = contains
                         if (contains) {
-                            return@forEach
+                            return contain
                         }
                     }
                 }
             }
-
-
 
             return contain
         }
@@ -2715,27 +2723,25 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                     LogUtils.i("onSegmentSuccess-------${result?.text}")
 
                     runOnUiThread {
-                        strBuffer.append(result?.text)
-                        val replaceTV1 = replaceTV(strBuffer.toString())
-                        page_asr_userPage!!.findViewById<TextView>(R.id.tv_user_content2).text =
-                            "$replaceTV1"
-                        page_asr_userPage!!.findViewById<TextView>(R.id.tv_user_content2)
-                            .visibility(true)
-                        mOldSegmentStr = strBuffer.toString()
-
-                        //判断通不通过
-                        val filterASRPassword = filterASRPassword(replaceTV1)
-
-                        LogUtils.i("filterASRPassword------$filterASRPassword")
-                        if (filterASRPassword) {
-                            //识别成功
+                        val text = result?.text
+                        if (text?.isNotEmpty()!!) {
+                            strBuffer.append(result?.text)
+                            val replaceTV1 = replaceTV(strBuffer.toString())
+                            LogUtils.i("filterASRPassword--replaceTV1----$replaceTV1")
+                            page_asr_userPage!!.findViewById<TextView>(R.id.tv_user_content2).text =
+                                "$replaceTV1"
+                            page_asr_userPage!!.findViewById<TextView>(R.id.tv_user_content2)
+                                .visibility(true)
+                            mOldSegmentStr = strBuffer?.toString()
                             strBuffer.delete(0, strBuffer.length)
                             cancelAbsCredentialProvider()
                             voiceTimer?.cancel()
                             voiceTimer = null
+                            //判断通不通过
+                            val filterASRPassword = filterASRPassword(replaceTV1)
 
-                            page_asr_userPage!!.findViewById<TextView>(R.id.tv_user_content2).text =
-                                "$replaceTV1"
+                            LogUtils.i("filterASRPassword------$filterASRPassword")
+                            //识别成功
                             //自动跳到下一步
                             sendMsg1(JSONObject().apply {
                                 put("serviceId", mServiceId)
@@ -2744,38 +2750,12 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                     put("data", JSONObject().apply {
                                         put("roomMessage", replaceTV1)
                                     })
-                                    put("roomType", "soundOCR-success")
-                                    put("target", targetJSONArray)
-                                })
-                            }, object : RoomHttpCallBack {
-                                override fun onSuccess(json: String?) {
-
-                                }
-
-                                override fun onFail(err: String?, code: Int) {
-
-                                }
-                            })
-
-                        } else {
-                            //识别成功
-                            voiceTimer?.cancel()
-                            voiceTimer = null
-                            cancelAbsCredentialProvider()
-                            page_asr_userPage!!.findViewById<TextView>(R.id.tv_user_content2).text =
-                                "$replaceTV1"
-                            strBuffer.delete(0, strBuffer.length)
-
-
-                            //自动跳到下一步
-                            sendMsg1(JSONObject().apply {
-                                put("serviceId", mServiceId)
-                                put("type", "soundOCR")
-                                put("step", JSONObject().apply {
-                                    put("data", JSONObject().apply {
-                                        put("roomMessage", replaceTV1)
-                                    })
-                                    put("roomType", "soundOCR-fail")
+                                    var result = if (filterASRPassword) {
+                                        "soundOCR-success"
+                                    } else {
+                                        "soundOCR-fail"
+                                    }
+                                    put("roomType", result)
                                     put("target", targetJSONArray)
                                 })
                             }, object : RoomHttpCallBack {
@@ -2788,6 +2768,8 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                 }
                             })
                         }
+
+
                     }
                 }
 
@@ -2861,7 +2843,6 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     }
 
 
-
     public fun showLinkName(linkName: String, linkIndex: String) {
         tv_linkname.text = linkName
         tv_linknameindex.text = linkIndex
@@ -2889,7 +2870,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         LogUtils.i("checkPhotoInVideo----")
         mTRTCCloud?.snapshotVideo(null, TRTC_VIDEO_STREAM_TYPE_BIG) { p0 ->
             ThreadPoolManager.getInstance().execute {
-                val bytes = SystemCommon.getInstance()?.saveBitmap(p0)
+                val bytes = SystemCommon.getInstance()?.byteToBitmap(p0)
                 LogUtils.i("checkPhotoInVideo----${bytes}")
                 if (bytes != null) {
                     val encode = Base64.encode(bytes, Base64.DEFAULT)
@@ -2965,7 +2946,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         LogUtils.i("mUserId---$mUserId")
         Handler().postDelayed({
             mTRTCCloud?.snapshotVideo(null, TRTC_VIDEO_STREAM_TYPE_BIG) { p0 ->
-                val bytes = SystemCommon.getInstance().saveBitmap1(p0)
+                val bytes = SystemCommon.getInstance().byteToBitmap(p0)
                 if (bytes != null) {
                     val encode = Base64.encode(bytes, Base64.DEFAULT)
                     val jsonObject = JSONObject(mRoomInfo)

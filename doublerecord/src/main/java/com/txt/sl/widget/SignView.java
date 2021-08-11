@@ -11,7 +11,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.txt.sl.utils.DensityUtils;
+import com.txt.sl.entity.PointBean;
 
 import java.util.List;
 

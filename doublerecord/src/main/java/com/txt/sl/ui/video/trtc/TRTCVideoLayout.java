@@ -65,6 +65,18 @@ public class TRTCVideoLayout extends RelativeLayout implements View.OnClickListe
     private boolean                             mEnableFill  = false;
     private boolean                             mEnableAudio = true;
     private boolean                             mEnableVideo = true;
+    private TextView mName;
+    private TextView mTvLocation;
+    private TextView mTvToast;
+    private TextView mTvNovideo;
+    private LinearLayout ll_remote_skip;
+    private LinearLayout ll_page_voice_result;
+    private TextView tv_prompt;
+    private TextView tv_remote_skip;
+    private TextView tv_ocr,ll_page_voice_result_mark,ll_page_voice_result_jump,ll_page_voice_result_retry,ll_page12_result_fail;
+    private HollowOutView mHollowOutView;
+    private RoundView mRoundView;
+    private ImageView iv_person;
 
 
     public TRTCVideoLayout(Context context) {
@@ -133,21 +145,7 @@ public class TRTCVideoLayout extends RelativeLayout implements View.OnClickListe
     }
 
 
-
-    private TextView mName;
-    private TextView mTvLocation;
-    private TextView mTvToast;
-    private TextView mTvNovideo;
-    private LinearLayout ll_remote_skip;
-    private LinearLayout ll_page_voice_result;
-    private TextView tv_prompt;
-    private TextView tv_remote_skip;
-    private TextView tv_ocr,ll_page_voice_result_mark,ll_page_voice_result_jump,ll_page_voice_result_retry,ll_page12_result_fail;
-    private HollowOutView mHollowOutView;
-    private RoundView mRoundView;
-    private ImageView iv_person;
     private ObjectAnimator rotation;
-
     public void startRoundView(){
         mRoundView.setVisibility(VISIBLE);
         rotation = ObjectAnimator.ofFloat(mRoundView, "rotation", 0f, 359f);
@@ -155,6 +153,10 @@ public class TRTCVideoLayout extends RelativeLayout implements View.OnClickListe
         rotation.setRepeatCount(ValueAnimator.INFINITE);
         rotation.setInterpolator(new LinearInterpolator());
         rotation.start();
+//        if (null != mHollowOutView) {
+//            mHollowOutView.setVisibility(VISIBLE);
+//            mHollowOutView.startRoundView();
+//        }
     }
 
     public void stopRoundView(){
@@ -162,7 +164,10 @@ public class TRTCVideoLayout extends RelativeLayout implements View.OnClickListe
         if (null!=rotation) {
             rotation.end();
         }
-
+//        if (null != mHollowOutView) {
+//            mHollowOutView.stopRoundView();
+//            mHollowOutView.setVisibility(GONE);
+//        }
     }
 
     public void setHollowOutView(int visibility){

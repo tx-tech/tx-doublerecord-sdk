@@ -25,24 +25,26 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
 
     <application>
-        <activity android:name=".ui.invite.VideoUploadActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".ui.order.OrderDetailsPageActivity"
-            android:screenOrientation="portrait"
-            />
+        <activity android:name=".ui.RestartActivity"/>
+        <activity android:name=".ui.CrashActivity" />
+        <activity
+            android:name=".ui.invite.VideoUploadActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.order.OrderDetailsPageActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.invite.InviteActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.createorder.NewOrderSubActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".ui.search.SearchActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".ui.order.OrderActivity"
-            android:screenOrientation="portrait"
-            />
+        <activity
+            android:name=".ui.createorder.NewOrderSubActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.search.SearchActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.order.OrderActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.order.OrderDetailsActivity"
             android:screenOrientation="portrait" />
@@ -57,7 +59,6 @@
             android:name=".ui.home.HomeActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
-
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -82,8 +83,6 @@
             android:name=".ui.video.OfflineActivity"
             android:configChanges="screenLayout|screenSize|smallestScreenSize|orientation"
             android:screenOrientation="landscape" />
-
-
         <activity
             android:name=".utils.TxPermissionUtils$TransActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"

@@ -72,8 +72,8 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
 
     }
 
-    public void initView(Context context ,int max_user) {
-        this.MAX_USER =max_user;
+    public void initView(Context context, int max_user) {
+        this.MAX_USER = max_user + 1;
         Log.i(TAG, "initView: ");
 
         mLayoutEntityList = new ArrayList<TRTCLayoutEntity>();
@@ -86,7 +86,7 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
             videoLayout.setIVideoLayoutListener(this);
             // 这里不展示其底部的控制菜单
             videoLayout.setBottomControllerVisibility(View.GONE);
-            videoLayout.updateNoVideoLayout("",View.VISIBLE);
+            videoLayout.updateNoVideoLayout("", View.VISIBLE);
             TRTCLayoutEntity entity = new TRTCLayoutEntity();
             entity.layout = videoLayout;
             entity.index = i;
@@ -94,12 +94,11 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
         }
         // 默认为堆叠模式
 //        mMode = MODE_GRID;
-//        this.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                makeGirdLayout(true);
-//            }
-//        });
+        if (max_user == 3) {
+            makeThreeLayout();
+        } else {
+            makeTwoLayout();
+        }
     }
 
     /**
@@ -222,24 +221,24 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
      * 根据 userId 和 视频类型（大、小、辅路）画面分配对应的 com.common.weight.view
      *
      * @param userId
-     * @param userType agent insurant  insured
+     * @param userType   agent insurant  insured
      * @param streamType
      * @return
      */
-    public TXCloudVideoView allocCloudVideoView(String userId,String userType, int streamType) {
+    public TXCloudVideoView allocCloudVideoView(String userId, String userType, int streamType) {
         if (userId == null) return null;
         TRTCLayoutEntity trtcLayoutEntity;
 //        String content = "";
-        if (userType =="agent") {
-             trtcLayoutEntity = mLayoutEntityList.get(1);
+        if (userType == "agent") {
+            trtcLayoutEntity = mLayoutEntityList.get(1);
 //            content = "代理人等待进入";
-        }else if(userType =="policyholder"){
-             trtcLayoutEntity = mLayoutEntityList.get(2);
+        } else if (userType == "policyholder") {
+            trtcLayoutEntity = mLayoutEntityList.get(2);
 //            content = "投保人等待进入";
-        }else if(userType =="insured"){
-             trtcLayoutEntity = mLayoutEntityList.get(3);
+        } else if (userType == "insured") {
+            trtcLayoutEntity = mLayoutEntityList.get(3);
 //            content = "被保人等待进入";
-        }else{
+        } else {
             trtcLayoutEntity = mLayoutEntityList.get(1);
 //            content = "代理人等待进入";
         }
@@ -357,7 +356,6 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
     }
 
 
-
     /**
      * 更新位置信息
      *
@@ -392,12 +390,12 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
         }
     }
 
-    public void updateToastStr(String userId, String name,@ColorInt int color) {
+    public void updateToastStr(String userId, String name, @ColorInt int color) {
         if (userId == null) return;
         for (TRTCLayoutEntity entity : mLayoutEntityList) {
             if (entity.layout.getVisibility() == VISIBLE) {
                 if (userId.equals(entity.userId)) {
-                    entity.layout.setToastStr(name,color);
+                    entity.layout.setToastStr(name, color);
                 }
             }
         }
@@ -414,12 +412,21 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
         }
     }
 
+    public void updateToastStrByType(String userType, String name, @ColorInt int color) {
+        if (userType == null) return;
+        for (TRTCLayoutEntity entity : mLayoutEntityList) {
+            if (entity.layout.getVisibility() == VISIBLE) {
+                if (userType.equals(entity.userType)) {
+                    entity.layout.setToastStr(name, color);
+                }
+            }
+        }
+    }
 
     /**
      * 开始转圈圈
      *
      * @param userId
-     *
      */
     public void startRoundView(String userId) {
         if (userId == null) return;
@@ -436,7 +443,6 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
      * 开始转圈圈
      *
      * @param userType
-     *
      */
     public void startRoundViewByType(String userType) {
         if (userType == null) return;
@@ -453,7 +459,6 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
      * 暂停转圈圈
      *
      * @param userId
-     *
      */
     public void stopRoundView(String userId) {
         if (userId == null) return;
@@ -470,7 +475,6 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
      * 暂停转圈圈
      *
      * @param userType
-     *
      */
     public void stopRoundViewByType(String userType) {
         if (userType == null) return;
@@ -489,23 +493,23 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
      * @param userType
      * @param name
      */
-    public void updateOcrStatusByType(String userType, String name, int visibility, String statusType ) {
+    public void updateOcrStatusByType(String userType, String name, int visibility, String statusType) {
         if (userType == null) return;
         for (TRTCLayoutEntity entity : mLayoutEntityList) {
             if (entity.layout.getVisibility() == VISIBLE) {
                 if (userType.equals(entity.userType)) {
-                    entity.layout.setOcrStatus(name,visibility,statusType);
+                    entity.layout.setOcrStatus(name, visibility, statusType);
                 }
             }
         }
     }
 
-    public void updateOcrStatus(String userId, String name, int visibility, String statusType ) {
+    public void updateOcrStatus(String userId, String name, int visibility, String statusType) {
         if (userId == null) return;
         for (TRTCLayoutEntity entity : mLayoutEntityList) {
             if (entity.layout.getVisibility() == VISIBLE) {
                 if (userId.equals(entity.userId)) {
-                    entity.layout.setOcrStatus(name,visibility,statusType);
+                    entity.layout.setOcrStatus(name, visibility, statusType);
                 }
             }
         }
@@ -517,24 +521,24 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
      * @param userType
      * @param pro
      */
-    public void updateSkipLayout(String userType, String pro,int visibility,int skipVisibility) {
+    public void updateSkipLayout(String userType, String pro, int visibility, int skipVisibility) {
         if (userType == null) return;
         for (TRTCLayoutEntity entity : mLayoutEntityList) {
             if (entity.layout.getVisibility() == VISIBLE) {
                 if (userType.equals(entity.userType)) {
-                    entity.layout.setll_remote_skip(pro,visibility,skipVisibility);
+                    entity.layout.setll_remote_skip(pro, visibility, skipVisibility);
                 }
             }
         }
     }
 
     //隐藏全部状态 布局
-    public void hideAllStateView(){
+    public void hideAllStateView() {
         for (TRTCLayoutEntity entity : mLayoutEntityList) {
             if (entity.layout.getVisibility() == VISIBLE) {
-                entity.layout.setll_page_voice_result(View.GONE,true,"",null);
-                entity.layout.setOcrStatus("",View.GONE,"0");
-                entity.layout.setll_remote_skip("",View.GONE,View.GONE);
+                entity.layout.setll_page_voice_result(View.GONE, true, "", null);
+                entity.layout.setOcrStatus("", View.GONE, "0");
+                entity.layout.setll_remote_skip("", View.GONE, View.GONE);
             }
         }
     }
@@ -545,12 +549,12 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
      * @param userType
      * @param visibility
      */
-    public void updateResultLayoutByType(String userType, int visibility,boolean isSuccess,String successStr, JSONArray btArray) {
+    public void updateResultLayoutByType(String userType, int visibility, boolean isSuccess, String successStr, JSONArray btArray) {
         if (userType == null) return;
         for (TRTCLayoutEntity entity : mLayoutEntityList) {
             if (entity.layout.getVisibility() == VISIBLE) {
                 if (userType.equals(entity.userType)) {
-                    entity.layout.setll_page_voice_result(visibility,isSuccess,successStr,btArray);
+                    entity.layout.setll_page_voice_result(visibility, isSuccess, successStr, btArray);
                 }
             }
         }
@@ -591,15 +595,13 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
     }
 
 
-
-
     /**
      * 更新当前视频状态
      *
      * @param userId
      * @param bHasVideo
      */
-    public void updateVideoStatus(String userId, boolean bHasVideo,String content) {
+    public void updateVideoStatus(String userId, boolean bHasVideo, String content) {
         if (userId == null) return;
         for (TRTCLayoutEntity entity : mLayoutEntityList) {
             if (entity.layout.getVisibility() == VISIBLE) {
@@ -632,7 +634,7 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
         return null;
     }
 
-    public void hideEntitiyLayout(String userId){
+    public void hideEntitiyLayout(String userId) {
         for (TRTCLayoutEntity entity : mLayoutEntityList) {
             if (entity.userId.equals(userId)) {
                 entity.layout.setVisibility(GONE);
@@ -648,7 +650,7 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
      */
     public void makeGirdLayout(boolean needUpdate) {
         if (mGrid4ParamList == null || mGrid4ParamList.size() == 0 || mGrid9ParamList == null || mGrid9ParamList.size() == 0) {
-            mGrid4ParamList = RoomVideoUiUtils.initTwoView(getContext(), getWidth(), getHeight());
+            mGrid4ParamList = RoomVideoUiUtils.initRemoteTwoView(getContext(), getWidth(), getHeight());
         }
         if (needUpdate) {
             ArrayList<LayoutParams> paramList;
@@ -658,7 +660,8 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
                 paramList = mGrid9ParamList;
             }
             int layoutIndex = 1;
-            for (int i = 0; i < mLayoutEntityList.size(); i++) {
+            for (int i = 0; i < mGrid4ParamList.size(); i++) {
+
                 TRTCLayoutEntity entity = mLayoutEntityList.get(i);
                 TRTCVideoLayout layout = entity.layout;
 
@@ -675,7 +678,7 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
         }
     }
 
-        //切换三人模式
+    //切换三人模式
     public void makeGirdLayout1(boolean needUpdate) {
         if (mGrid4ParamList == null || mGrid4ParamList.size() == 0 || mGrid9ParamList == null || mGrid9ParamList.size() == 0) {
             mGrid4ParamList = RoomVideoUiUtils.initThreeView(getContext(), getWidth(), getHeight());
@@ -688,7 +691,7 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
                 paramList = mGrid9ParamList;
             }
             int layoutIndex = 1;
-            for (int i = 0; i < mLayoutEntityList.size(); i++) {
+            for (int i = 0; i < mGrid4ParamList.size(); i++) {
                 TRTCLayoutEntity entity = mLayoutEntityList.get(i);
                 TRTCVideoLayout layout = entity.layout;
                 addFloatViewClickListener(layout);
@@ -705,7 +708,7 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
     }
 
 
-    public void makeTwoLayout(){
+    public void makeTwoLayout() {
         this.post(new Runnable() {
             @Override
             public void run() {
@@ -724,9 +727,9 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
         });
     }
 
-        /**
-         * ===============================九宫格布局相关===============================
-         */
+    /**
+     * ===============================九宫格布局相关===============================
+     */
 
     /**
      * 两个视图切换成三个视图
@@ -741,7 +744,7 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
 
         // 根据堆叠布局参数，将每个view放到适当的位置
         for (int i = 0; i < mLayoutEntityList.size(); i++) {
-            TRTCLayoutEntity            entity       = mLayoutEntityList.get(i);
+            TRTCLayoutEntity entity = mLayoutEntityList.get(i);
             RelativeLayout.LayoutParams layoutParams = mFloatParamList.get(i);
             entity.layout.setLayoutParams(layoutParams);
             if (i == 0) {
@@ -784,19 +787,21 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
 //        });
     }
 
-    public void makeFullVideoView(){
+    public void makeFullVideoView() {
         Log.i(TAG, "makeFullVideoView:  mCurrentViewIndex from = " + mCurrentViewIndex);
         makeFullVideoView(mCurrentViewIndex);
         mCurrentViewIndex = 0;
     }
+
     /**
      * 堆叠模式下，将 index 号的 com.common.weight.view 换到 0 号位，全屏化渲染
      *
      * @param index
      */
     int mCurrentViewIndex = 0;
+
     public void makeFullVideoView(int index) {
-        if (index == 0) return;
+        if (index == 0 || index > mLayoutEntityList.size()) return;
         mCurrentViewIndex = index;
         // 1 -> 0
         //        if (index <= 0 || mLayoutEntityList.size() <= index) return;
@@ -836,10 +841,10 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
      *
      * @param fromindex
      */
-    public void makeVideoView(int fromindex,int toindex) {
+    public void makeVideoView(int fromindex, int toindex) {
         // 1 -> 0
         //        if (index <= 0 || mLayoutEntityList.size() <= index) return;
-        Log.i(TAG, "makeFullVideoView: from = " + fromindex+"makeFullVideoView: to = " + toindex);
+        Log.i(TAG, "makeFullVideoView: from = " + fromindex + "makeFullVideoView: to = " + toindex);
         TRTCLayoutEntity indexEntity = mLayoutEntityList.get(fromindex);
         ViewGroup.LayoutParams indexParams = indexEntity.layout.getLayoutParams();
 
@@ -865,7 +870,7 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
 
     }
 
-    public void buildLayout(){
+    public void buildLayout() {
         for (int i = 0; i < mLayoutEntityList.size(); i++) {
             TRTCLayoutEntity entity = mLayoutEntityList.get(i);
             // 需要对 View 树的 zOrder 进行重排，否则在 RelativeLayout 下，存在遮挡情况
@@ -890,6 +895,6 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
         public int index = -1;
         public String userId = "";
         public int streamType = -1;
-        public String  userType = "";
+        public String userType = "";
     }
 }

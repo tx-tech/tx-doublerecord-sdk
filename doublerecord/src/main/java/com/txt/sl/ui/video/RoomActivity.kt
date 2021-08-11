@@ -61,6 +61,7 @@ import com.txt.sl.ui.adpter.CheckenvItemAdapter
 import com.txt.sl.ui.adpter.ExpandableItem1Adapter
 import com.txt.sl.ui.adpter.VideoDetailsItemAdapter
 import com.txt.sl.ui.dialog.UploadVideoDialog
+import com.txt.sl.ui.home.HomeActivity
 import com.txt.sl.ui.video.trtc.TRTCRightVideoLayoutManager
 import com.txt.sl.utils.*
 import com.txt.sl.utils.FileUtils
@@ -105,6 +106,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
     private var mTaskId // 房间信息
             : String? = null
+    private var mRecordType = "" // 房间信息
 
     override fun isFullScreen() {
         requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -176,6 +178,9 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             if (intent.getStringExtra(Constant.TASKID) != null) {
                 mTaskId = intent.getStringExtra(Constant.TASKID)
             }
+            if (intent.getStringExtra(Constant.RECORDTYPE) != null) {
+                mRecordType = intent.getStringExtra(Constant.RECORDTYPE)
+            }
         }
 
     }
@@ -192,17 +197,13 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         mBackButton = findViewById(R.id.trtc_ic_back)
 
         mTrtcrightvideolayoutmanager = findViewById(R.id.trtcrightvideolayoutmanager)
-        mTrtcrightvideolayoutmanager?.initView(this, roomPerson + 1)
+        mTrtcrightvideolayoutmanager?.initView(this, roomPerson )
         mTrtcrightvideolayoutmanager?.setMySelfUserId(mUserId)
         mTrtcrightvideolayoutmanager?.setIVideoLayoutListener(this)
 
 
         mRemoteUidList = ArrayList()
-        if (roomPerson == 3) {
-            mTrtcrightvideolayoutmanager?.makeThreeLayout()
-        } else {
-            mTrtcrightvideolayoutmanager?.makeTwoLayout()
-        }
+
 
         mBackButton?.setOnClickListener(this)
 
@@ -320,9 +321,8 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         userName = jsonObject1!!.optString("policyholderName", "")
         agentName = jsonObject1!!.optString("agentName", "")
         roomPerson = jsonObject1!!.optInt("roomPerson", 0)
-        if (roomPerson == 3) {
-            insuredName = jsonObject1!!.optString("insuredName", "")
-        }
+        insuredName = jsonObject1!!.optString("insuredName", "")
+
 
         agentID = jsonObject1!!.optString("agentID", "")
         val wxCloudConfJO = jsonObject1!!.getJSONObject("wxCloudConf")
@@ -417,7 +417,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                             return@CheckDoubleClickListener
                         }
                     }
-                    Handler().postDelayed({ checkPhotoInVideo() }, 1000)
+
                     startRecord(object : RoomHttpCallBack {
 
                         override fun onSuccess(json: String?) {
@@ -715,6 +715,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         encParam.videoResolutionMode = TRTCCloudDef.TRTC_VIDEO_RESOLUTION_MODE_LANDSCAPE
 
         mTRTCCloud?.setVideoEncoderParam(encParam)
+
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -743,11 +744,14 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
         }
 
-        if (null != TXSdk.getInstance().onTxPageListener) {
-            TXSdk.getInstance().onTxPageListener.onSuccess(mTaskId!!)
-        }
         super.onDestroy()
-        ApplicationUtils.finishActivity()
+        val containActivity = ApplicationUtils.isContainActivity(HomeActivity::class.java)
+        if (!containActivity) {
+            if (null != TXSdk.getInstance().onTxPageListener) {
+                TXSdk.getInstance().onTxPageListener.onSuccess(mTaskId!!)
+            }
+            ApplicationUtils.finishActivity()
+        }
     }
 
 
@@ -914,7 +918,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             )
             mStartRecordTimeMillis = System.currentTimeMillis()
             LogUtils.i("mStartRecordTimeMillis-----$mStartRecordTimeMillis")
-
+            Handler().postDelayed({ checkPhotoInVideo() }, 1000)
         }
 
         override fun onExitRoom(reason: Int) {
@@ -1050,16 +1054,22 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                                 "policyholder",
                                                 TRTCCloudDef.TRTC_VIDEO_STREAM_TYPE_BIG
                                             )
+                                        //投保人进入
+                                        var name = ""
+                                        name = if (mRecordType.isNotEmpty() && "0".equals(mRecordType)) {
+                                            "投保人:$userName" + "\n 被保人:$insuredName"
+                                        } else {
+                                            "投保人：$userName"
+                                        }
                                         mTrtcrightvideolayoutmanager?.updateName(
                                             mInsurantId,
-                                            "投保人：$userName"
+                                            name
                                         )
                                         mTRTCCloud!!.startRemoteView(
                                             mInsurantId,
                                             allocCloudVideoView1
                                         )
                                         mTRTCCloud!!.muteRemoteAudio(mInsurantId, false)
-//                                    checkPhotoInRemoteVideo()
                                     }
                                     sendMsg1(JSONObject().apply {
                                         put("serviceId", serviceId)
@@ -1712,7 +1722,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     }
 
 
-    private fun showTextReadPage(promtStr: String, obj: String,url:String) {
+    private fun showTextReadPage(promtStr: String, obj: String, url: String) {
         hideView()
         hideVideoView()
         tv_textread_skip.visibility = if ("agent".equals(obj)) {
@@ -1744,7 +1754,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         })
         if (!url.isEmpty()) {
             webView.loadUrl(url)
-        }else{
+        } else {
             showToastMsg("url为空")
         }
         page_basetype_textread.visibility(true)
@@ -1753,42 +1763,6 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         tv_textread_skip.setOnClickListener {
             autoCheckBoolean = true
             quickEnterRoom(false)
-        }
-    }
-
-    private fun showSignFilePage(url: String) {
-        hideView()
-        hideVideoView()
-        ll_page12_bottom.visibility(true)
-        ll_page12_result.visibility(false)
-        page_sign.visibility(true)
-        rl_sign.visibility(true)
-        val settings: WebSettings = webView?.getSettings()!!
-        settings.javaScriptEnabled = true
-        settings.setSupportZoom(true)
-        settings.builtInZoomControls = true
-        settings.displayZoomControls = false
-        settings.cacheMode = WebSettings.LOAD_NO_CACHE
-        settings.setAppCacheEnabled(true)
-        settings.defaultTextEncodingName = "UTF-8"
-        settings.domStorageEnabled = true
-        settings.javaScriptCanOpenWindowsAutomatically = true
-        webView?.setWebChromeClient(object : WebChromeClient() {
-            override fun onProgressChanged(view: WebView, newProgress: Int) {
-                if (newProgress == 100) {
-                }
-            }
-        })
-        webView?.setWebViewClient(object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-                view.loadUrl(url)
-                return true
-            }
-        })
-        if (!url.isEmpty()) {
-            webView.loadUrl(url)
-        }else{
-            showToastMsg("url为空")
         }
     }
 
@@ -2436,26 +2410,85 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                         showNextStep("startRecord")
                                     }
                                 }
-                                "faceDetection"->{
+                                "faceDetection" -> {
                                     runOnUiThread {
                                         val jsonObject = data.getJSONObject("step")
                                         var userId = jsonObject.optString("userId")
                                         var haveFace = jsonObject.optBoolean("haveFace")
+                                        var number = jsonObject.optInt("number")
+                                        val findEntity =
+                                            mTrtcrightvideolayoutmanager?.findEntity(userId)
+                                        val facetxColor =   if (findEntity?.userType == "policyholder") { //投保人
+                                            if (haveFace) {
+                                                if ("0".equals(mRecordType)) {
+                                                    //投保人需要两个人
+                                                    if (2.equals(number)) {
+                                                        //投保人需要两个人
+                                                        ContextCompat.getColor(
+                                                            this@RoomActivity,
+                                                            R.color.tx_txcolor_40D4A1
+                                                        )
+                                                    } else {
+                                                        ContextCompat.getColor(
+                                                            this@RoomActivity,
+                                                            R.color.tx_txred
+                                                        )
 
-                                        //有无人脸
-                                        if (haveFace) {
+                                                    }
+                                                } else {
+                                                    if (1.equals(number)) {
+                                                        //投保人需要两个人
+                                                        ContextCompat.getColor(
+                                                            this@RoomActivity,
+                                                            R.color.tx_txcolor_40D4A1
+                                                        )
+                                                    } else {
+                                                        ContextCompat.getColor(
+                                                            this@RoomActivity,
+                                                            R.color.tx_txred
+                                                        )
 
-                                            //判断入镜人数 tx_txcolor_40D4A1
-                                            mTrtcrightvideolayoutmanager?.updateToastStr(userId, "")
-                                        }else{
-                                            mTrtcrightvideolayoutmanager?.updateToastStr(
-                                                userId,
-                                                getString(R.string.tx_str),
+                                                    }
+
+                                                }
+
+
+                                            } else {
                                                 ContextCompat.getColor(
-                                                this,
-                                                R.color.tx_txred
-                                            ))
+                                                    this@RoomActivity,
+                                                    R.color.tx_txred
+                                                )
+
+                                            }
+                                        }else{
+                                             if (haveFace) {
+                                                if (1.equals(number)) {
+                                                    //投保人需要两个人
+                                                    ContextCompat.getColor(
+                                                        this@RoomActivity,
+                                                        R.color.tx_txcolor_40D4A1
+                                                    )
+                                                } else {
+                                                    ContextCompat.getColor(
+                                                        this@RoomActivity,
+                                                        R.color.tx_txred
+                                                    )
+
+                                                }
+
+                                            } else {
+                                                ContextCompat.getColor(
+                                                    this@RoomActivity,
+                                                    R.color.tx_txred
+                                                )
+
+                                            }
                                         }
+                                        mTrtcrightvideolayoutmanager?.updateToastStr(
+                                            userId,
+                                            "入镜人数：$number 人",
+                                            facetxColor
+                                        )
                                     }
                                 }
                                 else -> {
@@ -2590,7 +2623,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 //                                            }
 //
 //                                        }
-                                        "signFile" , "textRead" -> {
+                                        "signFile", "textRead" -> {
                                             runOnUiThread {
                                                 layout_right.visibility = View.VISIBLE
                                                 tv_skip.visibility(false)
@@ -2609,9 +2642,6 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                                 } else {
                                                     ToastUtils.showShort("没有textArray字段！！！")
                                                 }
-
-
-
 
 
                                             }
@@ -2725,19 +2755,19 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                     order: Int
                 ) {
                     LogUtils.i("onSegmentSuccess-------${result?.text}")
+                    val text = result?.text
+                    if (text?.isNotEmpty()!!) {
+                        strBuffer.append(result?.text)
 
-                    strBuffer.append(result?.text)
+                        mOldSegmentStr = strBuffer.toString()
+                        val replaceTV1 = replaceTV(result?.text!!)
 
-                    mOldSegmentStr = strBuffer.toString()
-                    val replaceTV1 = replaceTV(result?.text!!)
+                        LogUtils.i("replaceTV------$replaceTV1")
 
-                    LogUtils.i("replaceTV------$replaceTV1")
+                        //判断通不通过
+                        val filterASRPassword = filterASRPassword(replaceTV1)
 
-                    //判断通不通过
-                    val filterASRPassword = filterASRPassword(replaceTV1)
 
-                    if (filterASRPassword) {
-                        //识别成功
                         strBuffer.delete(0, strBuffer.length)
                         cancelAbsCredentialProvider()
                         voiceTimer1?.cancel()
@@ -2747,9 +2777,14 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                             put("type", "soundOCR")
                             put("step", JSONObject().apply {
                                 put("data", JSONObject().apply {
-                                    put("roomMessage", agentASRPassword)
+                                    put("roomMessage", replaceTV1)
                                 })
-                                put("roomType", "soundOCR-success")
+                                var result = if (filterASRPassword) {
+                                    "soundOCR-success"
+                                } else {
+                                    "soundOCR-fail"
+                                }
+                                put("roomType", result)
                                 put("target", replaceTV1)
                             })
                         }, object : RoomHttpCallBack {
@@ -2761,33 +2796,6 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
                             }
                         })
-
-                    } else {
-                        strBuffer.delete(0, strBuffer.length)
-                        cancelAbsCredentialProvider()
-                        voiceTimer1?.cancel()
-
-                        sendMsg1(JSONObject().apply {
-                            put("serviceId", serviceId)
-                            put("type", "soundOCR")
-                            put("step", JSONObject().apply {
-                                put("data", JSONObject().apply {
-                                    put("roomMessage",replaceTV1)
-                                })
-                                put("roomType", "soundOCR-fail")
-                                put("target", targetJSONArray)
-                            })
-                        }, object : RoomHttpCallBack {
-                            override fun onSuccess(json: String?) {
-
-                            }
-
-                            override fun onFail(err: String?, code: Int) {
-
-                            }
-                        })
-
-
                     }
                 }
 
@@ -2850,7 +2858,9 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     }
 
     private fun filterASRPassword(word: String): Boolean {
-
+        if (word.isEmpty()) {
+            return false
+        }
         val notContainArray = keywordsRuleJSONObject!!.getJSONArray("notContain")
         var contain = true
         for (index in 0 until notContainArray.length()) {
@@ -2872,21 +2882,24 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                 val containsStr = containsArray.getJSONObject(index)
                 val conditionsStr = containsStr.optString("conditions")
                 val nameStr = containsStr.optString("name")
-                if (conditionsStr.isEmpty() || conditionsStr == "and") {
-                    stringBuilder.append(nameStr + "@")
+                if (conditionsStr == "and") {
+                    stringBuilder.append("$nameStr@")
                 } else {
-                    stringBuilder.append(nameStr + ",")
+                    stringBuilder.append("$nameStr,")
                 }
             }
-            var contain = true
-            val split = stringBuilder.split("@")
-            split.forEach {
-                val split1 = it.split(",")
-                split1.forEach {
-                    val contains = word.contains(it)
-                    contain = contains
-                    if (contains) {
-                        return@forEach
+
+            val split = stringBuilder.split(",")
+            if (split.size == 1) {
+                contain = word.contains(split[0])
+            } else {
+                split.forEach {
+                    if (it.isNotEmpty()) {
+                        val contains = word.contains(it)
+                        contain = contains
+                        if (contains) {
+                            return contain
+                        }
                     }
                 }
             }
@@ -2958,7 +2971,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     private fun checkPhotoInVideo() {
         mTRTCCloud?.snapshotVideo(null, TRTC_VIDEO_STREAM_TYPE_BIG) { p0 ->
             TxLogUtils.i("checkPhotoInVideo")
-            val bytes = SystemCommon.getInstance()?.saveBitmap(p0)
+            val bytes = SystemCommon.getInstance()?.byteToBitmap(p0)
             if (bytes != null) {
                 val encode = Base64.encode(bytes, Base64.DEFAULT)
                 val bulider = StringBuilder("data:image/png;base64,")
@@ -2971,19 +2984,24 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                     .faceDetection(jsonObject, object : HttpRequestClient.RequestHttpCallBack {
                         override fun onSuccess(json: String?) {
                             //没有人脸
-                            var haveFace = if ("0".equals(json)) {
-                                runOnUiThread {
-                                    mTrtcrightvideolayoutmanager?.updateToastStrByType(
-                                        "agent",
-                                        getString(R.string.tx_str)
-                                    )
-                                }
-                                false
-                            } else {//有人脸
-                                runOnUiThread {
-                                    mTrtcrightvideolayoutmanager?.updateToastStrByType("agent", "")
-                                }
-                                true
+                            var haveFace = !"0".equals(json)
+                            var qualifiedFace = "1".equals(json)
+                            runOnUiThread {
+                                mTrtcrightvideolayoutmanager?.updateToastStrByType(
+                                    "agent",
+                                    "入镜人数：$json 人",
+                                    if (qualifiedFace) {
+                                        ContextCompat.getColor(
+                                            this@RoomActivity,
+                                            R.color.tx_txcolor_40D4A1
+                                        )
+                                    } else {
+                                        ContextCompat.getColor(
+                                            this@RoomActivity,
+                                            R.color.tx_txred
+                                        )
+                                    }
+                                )
                             }
                             sendMsg1(JSONObject().apply {
                                 put("serviceId", serviceId)
@@ -2992,6 +3010,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                     put("roomType", "faceDetection")
                                     put("haveFace", haveFace)
                                     put("userId", mUserId)
+                                    put("number", json?.toInt())
 
                                 })
                             }, object : RoomHttpCallBack {
@@ -3002,6 +3021,10 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                 }
 
                                 override fun onFail(err: String?, code: Int) {
+                                    runOnUiThread {
+                                        Handler().postDelayed({ checkPhotoInVideo() }, 2000)
+                                    }
+
                                 }
                             })
 
@@ -3084,7 +3107,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     private fun takePhoto(param: PhotoHttpCallBack) {
         LogUtils.i("mUserId---$mUserId")
         mTRTCCloud?.snapshotVideo(null, TRTC_VIDEO_STREAM_TYPE_BIG) {
-            val saveBitmap1 = SystemCommon.getInstance().saveBitmap1(it)
+            val saveBitmap1 = SystemCommon.getInstance().byteToBitmap(it)
             if (saveBitmap1 != null) {
                 val encode = Base64.encode(saveBitmap1, Base64.DEFAULT)
                 val jsonObject = JSONObject(mRoomInfo)

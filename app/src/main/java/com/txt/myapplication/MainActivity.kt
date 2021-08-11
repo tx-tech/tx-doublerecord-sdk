@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import com.tencent.bugly.crashreport.CrashReport
 import com.txt.sl.TXSdk
 import com.txt.sl.callback.onSDKListener
 import com.txt.sl.callback.onTxPageListener

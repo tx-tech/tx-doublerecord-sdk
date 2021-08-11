@@ -8,7 +8,6 @@ import com.common.widget.dialog.TxPopup
 import com.common.widget.recyclerviewadapterhelper.base.entity.MultiItemEntity
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.tencent.trtc.TRTCCloud
 import com.common.widget.base.BaseActivity
 import com.txt.sl.R
 import com.txt.sl.config.TXManagerImpl
@@ -19,11 +18,8 @@ import com.txt.sl.ui.adpter.OrderDetailsItemAdapter
 import com.txt.sl.ui.adpter.OrderExpandableItemAdapter1
 import com.txt.sl.ui.dialog.CheckRemoteDialog
 import com.txt.sl.ui.invite.InviteActivity
-import com.txt.sl.ui.video.OfflineActivity
-import com.txt.sl.ui.video.RoomActivity
 import com.txt.sl.utils.GsonUtils
 import com.txt.sl.utils.LogUtils
-import com.txt.sl.utils.ToastUtils
 import kotlinx.android.synthetic.main.tx_activity_order_details_page.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -77,11 +73,7 @@ class OrderDetailsPageActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClick
         customDialog?.setOnRemoteClickListener(this)
         btn_commit.setOnClickListener {
             customDialog?.setData(
-                workItemBean?.flowId,
-                workItemBean?.insuredPhone,
-                workItemBean?.taskId,
-                workItemBean?.membersArray as java.util.ArrayList<String>?,
-                workItemBean?.isSelfInsurance!!
+                workItemBean
             )
 
             showCheckRemoteDialog()
@@ -89,7 +81,7 @@ class OrderDetailsPageActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClick
     }
     public fun showCheckRemoteDialog(){
 
-        TxPopup.Builder(this).asCustom(customDialog).show()
+        customDialog?.show()
 
     }
 
@@ -110,6 +102,7 @@ class OrderDetailsPageActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClick
 
     var list = ArrayList<OrderDetailsItem>()
     var workItemBean: WorkItemBean? = null
+
     fun requestData() {
         val mFlowId = intent.extras.getString(OrderDetailsPageActivity.taskIdStr)
         SystemHttpRequest.getInstance().getFlowDetailsByTaskid(mFlowId, object : HttpRequestClient.RequestHttpCallBack {
@@ -153,15 +146,31 @@ class OrderDetailsPageActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClick
                             payType = fields.optString("payType")
                             taskId = fields.optString("taskId")
 
-                            relationship = fields.optString("relationship")
+                            isSelfInsurance = jsonObject.optBoolean("selfInsurance") //是否自保件
+                            relationship = jsonObject.optString("relationship")
                             repordId = fields.optString("reportId")
+                            policyholderUrl = fields.optString("policyholderUrl")
+                            insuranceUrl = fields.optString("insuranceUrl")
                             insurance = _id //险种id
+                            recordingMethod =  jsonObject.optString("recordingMethod")
                         }
 
                         orderDetailsItemlists.add(OrderDetailsItem("业务单号", fields.optString("taskId")))
-                        orderDetailsItemlists.add(OrderDetailsItem("所属区域",""))
+                        val stringBuffer = StringBuffer()
+                        val optJSONArray = fields.optJSONArray("institutionNames")
+                        if (null != optJSONArray) {
+                            for (index in 0 until optJSONArray.length()) {
+                                val subStr = optJSONArray.getString(index)
+                                stringBuffer.append("$subStr")
+                            }
+                        }else{
+                            stringBuffer.append("暂无")
+                        }
+
+                        orderDetailsItemlists.add(OrderDetailsItem("所属区域",stringBuffer.toString()))
                         orderDetailsItemlists.add(OrderDetailsItem("中介机构", fields.optString("IntermediaryInstitutions")))
                         orderDetailsItemlists.add(OrderDetailsItem("代理人姓名", TXManagerImpl.instance!!.getFullName()))
+                        orderDetailsItemlists.add(OrderDetailsItem("代理人编码", fields.optString("agentCode")))
                         val filterStr = mDataList?.filter { it.name == "投保人证件类型" }
                         val filterStr1 = filterStr?.get(0)!!.options.filter { it.key == fields.optString("agentCertificateType") }
                         if (filterStr1.isNotEmpty()&&filterStr1.size>0) {
@@ -283,20 +292,13 @@ class OrderDetailsPageActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClick
         levelItem1.addSubItem(requestSubOrderBean)
         baseQuickAdapter1?.addData(levelItem1)
     }
-
     override fun onConfirmClick(
         isRemote: Boolean,
-        flowId: String,
-        phone: String,
-        taskId: String,
-        membersArray: java.util.ArrayList<String>,
-        isSelfInsurance: Boolean,
-        recordType: String
+        recordType: String,
+        workItemBean: WorkItemBean
     ) {
         InviteActivity.newInstance(
-            this,isRemote,
-            flowId,phone,taskId,membersArray,
-            isSelfInsurance,recordType)
+            this,isRemote,recordType,workItemBean)
     }
 
 

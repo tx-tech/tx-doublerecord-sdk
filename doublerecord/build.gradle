@@ -73,19 +73,26 @@ android {
 
 }
 
-
+fataar {
+    /**
+     * If transitive is true, local jar module and remote library's dependencies will be embed.
+     * If transitive is false, just embed first level dependency
+     * Local aar project does not support transitive, always embed first level
+     * Default value is false
+     * @since 1.3.0
+     */
+    transitive = true
+}
 dependencies {
     testCompile 'junit:junit:4.12'
-//    implementation project(':LocalRepo')
-//    implementation project(':ttssdk')
+
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-//    implementation fileTree(include: ['*.aar'], dir: 'libs')
-    embed(name: 'speech_release',ext:'aar')
-//    api fileTree(include: ['*.aar'], dir: 'libs')
+
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support:support-v4:28.0.0'
     implementation 'com.android.support:design:28.0.0'
     implementation 'com.android.support:support-vector-drawable:28.0.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -93,15 +100,13 @@ dependencies {
         exclude group: 'org.json', module: 'json'
     }
 
-
-
-    implementation 'com.squareup.okhttp3:okhttp:4.0.0-RC1'
-    implementation 'com.squareup.okio:okio:1.11.0'
-    implementation 'com.google.code.gson:gson:2.8.5'
-
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 //    implementation "com.google.guava:guava:${libraries.guavaVersion}"
     implementation "com.android.support.constraint:constraint-layout:${libraries.constraintLayoutVersion}"
+
+    embed(name: 'speech_release',ext:'aar')
+
+    implementation 'com.google.code.gson:gson:2.8.5'
+
 
     implementation 'com.github.JustinWjq:commonwidget:1.0.1'
 
@@ -109,7 +114,7 @@ dependencies {
     implementation 'org.slf4j:slf4j-api:1.7.25'
 //    implementation project(':lib-face1')             // [必选] 人脸识别 SDK
     implementation 'com.tencent.liteav:LiteAVSDK_TRTC:7.8.9518'
-    api 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.3.1'
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.3.1'
 }
 repositories {
     mavenCentral()

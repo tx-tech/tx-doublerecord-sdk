@@ -2,6 +2,7 @@ package com.txt.sl.ui.video.trtc;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.tencent.rtmp.ui.TXCloudVideoView;
+import com.txt.sl.R;
 import com.txt.sl.utils.RoomVideoUiUtils;
 
 import java.lang.ref.WeakReference;

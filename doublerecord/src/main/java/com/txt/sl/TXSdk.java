@@ -11,6 +11,7 @@ import com.common.widget.toast.ToastUtils;
 import com.txt.sl.callback.onSDKListener;
 import com.txt.sl.callback.onTxPageListener;
 import com.txt.sl.config.AppBarInitializer;
+import com.txt.sl.config.CrashHandler;
 import com.txt.sl.config.ITXSDKApi;
 import com.txt.sl.config.TXManagerImpl;
 import com.txt.sl.config.TxConfig;
@@ -165,6 +166,8 @@ public class TXSdk implements ITXSDKApi {
             txConfig = new TxConfig();
         }
         checkoutNetEnv(en);
+        // 本地异常捕捉
+        CrashHandler.register(application);
         AppUtils.init(application);
         ApplicationUtils.init(application);
         ToastUtils.init(application);

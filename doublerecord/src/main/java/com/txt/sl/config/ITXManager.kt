@@ -1,7 +1,7 @@
 package com.txt.sl.config
 
 import android.app.Activity
-import com.txt.sl.callback.netResultCallBack
+import com.txt.sl.callback.onNetResultCallBack
 import com.txt.sl.callback.startVideoResultOnListener
 import com.txt.sl.callback.onSDKListener
 import org.json.JSONObject
@@ -58,19 +58,19 @@ interface ITXManager {
             sign: String,
             loginName: String,
             fullName: String,
-            listener: netResultCallBack
+            listener: onNetResultCallBack
     )
 
-    fun getToken() :String
+    fun getToken() :String =""
 
-    fun getAgentId() :String
+    fun getAgentId() :String =""
 
-    fun getTenantId() :String
+    fun getTenantId() :String =""
 
-    fun getLoginName():String
+    fun getLoginName():String =""
 
-    fun getFullName():String
+    fun getFullName():String =""
 
-    fun getOrgAccountName():String
+    fun getOrgAccountName():String =""
 
 }

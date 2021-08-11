@@ -2,6 +2,7 @@ package com.txt.sl.utils;
 
 import android.content.Context;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
@@ -13,6 +14,15 @@ import java.util.ArrayList;
  * description：
  */
 public class RoomVideoUiUtils {
+    public static int getWindowWidth(Context context) {
+        return ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
+    }
+
+    public static int getWindowHeight(Context context) {
+        return ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getHeight();
+    }
+
+
     public static int dip2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
@@ -163,6 +173,29 @@ public class RoomVideoUiUtils {
         LogUtils.i("layoutWidth-"+layoutWidth+"layoutHeight"+layoutHeight);
         RelativeLayout.LayoutParams layoutParams2 = new RelativeLayout.LayoutParams(grid4W * 3, ViewGroup.LayoutParams.MATCH_PARENT);
         layoutParams2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        list.add(layoutParams0);
+        list.add(layoutParams1);
+        list.add(layoutParams2);
+        return list;
+    }
+
+
+    public static ArrayList<RelativeLayout.LayoutParams> initRemoteTwoView(Context context, int layoutWidth, int layoutHeight) {
+
+        ArrayList<RelativeLayout.LayoutParams> list = new ArrayList<>();
+        int grid4W = layoutWidth / 10;
+        int grid4H = layoutHeight  / 2;
+        RelativeLayout.LayoutParams layoutParams0 = new RelativeLayout.LayoutParams(grid4W * 7, ViewGroup.LayoutParams.MATCH_PARENT);
+
+
+        LogUtils.i("layoutWidth-"+layoutWidth+"layoutHeight"+layoutHeight);
+        RelativeLayout.LayoutParams layoutParams1 = new RelativeLayout.LayoutParams(grid4W * 3, grid4H);
+        layoutParams1.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+
+        RelativeLayout.LayoutParams layoutParams2 = new RelativeLayout.LayoutParams(grid4W * 3, grid4H);
+        layoutParams2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+        layoutParams2.topMargin = grid4H;
+
         list.add(layoutParams0);
         list.add(layoutParams1);
         list.add(layoutParams2);

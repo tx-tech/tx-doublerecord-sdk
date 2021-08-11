@@ -110,7 +110,7 @@ class SearchActivity : AppMVPActivity<SearchContract.View, SearchPresenter>(), S
     public var customDialog: CheckRemoteDialog? = null
     public fun showDialog() {
 
-        TxPopup.Builder(this).asCustom(customDialog).show()
+        customDialog?.show()
 
     }
 
@@ -125,28 +125,22 @@ class SearchActivity : AppMVPActivity<SearchContract.View, SearchPresenter>(), S
         swipeRefreshLayout.setOnRefreshListener { refreshData() }
 
         mAdapter.setOnItemChildClickListener { adapter, view, position ->
+            val bean = mDataList[position] as WorkerItemTypeBean
             when (view.id) {
                 R.id.tv_details -> {
-                    val bean = mDataList[position] as WorkerItemTypeBean
+
                     OrderActivity.newActivity(this, bean.workItemBean.flowId)
                 }
                 R.id.ll_common -> {
-                    val bean = mDataList[position] as WorkerItemTypeBean
                     OrderDetailsActivity.newActivity(this, bean)
                 }
                 R.id.tv_item1_sl, R.id.tv_replay -> {
-                    val bean = mDataList[position] as WorkerItemTypeBean
                     customDialog?.setData(
-                        bean.workItemBean.flowId,
-                        bean.workItemBean.insuredPhone,
-                        bean.workItemBean.taskId,
-                        bean.workItemBean.membersArray as java.util.ArrayList<String>?,
-                        bean.workItemBean.isSelfInsurance
+                        bean.workItemBean
                     )
                     showDialog()
                 }
                 R.id.tv_unupload_play -> { //播放本地视频
-                    val bean = mDataList[position] as WorkerItemTypeBean
                     val screenRecordStr =
                         TxSPUtils.get(this, bean.workItemBean.flowId, "") as String
                     LogUtils.i("screenRecordStr---$screenRecordStr")
@@ -234,6 +228,8 @@ class SearchActivity : AppMVPActivity<SearchContract.View, SearchPresenter>(), S
 
         }
     }
+    var policyholderUrl  =""
+    var insuranceUrl = ""
 
     fun refreshData(name: String) {
         SystemHttpRequest.getInstance()
@@ -272,6 +268,9 @@ class SearchActivity : AppMVPActivity<SearchContract.View, SearchPresenter>(), S
                             isIsRemote = jsonObject.optBoolean("isRemote")
                             isSelfInsurance = jsonObject.optBoolean("selfInsurance") //是否自保件
                             insuranceName = stringBuffer.toString()
+                            relationship = jsonObject.optString("relationship")
+                            policyholderUrl = jsonObject.optString("policyholderUrl")
+                            insuranceUrl = jsonObject.optString("insuranceUrl")
                         })
 
                     }
@@ -338,22 +337,14 @@ class SearchActivity : AppMVPActivity<SearchContract.View, SearchPresenter>(), S
     override fun getLayoutId(): Int = R.layout.tx_activity_search
     override fun onConfirmClick(
         isRemote: Boolean,
-        flowId: String,
-        phone: String,
-        taskId: String,
-        membersArray: ArrayList<String>,
-        isSelfInsurance: Boolean,
-        recordType: String
+        recordType: String,
+        workItemBean: WorkItemBean
     ) {
         InviteActivity.newInstance(
             this,
             isRemote,
-            flowId,
-            phone,
-            taskId,
-            membersArray,
-            isSelfInsurance,
-            recordType
+            recordType,
+            workItemBean
         )
     }
 

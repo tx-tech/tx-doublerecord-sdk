@@ -78,8 +78,8 @@
     <color name="tx_black85">#D9000000</color>
     <color name="tx_white35">#59FFFFFF</color>
     <color name="tx_white25">#40FFFFFF</color>
-
-
+    <color name="black60">#99000000</color>
+    <color name="black80">#CC000000</color>
     <!-- 按钮按压时的颜色 -->
     <color name="tx_common_button_pressed_color">#AA5A8DDF</color>
     <color name="tx_common_button_pressed_white_color">#AAFFFFFF</color>
@@ -94,4 +94,5 @@
     <color name="tx_light_blue_600">#FF039BE5</color>
     <color name="tx_gray_400">#FFBDBDBD</color>
     <color name="tx_gray_600">#FF757575</color>
+    <!-- 矢量图标的颜色 -->
 </resources>

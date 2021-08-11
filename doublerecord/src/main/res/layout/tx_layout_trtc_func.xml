@@ -14,6 +14,7 @@
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="right"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:textColor="@color/tx_txcolor_FFFFFF"
@@ -105,6 +106,13 @@
         android:layout_height="match_parent"
         android:visibility="gone"
         />
+
+<!--    <com.txt.sl.widget.HollowDoubleOutView-->
+<!--        android:id="@+id/hollowdoubleoutview"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:visibility="visible"-->
+<!--        />-->
 
     <com.txt.sl.widget.RoundView
         android:id="@+id/roundView"

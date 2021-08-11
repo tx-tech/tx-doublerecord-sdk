@@ -7,17 +7,21 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.os.Handler
+import android.view.View
 import com.common.widget.base.BaseActivity
 import com.common.widget.dialog.util.PermissionConstants
 import com.tencent.mm.opensdk.constants.ConstantsAPI
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage
 import com.tencent.mm.opensdk.modelmsg.WXMiniProgramObject
+import com.tencent.mm.opensdk.modelmsg.WXWebpageObject
 import com.tencent.mm.opensdk.openapi.IWXAPI
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import com.tencent.trtc.TRTCCloud
 import com.txt.sl.R
 import com.txt.sl.TXSdk
+import com.txt.sl.config.TXManagerImpl
+import com.txt.sl.entity.bean.WorkItemBean
 import com.txt.sl.entity.constant.WXApi
 import com.txt.sl.http.https.HttpRequestClient
 import com.txt.sl.receive.SystemBaiduLocation
@@ -44,12 +48,16 @@ public class InviteActivity : BaseActivity() {
     override fun initData() {
         super.initData()
         val isRemote = intent.getBooleanExtra(InviteActivity.ARG_PARAM1, false)
-        val flowId = intent.getStringExtra(InviteActivity.ARG_PARAM2)
-        val phone = intent.getStringExtra(InviteActivity.ARG_PARAM3)
-        val taskId = intent.getStringExtra(InviteActivity.ARG_PARAM4)
-        val membersArray = intent.getStringArrayListExtra(InviteActivity.ARG_PARAM5)
-        val selfInsurance = intent.getBooleanExtra(InviteActivity.ARG_PARAM6,false)
-        val recordType = intent.getStringExtra(InviteActivity.ARG_PARAM7)
+        val recordType = intent.getStringExtra(InviteActivity.ARG_PARAM2)
+        val mWorkItemBean = intent.getSerializableExtra(InviteActivity.ARG_PARAM3) as WorkItemBean
+        val flowId = mWorkItemBean.flowId
+        val phone =  mWorkItemBean.insurantPhone
+        val taskId = mWorkItemBean.taskId
+        val membersArray = mWorkItemBean.membersArray
+        val selfInsurance = mWorkItemBean.isSelfInsurance
+
+        val policyholderUrl = mWorkItemBean.policyholderUrl
+        val insuranceUrl = mWorkItemBean.insuranceUrl
         //远程
         if (isRemote) {
             tv_title.text = "远程双录前请发送邀约给双录对象"
@@ -58,7 +66,20 @@ public class InviteActivity : BaseActivity() {
             titleBar?.title = "发送邀约"
         }else{
             tv_title.text = "请先发送电子签名给双录对象"
-            tv_invite_wx.text = "微信转发电子签名"
+
+
+            if (policyholderUrl.isNotEmpty()) {
+                tv_invite_wx.text = "微信转发投保人电子签名"
+                tv_invite_wx.visibility = View.VISIBLE
+            }else{
+                tv_invite_wx.visibility = View.GONE
+            }
+            if (insuranceUrl.isNotEmpty()) {
+                tv_invite_wx1.text = "微信转发被保人电子签名"
+                tv_invite_wx1.visibility = View.VISIBLE
+            }else{
+                tv_invite_wx1.visibility = View.GONE
+            }
             tv_invite.text = "电子签名发送完成后，可以开始进行双录"
             titleBar?.title = "发送电子签名"
         }
@@ -107,18 +128,33 @@ public class InviteActivity : BaseActivity() {
         }
 
         tv_invite_wx.setOnClickListener {
-            requestWX(phone,taskId)
+            if (isRemote){
+                requestWX(phone,taskId)
+            }else{
+                if (policyholderUrl.isNotEmpty()) {
+                    requestWebUrl(mWorkItemBean.insurantName,policyholderUrl)
+                }else{
+                    showToastMsg("投保人签字链接为空")
+                }
+
+            }
+
+        }
+        tv_invite_wx1.setOnClickListener {
+            requestWebUrl(mWorkItemBean.insuredName,mWorkItemBean.insuranceUrl)
         }
 
         regToWx()
     }
 
-    private fun startEnterRoom(roomId: String,
-                               userID: String,
-                               roomInfo: String,
-                               isRemote :Boolean,
-                               selfInsurance:Boolean,
-                               taskId:String
+    private fun startEnterRoom(
+        roomId: String,
+        userID: String,
+        roomInfo: String,
+        isRemote: Boolean,
+        selfInsurance: Boolean,
+        taskId: String,
+        recordType: String
     ) {
         val intent =  if (isRemote) {
             Intent(this, RoomActivity::class.java)
@@ -132,6 +168,7 @@ public class InviteActivity : BaseActivity() {
         intent.putExtra(Constant.ROOM_INFO, roomInfo)
         intent.putExtra(Constant.SELFINSURANCE, selfInsurance)
         intent.putExtra(Constant.TASKID, taskId)
+        intent.putExtra(Constant.RECORDTYPE, recordType)
         startActivity(intent)
         finish()
     }
@@ -174,7 +211,14 @@ public class InviteActivity : BaseActivity() {
                         val roomId = jsonObject.getString("roomId")
                         val agentIdStr = jsonObject.getString("agentId")
 
-                        startEnterRoom(roomId, agentIdStr, jsonObject.toString(),isRemote,selfInsurance,taskId)
+                        startEnterRoom(roomId,
+                            agentIdStr,
+                            jsonObject.toString(),
+                            isRemote,
+                            selfInsurance,
+                            taskId,
+                            recordType
+                        )
 
                     }, 80)
 
@@ -196,6 +240,34 @@ public class InviteActivity : BaseActivity() {
     }
 
     var api: IWXAPI? = null
+
+    public fun requestWebUrl(name :String,url :String){
+        val wxWebpageObject = WXWebpageObject()
+        wxWebpageObject.webpageUrl = url
+        val msg = WXMediaMessage(wxWebpageObject).apply {
+            title = if (TXSdk.getInstance().txConfig.miniprogramTitle.isNotEmpty()) {
+                TXSdk.getInstance().txConfig.miniprogramDescription
+            } else {
+                "诚邀您完成投保签名"
+            }
+
+            description = if (TXSdk.getInstance().txConfig.miniprogramTitle.isNotEmpty()) {
+                TXSdk.getInstance().txConfig.miniprogramDescription
+            } else {
+
+                "尊敬的客户${name}您好，${TXManagerImpl.instance!!.getFullName()}邀请您完成投保签名动作，感谢您的配合。"
+            }
+            thumbData = resources.openRawResource(R.raw.tx_icon_miniprogram_weburl).readBytes()
+        }
+        TXSdk.getInstance().wxTransaction = "miniProgram${System.currentTimeMillis()}"
+        val req = SendMessageToWX.Req().apply {
+            transaction = TXSdk.getInstance().wxTransaction
+            message = msg
+            scene = SendMessageToWX.Req.WXSceneSession
+        }
+
+        api?.sendReq(req)
+    }
 
     public  fun requestWX(phone:String,taskId:String) {
 
@@ -273,31 +345,19 @@ public class InviteActivity : BaseActivity() {
 
     companion object {
         private const val ARG_PARAM1 = "isRemote"
-        private const val ARG_PARAM2 = "flowId"
-        private const val ARG_PARAM3 = "phone"
-        private const val ARG_PARAM4 = "taskId"
-        private const val ARG_PARAM5 = "membersArray"
-        private const val ARG_PARAM6 = "selfInsurance"
-        private const val ARG_PARAM7 = "recordType"
+        private const val ARG_PARAM2 = "recordType"
+        private const val ARG_PARAM3 = "workItemBean"
 
         @JvmStatic
         fun newInstance(context: Context,
                         applyStatusParams: Boolean?,
                         applyStatusParams1:String,
-                        applyStatusParams2:String,
-                        applyStatusParams3:String,
-                        applyStatusParams4:ArrayList<String>,
-                        selfInsurance:Boolean,
-                        recordType:String
+                        workItemBean: WorkItemBean
                         ) {
             val intent = Intent(context, InviteActivity::class.java)
             intent.putExtra(InviteActivity.ARG_PARAM1, applyStatusParams)
             intent.putExtra(InviteActivity.ARG_PARAM2, applyStatusParams1)
-            intent.putExtra(InviteActivity.ARG_PARAM3, applyStatusParams2)
-            intent.putExtra(InviteActivity.ARG_PARAM4, applyStatusParams3)
-            intent.putExtra(InviteActivity.ARG_PARAM5, applyStatusParams4)
-            intent.putExtra(InviteActivity.ARG_PARAM6, selfInsurance)
-            intent.putExtra(InviteActivity.ARG_PARAM7, recordType)
+            intent.putExtra(InviteActivity.ARG_PARAM3, workItemBean)
             context.startActivity(intent)
         }
     }

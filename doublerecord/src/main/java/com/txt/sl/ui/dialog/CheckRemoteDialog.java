@@ -1,15 +1,21 @@
 package com.txt.sl.ui.dialog;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.Group;
 import android.support.v4.content.ContextCompat;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.common.widget.dialog.core.BottomPopupView;
 import com.txt.sl.R;
+import com.txt.sl.entity.bean.WorkItemBean;
+import com.txt.sl.utils.RoomVideoUiUtils;
 
 import java.util.ArrayList;
 
@@ -20,13 +26,13 @@ import java.util.ArrayList;
  * description： 选择双录方式
  * ["agent","policyholder","insured"]
  */
-public class CheckRemoteDialog extends BottomPopupView implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
+public class CheckRemoteDialog extends Dialog implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
     Context mContext;
     ArrayList<String> mMemberArray;
-    String recordType = "";
+    String recordType = "2";
 
     public CheckRemoteDialog(@NonNull Context context) {
-        super(context);
+        super(context, R.style.tx_MyDialog);
         mContext = context;
         mMemberArray = new ArrayList();
     }
@@ -39,9 +45,20 @@ public class CheckRemoteDialog extends BottomPopupView implements View.OnClickLi
     Group group;
 
     @Override
-    protected void onCreate() {
-        super.onCreate();
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.tx_dialog_changeremote);
+        Window window = getWindow();
+        WindowManager.LayoutParams attributes = window.getAttributes();
+        attributes.width = RoomVideoUiUtils.getWindowWidth(mContext);
+        window.setGravity(Gravity.BOTTOM);
 
+        setCanceledOnTouchOutside(true);
+        initView();
+
+    }
+
+    private void initView() {
         tv_local = findViewById(R.id.tv_local);
         tv_confirm = findViewById(R.id.tv_confirm);
         tv_local.setOnClickListener(this);
@@ -60,16 +77,13 @@ public class CheckRemoteDialog extends BottomPopupView implements View.OnClickLi
     }
 
     @Override
-    protected int getImplLayoutId() {
-        return R.layout.tx_dialog_changeremote;
-    }
-
-    @Override
-    protected void onShow() {
-        super.onShow();
+    public void show() {
+        super.show();
+        showLocalAndRemoteView();
         changeView(false);
         changeMembersView(membersArray);
     }
+
 
     @Override
     public void onClick(View v) {
@@ -80,7 +94,10 @@ public class CheckRemoteDialog extends BottomPopupView implements View.OnClickLi
         } else if (v.getId() == R.id.tv_confirm) {
             if (null != mOnItemClickListener) {
                 mMemberArray.add("agent");
-                mOnItemClickListener.onConfirmClick(isRemote, mFlowId, phone, taskId, mMemberArray,isSelfInsurance,recordType );
+                mOnItemClickListener.onConfirmClick(isRemote,
+                        recordType,
+                        workItemBean
+                        );
                 dismiss();
 
 
@@ -99,15 +116,33 @@ public class CheckRemoteDialog extends BottomPopupView implements View.OnClickLi
     }
 
     boolean isRemote = false;
+//recordingMethod '0'现场'1'远程'2'不限 =======>双录方式管控
+    private void showLocalAndRemoteView(){
+        if (null != workItemBean) {
+            String recordingMethod = workItemBean.getRecordingMethod();
+            if ("0".equals(recordingMethod)) {
+                tv_remote.setVisibility(View.GONE);
+                tv_local.setVisibility(View.VISIBLE);
+
+            }else if ("1".equals(recordingMethod)){
+                tv_remote.setVisibility(View.VISIBLE);
+                tv_local.setVisibility(View.GONE);
+            }else{
+                if (isSelfInsurance){
+                    tv_remote.setVisibility(View.GONE);
+                }else{
+                    tv_remote.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+
+    }
 
     private void changeView(boolean isRemoteBo) {
+
         isRemote = isRemoteBo;
 
-        if (isSelfInsurance){
-            tv_remote.setVisibility(INVISIBLE);
-        }else{
-            tv_remote.setVisibility(VISIBLE);
-        }
+
 
         if (!isRemoteBo) {
             ll_person.clearCheck();
@@ -115,18 +150,24 @@ public class CheckRemoteDialog extends BottomPopupView implements View.OnClickLi
             tv_local.setBackground(ContextCompat.getDrawable(mContext, R.drawable.tx_bg_item_blue_20));
 
             tv_remote.setBackground(ContextCompat.getDrawable(mContext, R.drawable.tx_button_gray_all_20));
-//            group.setVisibility(INVISIBLE);
-            tv_text1.setVisibility(INVISIBLE);
-            ll_person.setVisibility(INVISIBLE);
+            group.setVisibility(View.GONE);
         } else {
 
-            tv_confirm.setEnabled(false);
+            resetMembers();
+            if (isSelf) {
+                mMemberArray.add("policyholder");
+                group.setVisibility(View.GONE);
+                tv_confirm.setEnabled(true);
+            }else{
+                group.setVisibility(View.VISIBLE);
+                tv_confirm.setEnabled(false);
+            }
+
+
             tv_local.setBackground(ContextCompat.getDrawable(mContext, R.drawable.tx_button_gray_all_20));
 
             tv_remote.setBackground(ContextCompat.getDrawable(mContext, R.drawable.tx_bg_item_blue_20));
-            tv_text1.setVisibility(VISIBLE);
-            ll_person.setVisibility(VISIBLE);
-            resetMembers();
+
         }
 
     }
@@ -185,22 +226,23 @@ public class CheckRemoteDialog extends BottomPopupView implements View.OnClickLi
 
     public interface OnRemoteClickListener {
 
-        void onConfirmClick(boolean isRemote, String flowId, String phone, String taskId, ArrayList<String> membersArray, boolean isSelfInsurance, String recordType);
+        void onConfirmClick(boolean isRemote,
+                            String recordType,
+                            WorkItemBean workItemBean);
 
     }
 
-    private String mFlowId;
-    private String phone;
-    private String taskId;
     private ArrayList<String> membersArray;
     private boolean isSelfInsurance;
+    private boolean isSelf;
+    private WorkItemBean workItemBean;
 
-    public void setData(String flowId, String phone, String taskId, ArrayList<String> membersArray, boolean isSelfInsurance) {
-        this.mFlowId = flowId;
-        this.phone = phone;
-        this.taskId = taskId;
-        this.membersArray = membersArray;
-        this.isSelfInsurance = isSelfInsurance;
+    public void setData(WorkItemBean workItemBean) {
+
+        this.membersArray = (ArrayList<String>) workItemBean.getMembersArray();
+        this.isSelfInsurance = workItemBean.isSelfInsurance();
+        this.isSelf = workItemBean.getRelationship().equals("Self");
+        this.workItemBean = workItemBean;
         mMemberArray.clear();
     }
 

@@ -108,6 +108,18 @@ public final class ApplicationUtils {
 
     }
 
+    public  static boolean isContainActivity(Class<?> cls){
+        if (sActivityList == null||sActivityList.isEmpty()) {
+            return false;
+        }
+        for (Activity activity : sActivityList) {
+            if (activity.getClass().equals(cls)) {
+                return true;
+            }
+        }
+        return  false;
+    }
+
     public static Activity getCurrentActivity(){
         Activity currentActivity = null;
         if (sTopActivityWeakRef!=null){

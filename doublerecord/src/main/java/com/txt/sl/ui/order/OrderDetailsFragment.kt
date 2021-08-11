@@ -112,11 +112,22 @@ class OrderDetailsFragment : BaseLazyViewPagerFragment() {
                         }
 
                         orderDetailsItemlists.add(OrderDetailsItem("业务单号", fields.optString("taskId")))
-                        orderDetailsItemlists.add(OrderDetailsItem("所属区域",""))
+                        val stringBuffer = StringBuffer()
+                        val optJSONArray = fields.optJSONArray("institutionNames")
+                        if (null != optJSONArray) {
+                            for (index in 0 until optJSONArray.length()) {
+                                val subStr = optJSONArray.getString(index)
+                                stringBuffer.append("$subStr")
+                            }
+                        }else{
+                            stringBuffer.append("暂无")
+                        }
+
+                        orderDetailsItemlists.add(OrderDetailsItem("所属区域",stringBuffer.toString()))
                         orderDetailsItemlists.add(OrderDetailsItem("中介机构", fields.optString("IntermediaryInstitutions")))
 
                         orderDetailsItemlists.add(OrderDetailsItem("代理人姓名", TXManagerImpl.instance!!.getFullName()))
-
+                        orderDetailsItemlists.add(OrderDetailsItem("代理人编码", fields.optString("agentCode")))
                         val filterStr = mDataList?.filter { it.name == "投保人证件类型" }
                         val filterStr1 = filterStr?.get(0)!!.options.filter { it.key == fields.optString("agentCertificateType") }
                         if (filterStr1.isNotEmpty()&&filterStr1.size>0) {
@@ -127,6 +138,7 @@ class OrderDetailsFragment : BaseLazyViewPagerFragment() {
 
                         orderDetailsItemlists.add(OrderDetailsItem("代理人证件号", fields.optString("agentCertificateNo","暂无")))
                         orderDetailsItemlists.add(OrderDetailsItem("投保人姓名", fields.optString("policyholderName")))
+
 
                         val filter = mDataList?.filter { it.name == "投保人证件类型" }
                         val filter1 = filter?.get(0)!!.options.filter { it.key == fields.optString("policyholderCertificateType") }

@@ -1,6 +1,7 @@
 package com.txt.sl.entity.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -77,13 +78,40 @@ public class WorkItemBean implements Serializable {
      */
 
     private String status;
-    private List<String> membersArray;
+    private ArrayList<String> membersArray;
     /**
      * isRemote : true
      */
 
     private boolean isRemote;
     private boolean selfInsurance;
+    private String  policyholderUrl;
+    private String insuranceUrl;
+    private String recordingMethod;
+
+    public String getRecordingMethod() {
+        return recordingMethod;
+    }
+
+    public void setRecordingMethod(String recordingMethod) {
+        this.recordingMethod = recordingMethod;
+    }
+
+    public String getPolicyholderUrl() {
+        return policyholderUrl;
+    }
+
+    public void setPolicyholderUrl(String policyholderUrl) {
+        this.policyholderUrl = policyholderUrl;
+    }
+
+    public String getInsuranceUrl() {
+        return insuranceUrl;
+    }
+
+    public void setInsuranceUrl(String insuranceUrl) {
+        this.insuranceUrl = insuranceUrl;
+    }
 
     public boolean isSelfInsurance() {
         return selfInsurance;
@@ -270,11 +298,11 @@ public class WorkItemBean implements Serializable {
         this.status = status;
     }
 
-    public List<String> getMembersArray() {
+    public ArrayList<String> getMembersArray() {
         return membersArray;
     }
 
-    public void setMembersArray(List<String> membersArray) {
+    public void setMembersArray(ArrayList<String> membersArray) {
         this.membersArray = membersArray;
     }
 

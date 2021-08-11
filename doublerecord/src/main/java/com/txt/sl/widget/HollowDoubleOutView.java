@@ -1,7 +1,5 @@
 package com.txt.sl.widget;
 
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -14,8 +12,6 @@ import android.graphics.PorterDuffXfermode;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.view.View;
-import android.view.animation.LinearInterpolator;
 import android.widget.FrameLayout;
 
 import com.txt.sl.R;
@@ -26,7 +22,7 @@ import com.txt.sl.utils.LogUtils;
  * time ：5/25/21.
  * des ：
  */
-public class HollowOutView extends FrameLayout {
+public class HollowDoubleOutView extends FrameLayout {
     private Bitmap mEraserBitmap;
     private Canvas mEraserCanvas;
     private Paint mEraser;
@@ -38,19 +34,19 @@ public class HollowOutView extends FrameLayout {
     private float mRx;//默认在中心位置
     private float mRy;
 
-    public HollowOutView(@NonNull Context context) {
+    public HollowDoubleOutView(@NonNull Context context) {
         super(context);
 
     }
 
-    public HollowOutView(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public HollowDoubleOutView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
 
         initView(context, attrs);
     }
 
 
-    public HollowOutView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public HollowDoubleOutView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView(context, attrs);
     }
@@ -67,19 +63,22 @@ public class HollowOutView extends FrameLayout {
         ta.recycle();
 
     }
-    RoundCustomizeView roundCustomizeView ;
+
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         LogUtils.i("onSizeChanged" + w);
         LogUtils.i("onSizeChanged" + h);
-        mRx = w / 2;
+
+        mRx = w / 4;
         mRy = h / 2;
-//        roundCustomizeView = new RoundCustomizeView(mContext, mRx, mRy,mRadius);
-//        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
-//                FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-//        addView(roundCustomizeView,lp);
-//        roundCustomizeView.setVisibility(View.GONE);
+        mRadius = mRy/2;
+        RoundCustomizeView roundCustomizeView = new RoundCustomizeView(mContext, mRx, mRy,mRadius);
+        RoundCustomizeView roundCustomizeView1 = new RoundCustomizeView(mContext, mRx*3, mRy,mRadius);
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        addView(roundCustomizeView,lp);
+        addView(roundCustomizeView1,lp);
     }
 
     private void init(AttributeSet attrs, int defStyle) {
@@ -90,15 +89,11 @@ public class HollowOutView extends FrameLayout {
         size.x = mContext.getResources().getDisplayMetrics().widthPixels;
         size.y = mContext.getResources().getDisplayMetrics().heightPixels;
 
-//        mRx = mRx * mDensity;
-//        mRy = mRy * mDensity;
+
 //
-//        mRx = mRx != 0 ? mRx : size.x / 2;
-//        mRy = mRy != 0 ? mRy : size.y / 2;
-
-        mRadius = mRadius != 0 ? mRadius : 130;
-
-        mRadius = mRadius * mDensity;
+//        mRadius = mRadius != 0 ? mRadius : 130;
+//
+//        mRadius = mRadius * mDensity;
 
         mBackgroundColor = mBackgroundColor != -1 ? mBackgroundColor : Color.parseColor("#99000000");
 
@@ -111,6 +106,7 @@ public class HollowOutView extends FrameLayout {
         mEraser.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
         mEraser.setFlags(Paint.ANTI_ALIAS_FLAG);
 
+
     }
 
     @Override
@@ -118,32 +114,19 @@ public class HollowOutView extends FrameLayout {
         super.onDraw(canvas);
         mEraserBitmap.eraseColor(Color.TRANSPARENT);
         mEraserCanvas.drawColor(mBackgroundColor);
-
         mEraserCanvas.drawCircle(
                 mRx,
                 mRy,
-                mRy-20, mEraser);
-
+                mRadius, mEraser);
+        mEraserCanvas.drawCircle(
+                mRx*3,
+                mRy,
+                mRadius, mEraser);
         canvas.drawBitmap(mEraserBitmap, 0, 0, null);
 
     }
 
-    private ObjectAnimator rotation;
-    public void startRoundView(){
-        roundCustomizeView.setVisibility(VISIBLE);
-        rotation = ObjectAnimator.ofFloat(roundCustomizeView, "rotation", 0f, 359f);
-        rotation.setDuration(2000);
-        rotation.setRepeatCount(ValueAnimator.INFINITE);
-        rotation.setInterpolator(new LinearInterpolator());
-        rotation.start();
-    }
-
-    public void stopRoundView(){
-        roundCustomizeView.setVisibility(GONE);
-        if (null!=rotation) {
-            rotation.end();
-        }
-
-    }
+    //先确定两个圆的原点位置
+      //先中心点为原点，
 }
 

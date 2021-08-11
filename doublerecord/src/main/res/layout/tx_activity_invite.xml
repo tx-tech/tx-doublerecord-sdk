@@ -44,6 +44,22 @@
         />
 
     <TextView
+        android:id="@+id/tv_invite_wx1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/tx_dimen_10dp"
+        style="@style/txTripFunClick"
+        android:drawableStart="@drawable/tx_invite_wx"
+        android:drawablePadding="@dimen/tx_dimen_10dp"
+        android:paddingLeft="@dimen/tx_dimen_20dp"
+        android:paddingTop="@dimen/tx_dimen_5dp"
+        android:paddingBottom="@dimen/tx_dimen_10dp"
+        android:textColor="@color/tx_txblack"
+        android:visibility="gone"
+        tools:text="微信转发双录邀请"
+        />
+
+    <TextView
         android:id="@+id/tv_invite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

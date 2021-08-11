@@ -69,7 +69,7 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
     var isOrderFrom = false
     override fun initView() {
         super.initView()
-
+ 1/0
         requestOrderBean = RequestOrderBean()
         val bean = intent.getSerializableExtra(ARG_PARAM2)
         if (bean != null) {
@@ -127,7 +127,7 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
                 val resultObject = JSONObject(json)
                 val insurancesLists = resultObject.optString("insurances")
                 if (insurancesLists.isEmpty()) {
-                    ToastUtils.showShort("返回参数为空")
+                    showToastMsg("返回参数为空")
                 }else{
                     TxSPUtils.put(TXSdk.getInstance().application, SPConstant.INSURANCES_LISTS, insurancesLists)
                 }
@@ -144,7 +144,7 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
 
     private fun commit() {
         if (baseQuickAdapter?.getData() == null || baseQuickAdapter?.getData()?.size == 0) {
-            ToastUtils.showShort("产品没有选择")
+            showToastMsg("产品没有选择")
             return
         }
         val taskIdStr = et_taskId.text.toString()
@@ -152,7 +152,7 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
         val policyholderCertificateNoStr = et_policyholderCertificateNo.text.toString()
         val policyholderAgeStr = et_policyholderAge.text.toString()
         if (policyholderAgeStr.isEmpty()) {
-            ToastUtils.showShort("投保人年龄不能为空")
+            showToastMsg("投保人年龄不能为空")
             return
         }
         val policyholderPhoneStr = et_policyholderPhone.text.toString()
@@ -160,7 +160,7 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
         val insuredCertificateNoStr = et_insuredCertificateNo.text.toString()
         val insuredAgeStr = et_insuredAge.text.toString()
         if (insuredAgeStr.isEmpty()) {
-            ToastUtils.showShort("被保人年龄不能为空")
+            showToastMsg("被保人年龄不能为空")
             return
         }
         val insuredPhoneStr = et_insuredPhone.text.toString()

@@ -89,8 +89,4 @@
         tools:text = "123123"
         />
 
-    <EditText
-        android:id="@+id/et_test"
-        android:layout_width="@dimen/tx_dimen_50dp"
-        android:layout_height="@dimen/tx_dimen_50dp"/>
 </LinearLayout>

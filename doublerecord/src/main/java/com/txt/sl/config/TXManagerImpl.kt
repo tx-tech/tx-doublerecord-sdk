@@ -5,7 +5,7 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import com.txt.sl.TXSdk
-import com.txt.sl.callback.netResultCallBack
+import com.txt.sl.callback.onNetResultCallBack
 import com.txt.sl.callback.startVideoResultOnListener
 import com.txt.sl.callback.onSDKListener
 import com.txt.sl.entity.constant.SPConstant
@@ -113,7 +113,7 @@ class TXManagerImpl : ITXManager {
         context: Activity?, loginName: String, fullName: String, orgCode: String, taskId: String, sign: String, listener: onSDKListener
     ) {
         this.mLoginName = loginName
-        freeLogin(orgCode, sign, loginName, fullName, object : netResultCallBack {
+        freeLogin(orgCode, sign, loginName, fullName, object : onNetResultCallBack {
             override fun onResultSuccess(result: String) {
 
                 if (getAgentId().isEmpty() || getTenantId().isEmpty() || getToken().isEmpty()) {
@@ -136,7 +136,7 @@ class TXManagerImpl : ITXManager {
     override fun gotoCreateDetaisPage(context: Activity?, loginName: String, fullName: String, orgCode: String, sign: String, listener: onSDKListener
     ) {
         this.mLoginName = loginName
-        freeLogin(orgCode, sign, loginName, fullName, object : netResultCallBack {
+        freeLogin(orgCode, sign, loginName, fullName, object : onNetResultCallBack {
             override fun onResultSuccess(result: String) {
                 val stringStr = GsonUtils.getJson(TXSdk.getInstance().application, "reportstates.json")
                 val jsonObject1 = JSONObject(stringStr)
@@ -170,7 +170,7 @@ class TXManagerImpl : ITXManager {
     override fun gotoOrderListPage(context: Activity?, loginName: String, fullName: String, orgCode: String, sign: String, listener: onSDKListener
     ) {
         this.mLoginName = loginName
-        freeLogin(orgCode, sign, loginName, fullName, object : netResultCallBack {
+        freeLogin(orgCode, sign, loginName, fullName, object : onNetResultCallBack {
             override fun onResultSuccess(result: String) {
                 val stringStr = GsonUtils.getJson(TXSdk.getInstance().application, "reportstates.json")
                 val jsonObject1 = JSONObject(stringStr)
@@ -208,7 +208,7 @@ class TXManagerImpl : ITXManager {
         sign: String, listener: onSDKListener
     ) {
         this.mLoginName = loginName
-        freeLogin(orgCode, sign, loginName, fullName, object : netResultCallBack {
+        freeLogin(orgCode, sign, loginName, fullName, object : onNetResultCallBack {
             override fun onResultSuccess(result: String) {
                 val stringStr = GsonUtils.getJson(TXSdk.getInstance().application, "reportstates.json")
                 val jsonObject1 = JSONObject(stringStr)
@@ -245,7 +245,7 @@ class TXManagerImpl : ITXManager {
     private var mOrgAccountName: String? = null
 
     //免登录接口
-    override fun freeLogin(orgCode: String, sign: String, loginName: String, fullName: String, netResultCallBack: netResultCallBack) {
+    override fun freeLogin(orgCode: String, sign: String, loginName: String, fullName: String, netResultCallBack: onNetResultCallBack) {
 
         SystemHttpRequest.getInstance().passwordFreeLogin(orgCode, sign, loginName, fullName, object : HttpRequestClient.RequestHttpCallBack {
             override fun onSuccess(json: String?) {

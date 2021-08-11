@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/tx_dialog_background_top"
-    android:padding="@dimen/tx_dimen_10dp">
+   >
 
     <TextView
         android:id="@+id/title"
@@ -42,45 +42,52 @@
         app:layout_constraintTop_toBottomOf="@+id/view_line"
         />
 
-    <TextView
-        android:id="@+id/tv_local"
+
+    <LinearLayout
+        android:id="@+id/ll_scenes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="现场"
-        android:textColor="@color/tx_txwhite"
-        android:textSize="@dimen/tx_dimen_15sp"
-        android:paddingLeft="@dimen/tx_dimen_20dp"
-        android:paddingEnd="@dimen/tx_dimen_20dp"
-        android:paddingTop="@dimen/tx_dimen_5dp"
-        android:paddingBottom="@dimen/tx_dimen_5dp"
-        android:background="@drawable/tx_button_gray_all_20"
-        android:layout_marginTop="@dimen/tx_dimen_20dp"
-        android:visibility="visible"
+        android:orientation="horizontal"
         app:layout_constraintLeft_toLeftOf="@+id/tv_text"
         app:layout_constraintTop_toBottomOf="@+id/tv_text"
-       />
+        android:layout_marginTop="@dimen/tx_dimen_10dp"
+        >
+        <TextView
+            android:id="@+id/tv_local"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="现场"
+            android:textColor="@color/tx_txwhite"
+            android:textSize="@dimen/tx_dimen_15sp"
+            android:paddingLeft="@dimen/tx_dimen_20dp"
+            android:paddingEnd="@dimen/tx_dimen_20dp"
+            android:paddingTop="@dimen/tx_dimen_5dp"
+            android:paddingBottom="@dimen/tx_dimen_5dp"
+            android:background="@drawable/tx_button_gray_all_20"
+            android:layout_marginRight="@dimen/tx_dimen_20dp"
+            android:visibility="visible"
+            />
 
 
-    <TextView
-        android:id="@+id/tv_remote"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="远程"
-        android:textColor="@color/tx_txwhite"
-        android:textSize="@dimen/tx_dimen_15sp"
-        android:paddingLeft="@dimen/tx_dimen_20dp"
-        android:paddingEnd="@dimen/tx_dimen_20dp"
-        android:paddingTop="@dimen/tx_dimen_5dp"
-        android:paddingBottom="@dimen/tx_dimen_5dp"
-        android:layout_marginLeft="@dimen/tx_dimen_40dp"
-        android:background="@drawable/tx_button_gray_all_20"
-        android:visibility="invisible"
-        app:layout_constraintTop_toTopOf="@+id/tv_local"
-        app:layout_constraintLeft_toRightOf="@+id/tv_local"
-        app:layout_constraintTop_toBottomOf="@+id/tv_text"
-        />
+        <TextView
+            android:id="@+id/tv_remote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="远程"
+            android:textColor="@color/tx_txwhite"
+            android:textSize="@dimen/tx_dimen_15sp"
+            android:paddingLeft="@dimen/tx_dimen_20dp"
+            android:paddingEnd="@dimen/tx_dimen_20dp"
+            android:paddingTop="@dimen/tx_dimen_5dp"
+            android:paddingBottom="@dimen/tx_dimen_5dp"
+            android:background="@drawable/tx_button_gray_all_20"
+            android:visibility="gone"
+
+            />
+
+    </LinearLayout>
 
 
     <TextView
@@ -93,7 +100,7 @@
         android:layout_marginStart="@dimen/tx_dimen_20dp"
         android:layout_marginTop="@dimen/tx_dimen_20dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_remote"
+        app:layout_constraintTop_toBottomOf="@+id/ll_scenes"
         />
 
     <RadioGroup
@@ -111,20 +118,21 @@
             android:id="@+id/minpro_test"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/tx_txcolor_333333"
+            android:textSize="@dimen/tx_dimen_14sp"
             android:text="投保人、被保人（或被保人监护人）在一起"
-            android:buttonTint="@color/tx_txcolorPrimary"
             />
         <RadioButton
             android:id="@+id/minpro_dev"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/tx_txcolor_333333"
+            android:textSize="@dimen/tx_dimen_14sp"
             android:text="投保人、被保人（或被保人监护人）不在一起"
-            android:buttonTint="@color/tx_txcolorPrimary"
             />
 
 
     </RadioGroup>
-
 
 
 
@@ -148,7 +156,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:constraint_referenced_ids="tv_text1,ll_person"
-        android:visibility="invisible"
+        android:visibility="gone"
         />
 
 </android.support.constraint.ConstraintLayout>
