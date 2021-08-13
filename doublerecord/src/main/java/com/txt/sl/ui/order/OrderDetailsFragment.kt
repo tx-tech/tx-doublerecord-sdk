@@ -76,7 +76,7 @@ class OrderDetailsFragment : BaseLazyViewPagerFragment() {
         SystemHttpRequest.getInstance().getFlowDetails(mFlowId, object : HttpRequestClient.RequestHttpCallBack {
             override fun onSuccess(json: String?) {
                 LogUtils.i("onSuccess$json")
-                _mActivity.runOnUiThread {
+                _mActivity?.runOnUiThread {
                     orderDetailsItemlists.clear()
                     orderDetailsActivity.mLoadingView?.dismiss()
                     try {
@@ -218,7 +218,7 @@ class OrderDetailsFragment : BaseLazyViewPagerFragment() {
 
             override fun onFail(err: String?, code: Int) {
 
-                _mActivity.runOnUiThread {
+                _mActivity?.runOnUiThread {
                     orderDetailsActivity.mLoadingView?.dismiss()
                 }
             }
@@ -234,7 +234,12 @@ class OrderDetailsFragment : BaseLazyViewPagerFragment() {
         recyclerview1.layoutManager = LinearLayoutManager(_mActivity)
         baseQuickAdapter1 = OrderExpandableItemAdapter1(list1!!)
         baseQuickAdapter1?.setOnItemClickListener { adapter, view, position ->
-//            recyclerview1?.smoothScrollToPosition(position+3)
+            recyclerview1?.smoothScrollToPosition(position+3)
+//            nestedscrollview?.fling(0)
+
+//            nestedscrollview?.smoothScrollTo(0,-100)
+//            recyclerview1
+//            baseQuickAdapter1.
         }
         recyclerview1.adapter = baseQuickAdapter1
 
@@ -242,7 +247,6 @@ class OrderDetailsFragment : BaseLazyViewPagerFragment() {
     }
 
     fun addProductData(requestSubOrderBean:RequestSubOrderBean){
-//        val isPubliclist: java.util.ArrayList<MultiItemEntity> = java.util.ArrayList<MultiItemEntity>()
         val levelItem1 = ProductLevelItem()
         levelItem1.insuranceName = requestSubOrderBean.insuranceName
         levelItem1.insuranceIsMain = requestSubOrderBean.insuranceIsMain

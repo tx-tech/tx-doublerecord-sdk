@@ -1,5 +1,7 @@
 package com.txt.sl.widget;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -12,6 +14,9 @@ import android.graphics.PorterDuffXfermode;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.FrameLayout;
 
 import com.txt.sl.R;
@@ -72,13 +77,8 @@ public class HollowDoubleOutView extends FrameLayout {
 
         mRx = w / 4;
         mRy = h / 2;
-        mRadius = mRy/2;
-        RoundCustomizeView roundCustomizeView = new RoundCustomizeView(mContext, mRx, mRy,mRadius);
-        RoundCustomizeView roundCustomizeView1 = new RoundCustomizeView(mContext, mRx*3, mRy,mRadius);
-        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-        addView(roundCustomizeView,lp);
-        addView(roundCustomizeView1,lp);
+        mRadius = mRy / 2;
+
     }
 
     private void init(AttributeSet attrs, int defStyle) {
@@ -119,7 +119,7 @@ public class HollowDoubleOutView extends FrameLayout {
                 mRy,
                 mRadius, mEraser);
         mEraserCanvas.drawCircle(
-                mRx*3,
+                mRx * 3,
                 mRy,
                 mRadius, mEraser);
         canvas.drawBitmap(mEraserBitmap, 0, 0, null);
@@ -127,6 +127,58 @@ public class HollowDoubleOutView extends FrameLayout {
     }
 
     //先确定两个圆的原点位置
-      //先中心点为原点，
+    //先中心点为原点，
+    private ObjectAnimator rotation;
+    private ObjectAnimator rotation1;
+    private RotateAnimation rotateAnimation;
+    private RotateAnimation rotateAnimation1;
+    RoundCustomizeView roundCustomizeView;
+    RoundCustomizeView roundCustomizeView1;
+
+    public void startRoundView() {
+
+        if (null == roundCustomizeView) {
+            roundCustomizeView = new RoundCustomizeView(mContext, mRx, mRy, mRadius);
+            roundCustomizeView1 = new RoundCustomizeView(mContext, mRx * 3, mRy, mRadius);
+            FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
+                    LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+            addView(roundCustomizeView);
+            addView(roundCustomizeView1, lp);
+        }
+        roundCustomizeView.setVisibility(VISIBLE);
+        roundCustomizeView1.setVisibility(VISIBLE);
+        rotateAnimation = new RotateAnimation(0f, 359f, mRx, mRy);
+        rotateAnimation.setDuration(2000);
+        rotateAnimation.setRepeatCount(Animation.INFINITE);
+        rotateAnimation.setInterpolator(new LinearInterpolator());
+        roundCustomizeView.setAnimation(rotateAnimation);
+//        rotation = ObjectAnimator.ofFloat(roundCustomizeView, "rotationY", 0f, 359f);
+//        rotation.setDuration(2000);
+//        rotation.setRepeatCount(ValueAnimator.INFINITE);
+//        rotation.setInterpolator(new LinearInterpolator());
+//        rotation.start();
+
+//        rotation1 = ObjectAnimator.ofFloat(roundCustomizeView1, "rotation", 0f, 359f);
+//        rotation1.setDuration(2000);
+//        rotation1.setRepeatCount(ValueAnimator.INFINITE);
+//        rotation1.setInterpolator(new LinearInterpolator());
+//        rotation1.start();
+        rotateAnimation1 = new RotateAnimation(0f, 359f, mRx * 3, mRy);
+        rotateAnimation1.setDuration(2000);
+        rotateAnimation1.setRepeatCount(Animation.INFINITE);
+        rotateAnimation1.setInterpolator(new LinearInterpolator());
+        roundCustomizeView1.startAnimation(rotateAnimation1);
+    }
+
+    public void stopRoundView() {
+        if (null != rotateAnimation && null !=  roundCustomizeView) {
+            roundCustomizeView.setVisibility(GONE);
+            roundCustomizeView.clearAnimation();
+        }
+        if (null != rotateAnimation1 && null !=  roundCustomizeView1) {
+            roundCustomizeView1.setVisibility(GONE);
+            roundCustomizeView1.clearAnimation();
+        }
+    }
 }
 

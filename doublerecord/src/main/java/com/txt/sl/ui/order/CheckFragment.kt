@@ -21,11 +21,11 @@ class CheckFragment : BaseLazyViewPagerFragment() {
 
     override fun initData() {
         if (arguments != null) {
-            mFlowId = arguments!!.getString(CheckFragment.ARG_PARAM2)
+            mFlowId = arguments!!.getString(CheckFragment.ARG_PARAM2,"")
         }
         SystemHttpRequest.getInstance().getRecordTask(mFlowId, object : HttpRequestClient.RequestHttpCallBack {
             override fun onSuccess(json: String?) {
-                _mActivity.runOnUiThread {
+                _mActivity?.runOnUiThread {
                     list.clear()
                     val jsonOb = JSONObject(json)
                     val checkArray = jsonOb.getJSONArray("check")
@@ -34,10 +34,10 @@ class CheckFragment : BaseLazyViewPagerFragment() {
                         val orderRecordBean = OrderRecordBean()
                         list.add(orderRecordBean)
                         orderRecordBean.videoUrl = jsonObject.optString("videoUrl")
-                        val statusStr = jsonObject.getString("status")
+                        val statusStr = jsonObject.optString("status")
                         orderRecordBean.uploadedTime =jsonObject.optString("uploadedTime","")
-                        var failTypeSB = StringBuffer("")
-                        var failReasonSB = StringBuffer("")
+                        val failTypeSB = StringBuffer("")
+                        val failReasonSB = StringBuffer("")
                         if (statusStr == "Accepted" || statusStr == "Completed") {
 
                         }else{
@@ -60,9 +60,11 @@ class CheckFragment : BaseLazyViewPagerFragment() {
                                 }
                             }
                         }
-                        orderRecordBean.status = statusStr
-                        orderRecordBean.failType = failTypeSB.toString()
-                        orderRecordBean.failReason = failReasonSB.toString()
+                        orderRecordBean.apply {
+                            status = statusStr
+                            failType = failTypeSB.toString()
+                            failReason = failReasonSB.toString()
+                        }
 
                     }
 

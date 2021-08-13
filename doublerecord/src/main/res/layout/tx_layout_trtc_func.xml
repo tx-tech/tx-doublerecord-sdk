@@ -107,20 +107,19 @@
         android:visibility="gone"
         />
 
-<!--    <com.txt.sl.widget.HollowDoubleOutView-->
-<!--        android:id="@+id/hollowdoubleoutview"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:visibility="visible"-->
-<!--        />-->
+    <com.txt.sl.widget.HollowDoubleOutView
+        android:id="@+id/hollowdoubleoutview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        />
 
     <com.txt.sl.widget.RoundView
         android:id="@+id/roundView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
-       />
-
+        />
     <LinearLayout
         android:id="@+id/ll_page_voice_result"
         android:layout_width="match_parent"

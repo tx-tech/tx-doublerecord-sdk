@@ -119,8 +119,6 @@
 
             <include layout="@layout/tx_page_textread" />
 
-            <include layout="@layout/tx_page_sign1" />
-
 
             <include layout="@layout/tx_page_end" />
 

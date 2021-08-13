@@ -212,10 +212,13 @@ public class CheckRemoteDialog extends Dialog implements View.OnClickListener, R
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         if (checkedId == R.id.minpro_test) {
+            mMemberArray.clear();
             mMemberArray.add("policyholder");
+            mMemberArray.add("insured");
             recordType ="0";
             updateNextBt();
         } else if (checkedId == R.id.minpro_dev) {
+            mMemberArray.clear();
             mMemberArray.add("policyholder");
             mMemberArray.add("insured");
             recordType ="1";

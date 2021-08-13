@@ -128,22 +128,5 @@ public class HollowOutView extends FrameLayout {
 
     }
 
-    private ObjectAnimator rotation;
-    public void startRoundView(){
-        roundCustomizeView.setVisibility(VISIBLE);
-        rotation = ObjectAnimator.ofFloat(roundCustomizeView, "rotation", 0f, 359f);
-        rotation.setDuration(2000);
-        rotation.setRepeatCount(ValueAnimator.INFINITE);
-        rotation.setInterpolator(new LinearInterpolator());
-        rotation.start();
-    }
-
-    public void stopRoundView(){
-        roundCustomizeView.setVisibility(GONE);
-        if (null!=rotation) {
-            rotation.end();
-        }
-
-    }
 }
 

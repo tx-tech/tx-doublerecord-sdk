@@ -69,7 +69,6 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
     var isOrderFrom = false
     override fun initView() {
         super.initView()
- 1/0
         requestOrderBean = RequestOrderBean()
         val bean = intent.getSerializableExtra(ARG_PARAM2)
         if (bean != null) {
@@ -118,7 +117,7 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
         tv_fullName.text = TXManagerImpl.instance!!.getFullName()
 
         initRecyclerview()
-        getInsuranceData()
+//        getInsuranceData()
     }
 
     private fun  getInsuranceData(){
@@ -184,27 +183,27 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
             agentCode = "12313"
         }
 
-        val insurancesLists = TxSPUtils.get(this, SPConstant.INSURANCES_LISTS, "") as String
-        if (insurancesLists.isEmpty()) {
-            showToastMsg("该账号没有配置险种信息")
-            return
-        }
-        val insurancesListsJsonArray = JSONArray(insurancesLists)
-        var mSelectBeanList = ArrayList<SelectBean>()
-        var mSelectBeanStrList = ArrayList<String>()
-        if (insurancesListsJsonArray.length() == 0) {
-            showToastMsg("该账号没有配置险种信息")
-            return
-        } else {
-            for (index in 0 until insurancesListsJsonArray.length()) {
-                val jsonObject = insurancesListsJsonArray.getJSONObject(index)
-                mSelectBeanList?.add(SelectBean(
-                        jsonObject.getString("_id"),
-                        jsonObject.getString("name")
-                ))
-                mSelectBeanStrList?.add(jsonObject.getString("name"))
-            }
-        }
+//        val insurancesLists = TxSPUtils.get(this, SPConstant.INSURANCES_LISTS, "") as String
+//        if (insurancesLists.isEmpty()) {
+//            showToastMsg("该账号没有配置险种信息")
+//            return
+//        }
+//        val insurancesListsJsonArray = JSONArray(insurancesLists)
+//        var mSelectBeanList = ArrayList<SelectBean>()
+//        var mSelectBeanStrList = ArrayList<String>()
+//        if (insurancesListsJsonArray.length() == 0) {
+//            showToastMsg("该账号没有配置险种信息")
+//            return
+//        } else {
+//            for (index in 0 until insurancesListsJsonArray.length()) {
+//                val jsonObject = insurancesListsJsonArray.getJSONObject(index)
+//                mSelectBeanList?.add(SelectBean(
+//                        jsonObject.getString("_id"),
+//                        jsonObject.getString("name")
+//                ))
+//                mSelectBeanStrList?.add(jsonObject.getString("name"))
+//            }
+//        }
         val checkBean = checkBean(requestOrderBean)
 
         if (!checkBean) {
@@ -245,7 +244,7 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
             //            fieldsJsonObject.put("insuranceCompany",insuranceCompanyArray);
             //            fieldsJsonObject.put( "ensureTheRenewal",ensureTheRenewalArray);
             SystemHttpRequest.getInstance().update(
-                    mSelectBeanList[0].id,
+                    "",
                     TXManagerImpl.instance!!.getAgentId(),
                     requestOrderBean, object : HttpRequestClient.RequestHttpCallBack {
                 override fun onSuccess(json: String?) {

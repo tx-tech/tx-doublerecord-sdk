@@ -27,8 +27,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/tx_txwhite"
-        android:clickable="false"
-        android:focusable="false"
         android:orientation="horizontal"
         android:padding="@dimen/tx_dimen_10dp">
 
@@ -45,11 +43,6 @@
             android:textSize="@dimen/tx_dimen_14sp" />
 
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1" />
-
         <TextView
             android:id="@+id/tv_textread_skip"
             style="@style/txButtonStyle_1"
@@ -57,7 +50,7 @@
             android:layout_height="wrap_content"
             android:text="下一步"
             android:textColor="@color/tx_txcolor_FFFFFF"
-            android:visibility="invisible" />
+            android:visibility="visible" />
 
     </LinearLayout>
 

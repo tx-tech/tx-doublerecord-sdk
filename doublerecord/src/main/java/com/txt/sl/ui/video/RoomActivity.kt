@@ -67,7 +67,6 @@ import com.txt.sl.utils.*
 import com.txt.sl.utils.FileUtils
 import kotlinx.android.synthetic.main.tx_activity_remote_room.*
 import kotlinx.android.synthetic.main.tx_page_textread.*
-import kotlinx.android.synthetic.main.tx_page_sign1.*
 import kotlinx.android.synthetic.main.tx_page_checkenv.*
 import kotlinx.android.synthetic.main.tx_page_tts.*
 import kotlinx.android.synthetic.main.tx_page_asr_user.*
@@ -345,7 +344,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
                 override fun onFail(err: String?, code: Int) {
                     runOnUiThread {
-                        ToastUtils.showShort(err!!)
+                        showToastMsg(err!!)
                         listener.onFail(err, code)
                     }
                 }
@@ -362,12 +361,12 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                 "下一步" -> {
                     if (roomPerson == 3) {
                         if (mRemoteUidList!!.size <= 1) {
-                            ToastUtils.showShort("当前人数不齐，不允许进入")
+                            showToastMsg("当前人数不齐，不允许进入")
                             return@CheckDoubleClickListener
                         }
                     } else {
                         if (mRemoteUidList!!.size == 0) {
-                            ToastUtils.showShort("当前人数不齐，不允许进入")
+                            showToastMsg("当前人数不齐，不允许进入")
                             return@CheckDoubleClickListener
                         }
                     }
@@ -408,12 +407,12 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                 "开始录制" -> {  //当前页面 --双录开始前沟通-2
                     if (roomPerson == 3) {
                         if (mRemoteUidList!!.size <= 1) {
-                            ToastUtils.showShort("当前人数不齐，不允许进入")
+                            showToastMsg("当前人数不齐，不允许进入")
                             return@CheckDoubleClickListener
                         }
                     } else {
                         if (mRemoteUidList!!.size == 0) {
-                            ToastUtils.showShort("当前人数不齐，不允许进入")
+                            showToastMsg("当前人数不齐，不允许进入")
                             return@CheckDoubleClickListener
                         }
                     }
@@ -786,7 +785,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
                     screenRecordHelper?.onActivityResult(requestCode, resultCode, data!!)
                 } else {
-                    ToastUtils.showLong("拒绝录屏，退出房间！")
+                    showToastMsg("拒绝录屏，退出房间！")
                     finish()
                 }
 
@@ -889,7 +888,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                         override fun onFail(err: String?, code: Int) {
                             runOnUiThread {
                                 LogUtils.d(err!!)
-                                ToastUtils.showShort(err)
+                                showToastMsg(err)
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                     screenRecordHelper?.cancelRecord()
                                 }
@@ -1380,7 +1379,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                 )
             }
         } else {
-            ToastUtils.showShort("当前没有作用对象")
+            showToastMsg("当前没有作用对象")
         }
 
         layout_right.visibility = View.INVISIBLE
@@ -1580,7 +1579,8 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                     "123"
                 )
                 mTrtcrightvideolayoutmanager?.updateHollowOutViewLayoutByType("agent", View.VISIBLE)
-                mTrtcrightvideolayoutmanager?.startRoundView(mUserId)
+
+                Handler().postDelayed({  mTrtcrightvideolayoutmanager?.startRoundView(mUserId) }, 500)
                 LogUtils.i("agent", "mTrtcrightvideolayoutmanager")
                 Handler().postDelayed({
                     takePhoto(object : PhotoHttpCallBack {
@@ -1725,11 +1725,8 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     private fun showTextReadPage(promtStr: String, obj: String, url: String) {
         hideView()
         hideVideoView()
-        tv_textread_skip.visibility = if ("agent".equals(obj)) {
-            View.VISIBLE
-        } else {
-            View.INVISIBLE
-        }
+        page_basetype_textread.visibility(true)
+
         val settings: WebSettings = textreadWebView?.getSettings()!!
         settings.javaScriptEnabled = true
         settings.setSupportZoom(true)
@@ -1740,24 +1737,24 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         settings.defaultTextEncodingName = "UTF-8"
         settings.domStorageEnabled = true
         settings.javaScriptCanOpenWindowsAutomatically = true
-        webView?.setWebChromeClient(object : WebChromeClient() {
+        textreadWebView?.setWebChromeClient(object : WebChromeClient() {
             override fun onProgressChanged(view: WebView, newProgress: Int) {
                 if (newProgress == 100) {
                 }
             }
         })
-        webView?.setWebViewClient(object : WebViewClient() {
+        textreadWebView?.setWebViewClient(object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
                 view.loadUrl(url)
                 return true
             }
         })
         if (!url.isEmpty()) {
-            webView.loadUrl(url)
+            textreadWebView.loadUrl(url)
         } else {
             showToastMsg("url为空")
         }
-        page_basetype_textread.visibility(true)
+
         LogUtils.i("promtStr------$promtStr")
         tv_prompt1.text = promtStr
         tv_textread_skip.setOnClickListener {
@@ -1896,7 +1893,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                 override fun onFail(err: String?, code: Int) {
                                     runOnUiThread {
                                         LogUtils.d(err!!)
-                                        ToastUtils.showShort(err)
+                                        showToastMsg(err)
                                     }
                                 }
 
@@ -1942,7 +1939,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                     override fun onFail(err: String?, code: Int) {
                                         runOnUiThread {
                                             LogUtils.d(err!!)
-                                            ToastUtils.showShort(err)
+                                            showToastMsg(err)
                                         }
                                     }
 
@@ -2042,7 +2039,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
 
         } else {
-            ToastUtils.showShort("没有textArray字段！！！")
+            showToastMsg("没有textArray字段！！！")
         }
 
         return stringBuffer.toString()
@@ -2597,7 +2594,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                                     )
                                                 }
                                             } else {
-                                                ToastUtils.showShort("没有textArray字段！！！")
+                                                showToastMsg("没有textArray字段！！！")
                                             }
 
                                         }
@@ -2640,7 +2637,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                                         stepDataNode!!.optString("agentUrl", "")
                                                     )
                                                 } else {
-                                                    ToastUtils.showShort("没有textArray字段！！！")
+                                                    showToastMsg("没有textArray字段！！！")
                                                 }
 
 
@@ -2670,10 +2667,10 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                 "signShow" -> {
                                     runOnUiThread {
 //                                        showTextReadPage(false)
-                                        val stepData = data.getJSONObject("step")
-                                        val dataJson = stepData.getJSONObject("data")
-                                        val imageByte = dataJson.getString("image")
-                                        showSignPhoto(imageByte)
+//                                        val stepData = data.getJSONObject("step")
+//                                        val dataJson = stepData.getJSONObject("data")
+//                                        val imageByte = dataJson.getString("image")
+//                                        showSignPhoto(imageByte)
                                     }
                                 }
                                 else -> {
@@ -2944,24 +2941,6 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     }
 
 
-    private fun showSignPhoto(photoByte: String) {
-        val bytes = FileUtils.stringToBitmap(photoByte, 700, 700)
-//        Glide.with(this)
-//                .load(bytes)
-//                .into(iv_page_13)
-
-
-    }
-
-    private fun showSignPhoto1(photoByte: String) {
-//        val bytes = FileUtils.stringToBitmap(photoByte, 700, 700)
-//        Glide.with(this)
-//                .load(bytes)
-//                .into(iv_page_12)
-
-
-    }
-
 
     private var mCheckLocal = false
     private var checkPhotoInVideoTimer: CountDownTimer? = null
@@ -3062,20 +3041,13 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         page_readnext_title.visibility(false)
         page_basetype_textread.visibility(false)
 
-        page_sign.visibility(false)
 
         ll_page_voice.visibility(false)
         ll_envpreview.visibility(false)
 
         ll_page_voice_result.visibility(false)
-        ll_page12_result_fail.visibility(false)
-        tv_page12_sign_nextstep.visibility(false)
-        tv_page12_sign__retry.visibility(false)
-        ll_page12_result_success.visibility(false)
         ll_pageend.visibility(false)
         tv_text_continue.visibility(false)
-//            tv_continue.visibility(false)
-//        iv_page_sign_12.clear()
     }
 
     override fun onConnect() {
@@ -3089,7 +3061,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     override fun event_reconnect() {
         super.event_reconnect()
         runOnUiThread {
-            ToastUtils.showShort("socket重连中")
+            showToastMsg("socket重连中")
         }
 
     }

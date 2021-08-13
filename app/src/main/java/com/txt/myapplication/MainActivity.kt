@@ -144,9 +144,9 @@ class MainActivity : AppCompatActivity(), onTxPageListener {
 
             }
         }
-        val l = System.currentTimeMillis() / 1000
-        Log.i("currentTimeMillis", "" + l)
-        val encrypt: String = SignUtils.Encrypt(orgAccount + "" + l)
+        val currentTimeMillis = System.currentTimeMillis() / 1000
+        val encrypt: String = SignUtils.Encrypt(orgAccount + "" + currentTimeMillis)
+        Log.i("currentTimeMillis", "" + currentTimeMillis)
 
         when (pageType) {
             "1"-> {//创建保单

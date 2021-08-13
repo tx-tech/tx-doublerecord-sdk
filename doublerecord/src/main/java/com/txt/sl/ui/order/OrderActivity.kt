@@ -32,8 +32,6 @@ class OrderActivity : BaseActivity() {
     override fun initView() {
         super.initView()
         title = "质检详情"
-//        tv_new.setOnClickListener { finish() }
-
     }
 
     override fun initData() {
@@ -50,14 +48,14 @@ class OrderActivity : BaseActivity() {
 
                             for (index in 0 until jsonArray.length()) {
                                 val jsonObject = jsonArray.getJSONObject(index)
-                                val name = jsonObject.getString("name")
+                                val name = jsonObject.optString("name")
                                 val stepsJsonArray = jsonObject.getJSONArray("steps")
                                 val isPubliclist: ArrayList<MultiItemEntity> = ArrayList<MultiItemEntity>()
                                 val isNoPublicItem = LevelItem1(isPubliclist, name)
                                 for (index1 in 0 until stepsJsonArray.length()) {
                                     val jsonObject1 = stepsJsonArray.getJSONObject(index1)
                                     val fileBean = FileBean()
-                                    fileBean.name = jsonObject1.getString("name")
+                                    fileBean.name = jsonObject1.optString("name")
                                     fileBean.failType = jsonObject1.optString("autoFailType")
                                     fileBean.failReason = jsonObject1.optString("autoFailReason")
 
@@ -74,7 +72,7 @@ class OrderActivity : BaseActivity() {
 
                     override fun onFail(err: String?, code: Int) {
                         runOnUiThread {
-                            ToastUtils.showShort(err)
+                            showToastMsg(err)
                         }
                     }
 

@@ -461,7 +461,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                 })
         } catch (e: TtsNotInitializedException) {
             LogUtils.i("${e.message}")
-            callBack.onFail("", 0)
+            callBack.onFail(e.message, 0)
         }
 
 
@@ -692,15 +692,10 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         exitRoom()
         cancelAbsCredentialProvider()
         cancelTitleTimer()
-        checkPhotoInRemotVideoTimer?.cancel()
-        checkPhotoInRemotVideoTimer = null
-        checkPhotoInVideoTimer?.cancel()
-        checkPhotoInVideoTimer = null
-        checkPhotoInRemotVideoTimer1?.cancel()
-        checkPhotoInRemotVideoTimer1 = null
+        startCheckPhotoInVideoTimer?.cancel()
+        startCheckPhotoInVideoTimer = null
 
         mCheckLocal = false
-        mRemoteCheck = false
 
         if (aaiClient != null) {
             try {
@@ -835,7 +830,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 //            tv_local_video.text = "代理人：$agentName"
             mStartRecordTimeMillis = System.currentTimeMillis()
             LogUtils.i("mStartRecordTimeMillis-----$mStartRecordTimeMillis")
-            checkPhotoInVideo()
+            startCheckPhotoInVideo()
         }
 
         override fun onExitRoom(reason: Int) {
@@ -1154,7 +1149,6 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         })
         checkLeftVideoToRightScreen(page_readnextPage!!, false, title)
 
-        page_readnextPage?.findViewById<TextView>(R.id.tv_readNext_content)?.text = titleContent
 
         mTrtcVideolayout?.setll_remote_skip(title, View.VISIBLE, View.VISIBLE)
     }
@@ -1164,7 +1158,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         page_readnextPage?.visibility(true)
         tv_skip.visibility(false)
         checkLeftVideoToRightScreen(page_readnextPage!!, false, titleContent)
-        page_readnextPage?.findViewById<TextView>(R.id.tv_readNext_content)?.text = titleContent
+//        page_readnextPage?.findViewById<TextView>(R.id.tv_readNext_content)?.text = titleContent
 
     }
 
@@ -1172,7 +1166,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     private fun showTTSNext(contentStr: String) {
         tv_skip.visibility(false)
         checkLeftVideoToRightScreen(page_ttsPage!!, false, contentStr)
-        page_ttsPage?.findViewById<TextView>(R.id.tts_page_content)?.text = contentStr
+//        page_ttsPage?.findViewById<TextView>(R.id.tts_page_content)?.text = contentStr
         //播报
         startTtsController(contentStr, object : RoomHttpCallBack {
             override fun onSuccess(json: String?) {
@@ -1220,6 +1214,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     var llPage9timer: CountDownTimer? = null
     var mWatingArray: JSONArray? = null
     private fun showidComparisonPage(title: String, jsonArray: JSONArray, isRetry: Boolean) {
+        stopCheckPhotoInVideo()
         mFailCacheArray.clear()
         mSuccessCacheArray.clear()
         if (isRetry) {
@@ -1227,12 +1222,16 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         }
         mWatingArray = jsonArray
         tv_skip.visibility(false)
+
         startTtsController(title, object : RoomHttpCallBack {
             override fun onSuccess(json: String?) {
 
             }
 
             override fun onFail(err: String?, code: Int) {
+                //tts 播报识别 重连
+                showToastMsg("播报识别")
+
             }
         })
         handler?.removeCallbacksAndMessages(null)
@@ -1240,14 +1239,19 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         llPage8timer = null
 
         checkLeftVideoToRightScreen(page_idcaPage!!, false, title)
-        page_idcaPage!!.findViewById<TextView>(R.id.ll_page9_title).text = title
-        mTrtcVideolayout?.startRoundView()
-        mTrtcVideolayout?.setHollowOutView(View.VISIBLE)
+
+        if (2 == jsonArray.length()) {
+            //两个框
+            mTrtcVideolayout?.startTwoRoundView()
+        } else if (1 == jsonArray.length()) {
+            mTrtcVideolayout?.startRoundView()
+        } else {
+            showToastMsg("作用对象为空，请配置")
+        }
+
         Handler().postDelayed({
             if (jsonArray.length() == 0) {
-                showToastMsg("作用对象为空，请配置")
-                mTrtcVideolayout?.stopRoundView()
-                mTrtcVideolayout?.setHollowOutView(View.GONE)
+
             } else {
                 mTRTCCloud?.snapshotVideo(null, TRTC_VIDEO_STREAM_TYPE_BIG) { p0 ->
                     if (jsonArray.length() == 1) {
@@ -1325,6 +1329,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                     runOnUiThread {
                                         mTrtcVideolayout?.stopRoundView()
                                         mTrtcVideolayout?.setHollowOutView(View.GONE)
+                                        startCheckPhotoInVideo()
                                     }
 
                                 }
@@ -1333,6 +1338,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                     runOnUiThread {
                                         mTrtcVideolayout?.stopRoundView()
                                         mTrtcVideolayout?.setHollowOutView(View.GONE)
+                                        startCheckPhotoInVideo()
                                     }
 
                                 }
@@ -1582,70 +1588,6 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         } else {
             showToastMsg("url为空")
         }
-
-    }
-
-    private fun showSignPage(jsonArray: JSONArray, url: String) {
-
-        page_local_signPage?.findViewById<LinearLayout>(R.id.ll_page12_result)?.visibility(false)
-        page_local_signPage?.findViewById<TextView>(R.id.ll_page12_result_success)
-            ?.visibility(false)
-        page_local_signPage?.findViewById<TextView>(R.id.ll_page12_result_fail)?.visibility(false)
-        page_local_signPage?.findViewById<TextView>(R.id.ll_page_voice_result_mark)
-            ?.visibility(false)
-        page_local_signPage?.findViewById<TextView>(R.id.ll_page_voice_result_jump)
-            ?.visibility(false)
-        page_local_signPage?.findViewById<TextView>(R.id.ll_page_voice_result_retry)
-            ?.visibility(false)
-        page_local_signPage?.findViewById<TextView>(R.id.tv_name_sign)!!.text = "签名："
-        val checkName = when (jsonArray.getString(0)) {
-            "policyholder" -> policyholderName
-            "agent" -> agentName
-            else -> {
-                insuredName
-            }
-        }
-
-        page_local_signPage?.findViewById<TextView>(R.id.tv_name)!!.text =
-            when (jsonArray.getString(0)) {
-                "policyholder" -> "投保人：" + checkName
-                "agent" -> "代理人：" + checkName
-                else -> {
-                    "被保人：" + checkName
-                }
-            }
-        val webView =
-            page_local_signPage?.findViewById<WebView>(R.id.iv_page_local_webview)
-        val settings: WebSettings = webView?.getSettings()!!
-        settings.javaScriptEnabled = true
-        settings.setSupportZoom(true)
-        settings.builtInZoomControls = true
-        settings.displayZoomControls = false
-        settings.cacheMode = WebSettings.LOAD_NO_CACHE
-        settings.setAppCacheEnabled(true)
-        settings.defaultTextEncodingName = "UTF-8"
-        settings.domStorageEnabled = true
-        settings.javaScriptCanOpenWindowsAutomatically = true
-        webView?.setWebChromeClient(object : WebChromeClient() {
-            override fun onProgressChanged(view: WebView, newProgress: Int) {
-                if (newProgress == 100) {
-                }
-            }
-        })
-        webView?.setWebViewClient(object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-                view.loadUrl(url)
-                return true
-            }
-        })
-        if (!url.isEmpty()) {
-            webView.loadUrl(url)
-        } else {
-            showToastMsg("url为空")
-        }
-
-        checkLeftVideoToRightScreen(page_local_signPage!!, true, "")
-
 
     }
 
@@ -2192,10 +2134,19 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
                                 "idComparison-collect-success" -> {
                                     runOnUiThread {
+                                        startCheckPhotoInVideo()
                                         autoCheckBoolean = true
+                                        val target = stepDataJson!!.optJSONArray("target")
+                                        if (null != target) {
+                                            val length = target.length()
+                                            if (1 == length) {
+                                                mTrtcVideolayout?.stopRoundView()
+                                            } else if (2 == length) {
+                                                mTrtcVideolayout?.stopTwoRoundView()
+                                            } else {
 
-                                        mTrtcVideolayout?.stopRoundView()
-                                        mTrtcVideolayout?.setHollowOutView(View.GONE)
+                                            }
+                                        }
                                         mTrtcVideolayout?.setll_page_voice_result(
                                             View.VISIBLE,
                                             true,
@@ -2207,11 +2158,22 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                 }
                                 "idComparison-collect-fail" -> {
                                     runOnUiThread {
+                                        startCheckPhotoInVideo()
                                         val dataJson = stepDataJson!!.getJSONObject("data")
+                                        val target = stepDataJson!!.optJSONArray("target")
                                         val roomMessage = dataJson.getString("roomMessage")
                                         autoCheckBoolean = false
-                                        mTrtcVideolayout?.stopRoundView()
-                                        mTrtcVideolayout?.setHollowOutView(View.GONE)
+                                        if (null != target) {
+                                            val length = target.length()
+                                            if (1 == length) {
+                                                mTrtcVideolayout?.stopRoundView()
+                                            } else if (2 == length) {
+                                                mTrtcVideolayout?.stopTwoRoundView()
+                                            } else {
+
+                                            }
+                                        }
+
                                         mTrtcVideolayout?.setll_page_voice_result(
                                             View.VISIBLE,
                                             false,
@@ -2220,72 +2182,6 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                         )
                                     }
 
-                                }
-
-                                "onScroll" -> { //滑动中
-                                    val stepData = data.getJSONObject("stepData")
-                                    val jsonObject = stepData.getJSONObject("data")
-                                    val string = jsonObject.getInt("roomMessage")
-                                    runOnUiThread {
-//                                    ll_page11_content.smoothScrollBy(0, string)
-                                    }
-
-                                }
-                                "onScrollToUpper" -> {//滑到顶
-//                                        if (isshowPage21){
-//                                        ll_page13_content.smoothScrollBy(0, string)
-//                                    }else{
-//                                        ll_page11_content.smoothScrollBy(0, string)
-//                                    }
-
-                                }
-                                "onScrollToLower" -> { //滑到底
-//                                         if (isshowPage21){
-//                                        ll_page13_content.smoothScrollBy(0, string)
-//                                    }else{
-//                                        ll_page11_content.smoothScrollBy(0, string)
-//                                    }
-
-                                }
-                                "onTouchEnd" -> {
-                                    val stepData = data.getJSONObject("stepData")
-                                    val dataJson = stepData.getJSONObject("data")
-                                    val imageByte = dataJson.getString("roomMessage")
-                                    LogUtils.i("imageByte--------------" + imageByte)
-                                    var mDataList = ArrayList<PointBean>()
-                                    mDataList = Gson().fromJson(
-                                        imageByte,
-                                        object : TypeToken<java.util.ArrayList<PointBean>>() {}.type
-                                    )
-                                    runOnUiThread {
-//                                    iv_page_sign_12.clear()
-//                                    iv_page_sign_12.drawPath(mDataList)
-                                    }
-                                }
-                                "clearCanvas" -> {
-                                    runOnUiThread {
-
-                                    }
-                                }
-                                "signFile-fail" -> {
-                                    runOnUiThread {
-                                        isPassed = false
-                                        val stepData = data.getJSONObject("stepData")
-                                        val dataJson = stepData.getJSONObject("data")
-                                        val imageByte = dataJson.getString("roomMessage")
-
-                                    }
-
-
-                                }
-                                "signFile-success" -> {
-                                    runOnUiThread {
-                                        isPassed = true
-                                        val stepData = data.getJSONObject("stepData")
-                                        val dataJson = stepData.getJSONObject("data")
-                                        val imageByte = dataJson.getString("roomMessage")
-
-                                    }
                                 }
                                 else -> {
                                 }
@@ -2386,7 +2282,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                                     )
                                                 }
                                             } else {
-                                                ToastUtils.showShort("没有textArray字段！！！")
+                                                showToastMsg("没有textArray字段！！！")
                                             }
 
                                         }
@@ -2418,7 +2314,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                                         stepDataNode!!.optString("clientUrl", "")
                                                     )
                                                 } else {
-                                                    ToastUtils.showShort("没有textArray字段！！！")
+                                                    showToastMsg("没有textArray字段！！！")
                                                 }
 
 
@@ -2863,66 +2759,81 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         }
 
     private var mCheckLocal = false
-    private var checkPhotoInVideoTimer: CountDownTimer? = null
+    private var startCheckPhotoInVideoTimer: CountDownTimer? = null
+    //停止检测人脸
+    private fun stopCheckPhotoInVideo() {
+        startCheckPhotoInVideoTimer?.cancel()
+    }
 
     var isShowedAgentHaveFace = false;
-    private fun checkPhotoInVideo() {
-        LogUtils.i("checkPhotoInVideo----")
-        mTRTCCloud?.snapshotVideo(null, TRTC_VIDEO_STREAM_TYPE_BIG) { p0 ->
-            ThreadPoolManager.getInstance().execute {
-                val bytes = SystemCommon.getInstance()?.byteToBitmap(p0)
-                LogUtils.i("checkPhotoInVideo----${bytes}")
-                if (bytes != null) {
-                    val encode = Base64.encode(bytes, Base64.DEFAULT)
-                    val bulider = StringBuilder("data:image/png;base64,")
-                    bulider.append(String(encode))
+    //开始检测人脸
+    private fun startCheckPhotoInVideo() {
+        if (null == startCheckPhotoInVideoTimer) {
+            startCheckPhotoInVideoTimer = object : CountDownTimer(600000, 3000) {
+                @SuppressLint("SetTextI18n")
+                override fun onTick(millisUntilFinished: Long) {
+                    LogUtils.i("checkPhotoInVideo----")
+                    mTRTCCloud?.snapshotVideo(null, TRTC_VIDEO_STREAM_TYPE_BIG) { p0 ->
+                        ThreadPoolManager.getInstance().execute {
+                            val bytes = SystemCommon.getInstance()?.byteToBitmap(p0)
+                            LogUtils.i("checkPhotoInVideo----${bytes}")
+                            if (bytes != null) {
+                                val encode = Base64.encode(bytes, Base64.DEFAULT)
+                                val bulider = StringBuilder("data:image/png;base64,")
+                                bulider.append(String(encode))
 
+                                val replace = bulider.toString().replace("\n", "")
+                                val jsonObject = JSONObject()
+                                jsonObject.put("img", replace)
+                                SystemHttpRequest.getInstance()
+                                    .faceDetection(
+                                        jsonObject,
+                                        object : HttpRequestClient.RequestHttpCallBack {
+                                            override fun onSuccess(json: String?) {
+                                                //没有人脸 0 , 有1
+                                                runOnUiThread {
+                                                    var color = if (mSelfInsurance!!) {
+                                                        checkColorPerson("1", json!!)
+                                                    } else {
+                                                        if (policyholdeRequalInsured) { //2
+                                                            checkColorPerson("2", json!!)
+                                                        } else {//3
+                                                            checkColorPerson("3", json!!)
+                                                        }
+                                                    }
+                                                    mTrtcVideolayout!!.setToastStr(
+                                                        "入镜人数：${json}人",
+                                                        color
+                                                    )
+                                                }
 
-                    val replace = bulider.toString().replace("\n", "")
-                    val jsonObject = JSONObject()
-                    jsonObject.put("img", replace)
-                    SystemHttpRequest.getInstance()
-                        .faceDetection(jsonObject, object : HttpRequestClient.RequestHttpCallBack {
-                            override fun onSuccess(json: String?) {
-                                //没有人脸 0 , 有1
-                                runOnUiThread {
-                                    var color = if (mSelfInsurance!!) {
-                                        checkColorPerson("1", json!!)
-                                    } else {
-                                        if (policyholdeRequalInsured) { //2
-                                            checkColorPerson("2", json!!)
-                                        } else {//3
-                                            checkColorPerson("3", json!!)
+                                            }
+
+                                            override fun onFail(err: String?, code: Int) {
+
+                                            }
                                         }
-                                    }
-                                    mTrtcVideolayout!!.setToastStr("入镜人数：${json}人", color)
-                                    Handler().postDelayed({ checkPhotoInVideo() }, 3000)
-                                }
 
-                            }
-
-                            override fun onFail(err: String?, code: Int) {
+                                    )
 
                             }
                         }
 
-                        )
+
+                    }
 
                 }
+
+                override fun onFinish() {
+                    startCheckPhotoInVideoTimer?.start()
+                }
             }
-
-
         }
 
+
+        startCheckPhotoInVideoTimer!!.start()
+
     }
-
-    private var mRemoteFailCount = 0;
-    private var mRemoteCheck = false;
-    private var checkPhotoInRemotVideoTimer: CountDownTimer? = null
-
-
-    private var checkPhotoInRemotVideoTimer1: CountDownTimer? = null
-    var showRemoteBasePop1: BasePopupView? = null
 
 
     fun hideView() {

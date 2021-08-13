@@ -2,6 +2,7 @@ package com.txt.sl.ui.dialog
 
 import android.app.AlertDialog
 import android.content.Context
+import android.net.TrafficStats
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import android.widget.TextView
 import com.common.widget.dialog.core.CenterPopupView
 import com.common.widget.dialog.util.XPopupUtils
 import com.txt.sl.R
+import com.txt.sl.TXSdk
 import com.txt.sl.system.SystemHttpRequest
 import com.txt.sl.utils.LogUtils
 import com.txt.sl.utils.MainThreadUtil
@@ -170,7 +172,25 @@ class UploadVideoDialog(context: Context) : CenterPopupView(context) {
         mProgressBar?.progress = progressInt
 
         mTvPercent?.text = "$progressInt %"
+        val netSpeed = getNetSpeed(TXSdk.getInstance().application.applicationInfo.uid)
+        LogUtils.i("netSpeed:" +netSpeed)
+    }
+    private var lastTotalRxBytes: Long = 0
+    private var lastTimeStamp: Long = 0
 
+    fun getNetSpeed(uid: Int): String {
+        val nowTotalRxBytes = getTotalRxBytes(uid)
+        val nowTimeStamp = System.currentTimeMillis()
+        val speed = (nowTotalRxBytes - lastTotalRxBytes) * 1000 / if (nowTimeStamp == lastTimeStamp)
+            nowTimeStamp
+        else
+            nowTimeStamp - lastTimeStamp// 毫秒转换
+        lastTimeStamp = nowTimeStamp
+        lastTotalRxBytes = nowTotalRxBytes
+        return speed.toString() + " kb/s"
     }
 
+    fun getTotalRxBytes(uid: Int): Long {
+        return if (TrafficStats.getUidRxBytes(uid) == TrafficStats.UNSUPPORTED.toLong()) 0 else TrafficStats.getTotalRxBytes() / 1024//转为KB
+    }
 }

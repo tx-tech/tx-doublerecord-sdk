@@ -313,7 +313,7 @@ public class SystemHttpRequest {
 
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("insurance", insuranceId);
+            jsonObject.put("code", "remoteRecord");
             jsonObject.put("agentId", agentId);
 
             Gson gson = new Gson();
@@ -325,7 +325,7 @@ public class SystemHttpRequest {
         }
 
 
-        HttpRequestClient.getIntance().post(mCommonIp + "/api/report/update", jsonObject.toString(),  TXManagerImpl.getInstance().getToken(), callback);
+        HttpRequestClient.getIntance().post(mCommonIp + "/api/report/CommonRecord/update", jsonObject.toString(),  TXManagerImpl.getInstance().getToken(), callback);
     }
 
     public void list(String state, HttpRequestClient.RequestHttpCallBack callback) {

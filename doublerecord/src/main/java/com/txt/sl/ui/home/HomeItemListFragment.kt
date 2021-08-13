@@ -145,6 +145,7 @@ class HomeItemListFragment : BaseLazyViewPagerFragment(), CheckRemoteDialog.OnRe
                         val policyholderObject = jsonObject.optJSONObject("policyholder")
                         val insuredObject = jsonObject.optJSONObject("insured")
                         val insurancesObject = jsonObject.getJSONArray("insurances")
+                        val fieldsObject = jsonObject.optJSONObject("fields")
                         val stringBuffer = StringBuffer("")
                         for (index in 0 until insurancesObject.length()) {
                             val jsonObject1 = insurancesObject.getJSONObject(index)
@@ -176,8 +177,8 @@ class HomeItemListFragment : BaseLazyViewPagerFragment(), CheckRemoteDialog.OnRe
                             isSelfInsurance = jsonObject.optBoolean("selfInsurance") //是否自保件
                             insuranceName = stringBuffer.toString()
                             relationship = jsonObject.optString("relationship")
-                            policyholderUrl = jsonObject.optString("policyholderUrl")
-                            insuranceUrl = jsonObject.optString("insuranceUrl")
+                            policyholderUrl = fieldsObject.optString("policyholderUrl")
+                            insuranceUrl = fieldsObject.optString("insuranceUrl")
                             recordingMethod =  jsonObject.optString("recordingMethod")
                         })
 

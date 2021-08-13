@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.tencent.rtmp.ui.TXCloudVideoView;
 import com.tencent.trtc.TRTCCloudDef;
 import com.txt.sl.R;
+import com.txt.sl.widget.HollowDoubleOutView;
 import com.txt.sl.widget.HollowOutView;
 import com.txt.sl.widget.RoundView;
 
@@ -76,8 +77,9 @@ public class TRTCVideoLayout extends RelativeLayout implements View.OnClickListe
     private TextView tv_ocr,ll_page_voice_result_mark,ll_page_voice_result_jump,ll_page_voice_result_retry,ll_page12_result_fail;
     private HollowOutView mHollowOutView;
     private RoundView mRoundView;
+    private HollowDoubleOutView mHollowDoubleOutView;
     private ImageView iv_person;
-
+    private ObjectAnimator rotation;
 
     public TRTCVideoLayout(Context context) {
         this(context, null);
@@ -144,34 +146,48 @@ public class TRTCVideoLayout extends RelativeLayout implements View.OnClickListe
         }
     }
 
-
-    private ObjectAnimator rotation;
+    //单个人脸识别动画
     public void startRoundView(){
-        mRoundView.setVisibility(VISIBLE);
-        rotation = ObjectAnimator.ofFloat(mRoundView, "rotation", 0f, 359f);
-        rotation.setDuration(2000);
-        rotation.setRepeatCount(ValueAnimator.INFINITE);
-        rotation.setInterpolator(new LinearInterpolator());
-        rotation.start();
-//        if (null != mHollowOutView) {
-//            mHollowOutView.setVisibility(VISIBLE);
-//            mHollowOutView.startRoundView();
-//        }
+        if (null != mHollowOutView) {
+            mHollowOutView.setVisibility(VISIBLE);
+            mRoundView.setVisibility(VISIBLE);
+            rotation = ObjectAnimator.ofFloat(mRoundView, "rotation", 0f, 359f);
+            rotation.setDuration(2000);
+            rotation.setRepeatCount(ValueAnimator.INFINITE);
+            rotation.setInterpolator(new LinearInterpolator());
+            rotation.start();
+        }
     }
 
     public void stopRoundView(){
-        mRoundView.setVisibility(GONE);
-        if (null!=rotation) {
-            rotation.end();
+
+        if (null != mHollowOutView) {
+            mRoundView.setVisibility(GONE);
+            if (null!=rotation) {
+                rotation.end();
+            }
+            mHollowOutView.setVisibility(GONE);
         }
-//        if (null != mHollowOutView) {
-//            mHollowOutView.stopRoundView();
-//            mHollowOutView.setVisibility(GONE);
-//        }
     }
 
+    public void  startTwoRoundView(){
+        if (null != mHollowDoubleOutView) {
+            mHollowDoubleOutView.setVisibility(VISIBLE);
+            mHollowDoubleOutView.startRoundView();
+        }
+    }
+
+    public void  stopTwoRoundView(){
+        if (null != mHollowDoubleOutView) {
+            mHollowDoubleOutView.setVisibility(GONE);
+            mHollowDoubleOutView.stopRoundView();
+        }
+    }
+
+
+
     public void setHollowOutView(int visibility){
-        if (mHollowOutView !=null) {
+        if ( null!=mHollowOutView) {
             mHollowOutView.setVisibility(visibility);
         }
     }
@@ -351,6 +367,7 @@ public class TRTCVideoLayout extends RelativeLayout implements View.OnClickListe
         iv_person = (ImageView) mVgFuc.findViewById(R.id.iv_person);
         mRoundView = (RoundView) mVgFuc.findViewById(R.id.roundView);
         mHollowOutView = (HollowOutView) mVgFuc.findViewById(R.id.hollowoutview);
+        mHollowDoubleOutView = (HollowDoubleOutView) mVgFuc.findViewById(R.id.hollowdoubleoutview);
         ll_page_voice_result = (LinearLayout) mVgFuc.findViewById(R.id.ll_page_voice_result);
         ll_page_voice_result_mark = (TextView) mVgFuc.findViewById(R.id.ll_page_voice_result_mark);
         ll_page_voice_result_jump = (TextView) mVgFuc.findViewById(R.id.ll_page_voice_result_jump);
