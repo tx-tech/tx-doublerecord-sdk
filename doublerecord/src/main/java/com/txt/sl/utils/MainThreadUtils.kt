@@ -10,7 +10,7 @@ import android.os.Looper
  */
 public object MainThreadUtil {
 
-    private val HANDLER = Handler(Looper.getMainLooper())
+    public val HANDLER = Handler(Looper.getMainLooper())
 
     public fun run (runnable : Runnable){
         if (isMainThread()){

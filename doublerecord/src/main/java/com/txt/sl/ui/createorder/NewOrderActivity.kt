@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.common.widget.base.BaseActivity
 import com.common.widget.dialog.TxPopup
+import com.common.widget.dialog.impl.LoadingPopupView
 import com.common.widget.dialog.interfaces.OnConfirmListener
 import com.common.widget.pickerview.builder.OptionsPickerBuilder
 import com.common.widget.pickerview.listener.OnOptionsSelectListener

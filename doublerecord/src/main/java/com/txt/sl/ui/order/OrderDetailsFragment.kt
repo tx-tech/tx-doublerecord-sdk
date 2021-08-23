@@ -1,6 +1,7 @@
 package com.txt.sl.ui.order
 
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.widget.LinearLayoutManager
 import com.common.widget.recyclerviewadapterhelper.base.entity.MultiItemEntity
 import com.google.gson.Gson
@@ -16,8 +17,11 @@ import com.txt.sl.ui.adpter.OrderExpandableItemAdapter1
 import com.txt.sl.ui.home.BaseLazyViewPagerFragment
 import com.txt.sl.utils.GsonUtils
 import com.txt.sl.utils.LogUtils
+import kotlinx.android.synthetic.main.tx_activity_order_details_page.*
 import kotlinx.android.synthetic.main.tx_fragment_order_details1.*
+import kotlinx.android.synthetic.main.tx_fragment_order_details1.nestedscrollview
 import kotlinx.android.synthetic.main.tx_fragment_order_details1.recyclerview
+import kotlinx.android.synthetic.main.tx_fragment_order_details1.recyclerview1
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -233,13 +237,26 @@ class OrderDetailsFragment : BaseLazyViewPagerFragment() {
 
         recyclerview1.layoutManager = LinearLayoutManager(_mActivity)
         baseQuickAdapter1 = OrderExpandableItemAdapter1(list1!!)
-        baseQuickAdapter1?.setOnItemClickListener { adapter, view, position ->
-            recyclerview1?.smoothScrollToPosition(position+3)
-//            nestedscrollview?.fling(0)
+        baseQuickAdapter1?.setOnItemChildClickListener { adapter, view, position ->
+            when (view.id) {
+                R.id.headerliner -> {
+                    LogUtils.i("position$position")
+                    val itemBean = baseQuickAdapter1?.data?.get(position)
+                    if (itemBean is ProductLevelItem ){
+                        if (itemBean.isExpanded) {
+                            baseQuickAdapter1?.collapse(position)
 
-//            nestedscrollview?.smoothScrollTo(0,-100)
-//            recyclerview1
-//            baseQuickAdapter1.
+                        } else {
+                            baseQuickAdapter1?.expand(position)
+                            Handler().postDelayed({ nestedscrollview.smoothScrollBy(0,700)},500)
+                        }
+                    }
+                }
+                else -> {
+                }
+            }
+
+
         }
         recyclerview1.adapter = baseQuickAdapter1
 

@@ -20,9 +20,9 @@ class VideoUploadActivity : BaseActivity() {
 
     companion object {
         var flowIdStr = "flowId"
-        fun newActivity(context: Context, flowId:String) {
+        fun newActivity(context: Context, flowId: String) {
             val intent = Intent(context, VideoUploadActivity::class.java)
-            intent.putExtra(flowIdStr,flowId)
+            intent.putExtra(flowIdStr, flowId)
             context.startActivity(intent)
         }
 
@@ -39,14 +39,16 @@ class VideoUploadActivity : BaseActivity() {
         showDialog()
     }
 
-    public fun showDialog(){
-        TxPopup.Builder(this).asConfirm("退出",
-                "确认退出双录视频上传页面？",
-                "取消",
-                "是的",
-                { finish() },
-                null,
-                false).show()
+    public fun showDialog() {
+        TxPopup.Builder(this).asConfirm(
+            "退出",
+            "确认退出双录视频上传页面？",
+            "取消",
+            "是的",
+            { finish() },
+            null,
+            false
+        ).show()
     }
 
     public fun upload(flowId: String, screenRecordStr: String) {
@@ -67,44 +69,50 @@ class VideoUploadActivity : BaseActivity() {
 
             LogUtils.i("开始上传")
             tv_gotovideo.visibility = View.GONE
-            SystemHttpRequest.getInstance().uploadLogFile(pathFile, preTime
-                    , serviceId, { size, time ->
-                val byteToMB = byteToMB(size)
-                tv_videosize?.text = "$byteToMB M"
-                LogUtils.i("time$time")
-                val min = time / 1000 / 60.0
-                val df = DecimalFormat("#.00")
-                var minSize = df.format(min)
-                tv_videotime?.text = "$minSize 分钟"
-            }, object : SystemHttpRequest.onRequestCallBack {
-                override fun onSuccess() {
+            SystemHttpRequest.getInstance()
+                .uploadLogFile(pathFile, preTime, serviceId, { size, time ->
+                    val byteToMB = byteToMB(size)
+                    tv_videosize?.text = "$byteToMB M"
+                    LogUtils.i("time$time")
+                    val min = time / 1000 / 60.0
+                    var minSize = if (min > 1) {
+                        val df = DecimalFormat("#.00")
+                        df.format(min)
+                    } else {
+                       "$min"
+                    }
+
+
+                    tv_videotime?.text = "$minSize 分钟"
+                }, object : SystemHttpRequest.onRequestCallBack {
+                    override fun onSuccess() {
+                        MainThreadUtil.run(Runnable {
+                            showToastMsg("上传成功")
+                            finish()
+                        })
+
+                    }
+
+                    override fun onFail(msg: String?) {
+                        MainThreadUtil.run(Runnable {
+                            showToastMsg("上传失败")
+                            tv_gotovideo.visibility = View.VISIBLE
+                            tv_gotovideo.text = "开始上传"
+                        })
+
+                        LogUtils.i("uploadLogFile$msg")
+                    }
+
+                }, { totalLength, currentLength ->
+
+
                     MainThreadUtil.run(Runnable {
-                       showToastMsg("上传成功")
-                        finish()
+                        val progress = (currentLength * 100.0 / totalLength)
+                        LogUtils.i("progress---$progress")
+                        updateProgress(totalLength, currentLength)
                     })
 
-                }
-
-                override fun onFail(msg: String?) {
-                    MainThreadUtil.run(Runnable {
-                        showToastMsg("上传失败")
-                        tv_gotovideo.visibility = View.VISIBLE
-                        tv_gotovideo.text = "开始上传"
-                    })
-
-                    LogUtils.i("uploadLogFile$msg")
-                }
-
-            }, { totalLength, currentLength ->
-
-
-                MainThreadUtil.run(Runnable {
-                    val progress = (currentLength * 100.0 / totalLength)
-                    LogUtils.i("progress---$progress")
-                    updateProgress(totalLength, currentLength)
                 })
-
-            })
 
 
         } else {
@@ -113,28 +121,32 @@ class VideoUploadActivity : BaseActivity() {
 
 
     }
-    var mFlowId =""
+
+    var mFlowId = ""
+
     // 进度对话框
     open fun initProgressDialog() {
 
         progressBar?.max = 100
         mFlowId = intent.extras.getString(VideoUploadActivity.flowIdStr)
-        val screenRecordStr = TxSPUtils.get(this, mFlowId, "" ) as String
+        val screenRecordStr = TxSPUtils.get(this, mFlowId, "") as String
         if (screenRecordStr.isEmpty()) {
-            TxPopup.Builder(this).asConfirm("退出",
-                    "视频文件不存在，请从“我的双录”进入找到此单重新录制",
-                    "取消",
-                    "确认",
-                    { finish() },
-                    null,
-                    false).show()
-        }else{
-            upload(mFlowId,screenRecordStr)
+            TxPopup.Builder(this).asConfirm(
+                "退出",
+                "视频文件不存在，请从“我的双录”进入找到此单重新录制",
+                "取消",
+                "确认",
+                { finish() },
+                null,
+                false
+            ).show()
+        } else {
+            upload(mFlowId, screenRecordStr)
         }
 
         tv_invite_wx.text = "$mFlowId"
         tv_gotovideo.setOnClickListener {
-            upload(mFlowId,screenRecordStr)
+            upload(mFlowId, screenRecordStr)
         }
 
     }
@@ -160,7 +172,7 @@ class VideoUploadActivity : BaseActivity() {
 
         tvPercent?.text = "$progressInt %"
         val netSpeed = getNetSpeed(TXSdk.getInstance().application.applicationInfo.uid)
-        LogUtils.i("netSpeed:" +netSpeed)
+        LogUtils.i("netSpeed:" + netSpeed)
     }
 
     private var lastTotalRxBytes: Long = 0

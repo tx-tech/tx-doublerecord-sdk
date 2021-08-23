@@ -549,7 +549,7 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
      * @param userType
      * @param visibility
      */
-    public void updateResultLayoutByType(String userType, int visibility, boolean isSuccess, String successStr, JSONArray btArray) {
+    public void updateRetryLayoutByUserType(String userType, int visibility, boolean isSuccess, String successStr, JSONArray btArray) {
         if (userType == null) return;
         for (TRTCLayoutEntity entity : mLayoutEntityList) {
             if (entity.layout.getVisibility() == VISIBLE) {
@@ -566,12 +566,16 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
      * @param userId
      * @param visibility
      */
-    public void updateHollowOutViewLayout(String userId, int visibility) {
+    public void updateHollowOutViewLayoutByUserId(String userId, int visibility) {
         if (userId == null) return;
         for (TRTCLayoutEntity entity : mLayoutEntityList) {
             if (entity.layout.getVisibility() == VISIBLE) {
                 if (userId.equals(entity.userId)) {
-                    entity.layout.setHollowOutView(visibility);
+                    if (visibility== View.VISIBLE) {
+                        entity.layout.startRoundView();
+                    }else{
+                        entity.layout.stopRoundView();
+                    }
                 }
             }
         }
@@ -588,7 +592,12 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
         for (TRTCLayoutEntity entity : mLayoutEntityList) {
             if (entity.layout.getVisibility() == VISIBLE) {
                 if (userType.equals(entity.userType)) {
-                    entity.layout.setHollowOutView(visibility);
+                    if (visibility== View.VISIBLE) {
+                        entity.layout.startRoundView();
+                    }else{
+                        entity.layout.stopRoundView();
+                    }
+
                 }
             }
         }

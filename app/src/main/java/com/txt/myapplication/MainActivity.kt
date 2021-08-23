@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity(), onTxPageListener {
 
         setContentView(R.layout.activity_main)
         if (BuildConfig.DEBUG)
-            et.setText("wjqdev")
+            et.setText("sl-zx-001")
         initView()
 
     }
@@ -134,7 +134,13 @@ class MainActivity : AppCompatActivity(), onTxPageListener {
         var flowid =""
         when(pageType){
             "2","4"->{
-                flowid  = et_flowid.text.toString()
+                flowid= if (BuildConfig.DEBUG){
+                    "2021081704"
+                }else{
+                    et_flowid.text.toString()
+                }
+
+
                 if (flowid.isEmpty()) {
                     Toast.makeText(this@MainActivity, "请填入业务单号！", Toast.LENGTH_SHORT).show()
                     return

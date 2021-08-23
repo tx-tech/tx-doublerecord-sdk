@@ -20,11 +20,11 @@ import kotlin.jvm.JvmStatic;
 public class SignUtils {
     //解密密钥
     //测试密钥key
-    public static final String key = "2f81918af948d1e0";
+    public static final String key = BuildConfig.key;
     //正式密钥key
     public static final String rekey = "";
     //测试向量iv
-    public static final String initVector = "251735dd9387c861";
+    public static final String initVector =  BuildConfig.initVector;
     //正式向量iv
     public static final String reinitVector = "";
 

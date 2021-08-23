@@ -3,17 +3,25 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+def keystorePropertiesFile = rootProject.file("local.properties")
 
+// Initialize a new Properties() object called keystoreProperties.
+def keystoreProperties = new Properties()
+
+// Load your keystore.properties file into the keystoreProperties object.
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+def configuration = rootProject.ext.configuration
 android {
     compileSdkVersion 28
     buildToolsVersion "28.0.3"
 
     signingConfigs {
-        config {
-            keyAlias 'androiddebugkey'
-            keyPassword 'android'
-            storeFile file('debug.keystore')
-            storePassword 'android'
+
+        config{
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
         }
     }
     sourceSets {
@@ -35,6 +43,14 @@ android {
                 abiFilters "armeabi", "armeabi-v7a", "arm64-v8a"
             }
         }
+//        manifestPlaceholders = [
+//                JPUSH_PKGNAME: rootProject.ext.applicationId,
+//                JPUSH_APPKEY : jpush_key, //JPush 上注册的包名对应的 Appkey.
+//                JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
+//        ]
+        //设置正式环境开关
+        buildConfigField "String", "key","\"${keystoreProperties['key']}\""
+        buildConfigField "String", "initVector","\"${keystoreProperties['initVector']}\""
     }
 
     buildTypes {
@@ -56,6 +72,31 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            /*output.processResources.doFirst { pm ->
+                String manifestPath = output.processResources.manifestFile
+                println "=====test manifestPath=====$manifestPath"
+                def manifestContent = file(manifestPath).getText()
+                def xml = new XmlParser().parseText(manifestContent)
+//                println "=====test xml=====$xml"
+                // 增加一个meta-data节点
+//                xml.application[0].appendNode("meta-data", ['android:name': 'channel', 'android:value': 'yingyongbao'])
+                // 增加一个属性
+//                xml.application[0].attributes().put("android:persistent", "true")
+
+                def serialize = groovy.xml.XmlUtil.serialize(xml)
+                file(manifestPath).write(serialize)
+            }*/
+//            if (variant.buildType.name == 'release') {
+//                def fileName = "sldemo-" +configuration.versionName + ".apk"
+//                outputFileName = new File("", fileName)
+//            } else if (variant.buildType.name == 'debug') {
+//                fileName =  "sldemo-" + configuration.versionName  + ".apk"
+//            }
+        }
     }
 }
 

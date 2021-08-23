@@ -64,7 +64,6 @@ import com.txt.sl.ui.dialog.UploadVideoDialog
 import com.txt.sl.ui.home.HomeActivity
 import com.txt.sl.ui.video.trtc.TRTCRightVideoLayoutManager
 import com.txt.sl.utils.*
-import com.txt.sl.utils.FileUtils
 import kotlinx.android.synthetic.main.tx_activity_remote_room.*
 import kotlinx.android.synthetic.main.tx_page_textread.*
 import kotlinx.android.synthetic.main.tx_page_checkenv.*
@@ -196,7 +195,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         mBackButton = findViewById(R.id.trtc_ic_back)
 
         mTrtcrightvideolayoutmanager = findViewById(R.id.trtcrightvideolayoutmanager)
-        mTrtcrightvideolayoutmanager?.initView(this, roomPerson )
+        mTrtcrightvideolayoutmanager?.initView(this, roomPerson)
         mTrtcrightvideolayoutmanager?.setMySelfUserId(mUserId)
         mTrtcrightvideolayoutmanager?.setIVideoLayoutListener(this)
 
@@ -330,7 +329,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         mAppid = wxCloudConfJO!!.getString("AppId").toInt()
     }
 
-    public fun sendMsg1(jsonObject: JSONObject, listener: RoomHttpCallBack) {
+    public fun pushMessage(jsonObject: JSONObject, listener: RoomHttpCallBack) {
 
 
         SystemHttpRequest.getInstance()
@@ -380,7 +379,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                     //还没开始录制之前，需要先跟小程序同步到环节展示页面
 
                     if (!isStartRecord) {
-                        sendMsg1(JSONObject().apply {
+                        pushMessage(JSONObject().apply {
                             put("type", "recordExchange")
                             put("serviceId", serviceId)
                             put("step", JSONObject().apply {
@@ -533,7 +532,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
         ll_page_voice_result_retry.isClickable = true
         ll_page_voice_result_retry.setOnClickListener {
-            sendMsg1(mCurrentMsg!!, object : RoomHttpCallBack {
+            pushMessage(mCurrentMsg!!, object : RoomHttpCallBack {
                 override fun onSuccess(json: String?) {
 
                 }
@@ -803,7 +802,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         when (v.id) {
 
             R.id.page_8_voice_result_retry -> {
-                sendMsg1(mCurrentMsg!!, object : RoomHttpCallBack {
+                pushMessage(mCurrentMsg!!, object : RoomHttpCallBack {
                     override fun onSuccess(json: String?) {
 
                     }
@@ -917,7 +916,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             )
             mStartRecordTimeMillis = System.currentTimeMillis()
             LogUtils.i("mStartRecordTimeMillis-----$mStartRecordTimeMillis")
-            Handler().postDelayed({ checkPhotoInVideo() }, 1000)
+            startCheckPhotoInVideo()
         }
 
         override fun onExitRoom(reason: Int) {
@@ -983,7 +982,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             super.onConnectionRecovery()
             //SDK 跟服务器的连接恢复
             isConnect = true
-            LogUtils.i("onConnectionRecovery");
+            LogUtils.i("onConnectionRecovery")
         }
 
         override fun onConnectionLost() {
@@ -991,12 +990,12 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             //SDK 跟服务器的连接断开
             isConnect = false
             starLocalTimer()
-            LogUtils.i("onConnectionLost");
+            LogUtils.i("onConnectionLost")
         }
 
         override fun onTryToReconnect() {
             super.onTryToReconnect()
-            LogUtils.i("onTryToReconnect");
+            LogUtils.i("onTryToReconnect")
         }
 
         override fun onUserAudioAvailable(userId: String?, available: Boolean) {
@@ -1055,11 +1054,12 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                             )
                                         //投保人进入
                                         var name = ""
-                                        name = if (mRecordType.isNotEmpty() && "0".equals(mRecordType)) {
-                                            "投保人:$userName" + "\n 被保人:$insuredName"
-                                        } else {
-                                            "投保人：$userName"
-                                        }
+                                        name =
+                                            if (mRecordType.isNotEmpty() && "0".equals(mRecordType)) {
+                                                "投保人:$userName" + "\n 被保人:$insuredName"
+                                            } else {
+                                                "投保人：$userName"
+                                            }
                                         mTrtcrightvideolayoutmanager?.updateName(
                                             mInsurantId,
                                             name
@@ -1070,7 +1070,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                         )
                                         mTRTCCloud!!.muteRemoteAudio(mInsurantId, false)
                                     }
-                                    sendMsg1(JSONObject().apply {
+                                    pushMessage(JSONObject().apply {
                                         put("serviceId", serviceId)
                                         put("type", "location")
                                         put("step", JSONObject().apply {
@@ -1121,7 +1121,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                         mTRTCCloud!!.muteRemoteAudio(mInsuredId, false)
                                     }
                                 }
-                                sendMsg1(JSONObject().apply {
+                                pushMessage(JSONObject().apply {
                                     put("serviceId", serviceId)
                                     put("type", "location")
                                     put("step", JSONObject().apply {
@@ -1367,7 +1367,6 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                     View.VISIBLE,
                     View.GONE
                 )
-//                mTrtcrightvideolayoutmanager?.updateHollowOutViewLayout("insurant",View.VISIBLE)
             } else {
                 //显示被保人大图
                 mTrtcrightvideolayoutmanager?.makeFullVideoView(3)
@@ -1404,7 +1403,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                 mFailCacheArray.forEach {
                     jsonArray.put(it)
                 }
-                sendMsg1(JSONObject().apply {
+                pushMessage(JSONObject().apply {
                     put("type", "idComparison")
                     put("serviceId", serviceId)
                     put("step", JSONObject().apply {
@@ -1459,7 +1458,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                         }
                     }
                     str.append("人脸核身识别失败")
-                    sendMsg1(JSONObject().apply {
+                    pushMessage(JSONObject().apply {
                         put("type", "idComparison")
                         put("serviceId", serviceId)
                         put("step", JSONObject().apply {
@@ -1522,7 +1521,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                     }
                 }
                 str.append("人脸核身识别失败")
-                sendMsg1(JSONObject().apply {
+                pushMessage(JSONObject().apply {
                     put("type", "idComparison")
                     put("serviceId", serviceId)
                     put("step", JSONObject().apply {
@@ -1555,6 +1554,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         jsonArray: JSONArray,
         isRetry: Boolean
     ) {
+
         mSuccessCacheArray.clear()
         mFailCacheArray.clear()
         if (!isRetry) {
@@ -1578,74 +1578,68 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                     View.VISIBLE,
                     "123"
                 )
-                mTrtcrightvideolayoutmanager?.updateHollowOutViewLayoutByType("agent", View.VISIBLE)
 
-                Handler().postDelayed({  mTrtcrightvideolayoutmanager?.startRoundView(mUserId) }, 500)
+
+                Handler().postDelayed(
+                    {   mTrtcrightvideolayoutmanager?.updateHollowOutViewLayoutByType("agent", View.VISIBLE) },
+                    500
+                )
                 LogUtils.i("agent", "mTrtcrightvideolayoutmanager")
+                stopCheckPhotoInVideo()
                 Handler().postDelayed({
                     takePhoto(object : PhotoHttpCallBack {
                         override fun onSuccess(json: String?) {
                             LogUtils.i("takePhoto-onSuccess", json!!)
                             //{"status":"1","reason":"姓名或身份证不合法"}
-
+                            startCheckPhotoInVideo()
                             val jsonObject = JSONObject(json)
-                            val status = jsonObject.getString("status")
-                            val jsonObject2 = if ("1" == status) {
-                                JSONObject().apply {
-                                    put("type", "idComparison")
-                                    put("serviceId", serviceId)
-                                    put("step", JSONObject().apply {
-                                        put("data", JSONObject().apply {
-                                            put("roomMessage", "识别失败")
-                                        })
-                                        put("roomType", "idComparison-fail")
-                                        put("userId", mUserId)
-                                    })
+                            val status = jsonObject.optString("status")
+                            var roomMessage = ""
+                            var roomType = ""
+                            roomMessage= if ("1" == status) {
+                                roomType =  "idComparison-fail"
+                                "识别失败"
 
-                                }
                             } else {
-                                JSONObject().apply {
-                                    put("type", "idComparison")
-                                    put("serviceId", serviceId)
-                                    put("step", JSONObject().apply {
-                                        put("data", JSONObject().apply {
-                                            put("roomMessage", "识别成功")
-                                        })
-                                        put("roomType", "idComparison-success")
-                                        put("userId", mUserId)
-                                    })
-
-                                }
+                                roomType=  "idComparison-success"
+                                "识别成功"
                             }
-                            sendMsg1(jsonObject2, object : RoomHttpCallBack {
+
+
+                            val jsonObject2 = JSONObject().apply {
+                                put("type", "idComparison")
+                                put("serviceId", serviceId)
+                                put("step", JSONObject().apply {
+                                    put("data", JSONObject().apply {
+                                        put("roomMessage", roomMessage)
+                                    })
+                                    put("roomType", roomType)
+                                    put("userId", mUserId)
+                                })
+
+                            }
+                            pushMessage(jsonObject2, object : RoomHttpCallBack {
                                 override fun onSuccess(json: String?) {
-                                    runOnUiThread {
-                                        mTrtcrightvideolayoutmanager?.updateHollowOutViewLayout(
-                                            "agent",
-                                            View.GONE
-                                        )
-                                        mTrtcrightvideolayoutmanager?.stopRoundView(mUserId)
-                                    }
+
                                 }
 
                                 override fun onFail(err: String?, code: Int) {
-                                    runOnUiThread {
-                                        mTrtcrightvideolayoutmanager?.updateHollowOutViewLayout(
-                                            "agent",
-                                            View.GONE
-                                        )
-                                        mTrtcrightvideolayoutmanager?.stopRoundView(mUserId)
-                                    }
+
                                 }
                             })
-
+                            runOnUiThread {
+                                mTrtcrightvideolayoutmanager?.updateHollowOutViewLayoutByUserId(
+                                    mUserId,
+                                    View.GONE
+                                )
+                            }
 
                         }
 
                         override fun onFail(err: String?, code: Int) {
                             LogUtils.i("takePhoto-err", err!!)
-
-                            sendMsg1(JSONObject().apply {
+                            startCheckPhotoInVideo()
+                            pushMessage(JSONObject().apply {
                                 put("type", "idComparison")
                                 put("serviceId", serviceId)
                                 put("step", JSONObject().apply {
@@ -1658,26 +1652,18 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
                             }, object : RoomHttpCallBack {
                                 override fun onSuccess(json: String?) {
-                                    runOnUiThread {
-                                        mTrtcrightvideolayoutmanager?.updateHollowOutViewLayout(
-                                            "agent",
-                                            View.GONE
-                                        )
-                                        mTrtcrightvideolayoutmanager?.stopRoundView(mUserId)
-                                    }
+
                                 }
 
                                 override fun onFail(err: String?, code: Int) {
-                                    runOnUiThread {
-                                        mTrtcrightvideolayoutmanager?.updateHollowOutViewLayout(
-                                            "agent",
-                                            View.GONE
-                                        )
-                                        mTrtcrightvideolayoutmanager?.stopRoundView(mUserId)
-                                    }
                                 }
                             })
-
+                            runOnUiThread {
+                                mTrtcrightvideolayoutmanager?.updateHollowOutViewLayoutByUserId(
+                                    mUserId,
+                                    View.GONE
+                                )
+                            }
                         }
 
                     })
@@ -1696,7 +1682,6 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                     "policyholder",
                     View.VISIBLE
                 )
-                mTrtcrightvideolayoutmanager?.startRoundViewByType("policyholder")
             } else if (tagrtOb.equals("insured")) {
                 //显示被保人大图
 //                mTrtcrightvideolayoutmanager?.makeFullVideoView(3)
@@ -1710,7 +1695,6 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                     "insured",
                     View.VISIBLE
                 )
-                mTrtcrightvideolayoutmanager?.startRoundViewByType("insured")
             }
         }
 
@@ -1827,7 +1811,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                 //识别成功
                 cancelAbsCredentialProvider()
 
-                sendMsg1(JSONObject().apply {
+                pushMessage(JSONObject().apply {
                     put("serviceId", serviceId)
                     put("type", "soundOCR")
 
@@ -2177,7 +2161,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     var mInsurantId = "" //投保人
     var mInsuredId = ""  //被保人
     //节点时间，
-
+    var failTarget: JSONArray? = null
 
     override fun onReceiveMSG(data: JSONObject) {
         try {
@@ -2312,11 +2296,10 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                             "0"
                                         )
                                         fifterMemberList("", mUserId!!)
-                                        mTrtcrightvideolayoutmanager?.updateHollowOutViewLayout(
+                                        mTrtcrightvideolayoutmanager?.updateHollowOutViewLayoutByUserId(
                                             mUserId,
                                             View.GONE
                                         )
-                                        mTrtcrightvideolayoutmanager?.stopRoundView(mUserId)
                                     }
 
                                 }
@@ -2334,11 +2317,10 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                             View.VISIBLE,
                                             "1"
                                         )
-                                        mTrtcrightvideolayoutmanager?.updateHollowOutViewLayout(
+                                        mTrtcrightvideolayoutmanager?.updateHollowOutViewLayoutByUserId(
                                             mUserId,
                                             View.GONE
                                         )
-                                        mTrtcrightvideolayoutmanager?.stopRoundView(mUserId)
                                         //汇总数据
                                         fifterMemberList(mUserId!!, "")
                                     }
@@ -2346,7 +2328,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                 "idComparison-collect-success" -> {
                                     runOnUiThread {
                                         autoCheckBoolean = true
-                                        mTrtcrightvideolayoutmanager?.updateResultLayoutByType(
+                                        mTrtcrightvideolayoutmanager?.updateRetryLayoutByUserType(
                                             "agent",
                                             View.VISIBLE,
                                             true,
@@ -2360,9 +2342,10 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                     runOnUiThread {
                                         val dataJson = stepDataJson!!.getJSONObject("data")
                                         val roomMessage = dataJson.getString("roomMessage")
+                                        failTarget = stepDataJson.optJSONArray("target")
                                         autoCheckBoolean = false
 
-                                        mTrtcrightvideolayoutmanager?.updateResultLayoutByType(
+                                        mTrtcrightvideolayoutmanager?.updateRetryLayoutByUserType(
                                             "agent",
                                             View.VISIBLE,
                                             false,
@@ -2374,7 +2357,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                 }
                                 "idComparison-retry" -> {
                                     runOnUiThread {
-                                        mTrtcrightvideolayoutmanager?.updateResultLayoutByType(
+                                        mTrtcrightvideolayoutmanager?.updateRetryLayoutByUserType(
                                             "agent",
                                             View.GONE,
                                             true,
@@ -2407,7 +2390,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                         showNextStep("startRecord")
                                     }
                                 }
-                                "faceDetection" -> {
+                                "faceDetection" -> {  //人脸检测
                                     runOnUiThread {
                                         val jsonObject = data.getJSONObject("step")
                                         var userId = jsonObject.optString("userId")
@@ -2415,24 +2398,51 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                         var number = jsonObject.optInt("number")
                                         val findEntity =
                                             mTrtcrightvideolayoutmanager?.findEntity(userId)
-                                        val facetxColor =   if (findEntity?.userType == "policyholder") { //投保人
-                                            if (haveFace) {
-                                                if ("0".equals(mRecordType)) {
-                                                    //投保人需要两个人
-                                                    if (2.equals(number)) {
+                                        val facetxColor =
+                                            if (findEntity?.userType == "policyholder") { //投保人
+                                                if (haveFace) {
+                                                    if ("0".equals(mRecordType)) {
                                                         //投保人需要两个人
-                                                        ContextCompat.getColor(
-                                                            this@RoomActivity,
-                                                            R.color.tx_txcolor_40D4A1
-                                                        )
+                                                        if (2.equals(number)) {
+                                                            //投保人需要两个人
+                                                            ContextCompat.getColor(
+                                                                this@RoomActivity,
+                                                                R.color.tx_txcolor_40D4A1
+                                                            )
+                                                        } else {
+                                                            ContextCompat.getColor(
+                                                                this@RoomActivity,
+                                                                R.color.tx_txred
+                                                            )
+
+                                                        }
                                                     } else {
-                                                        ContextCompat.getColor(
-                                                            this@RoomActivity,
-                                                            R.color.tx_txred
-                                                        )
+                                                        if (1.equals(number)) {
+                                                            //投保人需要两个人
+                                                            ContextCompat.getColor(
+                                                                this@RoomActivity,
+                                                                R.color.tx_txcolor_40D4A1
+                                                            )
+                                                        } else {
+                                                            ContextCompat.getColor(
+                                                                this@RoomActivity,
+                                                                R.color.tx_txred
+                                                            )
+
+                                                        }
 
                                                     }
+
+
                                                 } else {
+                                                    ContextCompat.getColor(
+                                                        this@RoomActivity,
+                                                        R.color.tx_txred
+                                                    )
+
+                                                }
+                                            } else {
+                                                if (haveFace) {
                                                     if (1.equals(number)) {
                                                         //投保人需要两个人
                                                         ContextCompat.getColor(
@@ -2447,24 +2457,6 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
                                                     }
 
-                                                }
-
-
-                                            } else {
-                                                ContextCompat.getColor(
-                                                    this@RoomActivity,
-                                                    R.color.tx_txred
-                                                )
-
-                                            }
-                                        }else{
-                                             if (haveFace) {
-                                                if (1.equals(number)) {
-                                                    //投保人需要两个人
-                                                    ContextCompat.getColor(
-                                                        this@RoomActivity,
-                                                        R.color.tx_txcolor_40D4A1
-                                                    )
                                                 } else {
                                                     ContextCompat.getColor(
                                                         this@RoomActivity,
@@ -2472,15 +2464,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                                     )
 
                                                 }
-
-                                            } else {
-                                                ContextCompat.getColor(
-                                                    this@RoomActivity,
-                                                    R.color.tx_txred
-                                                )
-
                                             }
-                                        }
                                         mTrtcrightvideolayoutmanager?.updateToastStr(
                                             userId,
                                             "入镜人数：$number 人",
@@ -2769,7 +2753,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                         cancelAbsCredentialProvider()
                         voiceTimer1?.cancel()
 
-                        sendMsg1(JSONObject().apply {
+                        pushMessage(JSONObject().apply {
                             put("serviceId", serviceId)
                             put("type", "soundOCR")
                             put("step", JSONObject().apply {
@@ -2941,84 +2925,105 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     }
 
 
-
     private var mCheckLocal = false
     private var checkPhotoInVideoTimer: CountDownTimer? = null
 
     var isShowedAgentHaveFace = false
     var mAgentBytes: ByteArray? = null
-    private fun checkPhotoInVideo() {
-        mTRTCCloud?.snapshotVideo(null, TRTC_VIDEO_STREAM_TYPE_BIG) { p0 ->
-            TxLogUtils.i("checkPhotoInVideo")
-            val bytes = SystemCommon.getInstance()?.byteToBitmap(p0)
-            if (bytes != null) {
-                val encode = Base64.encode(bytes, Base64.DEFAULT)
-                val bulider = StringBuilder("data:image/png;base64,")
-                bulider.append(String(encode))
 
-                val replace = bulider.toString().replace("\n", "")
-                val jsonObject = JSONObject()
-                jsonObject.put("img", replace)
-                SystemHttpRequest.getInstance()
-                    .faceDetection(jsonObject, object : HttpRequestClient.RequestHttpCallBack {
-                        override fun onSuccess(json: String?) {
-                            //没有人脸
-                            var haveFace = !"0".equals(json)
-                            var qualifiedFace = "1".equals(json)
-                            runOnUiThread {
-                                mTrtcrightvideolayoutmanager?.updateToastStrByType(
-                                    "agent",
-                                    "入镜人数：$json 人",
-                                    if (qualifiedFace) {
-                                        ContextCompat.getColor(
-                                            this@RoomActivity,
-                                            R.color.tx_txcolor_40D4A1
-                                        )
-                                    } else {
-                                        ContextCompat.getColor(
-                                            this@RoomActivity,
-                                            R.color.tx_txred
-                                        )
+    private var startCheckPhotoInVideoTimer: CountDownTimer? = null
+
+    //停止检测人脸
+    private fun stopCheckPhotoInVideo() {
+        startCheckPhotoInVideoTimer?.cancel()
+    }
+
+    private fun startCheckPhotoInVideo() {
+
+        if (null == startCheckPhotoInVideoTimer) {
+            startCheckPhotoInVideoTimer = object : CountDownTimer(600000, 3000) {
+                @SuppressLint("SetTextI18n")
+                override fun onTick(millisUntilFinished: Long) {
+                    mTRTCCloud?.snapshotVideo(null, TRTC_VIDEO_STREAM_TYPE_BIG) { p0 ->
+                        TxLogUtils.i("checkPhotoInVideo")
+                        val bytes = SystemCommon.getInstance()?.byteToBitmap(p0)
+                        if (bytes != null) {
+                            val encode = Base64.encode(bytes, Base64.DEFAULT)
+                            val bulider = StringBuilder("data:image/png;base64,")
+                            bulider.append(String(encode))
+
+                            val replace = bulider.toString().replace("\n", "")
+                            val jsonObject = JSONObject()
+                            jsonObject.put("img", replace)
+                            SystemHttpRequest.getInstance()
+                                .faceDetection(
+                                    jsonObject,
+                                    object : HttpRequestClient.RequestHttpCallBack {
+                                        override fun onSuccess(json: String?) {
+                                            //没有人脸
+                                            var haveFace = !"0".equals(json)
+                                            var qualifiedFace = "1".equals(json)
+                                            runOnUiThread {
+                                                mTrtcrightvideolayoutmanager?.updateToastStrByType(
+                                                    "agent",
+                                                    "入镜人数：$json 人",
+                                                    if (qualifiedFace) {
+                                                        ContextCompat.getColor(
+                                                            this@RoomActivity,
+                                                            R.color.tx_txcolor_40D4A1
+                                                        )
+                                                    } else {
+                                                        ContextCompat.getColor(
+                                                            this@RoomActivity,
+                                                            R.color.tx_txred
+                                                        )
+                                                    }
+                                                )
+                                            }
+                                            pushMessage(JSONObject().apply {
+                                                put("serviceId", serviceId)
+                                                put("type", "faceDetection")
+                                                put("step", JSONObject().apply {
+                                                    put("roomType", "faceDetection")
+                                                    put("haveFace", haveFace)
+                                                    put("userId", mUserId)
+                                                    put("number", json?.toInt())
+
+                                                })
+                                            }, object : RoomHttpCallBack {
+                                                override fun onSuccess(json: String?) {
+
+                                                }
+
+                                                override fun onFail(err: String?, code: Int) {
+
+                                                }
+                                            })
+
+                                        }
+
+                                        override fun onFail(err: String?, code: Int) {
+
+                                        }
                                     }
+
                                 )
-                            }
-                            sendMsg1(JSONObject().apply {
-                                put("serviceId", serviceId)
-                                put("type", "faceDetection")
-                                put("step", JSONObject().apply {
-                                    put("roomType", "faceDetection")
-                                    put("haveFace", haveFace)
-                                    put("userId", mUserId)
-                                    put("number", json?.toInt())
-
-                                })
-                            }, object : RoomHttpCallBack {
-                                override fun onSuccess(json: String?) {
-                                    runOnUiThread {
-                                        Handler().postDelayed({ checkPhotoInVideo() }, 2000)
-                                    }
-                                }
-
-                                override fun onFail(err: String?, code: Int) {
-                                    runOnUiThread {
-                                        Handler().postDelayed({ checkPhotoInVideo() }, 2000)
-                                    }
-
-                                }
-                            })
 
                         }
 
-                        override fun onFail(err: String?, code: Int) {
-
-                        }
                     }
 
-                    )
+                }
 
+                override fun onFinish() {
+                    startCheckPhotoInVideoTimer?.start()
+                }
             }
-
         }
+
+
+        startCheckPhotoInVideoTimer!!.start()
+
 
     }
 
@@ -3151,14 +3156,11 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             }
             "2" -> {
                 //重试
-                val jsonArray = JSONArray()
-                mFailCacheArray.forEach {
-                    jsonArray.put(it)
-                }
+
                 mCurrentMsg!!.getJSONObject("step").remove("target")
-                mCurrentMsg!!.getJSONObject("step").put("target", jsonArray)
+                mCurrentMsg!!.getJSONObject("step").put("target", failTarget)
                 mCurrentMsg!!.getJSONObject("step").put("roomType", "idComparison-retry")
-                sendMsg1(mCurrentMsg!!, object : RoomHttpCallBack {
+                pushMessage(mCurrentMsg!!, object : RoomHttpCallBack {
                     override fun onSuccess(json: String?) {
 
                     }
@@ -3190,7 +3192,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                     View.GONE
                 )
                 mTrtcrightvideolayoutmanager?.updateOcrStatus(mUserId, "识别中...", View.GONE, "123")
-                mTrtcrightvideolayoutmanager?.updateHollowOutViewLayout("agent", View.GONE)
+                mTrtcrightvideolayoutmanager?.updateHollowOutViewLayoutByUserId("agent", View.GONE)
             } else if (tagrtOb.equals("policyholder")) {
                 //显示投保人大图
 
@@ -3225,7 +3227,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                     View.GONE,
                     "123"
                 )
-                mTrtcrightvideolayoutmanager?.updateHollowOutViewLayout("insured", View.GONE)
+                mTrtcrightvideolayoutmanager?.updateHollowOutViewLayoutByUserId("insured", View.GONE)
             }
         }
         layout_right.visibility = View.VISIBLE
@@ -3252,7 +3254,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                     View.GONE
                 )
                 mTrtcrightvideolayoutmanager?.updateOcrStatus(mUserId, "识别中...", View.GONE, "123")
-                mTrtcrightvideolayoutmanager?.updateHollowOutViewLayout("agent", View.GONE)
+                mTrtcrightvideolayoutmanager?.updateHollowOutViewLayoutByUserId("agent", View.GONE)
             } else if (tagrtOb.equals("policyholder")) {
                 //显示投保人大图
 //                mTrtcrightvideolayoutmanager?.makeFullVideoView(2)

@@ -44,7 +44,7 @@ class UploadVideoDialog(context: Context) : CenterPopupView(context) {
          * @param ip
          * @param port
          */
-        fun onVideoUpload(isFinish:Boolean)
+        fun onVideoUpload(isFinish: Boolean)
     }
 
     var mOnItemClickListener: OnConfirmClickListener? = null
@@ -57,13 +57,13 @@ class UploadVideoDialog(context: Context) : CenterPopupView(context) {
         upload(mFlowId!!)
     }
 
-    var mFlowId:String?=null
+    var mFlowId: String? = null
 
-    public fun setFlowId(flowId:String){
-        mFlowId= flowId
+    public fun setFlowId(flowId: String) {
+        mFlowId = flowId
     }
 
-    public fun upload(screenRecordStr:String) {
+    public fun upload(screenRecordStr: String) {
 
         //上传
         //flowId
@@ -81,44 +81,49 @@ class UploadVideoDialog(context: Context) : CenterPopupView(context) {
 
             LogUtils.i("开始上传")
 //                        updateProgress()
-            SystemHttpRequest.getInstance().uploadLogFile(pathFile, preTime
-                    , serviceId, { size, time ->
-                val byteToMB = byteToMB(size)
-                tvVideosize?.text = "$byteToMB M"
-                LogUtils.i("time$time")
-                val min = time / 1000 / 60.0
-                val df = DecimalFormat("#.00")
-                var minSize = df.format(min)
-                tvVideotime?.text = "$minSize 分钟"
-            }, object : SystemHttpRequest.onRequestCallBack {
-                override fun onSuccess() {
+            SystemHttpRequest.getInstance()
+                .uploadLogFile(pathFile, preTime, serviceId, { size, time ->
+                    val byteToMB = byteToMB(size)
+                    tvVideosize?.text = "$byteToMB M"
+                    LogUtils.i("time$time")
+                    val min = time / 1000 / 60.0
+                    var minSize = if (min > 1) {
+                        val df = DecimalFormat("#.00")
+                        df.format(min)
+                    } else {
+                        "$min"
+                    }
+
+                    tvVideotime?.text = "$minSize 分钟"
+                }, object : SystemHttpRequest.onRequestCallBack {
+                    override fun onSuccess() {
+                        MainThreadUtil.run(Runnable {
+                            mOnItemClickListener?.onVideoUpload(true)
+                            dismiss()
+                        })
+
+                    }
+
+                    override fun onFail(msg: String?) {
+                        MainThreadUtil.run(Runnable {
+                            ToastUtils.showShort(msg)
+                            mOnItemClickListener?.onVideoUpload(false)
+                            dismiss()
+                        })
+
+                        LogUtils.i("uploadLogFile$msg")
+                    }
+
+                }, { totalLength, currentLength ->
+
+
                     MainThreadUtil.run(Runnable {
-                        mOnItemClickListener?.onVideoUpload(true)
-                        dismiss()
+                        val progress = (currentLength * 100.0 / totalLength)
+                        LogUtils.i("progress---$progress")
+                        updateProgress(totalLength, currentLength)
                     })
 
-                }
-
-                override fun onFail(msg: String?) {
-                    MainThreadUtil.run(Runnable {
-                        ToastUtils.showShort(msg)
-                        mOnItemClickListener?.onVideoUpload(false)
-                        dismiss()
-                    })
-
-                    LogUtils.i("uploadLogFile$msg")
-                }
-
-            }, { totalLength, currentLength ->
-
-
-                MainThreadUtil.run(Runnable {
-                    val progress = (currentLength * 100.0 / totalLength)
-                    LogUtils.i("progress---$progress")
-                    updateProgress(totalLength, currentLength)
                 })
-
-            })
 
 
         } else {
@@ -173,8 +178,9 @@ class UploadVideoDialog(context: Context) : CenterPopupView(context) {
 
         mTvPercent?.text = "$progressInt %"
         val netSpeed = getNetSpeed(TXSdk.getInstance().application.applicationInfo.uid)
-        LogUtils.i("netSpeed:" +netSpeed)
+        LogUtils.i("netSpeed:" + netSpeed)
     }
+
     private var lastTotalRxBytes: Long = 0
     private var lastTimeStamp: Long = 0
 

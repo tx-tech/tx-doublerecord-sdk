@@ -18,15 +18,21 @@ import org.json.JSONObject
  * description：
  */
 public class OrderExpandableItemAdapter1(var data: ArrayList<MultiItemEntity>) :
-        BaseMultiItemQuickAdapter<MultiItemEntity, TxBaseViewHolder>(
-                data
-        ) {
-    val TYPE_LEVEL_0 = 0
-    val TYPE_LEVEL_1 = 1
+    BaseMultiItemQuickAdapter<MultiItemEntity, TxBaseViewHolder>(
+        data
+    ) {
+
+    companion object {
+        val TYPE_LEVEL_0 = 0
+        val TYPE_LEVEL_1 = 1
+        val TYPE_LEVEL_2 = 2
+    }
+
 
     init {
         addItemType(TYPE_LEVEL_0, R.layout.tx_layout_item_product_head)
         addItemType(TYPE_LEVEL_1, R.layout.tx_layout_item_product_subdetails)
+        addItemType(TYPE_LEVEL_2, R.layout.tx_rv_item_orderdetails)
 
     }
 
@@ -34,6 +40,7 @@ public class OrderExpandableItemAdapter1(var data: ArrayList<MultiItemEntity>) :
     override fun convert(helper: TxBaseViewHolder, item: MultiItemEntity?) {
         when (helper.itemViewType) {
             TYPE_LEVEL_0 -> {
+                helper.addOnClickListener(R.id.headerliner)
                 val levelItem1 = item as ProductLevelItem
                 var title = if (levelItem1.insuranceIsMain!! == 1) {
                     "主险"
@@ -43,22 +50,16 @@ public class OrderExpandableItemAdapter1(var data: ArrayList<MultiItemEntity>) :
                 helper.setText(R.id.tv_headtitle, title)
                 helper.setText(R.id.tv_insuranceName, levelItem1.insuranceName)
 
-                helper.setImageResource(R.id.tx_iv_arrow,
-                        if (levelItem1.isExpanded) {
-                            R.drawable.tx_up_icon
-                        } else {
-                            R.drawable.tx_down_icon
-                        }
+                helper.setImageResource(
+                    R.id.tx_iv_arrow,
+                    if (levelItem1.isExpanded) {
+                        R.drawable.tx_up_icon
+                    } else {
+                        R.drawable.tx_down_icon
+                    }
                 )
 
-                helper.itemView.setOnClickListener {
-                    val adapterPosition = helper.adapterPosition
-                    if (levelItem1.isExpanded) {
-                        collapse(adapterPosition)
-                    } else {
-                        expand(adapterPosition)
-                    }
-                }
+
             }
             TYPE_LEVEL_1 -> {
                 helper.addOnClickListener(R.id.tv_edit, R.id.tv_delete)
@@ -69,7 +70,10 @@ public class OrderExpandableItemAdapter1(var data: ArrayList<MultiItemEntity>) :
                 val jsonarr = json.getJSONArray("data")
 
                 val mRequestSubOrderBean = item as RequestSubOrderBean
-                mDataList = Gson().fromJson<java.util.ArrayList<OrderBean>>(jsonarr.toString(), object : TypeToken<java.util.ArrayList<OrderBean>>() {}.type)
+                mDataList = Gson().fromJson<java.util.ArrayList<OrderBean>>(
+                    jsonarr.toString(),
+                    object : TypeToken<java.util.ArrayList<OrderBean>>() {}.type
+                )
 
                 val insurancePaymentMethodfilter = mDataList?.filter { it.name == "缴费频率" }
 
@@ -87,25 +91,41 @@ public class OrderExpandableItemAdapter1(var data: ArrayList<MultiItemEntity>) :
                 val insurancePaymentYearUnitName = filter2?.get(0)?.name
 
 
-                helper.setText(R.id.tv_insurancePaymentDown, mRequestSubOrderBean.insurancePaymentDown)
+                helper.setText(
+                    R.id.tv_insurancePaymentDown,
+                    mRequestSubOrderBean.insurancePaymentDown
+                )
 
 
 
                 helper.setText(R.id.tv_insurancePaymentMethod, filter1?.get(0)?.name)
-                helper.setText(R.id.tv_insurancePaymentPeriods, mRequestSubOrderBean.insurancePaymentPeriods)
-                helper.setText(R.id.tv_insurancePaymentPrice, mRequestSubOrderBean.insurancePaymentPrice)
+                helper.setText(
+                    R.id.tv_insurancePaymentPeriods,
+                    mRequestSubOrderBean.insurancePaymentPeriods
+                )
+                helper.setText(
+                    R.id.tv_insurancePaymentPrice,
+                    mRequestSubOrderBean.insurancePaymentPrice
+                )
 
-                helper.setText(R.id.tv_insurancePaymentYearUnit, if (insurancePaymentYearUnitName == "终身") {
-                    "终身"
-                } else if (insurancePaymentYearUnitName == "保至多少岁") {
+                helper.setText(
+                    R.id.tv_insurancePaymentYearUnit, if (insurancePaymentYearUnitName == "终身") {
+                        "终身"
+                    } else if (insurancePaymentYearUnitName == "保至多少岁") {
 
-                    "保至${mRequestSubOrderBean.insurancePaymentYear}岁"
-                } else {
-                    "${mRequestSubOrderBean.insurancePaymentYear}年"
-                }
+                        "保至${mRequestSubOrderBean.insurancePaymentYear}岁"
+                    } else {
+                        "${mRequestSubOrderBean.insurancePaymentYear}年"
+                    }
 
                 )
 
+            }
+            TYPE_LEVEL_2->{
+                helper.addOnClickListener(R.id.tv_title)
+                item as OrderDetailsItem
+                helper.setText(R.id.tv_title,item?.title)
+                helper.setText(R.id.tv_value,item?.value)
             }
             else -> {
 
@@ -113,5 +133,9 @@ public class OrderExpandableItemAdapter1(var data: ArrayList<MultiItemEntity>) :
         }
     }
 
+
+    fun setonExpandListener(){
+
+    }
 
 }

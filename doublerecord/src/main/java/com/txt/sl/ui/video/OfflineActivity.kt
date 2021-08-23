@@ -1230,7 +1230,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
             override fun onFail(err: String?, code: Int) {
                 //tts 播报识别 重连
-                showToastMsg("播报识别")
+                showToastMsg("播报识别错误")
 
             }
         })
@@ -2137,16 +2137,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                         startCheckPhotoInVideo()
                                         autoCheckBoolean = true
                                         val target = stepDataJson!!.optJSONArray("target")
-                                        if (null != target) {
-                                            val length = target.length()
-                                            if (1 == length) {
-                                                mTrtcVideolayout?.stopRoundView()
-                                            } else if (2 == length) {
-                                                mTrtcVideolayout?.stopTwoRoundView()
-                                            } else {
-
-                                            }
-                                        }
+                                        mTrtcVideolayout?.stopRoundView()
                                         mTrtcVideolayout?.setll_page_voice_result(
                                             View.VISIBLE,
                                             true,
@@ -2163,16 +2154,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                         val target = stepDataJson!!.optJSONArray("target")
                                         val roomMessage = dataJson.getString("roomMessage")
                                         autoCheckBoolean = false
-                                        if (null != target) {
-                                            val length = target.length()
-                                            if (1 == length) {
-                                                mTrtcVideolayout?.stopRoundView()
-                                            } else if (2 == length) {
-                                                mTrtcVideolayout?.stopTwoRoundView()
-                                            } else {
-
-                                            }
-                                        }
+                                        mTrtcVideolayout?.stopRoundView()
 
                                         mTrtcVideolayout?.setll_page_voice_result(
                                             View.VISIBLE,
@@ -2765,7 +2747,6 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         startCheckPhotoInVideoTimer?.cancel()
     }
 
-    var isShowedAgentHaveFace = false;
     //开始检测人脸
     private fun startCheckPhotoInVideo() {
         if (null == startCheckPhotoInVideoTimer) {
@@ -2834,6 +2815,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         startCheckPhotoInVideoTimer!!.start()
 
     }
+    var isShowedAgentHaveFace = false;
 
 
     fun hideView() {

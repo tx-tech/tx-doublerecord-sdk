@@ -3,6 +3,8 @@ package com.txt.sl.ui.video.trtc;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -24,6 +26,7 @@ import android.widget.TextView;
 import com.tencent.rtmp.ui.TXCloudVideoView;
 import com.tencent.trtc.TRTCCloudDef;
 import com.txt.sl.R;
+import com.txt.sl.utils.MainThreadUtil;
 import com.txt.sl.widget.HollowDoubleOutView;
 import com.txt.sl.widget.HollowOutView;
 import com.txt.sl.widget.RoundView;
@@ -160,20 +163,33 @@ public class TRTCVideoLayout extends RelativeLayout implements View.OnClickListe
     }
 
     public void stopRoundView(){
-
-        if (null != mHollowOutView) {
-            mRoundView.setVisibility(GONE);
-            if (null!=rotation) {
-                rotation.end();
+        if (mHollowOutView.getVisibility() ==VISIBLE) {
+            if (null != mHollowOutView) {
+                mRoundView.setVisibility(GONE);
+                if (null!=rotation) {
+                    rotation.end();
+                }
+                mHollowOutView.setVisibility(GONE);
             }
-            mHollowOutView.setVisibility(GONE);
+        }else {
+            if (null != mHollowDoubleOutView) {
+                mHollowDoubleOutView.setVisibility(INVISIBLE);
+                mHollowDoubleOutView.stopRoundView();
+            }
         }
+
     }
 
     public void  startTwoRoundView(){
         if (null != mHollowDoubleOutView) {
             mHollowDoubleOutView.setVisibility(VISIBLE);
-            mHollowDoubleOutView.startRoundView();
+            MainThreadUtil.INSTANCE.getHANDLER().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mHollowDoubleOutView.startRoundView();
+                }
+            }, 500);
+
         }
     }
 

@@ -77,7 +77,7 @@ public class HollowDoubleOutView extends FrameLayout {
 
         mRx = w / 4;
         mRy = h / 2;
-        mRadius = mRy / 2;
+        mRadius = mRy/2 ;
 
     }
 
