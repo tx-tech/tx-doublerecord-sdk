@@ -135,10 +135,20 @@ class SearchActivity : AppMVPActivity<SearchContract.View, SearchPresenter>(), S
                     OrderDetailsActivity.newActivity(this, bean)
                 }
                 R.id.tv_item1_sl, R.id.tv_replay -> {
-                    customDialog?.setData(
-                        bean.workItemBean
-                    )
-                    showDialog()
+                    val workItemBean = bean.workItemBean
+
+                    if ( workItemBean?.isSelfInsurance!!){
+                        //如果是自保件
+                        InviteActivity.newInstance(
+                            this, false, "2", workItemBean!!
+                        )
+                    }else{
+                        customDialog?.setData(
+                            workItemBean
+                        )
+                        showDialog()
+                    }
+
                 }
                 R.id.tv_unupload_play -> { //播放本地视频
                     val screenRecordStr =

@@ -94,7 +94,7 @@ import java.text.DecimalFormat
  */
 
 class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
-    TRTCVideoLayoutManager.IVideoLayoutListener, TRTCVideoLayout.IVideoLayoutListener {
+    TRTCVideoLayout.IVideoLayoutListener {
     //设置为铃声模式
     //private var mLocalPreviewView //【控件】本地画面View
     //      : TXCloudVideoView? = null
@@ -271,7 +271,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                         ToastUtils.showLong(err!!)
                         if (-3 == code) {
 
-                            SystemSocket.instance?.setMSG(TXManagerImpl.instance?.getLoginName()!!)
+                            SystemSocket.instance?.setMSG(TXManagerImpl.instance?.getLoginName()!!,mServiceId)
                         }
                     }
                 }
@@ -471,8 +471,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
     }
 
-    public fun sendMsg1(jsonObject: JSONObject, listener: RoomHttpCallBack) {
-
+    public fun pushMessage(jsonObject: JSONObject, listener: RoomHttpCallBack) {
 
         SystemHttpRequest.getInstance()
             .pushMessage(jsonObject.toString(), object : HttpRequestClient.RequestHttpCallBack {
@@ -554,8 +553,9 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                                 jsonObject.toString()
                                             )
                                         }
-                                        showToastMsg("上传完成")
-                                        Handler().postDelayed({ finish() }, 1000)
+                                        finish()
+//                                        showToastMsg("上传完成")
+//                                        Handler().postDelayed({  }, 1000)
                                     }
 
                                 })
@@ -662,11 +662,11 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         LogUtils.i("width--${allocCloudVideoView1?.width}-----height--${allocCloudVideoView1?.height}")
         // 初始化配置 SDK 参数
         val trtcParams = TRTCParams()
-        trtcParams.sdkAppId = jsonObject1!!.getInt("sdkAppId")
+        trtcParams.sdkAppId = jsonObject1!!.optInt("sdkAppId")
         trtcParams.userId = mUserId
         trtcParams.roomId = mRoomId?.toInt()!!
         // userSig是进入房间的用户签名，相当于密码（这里生成的是测试签名，正确做法需要业务服务器来生成，然后下发给客户端）
-        trtcParams.userSig = jsonObject1!!.getString("agentSig")
+        trtcParams.userSig = jsonObject1!!.optString("agentSig")
         trtcParams.role = TRTCCloudDef.TRTCRoleAnchor
 
         // 进入通话
@@ -682,11 +682,12 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
         mTRTCCloud?.setVideoEncoderParam(encParam)
         mTrtcVideolayout?.setIVideoLayoutListener(this)
+
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onDestroy() {
-
+        stopCheckPhotoInVideo()
         destroylongTextTtsController()
         SystemLogHelper.getInstance().stop()
         exitRoom()
@@ -762,7 +763,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     override fun onClick(v: View) {
         when (v.id) {
             R.id.ll_page_voice_result_retry -> {
-                sendMsg1(mCurrentMsg!!, object : OfflineActivity.RoomHttpCallBack {
+                pushMessage(mCurrentMsg!!, object : OfflineActivity.RoomHttpCallBack {
                     override fun onSuccess(json: String?) {
 
                     }
@@ -824,6 +825,12 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     var isConnect = true
 
     private inner class TRTCCloudImplListener(activity: OfflineActivity) : TRTCCloudListener() {
+
+        override fun onSpeedTest(p0: TRTCSpeedTestResult?, p1: Int, p2: Int) {
+            super.onSpeedTest(p0, p1, p2)
+            LogUtils.i("onSpeedTest",p0.toString())
+        }
+
         override fun onEnterRoom(result: Long) {
             super.onEnterRoom(result)
             LogUtils.i("onEnterRoom-----result----$result")
@@ -831,6 +838,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             mStartRecordTimeMillis = System.currentTimeMillis()
             LogUtils.i("mStartRecordTimeMillis-----$mStartRecordTimeMillis")
             startCheckPhotoInVideo()
+            mTRTCCloud?.startSpeedTest(jsonObject1!!.getInt("sdkAppId"),mUserId,jsonObject1!!.getString("agentSig"))
         }
 
         override fun onExitRoom(reason: Int) {
@@ -847,6 +855,9 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         ) {
             super.onNetworkQuality(localQuality, remoteQuality)
 
+            mTrtcVideolayout?.updateNetworkQuality(localQuality?.quality!!)
+
+            LogUtils.i("onNetworkQuality","${localQuality?.quality}")
         }
 
         override fun onRemoteUserLeaveRoom(p0: String?, p1: Int) {
@@ -1158,7 +1169,6 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         page_readnextPage?.visibility(true)
         tv_skip.visibility(false)
         checkLeftVideoToRightScreen(page_readnextPage!!, false, titleContent)
-//        page_readnextPage?.findViewById<TextView>(R.id.tv_readNext_content)?.text = titleContent
 
     }
 
@@ -1166,7 +1176,6 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     private fun showTTSNext(contentStr: String) {
         tv_skip.visibility(false)
         checkLeftVideoToRightScreen(page_ttsPage!!, false, contentStr)
-//        page_ttsPage?.findViewById<TextView>(R.id.tts_page_content)?.text = contentStr
         //播报
         startTtsController(contentStr, object : RoomHttpCallBack {
             override fun onSuccess(json: String?) {
@@ -1259,14 +1268,13 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                         val tagrtOb = jsonArray.getString(0)
                         val byteToBitmap = SystemCommon.getInstance().byteToBitmap(p0)
                         val jsonObject = JSONObject(mRoomInfo)
-                        val serviceId = jsonObject.optString("serviceId", "")
-                        var name = ""
+                        var mName = ""
                         var agentID = ""
                         if ("agent" == tagrtOb) {
-                            name = jsonObject.optString("agentName", "")
+                            mName = jsonObject.optString("agentName", "")
                             agentID = jsonObject.optString("agentID", "")
                         } else if ("policyholder" == tagrtOb) {
-                            name = jsonObject.optString("policyholderName", "")
+                            mName = jsonObject.optString("policyholderName", "")
                             agentID = jsonObject.optString("policyholderID", "")
                         }
                         val encode = Base64.encode(byteToBitmap, Base64.DEFAULT)
@@ -1275,10 +1283,13 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
                         val replace = bulider.toString().replace("\n", "")
                         val uploadShotPic = UploadShotPic()
-                        uploadShotPic.serviceId = serviceId
-                        uploadShotPic.facePhoto = replace
-                        uploadShotPic.idCardNum = agentID
-                        uploadShotPic.name = name
+
+                        uploadShotPic.apply {
+                            serviceId = mServiceId
+                            facePhoto = replace
+                            idCardNum = agentID
+                            name = mName
+                        }
                         SystemHttpRequest.getInstance().agentIdCard(
                             uploadShotPic,
                             object : HttpRequestClient.RequestHttpCallBack {
@@ -1289,7 +1300,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                     val jsonObject2 = if ("1" == status) {
                                         JSONObject().apply {
                                             put("type", "idComparison")
-                                            put("serviceId", serviceId)
+                                            put("serviceId", mServiceId)
                                             put("step", JSONObject().apply {
                                                 put("data", JSONObject().apply {
                                                     put("roomMessage", "识别失败")
@@ -1302,7 +1313,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                     } else {
                                         JSONObject().apply {
                                             put("type", "idComparison")
-                                            put("serviceId", serviceId)
+                                            put("serviceId", mServiceId)
                                             put("step", JSONObject().apply {
                                                 put("data", JSONObject().apply {
                                                     put("roomMessage", "识别成功")
@@ -1313,7 +1324,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
                                         }
                                     }
-                                    sendMsg1(
+                                    pushMessage(
                                         jsonObject2,
                                         object : OfflineActivity.RoomHttpCallBack {
                                             override fun onSuccess(json: String?) {
@@ -1401,7 +1412,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
                                             }
                                         }
-                                        sendMsg1(
+                                        pushMessage(
                                             jsonObject2,
                                             object : OfflineActivity.RoomHttpCallBack {
                                                 override fun onSuccess(json: String?) {
@@ -1431,7 +1442,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                             })
 
                                         }
-                                        sendMsg1(
+                                        pushMessage(
                                             jsonObject2,
                                             object : OfflineActivity.RoomHttpCallBack {
                                                 override fun onSuccess(json: String?) {
@@ -1491,7 +1502,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
                                             }
                                         }
-                                        sendMsg1(
+                                        pushMessage(
                                             jsonObject2,
                                             object : OfflineActivity.RoomHttpCallBack {
                                                 override fun onSuccess(json: String?) {
@@ -1520,7 +1531,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                             })
 
                                         }
-                                        sendMsg1(
+                                        pushMessage(
                                             jsonObject2,
                                             object : OfflineActivity.RoomHttpCallBack {
                                                 override fun onSuccess(json: String?) {
@@ -1759,7 +1770,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                 //识别成功
                 cancelAbsCredentialProvider()
 
-                sendMsg1(JSONObject().apply {
+                pushMessage(JSONObject().apply {
                     put("serviceId", mServiceId)
                     put("type", "soundOCR")
 
@@ -1949,9 +1960,6 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                         }
 
                     } else {
-                        runOnUiThread {
-                            showNextStep("next")
-                        }
 
                         var stepDataJson: JSONObject? = null
                         if (data.has("step")) {
@@ -2036,7 +2044,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                                 quickEnterRoom(isSystem = false)
                                             }
                                             ll_page_voice_result_retry.setOnClickListener {
-                                                sendMsg1(
+                                                pushMessage(
                                                     mCurrentMsg!!,
                                                     object : OfflineActivity.RoomHttpCallBack {
                                                         override fun onSuccess(json: String?) {
@@ -2170,12 +2178,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                             }
 
                         } else {
-                            runOnUiThread {
-                                showLinkName(
-                                    stepDataNode!!.optString("name", ""),
-                                    "(${processIndex + 1}/${mAllProcessIndex})"
-                                )
-                            }
+
                             mCurrentMsg = data
                             if (data.has("step")) {
                                 stepDataNode = data.getJSONObject("step")
@@ -2194,7 +2197,13 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
                             when (mType) {
                                 "nextStep", "preStep" -> {
-
+                                    runOnUiThread {
+                                        showNextStep("next")
+                                        showLinkName(
+                                            stepDataNode!!.optString("name", ""),
+                                            "(${processIndex + 1}/${mAllProcessIndex})"
+                                        )
+                                    }
                                     stepDataNodeType = stepDataNode!!.optString("baseType", "")
                                     when (stepDataNodeType) {
                                         "waiting" -> {//纯文字展示,数组第一个元素为标题
@@ -2398,7 +2407,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                 mFailCacheArray.forEach {
                     jsonArray.put(it)
                 }
-                sendMsg1(JSONObject().apply {
+                pushMessage(JSONObject().apply {
                     put("type", "idComparison")
                     put("serviceId", mServiceId)
                     put("step", JSONObject().apply {
@@ -2453,7 +2462,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                         }
                     }
                     str.append("人脸核身识别失败")
-                    sendMsg1(JSONObject().apply {
+                    pushMessage(JSONObject().apply {
                         put("type", "idComparison")
                         put("serviceId", mServiceId)
                         put("step", JSONObject().apply {
@@ -2515,7 +2524,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                     }
                 }
                 str.append("人脸核身识别失败")
-                sendMsg1(JSONObject().apply {
+                pushMessage(JSONObject().apply {
                     put("type", "idComparison")
                     put("serviceId", mServiceId)
                     put("step", JSONObject().apply {
@@ -2621,7 +2630,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                             LogUtils.i("filterASRPassword------$filterASRPassword")
                             //识别成功
                             //自动跳到下一步
-                            sendMsg1(JSONObject().apply {
+                            pushMessage(JSONObject().apply {
                                 put("serviceId", mServiceId)
                                 put("type", "soundOCR")
                                 put("step", JSONObject().apply {
@@ -2827,7 +2836,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         super.onConnect()
         LogUtils.i("rooms-onConnect")
 
-        SystemSocket.instance?.setMSG(TXManagerImpl.instance?.getLoginName()!!)
+        SystemSocket.instance?.setMSG(TXManagerImpl.instance?.getLoginName()!!,mServiceId)
     }
 
     override fun onBackPressed() {
@@ -2878,19 +2887,6 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         }, 2000)
 
 
-    }
-
-    override fun onClickItemFill(userId: String?, streamType: Int, enableFill: Boolean) {
-        LogUtils.i("onClickItemFill--userId$userId----enableFill$enableFill")
-    }
-
-    override fun onClickItemMuteVideo(userId: String?, streamType: Int, isMute: Boolean) {
-    }
-
-    override fun onClickItemMuteAudio(userId: String?, isMute: Boolean) {
-    }
-
-    override fun onClickItemMuteInSpeakerAudio(userId: String?, isMute: Boolean) {
     }
 
     override fun onClickMuteVideo(view: TRTCVideoLayout?, isMute: Boolean) {
@@ -2955,7 +2951,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                 mCurrentMsg!!.getJSONObject("step").remove("target")
                 mCurrentMsg!!.getJSONObject("step").put("target", jsonArray)
                 mCurrentMsg!!.getJSONObject("step").put("roomType", "idComparison-retry")
-                sendMsg1(mCurrentMsg!!, object : OfflineActivity.RoomHttpCallBack {
+                pushMessage(mCurrentMsg!!, object : OfflineActivity.RoomHttpCallBack {
                     override fun onSuccess(json: String?) {
 
                     }

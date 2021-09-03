@@ -75,11 +75,11 @@ public class HollowOutView extends FrameLayout {
         LogUtils.i("onSizeChanged" + h);
         mRx = w / 2;
         mRy = h / 2;
-//        roundCustomizeView = new RoundCustomizeView(mContext, mRx, mRy,mRadius);
-//        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
-//                FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-//        addView(roundCustomizeView,lp);
-//        roundCustomizeView.setVisibility(View.GONE);
+        if (mRadius ==0) {
+            mRadius = mRy-20 ;
+        }else{
+
+        }
     }
 
     private void init(AttributeSet attrs, int defStyle) {
@@ -96,7 +96,6 @@ public class HollowOutView extends FrameLayout {
 //        mRx = mRx != 0 ? mRx : size.x / 2;
 //        mRy = mRy != 0 ? mRy : size.y / 2;
 
-        mRadius = mRadius != 0 ? mRadius : 130;
 
         mRadius = mRadius * mDensity;
 
@@ -122,7 +121,7 @@ public class HollowOutView extends FrameLayout {
         mEraserCanvas.drawCircle(
                 mRx,
                 mRy,
-                mRy-20, mEraser);
+                mRadius, mEraser);
 
         canvas.drawBitmap(mEraserBitmap, 0, 0, null);
 

@@ -1,4 +1,4 @@
-package com.txt.sl.ui;
+package com.txt.sl.ui.crash;
 
 import android.app.Application;
 import android.content.Intent;

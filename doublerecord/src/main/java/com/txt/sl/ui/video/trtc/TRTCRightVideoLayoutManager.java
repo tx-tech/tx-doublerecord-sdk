@@ -539,6 +539,7 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
                 entity.layout.setll_page_voice_result(View.GONE, true, "", null);
                 entity.layout.setOcrStatus("", View.GONE, "0");
                 entity.layout.setll_remote_skip("", View.GONE, View.GONE);
+                entity.layout.stopRoundView();
             }
         }
     }
@@ -615,7 +616,7 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
         for (TRTCLayoutEntity entity : mLayoutEntityList) {
             if (entity.layout.getVisibility() == VISIBLE) {
                 if (userId.equals(entity.userId) && entity.streamType == TRTCCloudDef.TRTC_VIDEO_STREAM_TYPE_BIG) {
-                    entity.layout.updateNoVideoLayout(content, bHasVideo ? GONE : VISIBLE);
+                    entity.layout.updateNoVideoLayoutTv(content, bHasVideo ? GONE : VISIBLE);
                     break;
                 }
             }
@@ -678,7 +679,13 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
                 layout.setOnClickListener(null);
                 // 我自己要放在布局的左上角
                 layout.setVisibility(View.VISIBLE);
-                layout.updateNoVideoLayout("", View.VISIBLE);
+                if (i==0) {
+                    layout.updateNoVideoLayout("", View.VISIBLE);
+                }else if (i==1){
+                    layout.updateNoVideoLayoutTv("", View.VISIBLE);
+                }else if (i==2){
+                    layout.updateNoVideoLayoutTv("投保人等待进入", View.VISIBLE);
+                }
 
                 addView(layout);
                 layout.setLayoutParams(mGrid4ParamList.get(i));
@@ -708,7 +715,16 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
                 layout.setOnClickListener(null);
                 // 我自己要放在布局的左上角
                 layout.setVisibility(View.VISIBLE);
-                layout.updateNoVideoLayout("等待进入", View.VISIBLE);
+                if (i==0) {
+                    layout.updateNoVideoLayout("", View.VISIBLE);
+                }else if (i==1){
+                    layout.updateNoVideoLayoutTv("", View.VISIBLE);
+                }else if (i==2){
+                    layout.updateNoVideoLayoutTv("投保人等待进入", View.VISIBLE);
+                }else if (i==3){
+                    layout.updateNoVideoLayoutTv("被保人等待进入", View.VISIBLE);
+                }
+
                 addView(layout);
                 layout.setLayoutParams(mGrid4ParamList.get(i));
 
@@ -905,5 +921,35 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
         public String userId = "";
         public int streamType = -1;
         public String userType = "";
+    }
+    public  enum Role{
+//                if (userType == "agent") {
+//            trtcLayoutEntity = mLayoutEntityList.get(1);
+////            content = "代理人等待进入";
+//        } else if (userType == "policyholder") {
+//            trtcLayoutEntity = mLayoutEntityList.get(2);
+////            content = "投保人等待进入";
+//        } else if (userType == "insured") {
+//            trtcLayoutEntity = mLayoutEntityList.get(3);
+////            content = "被保人等待进入";
+//        } else {
+//            trtcLayoutEntity = mLayoutEntityList.get(1);
+////            content = "代理人等待进入";
+//        }
+        AGENT("agent", "代理人"),
+        POLICYHOLDER("policyholder", "投保人"),
+        INSURED("insured", "被保人");
+        private String userType;
+        private String msg;
+
+        Role(String userType, String msg) {
+            this.userType = userType;
+            this.msg = msg;
+        }
+
+        public static String getRole(String userType) {
+
+            return "未定义";
+        }
     }
 }

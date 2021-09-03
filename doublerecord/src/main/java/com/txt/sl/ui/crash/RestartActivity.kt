@@ -1,10 +1,9 @@
-package com.txt.sl.ui
+package com.txt.sl.ui.crash
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import com.common.widget.base.BaseActivity
-import com.txt.sl.ui.home.HomeActivity
 import com.txt.sl.utils.ApplicationUtils
 
 

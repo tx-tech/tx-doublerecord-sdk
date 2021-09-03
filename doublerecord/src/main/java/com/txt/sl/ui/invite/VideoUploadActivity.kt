@@ -9,6 +9,7 @@ import com.common.widget.base.BaseActivity
 import com.common.widget.dialog.TxPopup
 import com.txt.sl.R
 import com.txt.sl.TXSdk
+import com.txt.sl.http.https.HttpRequestClient
 import com.txt.sl.system.SystemHttpRequest
 import com.txt.sl.utils.*
 import kotlinx.android.synthetic.main.tx_activity_video_upload.*
@@ -75,14 +76,7 @@ class VideoUploadActivity : BaseActivity() {
                     tv_videosize?.text = "$byteToMB M"
                     LogUtils.i("time$time")
                     val min = time / 1000 / 60.0
-                    var minSize = if (min > 1) {
-                        val df = DecimalFormat("#.00")
-                        df.format(min)
-                    } else {
-                       "$min"
-                    }
-
-
+                    var minSize = String.format("%.2f", min)
                     tv_videotime?.text = "$minSize 分钟"
                 }, object : SystemHttpRequest.onRequestCallBack {
                     override fun onSuccess() {
@@ -131,17 +125,43 @@ class VideoUploadActivity : BaseActivity() {
         mFlowId = intent.extras.getString(VideoUploadActivity.flowIdStr)
         val screenRecordStr = TxSPUtils.get(this, mFlowId, "") as String
         if (screenRecordStr.isEmpty()) {
-            TxPopup.Builder(this).asConfirm(
+            TxPopup.Builder(this)
+                .dismissOnBackPressed(false)
+                .dismissOnTouchOutside(false)
+                .asConfirm(
                 "退出",
                 "视频文件不存在，请从“我的双录”进入找到此单重新录制",
-                "取消",
+                "",
                 "确认",
                 { finish() },
                 null,
-                false
+                true
             ).show()
         } else {
-            upload(mFlowId, screenRecordStr)
+            SystemHttpRequest.getInstance()
+                .getFlowDetailsByTaskid(mFlowId, object : HttpRequestClient.RequestHttpCallBack {
+                    override fun onSuccess(json: String?) {
+                        upload(mFlowId, screenRecordStr)
+                    }
+
+                    override fun onFail(err: String?, code: Int) {
+                        runOnUiThread {
+                            TxPopup.Builder(this@VideoUploadActivity)
+                                .dismissOnBackPressed(false)
+                                .dismissOnTouchOutside(false)
+                                .asConfirm(
+                                    "退出",
+                                    "${err}",
+                                    "",
+                                    "确认",
+                                    { finish() },
+                                    null,
+                                    true
+                                ).show()
+                        }
+                    }
+                })
+
         }
 
         tv_invite_wx.text = "$mFlowId"

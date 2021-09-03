@@ -24,7 +24,7 @@ class OrderDetailsActivity : BaseActivity() {
     }
 
     override fun getLayoutId(): Int {
-        return R.layout.tx_activity_order_details;
+        return R.layout.tx_activity_order_details
     }
 
     private var adapter1: MainPageAdapter? = null

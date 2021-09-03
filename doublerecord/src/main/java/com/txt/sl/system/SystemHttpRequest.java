@@ -200,7 +200,20 @@ public class SystemHttpRequest {
         HttpRequestClient.getIntance().post(mDoubleRecordIP + "/api/serviceRoom/startRecord", jsonObject.toString(),  TXManagerImpl.getInstance().getToken(), callback);
     }
 
+    ///api/serviceRoom/setServiceRoomStatus
+    public void setServiceRoomStatus(String serviceId,String userId,String status, HttpRequestClient.RequestHttpCallBack callback) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("serviceId", serviceId);
+            jsonObject.put("userId", userId);
+            jsonObject.put("status", status);
 
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        HttpRequestClient.getIntance().post(mDoubleRecordIP + "/api/serviceRoom/setServiceRoomStatus", jsonObject.toString(),  TXManagerImpl.getInstance().getToken(), callback);
+    }
     public void nextStep(String jsonObject, HttpRequestClient.RequestHttpCallBack callback) {
 
 

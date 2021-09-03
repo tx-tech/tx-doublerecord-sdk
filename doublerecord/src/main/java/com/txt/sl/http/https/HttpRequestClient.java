@@ -155,7 +155,7 @@ public class HttpRequestClient {
             public void onFailure(Call call, IOException e) {
                 LogUtils.d(TAG, "onFailure: err" + e.getMessage() + "errCode" + e.hashCode());
                 if (callBack != null) {
-                    callBack.onFail(e.getMessage(), e.hashCode());
+                    callBack.onFail("上传失败", e.hashCode());
                 }
             }
 
@@ -164,8 +164,6 @@ public class HttpRequestClient {
                 String result = response.body().string();
                 LogUtils.d(TAG, "onResponse: " + result);
                 if (response.isSuccessful()) {
-
-
                     try {
                         JSONObject jsonObject = new JSONObject(result);
                         if (jsonObject.has("errCode")) {

@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity(), onTxPageListener {
 
         setContentView(R.layout.activity_main)
         if (BuildConfig.DEBUG)
-            et.setText("sl-zx-001")
+            et.setText("sl-wjq-001")
         initView()
 
     }

@@ -79,8 +79,16 @@ class OrderDetailsPageActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClick
             customDialog?.setData(
                 workItemBean
             )
+            if (workItemBean?.isSelfInsurance!!) {
+                //如果是自保件
+                InviteActivity.newInstance(
+                    this, false, "2", workItemBean!!
+                )
+            } else {
+                showCheckRemoteDialog()
+            }
 
-            showCheckRemoteDialog()
+
         }
     }
 
@@ -95,15 +103,17 @@ class OrderDetailsPageActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClick
     }
 
     private fun showDialog() {
-        TxPopup.Builder(this).asConfirm(
-            "退出",
-            "确认退出双录任务页面？",
-            "取消",
-            "是的",
-            { finish() },
-            null,
-            false
-        ).show()
+        TxPopup.Builder(this)
+            .dismissOnBackPressed(false)
+            .dismissOnTouchOutside(false).asConfirm(
+                "退出",
+                "确认退出双录任务页面？",
+                "取消",
+                "是的",
+                { finish() },
+                null,
+                false
+            ).show()
     }
 
 
@@ -126,6 +136,7 @@ class OrderDetailsPageActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClick
                         try {
                             val jsonObject = JSONObject(json)
                             val fields = jsonObject.getJSONObject("fields")
+                            val agentJSONObject = jsonObject.getJSONObject("agent")
                             val _id = jsonObject.getString("insurance")
                             workItemBean = WorkItemBean().apply {
                                 flowId = jsonObject.optString("flowId")
@@ -167,7 +178,12 @@ class OrderDetailsPageActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClick
                                 recordingMethod = jsonObject.optString("recordingMethod")
                             }
 
-                            orderDetailsItemlists.add(OrderDetailsItem("业务单号", fields.optString("taskId")))
+                            orderDetailsItemlists.add(
+                                OrderDetailsItem(
+                                    "业务单号",
+                                    fields.optString("taskId")
+                                )
+                            )
                             val stringBuffer = StringBuffer()
                             val optJSONArray = fields.optJSONArray("institutionNames")
                             if (null != optJSONArray) {
@@ -179,7 +195,12 @@ class OrderDetailsPageActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClick
                                 stringBuffer.append("暂无")
                             }
 
-                            orderDetailsItemlists.add(OrderDetailsItem("所属区域", stringBuffer.toString()))
+                            orderDetailsItemlists.add(
+                                OrderDetailsItem(
+                                    "所属区域",
+                                    stringBuffer.toString()
+                                )
+                            )
                             orderDetailsItemlists.add(
                                 OrderDetailsItem(
                                     "中介机构",
@@ -189,10 +210,15 @@ class OrderDetailsPageActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClick
                             orderDetailsItemlists.add(
                                 OrderDetailsItem(
                                     "代理人姓名",
-                                    TXManagerImpl.instance!!.getFullName()
+                                    agentJSONObject.optString("loginName"))
                                 )
-                            )
-                            orderDetailsItemlists.add(OrderDetailsItem("代理人编码", fields.optString("agentCode")))
+
+                            orderDetailsItemlists.add(
+                                OrderDetailsItem(
+                                    "代理人编码",
+                                    agentJSONObject.optString("fullName"))
+                                )
+
                             val filterStr = mDataList?.filter { it.name == "投保人证件类型" }
                             val filterStr1 =
                                 filterStr?.get(0)!!.options.filter { it.key == fields.optString("agentCertificateType") }
@@ -219,7 +245,12 @@ class OrderDetailsPageActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClick
                             val filter1 =
                                 filter?.get(0)!!.options.filter { it.key == fields.optString("policyholderCertificateType") }
                             if (filter1.isNotEmpty()) {
-                                orderDetailsItemlists.add(OrderDetailsItem("投保人证件类型", filter1[0].name))
+                                orderDetailsItemlists.add(
+                                    OrderDetailsItem(
+                                        "投保人证件类型",
+                                        filter1[0].name
+                                    )
+                                )
                             } else {
                                 orderDetailsItemlists.add(OrderDetailsItem("投保人证件类型", "暂无"))
                             }
@@ -264,12 +295,22 @@ class OrderDetailsPageActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClick
                                 it.key == fields.optString("relationship")
                             }
                             if (relationshipfilter1.isNotEmpty()) {
-                                orderDetailsItemlists.add(OrderDetailsItem("与投保人关系", relationshipfilter1[0].name))
+                                orderDetailsItemlists.add(
+                                    OrderDetailsItem(
+                                        "与投保人关系",
+                                        relationshipfilter1[0].name
+                                    )
+                                )
                             } else {
                                 orderDetailsItemlists.add(OrderDetailsItem("与投保人关系", "暂无"))
                             }
 
-                            orderDetailsItemlists.add(OrderDetailsItem("被保人姓名", fields.optString("insuredName")))
+                            orderDetailsItemlists.add(
+                                OrderDetailsItem(
+                                    "被保人姓名",
+                                    fields.optString("insuredName")
+                                )
+                            )
 
                             val insuredCertificateTypefilter =
                                 mDataList?.filter { it.name == "被保人证件类型" }
@@ -293,15 +334,30 @@ class OrderDetailsPageActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClick
                                     fields.optString("insuredCertificateNo")
                                 )
                             )
-                            orderDetailsItemlists.add(OrderDetailsItem("被保人年龄", fields.optString("insuredAge")))
-                            orderDetailsItemlists.add(OrderDetailsItem("被保人手机号", fields.optString("insuredPhone")))
+                            orderDetailsItemlists.add(
+                                OrderDetailsItem(
+                                    "被保人年龄",
+                                    fields.optString("insuredAge")
+                                )
+                            )
+                            orderDetailsItemlists.add(
+                                OrderDetailsItem(
+                                    "被保人手机号",
+                                    fields.optString("insuredPhone")
+                                )
+                            )
                             val insuredGenderfilter = mDataList?.filter { it.name == "被保人性别" }
                             val insuredGenderfilter1 =
                                 insuredGenderfilter?.get(0)!!.options.filter {
                                     it.key == fields.optString("insuredGender")
                                 }
                             if (insuredGenderfilter1.isNotEmpty()) {
-                                orderDetailsItemlists.add(OrderDetailsItem("被保人性别", insuredGenderfilter1[0].name))
+                                orderDetailsItemlists.add(
+                                    OrderDetailsItem(
+                                        "被保人性别",
+                                        insuredGenderfilter1[0].name
+                                    )
+                                )
                             } else {
                                 orderDetailsItemlists.add(OrderDetailsItem("被保人性别", "暂无"))
                             }

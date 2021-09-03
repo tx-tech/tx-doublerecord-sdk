@@ -60,11 +60,12 @@ open class SystemSocket :  SocketI {
 
     }
 
-  public  fun setMSG(loginName : String){
+  public  fun setMSG(loginName : String,serviceId:String){
       LogUtils.i("setMSG---$loginName")
         val jsonObject = JSONObject()
 
         jsonObject.put("loginName",loginName)
+        jsonObject.put("serviceId",serviceId)
         mSocket?.emit(SocketEvent.agentOnline, jsonObject)
   }
 
@@ -197,8 +198,6 @@ open class SystemSocket :  SocketI {
         this.socketStatus = socketStatus
 
     }
-
-
 
 
 

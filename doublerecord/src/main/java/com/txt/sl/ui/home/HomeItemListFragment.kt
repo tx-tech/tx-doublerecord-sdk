@@ -78,10 +78,16 @@ class HomeItemListFragment : BaseLazyViewPagerFragment(), CheckRemoteDialog.OnRe
                 }
                 R.id.tv_item1_sl, R.id.tv_replay -> {
                     val bean = mDataList[position] as WorkerItemTypeBean
-                    customDialog?.setData(
-                        bean.workItemBean
-                    )
-                    showDialog()
+                    var workItemBean = bean?.workItemBean
+                    if ( workItemBean?.isSelfInsurance!!){
+                        //如果是自保件
+                        InviteActivity.newInstance(
+                            _mActivity, false, "2", workItemBean!!
+                        )
+                    }else{
+                        customDialog?.setData(workItemBean)
+                        showDialog()
+                    }
                 }
                 R.id.tv_unupload_play -> { //播放本地视频
                     val bean = mDataList[position] as WorkerItemTypeBean

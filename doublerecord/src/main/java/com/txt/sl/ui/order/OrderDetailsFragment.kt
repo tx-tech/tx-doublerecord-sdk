@@ -86,6 +86,7 @@ class OrderDetailsFragment : BaseLazyViewPagerFragment() {
                     try {
                         val jsonObject = JSONObject(json)
                         val fields = jsonObject.getJSONObject("fields")
+                        val agentJSONObject = jsonObject.getJSONObject("agent")
                         val _id = jsonObject.getString("insurance")
                         workItemBean = WorkItemBean().apply {
                             flowId = jsonObject.optString("flowId")
@@ -130,8 +131,8 @@ class OrderDetailsFragment : BaseLazyViewPagerFragment() {
                         orderDetailsItemlists.add(OrderDetailsItem("所属区域",stringBuffer.toString()))
                         orderDetailsItemlists.add(OrderDetailsItem("中介机构", fields.optString("IntermediaryInstitutions")))
 
-                        orderDetailsItemlists.add(OrderDetailsItem("代理人姓名", TXManagerImpl.instance!!.getFullName()))
-                        orderDetailsItemlists.add(OrderDetailsItem("代理人编码", fields.optString("agentCode")))
+                        orderDetailsItemlists.add(OrderDetailsItem("代理人姓名", agentJSONObject.optString("loginName")))
+                        orderDetailsItemlists.add(OrderDetailsItem("代理人编码", agentJSONObject.optString("fullName")))
                         val filterStr = mDataList?.filter { it.name == "投保人证件类型" }
                         val filterStr1 = filterStr?.get(0)!!.options.filter { it.key == fields.optString("agentCertificateType") }
                         if (filterStr1.isNotEmpty()&&filterStr1.size>0) {

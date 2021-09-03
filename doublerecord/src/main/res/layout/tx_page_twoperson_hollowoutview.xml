@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:gravity="center">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content">
+        <com.txt.sl.widget.HollowOutView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:tx_hole_radius ="100"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="代理人"
+            android:textSize="@dimen/tx_dimen_16sp"
+            android:textColor="@color/tx_txcolor_FFFFFF"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content">
+        <com.txt.sl.widget.HollowOutView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:tx_hole_radius ="100"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="投保人"
+            android:textSize="@dimen/tx_dimen_16sp"
+            android:textColor="@color/tx_txcolor_FFFFFF"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+
+            />
+    </RelativeLayout>
+
+
+</LinearLayout>

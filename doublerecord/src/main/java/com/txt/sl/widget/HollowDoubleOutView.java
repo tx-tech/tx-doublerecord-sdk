@@ -80,7 +80,7 @@ public class HollowDoubleOutView extends FrameLayout {
         mRadius = mRy/2 ;
 
     }
-
+    Paint tvPaint;
     private void init(AttributeSet attrs, int defStyle) {
         setWillNotDraw(false);
         mDensity = mContext.getResources().getDisplayMetrics().density;
@@ -89,11 +89,6 @@ public class HollowDoubleOutView extends FrameLayout {
         size.x = mContext.getResources().getDisplayMetrics().widthPixels;
         size.y = mContext.getResources().getDisplayMetrics().heightPixels;
 
-
-//
-//        mRadius = mRadius != 0 ? mRadius : 130;
-//
-//        mRadius = mRadius * mDensity;
 
         mBackgroundColor = mBackgroundColor != -1 ? mBackgroundColor : Color.parseColor("#99000000");
 
@@ -106,7 +101,12 @@ public class HollowDoubleOutView extends FrameLayout {
         mEraser.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
         mEraser.setFlags(Paint.ANTI_ALIAS_FLAG);
 
-
+        tvPaint = new Paint();
+        tvPaint.setStyle(Paint.Style.FILL);
+        tvPaint.setStrokeWidth(12);
+        tvPaint.setTextSize(50f);
+        tvPaint.setColor(Color.WHITE);
+        tvPaint.setTextAlign(Paint.Align.CENTER);
     }
 
     @Override
@@ -118,12 +118,14 @@ public class HollowDoubleOutView extends FrameLayout {
                 mRx,
                 mRy,
                 mRadius, mEraser);
+
         mEraserCanvas.drawCircle(
                 mRx * 3,
                 mRy,
                 mRadius, mEraser);
         canvas.drawBitmap(mEraserBitmap, 0, 0, null);
-
+        canvas.drawText("代理人",mRx,mRy+mRadius+70,tvPaint);
+        canvas.drawText("投保人",mRx * 3,mRy+mRadius+70,tvPaint);
     }
 
     //先确定两个圆的原点位置

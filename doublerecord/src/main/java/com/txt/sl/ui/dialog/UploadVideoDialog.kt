@@ -87,12 +87,7 @@ class UploadVideoDialog(context: Context) : CenterPopupView(context) {
                     tvVideosize?.text = "$byteToMB M"
                     LogUtils.i("time$time")
                     val min = time / 1000 / 60.0
-                    var minSize = if (min > 1) {
-                        val df = DecimalFormat("#.00")
-                        df.format(min)
-                    } else {
-                        "$min"
-                    }
+                    var minSize = String.format("%.2f", min)
 
                     tvVideotime?.text = "$minSize 分钟"
                 }, object : SystemHttpRequest.onRequestCallBack {

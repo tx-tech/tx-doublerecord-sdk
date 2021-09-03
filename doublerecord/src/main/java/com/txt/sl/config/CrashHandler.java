@@ -7,11 +7,7 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
 
-import com.txt.sl.ui.CrashActivity;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import com.txt.sl.ui.crash.CrashActivity;
 
 /**
  *    time   : 2020/02/03
