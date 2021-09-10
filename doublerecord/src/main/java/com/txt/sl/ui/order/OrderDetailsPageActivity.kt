@@ -11,7 +11,7 @@ import com.common.widget.recyclerviewadapterhelper.base.entity.MultiItemEntity
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.txt.sl.R
-import com.txt.sl.config.TXManagerImpl
+import com.txt.sl.TXSdk
 import com.txt.sl.entity.bean.*
 import com.txt.sl.http.https.HttpRequestClient
 import com.txt.sl.system.SystemHttpRequest
@@ -116,15 +116,22 @@ class OrderDetailsPageActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClick
             ).show()
     }
 
+    override fun onDestroy() {
+        if (null != TXSdk.getInstance().onTxPageListener) {
+            TXSdk.getInstance().onTxPageListener.onSuccess(mTaskId!!)
+        }
+        super.onDestroy()
+    }
+
 
     var list = ArrayList<OrderDetailsItem>()
     var workItemBean: WorkItemBean? = null
-
+    var mTaskId  = ""
     fun requestData() {
         val dialog = TxPopup.Builder(this).asLoading("获取信息中...").show()
-        val mFlowId = intent.extras.getString(OrderDetailsPageActivity.taskIdStr)
+        mTaskId = intent.extras.getString(OrderDetailsPageActivity.taskIdStr)
         SystemHttpRequest.getInstance()
-            .getFlowDetailsByTaskid(mFlowId, object : HttpRequestClient.RequestHttpCallBack {
+            .getFlowDetailsByTaskid(mTaskId, object : HttpRequestClient.RequestHttpCallBack {
                 override fun onSuccess(json: String?) {
                     LogUtils.i("onSuccess$json")
                     list1.clear()
