@@ -1,0 +1,370 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.txt.znsl"
+4    android:versionCode="2109151103"
+5    android:versionName="1.0.2" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="19"
+8-->/Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml
+9        android:targetSdkVersion="28" />
+9-->/Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+11-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:5-79
+11-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:22-76
+12    <uses-permission android:name="android.permission.INTERNET" />
+12-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:13:5-67
+12-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:13:22-64
+13    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+13-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:14:5-84
+13-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:14:22-81
+14    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+14-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:15:5-80
+14-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:15:22-77
+15    <uses-permission android:name="android.permission.CAMERA" />
+15-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:16:5-65
+15-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:16:22-62
+16    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+16-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:17:5-71
+16-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:17:22-68
+17    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+17-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:18:5-80
+17-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:18:22-77
+18    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS" />
+18-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:19:5-81
+18-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:19:22-78
+19    <uses-permission android:name="android.permission.READ_LOGS" /> <!-- 这个权限用于进行网络定位 -->
+19-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:20:5-68
+19-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:20:22-65
+20    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" /> <!-- 这个权限用于访问GPS定位 -->
+20-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:21:5-83
+20-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:21:22-80
+21    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
+21-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:22:5-81
+21-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:22:22-78
+22    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
+22-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:23:5-79
+22-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:23:22-76
+23    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+23-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:24:5-76
+23-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:24:22-73
+24    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 获取CUID，用于鉴权，请求签名等 -->
+24-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:25:5-76
+24-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:25:22-73
+25    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" /> <!-- 用于读取手机当前的状态 -->
+25-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:26:5-85
+25-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:26:22-82
+26    <uses-permission android:name="com.android.launcher.permission.WRITE_SETTINGS" /> <!-- 写入扩展存储，向扩展卡写入数据，用于写入离线定位数据 -->
+26-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:27:5-86
+26-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:27:22-83
+27    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+27-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:28:5-75
+27-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:28:22-72
+28    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+28-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:29:5-81
+28-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:29:22-78
+29    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+29-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:30:5-75
+29-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:30:22-72
+30    <uses-permission android:name="android.permission.BLUETOOTH" />
+30-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:31:5-68
+30-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:31:22-65
+31    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- To allow starting foreground services on Android P+ - https://developer.android.com/preview/behavior-changes#fg-svc -->
+31-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:32:5-68
+31-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:32:22-65
+32    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+32-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:26:5-77
+32-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:26:22-74
+33
+34    <application
+34-->/Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:5:5-25:19
+35        android:name="com.tx.znsl.App"
+35-->/Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:6:9-28
+36        android:allowBackup="true"
+36-->/Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:7:9-35
+37        android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
+37-->[com.android.support:support-compat:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/397e2646f2c53470658aa81b077e21a9/support-compat-28.0.0/AndroidManifest.xml:22:18-91
+38        android:debuggable="true"
+39        android:icon="@mipmap/app_icon"
+39-->/Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:8:9-40
+40        android:label="@string/app_name"
+40-->/Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:9:9-41
+41        android:supportsRtl="true"
+41-->/Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:10:9-35
+42        android:testOnly="true"
+43        android:theme="@style/AppTheme"
+43-->/Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:11:9-40
+44        android:usesCleartextTraffic="true" >
+44-->[com.tencent.liteav:LiteAVSDK_TRTC:8.3.9882] /Users/natchi/.gradle/caches/transforms-2/files-2.1/67b26939227e414f3cb35b45cd6e6616/LiteAVSDK_TRTC-8.3.9882/AndroidManifest.xml:32:9-44
+45        <activity
+45-->/Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:12:9-14:47
+46            android:name="com.tx.znsl.login.MeetingActivity"
+46-->/Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:13:13-50
+47            android:launchMode="singleTask" />
+47-->/Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:14:13-44
+48        <activity android:name="com.tx.znsl.login.LoginActivity" >
+48-->/Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:15:9-21:20
+48-->/Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:15:19-54
+49            <intent-filter>
+49-->/Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:16:13-20:29
+50                <action android:name="android.intent.action.MAIN" />
+50-->/Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:17:17-69
+50-->/Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:17:25-66
+51
+52                <category android:name="android.intent.category.LAUNCHER" />
+52-->/Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:19:17-77
+52-->/Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:19:27-74
+53            </intent-filter>
+54        </activity>
+55
+56        <meta-data
+56-->/Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:22:9-24:64
+57            android:name="com.baidu.lbsapi.API_KEY"
+57-->/Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:23:13-52
+58            android:value="aY1khZhBxKFAgGNeHShMOpQ0dXrispTr" />
+58-->/Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:24:13-61
+59
+60        <activity android:name="com.txt.sl.ui.crash.RestartActivity" />
+60-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:38:9-72
+60-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:38:19-69
+61        <activity android:name="com.txt.sl.ui.crash.CrashActivity" />
+61-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:39:9-70
+61-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:39:19-67
+62        <activity
+62-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:40:9-42:52
+63            android:name="com.txt.sl.ui.invite.VideoUploadActivity"
+63-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:41:13-68
+64            android:screenOrientation="portrait" />
+64-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:42:13-49
+65        <activity
+65-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:43:9-46:52
+66            android:name="com.txt.sl.ui.order.OrderDetailsPageActivity"
+66-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:44:13-72
+67            android:launchMode="singleTask"
+67-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:45:13-44
+68            android:screenOrientation="portrait" />
+68-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:46:13-49
+69        <activity
+69-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:47:9-49:52
+70            android:name="com.txt.sl.ui.invite.InviteActivity"
+70-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:48:13-63
+71            android:screenOrientation="portrait" />
+71-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:49:13-49
+72        <activity
+72-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:50:9-52:52
+73            android:name="com.txt.sl.ui.createorder.NewOrderSubActivity"
+73-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:51:13-73
+74            android:screenOrientation="portrait" />
+74-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:52:13-49
+75        <activity
+75-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:53:9-55:52
+76            android:name="com.txt.sl.ui.search.SearchActivity"
+76-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:54:13-63
+77            android:screenOrientation="portrait" />
+77-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:55:13-49
+78        <activity
+78-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:56:9-58:52
+79            android:name="com.txt.sl.ui.order.OrderActivity"
+79-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:57:13-61
+80            android:screenOrientation="portrait" />
+80-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:58:13-49
+81        <activity
+81-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:59:9-62:52
+82            android:name="com.txt.sl.ui.order.OrderDetailsActivity"
+82-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:60:13-68
+83            android:launchMode="singleTask"
+83-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:61:13-44
+84            android:screenOrientation="portrait" />
+84-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:62:13-49
+85        <activity
+85-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:63:9-65:52
+86            android:name="com.txt.sl.ui.video.VideoPlayActivity"
+86-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:64:13-65
+87            android:screenOrientation="portrait" />
+87-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:65:13-49
+88        <activity
+88-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:66:9-69:55
+89            android:name="com.txt.sl.ui.createorder.NewOrderActivity"
+89-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:67:13-70
+90            android:screenOrientation="portrait"
+90-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:68:13-49
+91            android:windowSoftInputMode="adjustPan" />
+91-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:69:13-52
+92        <activity
+92-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:70:9-73:52
+93            android:name="com.txt.sl.ui.home.HomeActivity"
+93-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:71:13-59
+94            android:launchMode="singleTask"
+94-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:72:13-44
+95            android:screenOrientation="portrait" />
+95-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:73:13-49
+96
+97        <service
+97-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:75:9-78:41
+98            android:name="com.baidu.location.f"
+98-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:76:13-48
+99            android:enabled="true"
+99-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:77:13-35
+100            android:process=":remote" />
+100-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:78:13-38
+101
+102        <activity
+102-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:80:9-83:53
+103            android:name="com.txt.sl.ui.video.RoomActivity"
+103-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:81:13-60
+104            android:configChanges="screenLayout|screenSize|smallestScreenSize|orientation"
+104-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:82:13-91
+105            android:screenOrientation="landscape" />
+105-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:83:13-50
+106        <activity
+106-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:84:9-87:53
+107            android:name="com.txt.sl.ui.video.OfflineActivity"
+107-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:85:13-63
+108            android:configChanges="screenLayout|screenSize|smallestScreenSize|orientation"
+108-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:86:13-91
+109            android:screenOrientation="landscape" />
+109-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:87:13-50
+110        <activity
+110-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:88:9-94:75
+111            android:name="com.txt.sl.utils.TxPermissionUtils$TransActivity"
+111-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:89:13-76
+112            android:configChanges="orientation|keyboardHidden|screenSize"
+112-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:90:13-74
+113            android:launchMode="singleInstance"
+113-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:91:13-48
+114            android:multiprocess="true"
+114-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:92:13-40
+115            android:theme="@style/tx_activityTranslucent"
+115-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:93:13-58
+116            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+116-->[:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:94:13-72
+117
+118        <service
+118-->[com.squareup.leakcanary:leakcanary-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/bef0c1d8ce2fdc16e93a10216bb6db80/leakcanary-android-2.6/AndroidManifest.xml:23:9-25:40
+119            android:name="leakcanary.internal.HeapAnalyzerService"
+119-->[com.squareup.leakcanary:leakcanary-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/bef0c1d8ce2fdc16e93a10216bb6db80/leakcanary-android-2.6/AndroidManifest.xml:24:13-67
+120            android:exported="false" />
+120-->[com.squareup.leakcanary:leakcanary-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/bef0c1d8ce2fdc16e93a10216bb6db80/leakcanary-android-2.6/AndroidManifest.xml:25:13-37
+121
+122        <provider
+122-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:29:9-37:20
+123            android:name="leakcanary.internal.LeakCanaryFileProvider"
+123-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:30:13-70
+124            android:authorities="com.squareup.leakcanary.fileprovider.com.txt.znsl"
+124-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:31:13-88
+125            android:exported="false"
+125-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:32:13-37
+126            android:grantUriPermissions="true" >
+126-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:33:13-47
+127            <meta-data
+127-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:34:13-36:66
+128                android:name="android.support.FILE_PROVIDER_PATHS"
+128-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:35:17-67
+129                android:resource="@xml/leak_canary_file_paths" />
+129-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:36:17-63
+130        </provider>
+131
+132        <activity
+132-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:39:9-44:66
+133            android:name="leakcanary.internal.activity.LeakActivity"
+133-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:40:13-69
+134            android:icon="@mipmap/leak_canary_icon"
+134-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:41:13-52
+135            android:label="@string/leak_canary_display_activity_label"
+135-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:42:13-71
+136            android:taskAffinity="com.squareup.leakcanary.com.txt.znsl"
+136-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:43:13-76
+137            android:theme="@style/leak_canary_LeakCanary.Base" />
+137-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:44:13-63
+138
+139        <activity-alias
+139-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:46:9-62:26
+140            android:name="leakcanary.internal.activity.LeakLauncherActivity"
+140-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:47:13-77
+141            android:banner="@drawable/leak_canary_tv_icon"
+141-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:48:13-59
+142            android:enabled="@bool/leak_canary_add_launcher_icon"
+142-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:49:13-66
+143            android:icon="@mipmap/leak_canary_icon"
+143-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:50:13-52
+144            android:label="@string/leak_canary_display_activity_label"
+144-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:51:13-71
+145            android:targetActivity="leakcanary.internal.activity.LeakActivity"
+145-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:52:13-79
+146            android:taskAffinity="com.squareup.leakcanary.com.txt.znsl"
+146-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:53:13-76
+147            android:theme="@style/leak_canary_LeakCanary.Base" >
+147-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:54:13-63
+148            <intent-filter>
+148-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:55:13-61:29
+149                <action android:name="android.intent.action.MAIN" />
+149-->/Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:17:17-69
+149-->/Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:17:25-66
+150
+151                <category android:name="android.intent.category.LAUNCHER" />
+151-->/Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:19:17-77
+151-->/Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:19:27-74
+152                <!-- Android TV launcher intent -->
+153                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+153-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:60:17-86
+153-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:60:27-83
+154            </intent-filter>
+155        </activity-alias>
+156
+157        <activity
+157-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:64:9-70:68
+158            android:name="leakcanary.internal.RequestStoragePermissionActivity"
+158-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:65:13-80
+159            android:excludeFromRecents="true"
+159-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:66:13-46
+160            android:icon="@mipmap/leak_canary_icon"
+160-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:67:13-52
+161            android:label="@string/leak_canary_storage_permission_activity_label"
+161-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:68:13-82
+162            android:taskAffinity="com.squareup.leakcanary.com.txt.znsl"
+162-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:69:13-76
+163            android:theme="@style/leak_canary_Theme.Transparent" />
+163-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:70:13-65
+164
+165        <receiver android:name="leakcanary.internal.NotificationReceiver" />
+165-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:72:9-77
+165-->[com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:72:19-74
+166
+167        <provider
+167-->[com.squareup.leakcanary:leakcanary-object-watcher-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/99139b5858a4eee1044f9098c0212562/leakcanary-object-watcher-android-2.6/AndroidManifest.xml:8:9-12:40
+168            android:name="leakcanary.internal.AppWatcherInstaller$MainProcess"
+168-->[com.squareup.leakcanary:leakcanary-object-watcher-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/99139b5858a4eee1044f9098c0212562/leakcanary-object-watcher-android-2.6/AndroidManifest.xml:9:13-79
+169            android:authorities="com.txt.znsl.leakcanary-installer"
+169-->[com.squareup.leakcanary:leakcanary-object-watcher-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/99139b5858a4eee1044f9098c0212562/leakcanary-object-watcher-android-2.6/AndroidManifest.xml:10:13-72
+170            android:enabled="@bool/leak_canary_watcher_auto_install"
+170-->[com.squareup.leakcanary:leakcanary-object-watcher-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/99139b5858a4eee1044f9098c0212562/leakcanary-object-watcher-android-2.6/AndroidManifest.xml:11:13-69
+171            android:exported="false" />
+171-->[com.squareup.leakcanary:leakcanary-object-watcher-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/99139b5858a4eee1044f9098c0212562/leakcanary-object-watcher-android-2.6/AndroidManifest.xml:12:13-37
+172        <provider
+172-->[com.squareup.leakcanary:plumber-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/4f7e5c676d62ea1222a6359db05aedf0/plumber-android-2.6/AndroidManifest.xml:8:9-12:40
+173            android:name="leakcanary.internal.PlumberInstaller"
+173-->[com.squareup.leakcanary:plumber-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/4f7e5c676d62ea1222a6359db05aedf0/plumber-android-2.6/AndroidManifest.xml:9:13-64
+174            android:authorities="com.txt.znsl.plumber-installer"
+174-->[com.squareup.leakcanary:plumber-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/4f7e5c676d62ea1222a6359db05aedf0/plumber-android-2.6/AndroidManifest.xml:10:13-69
+175            android:enabled="@bool/leak_canary_plumber_auto_install"
+175-->[com.squareup.leakcanary:plumber-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/4f7e5c676d62ea1222a6359db05aedf0/plumber-android-2.6/AndroidManifest.xml:11:13-69
+176            android:exported="false" />
+176-->[com.squareup.leakcanary:plumber-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/4f7e5c676d62ea1222a6359db05aedf0/plumber-android-2.6/AndroidManifest.xml:12:13-37
+177
+178        <meta-data
+178-->[com.lxj:xpermission:1.0.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/b52f2dc59c2cd6139c7ca3b41137986e/xpermission-1.0.1/AndroidManifest.xml:12:9-14:36
+179            android:name="android.notch_support"
+179-->[com.lxj:xpermission:1.0.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/b52f2dc59c2cd6139c7ca3b41137986e/xpermission-1.0.1/AndroidManifest.xml:13:13-49
+180            android:value="true" /> <!-- <meta-data android:name="android.max_aspect" android:value="2.4" /> -->
+180-->[com.lxj:xpermission:1.0.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/b52f2dc59c2cd6139c7ca3b41137986e/xpermission-1.0.1/AndroidManifest.xml:14:13-33
+181        <!-- PermissonActivity -->
+182        <activity
+182-->[com.lxj:xpermission:1.0.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/b52f2dc59c2cd6139c7ca3b41137986e/xpermission-1.0.1/AndroidManifest.xml:17:9-19:75
+183            android:name="com.lxj.xpermission.XPermission$PermissionActivity"
+183-->[com.lxj:xpermission:1.0.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/b52f2dc59c2cd6139c7ca3b41137986e/xpermission-1.0.1/AndroidManifest.xml:18:13-78
+184            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+184-->[com.lxj:xpermission:1.0.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/b52f2dc59c2cd6139c7ca3b41137986e/xpermission-1.0.1/AndroidManifest.xml:19:13-72
+185    </application>
+186
+187</manifest>

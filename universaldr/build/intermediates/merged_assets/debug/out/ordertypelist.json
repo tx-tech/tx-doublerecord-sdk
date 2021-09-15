@@ -1,0 +1,118 @@
+{
+  "data": [
+    {
+      "name": "代理人证件类型",
+      "key": "relationship",
+      "options":[
+        {"key": "ID", "name": "身份证", "children":[]},
+        {"key": "AbnormallID", "name": "异常身份证", "children":[]}
+       ]
+    },
+    {
+      "name": "投保人证件类型",
+      "key": "insuredDate",
+      "options":[
+        {"key": "ID", "name": "身份证", "children":[]},
+        {"key": "AbnormallID", "name": "异常身份证", "children":[]}
+        ]
+    },
+    {
+      "name": "投保人性别",
+      "key": "payType",
+      "options":[
+        {"key": 0, "name": "男", "children":[]},
+        {"key": 1, "name": "女", "children":[]}
+       ]
+    },
+    {
+      "name": "与投保人关系",
+      "key": "payType",
+      "options":[
+        {"key": "Self", "name": "本人", "children":[]},
+        {"key": "Spouse", "name": "配偶", "children":[]},
+        {"key": "Parents", "name": "父母", "children":[]},
+        {"key": "Children", "name": "子女", "children":[]},
+        {"key": "Others", "name": "其他", "children":[]},
+        {"key": "Siblings", "name": "兄弟姐妹", "children":[]},
+        {"key": "Grandparents", "name": "(外)祖父母", "children":[]},
+        {"key": "Grandchildren", "name": "(外)孙子女", "children":[]}
+      ]
+    },
+    {
+      "name": "被保人证件类型",
+      "key": "payType",
+      "options":[
+        {"key": "ID", "name": "身份证", "children":[]},
+        {"key": "AbnormallID", "name": "异常身份证", "children":[]}
+      ]
+    },
+    {
+      "name": "被保人性别",
+      "key": "payType",
+      "options":[
+        {"key": 0, "name": "男", "children":[]},
+        {"key": 1, "name": "女", "children":[]}
+      ]
+    },
+    {
+      "name": "销售渠道",
+      "key": "payType",
+      "options":[
+        {"key": "personal", "name": "个险", "children":[]},
+        {"key": "bank", "name": "银保", "children":[]},
+        {"key": "company", "name": "经代", "children":[]}
+      ]
+    },
+    {
+      "name": "投单渠道",
+      "key": "payType",
+      "options":[
+        {"key": "App", "name": "展业App", "children":[]},
+        {"key": "Website", "name": "官网", "children":[]},
+        {"key": "MiniProgram", "name": "小程序", "children":[]}
+      ]
+    },
+    {
+      "name": "主附险类型",
+      "key": "payType",
+      "options":[
+        {"key": 1, "name": "主险", "children":[]},
+        {"key": 0, "name": "附加险", "children":[]}
+      ]
+    },
+    {
+      "name": "缴费频率",
+      "key": "payType",
+      "options":[
+        {"key": "OneOff", "name": "趸缴", "children":[]},
+        {"key": "Monthly", "name": "月缴", "children":[]},
+        {"key": "Quarterly", "name": "季缴", "children":[]},
+        {"key": "Semiannually", "name": "半年缴", "children":[]},
+        {"key": "Annually", "name": "年缴", "children":[]},
+        {"key": "Irregularly", "name": "不定期缴", "children":[]}
+      ]
+    },
+    {
+      "name": "保险期间单位",
+      "key": "payType",
+      "options":[
+        {"key": "Year", "name": "多少年", "children":[]},
+        {"key": "Age", "name": "保至多少岁", "children":[]},
+        {"key": "LifeLong", "name": "终身", "children":[]}
+      ]
+    },
+    {
+      "name": "产品类型",
+      "key": "payType",
+      "options":[
+        {"key": "tradition", "name": "传统险", "children":[]},
+        {"key": "bonus", "name": "分红险", "children":[]},
+        {"key": "forEven", "name": "投连险", "children":[]},
+        {"key": "universal", "name": "万能险", "children":[]},
+        {"key": "health", "name": "健康险", "children":[]}
+      ]
+    }
+
+  ]
+}
+

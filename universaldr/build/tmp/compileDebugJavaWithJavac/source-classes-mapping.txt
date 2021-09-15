@@ -1,0 +1,2 @@
+com/tx/znsl/BuildConfig.java
+ com.tx.znsl.BuildConfig

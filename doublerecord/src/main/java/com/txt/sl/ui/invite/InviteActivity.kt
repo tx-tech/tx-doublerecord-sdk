@@ -22,7 +22,6 @@ import com.txt.sl.R
 import com.txt.sl.TXSdk
 import com.txt.sl.config.TXManagerImpl
 import com.txt.sl.entity.bean.WorkItemBean
-import com.txt.sl.entity.constant.WXApi
 import com.txt.sl.http.https.HttpRequestClient
 import com.txt.sl.receive.SystemBaiduLocation
 import com.txt.sl.system.SystemHttpRequest
@@ -318,15 +317,15 @@ public class InviteActivity : BaseActivity() {
 
     val broadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            api?.registerApp(WXApi.APP_ID)
+            api?.registerApp(TXSdk.getInstance().txConfig.wxKey)
         }
 
     }
 
     private fun regToWx() {
 
-        api = WXAPIFactory.createWXAPI(this, WXApi.APP_ID, true)
-        api?.registerApp(WXApi.APP_ID)
+        api = WXAPIFactory.createWXAPI(this, TXSdk.getInstance().txConfig.wxKey, true)
+        api?.registerApp(TXSdk.getInstance().txConfig.wxKey)
         registerReceiver(
                 broadcastReceiver , IntentFilter(ConstantsAPI.ACTION_REFRESH_WXAPP)
         )

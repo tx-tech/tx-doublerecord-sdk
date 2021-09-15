@@ -1,0 +1,599 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:2:1-27:12
+INJECTED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:2:1-27:12
+INJECTED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:2:1-27:12
+INJECTED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:2:1-27:12
+MERGED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-97:12
+MERGED from [com.squareup.leakcanary:leakcanary-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/bef0c1d8ce2fdc16e93a10216bb6db80/leakcanary-android-2.6/AndroidManifest.xml:17:1-28:12
+MERGED from [com.android.support:multidex:1.0.2] /Users/natchi/.gradle/caches/transforms-2/files-2.1/8cba18991b0a8d4778727f4d018f45b1/multidex-1.0.2/AndroidManifest.xml:17:1-22:12
+MERGED from [com.github.JustinWjq:commonwidget:1.0.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/bd24533e3aac2935c2021a5d95aaadab/commonwidget-1.0.1/AndroidManifest.xml:2:1-11:12
+MERGED from [com.lxj:xpopup:1.8.8] /Users/natchi/.gradle/caches/transforms-2/files-2.1/c10a0606d083589d20f529b05c245693/xpopup-1.8.8/AndroidManifest.xml:2:1-11:12
+MERGED from [com.lxj:easyadapter:1.1.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/17da0f80d8760fe22af989bb2ccf9384/easyadapter-1.1.1/AndroidManifest.xml:2:1-11:12
+MERGED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:17:1-75:12
+MERGED from [com.squareup.leakcanary:leakcanary-object-watcher-android-androidx:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/3daf54408453a08818f4d45dc79a7644/leakcanary-object-watcher-android-androidx-2.6/AndroidManifest.xml:2:1-7:12
+MERGED from [com.squareup.leakcanary:leakcanary-object-watcher-android-support-fragments:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/38f9955e435fe1dfc85c61b958b98151/leakcanary-object-watcher-android-support-fragments-2.6/AndroidManifest.xml:2:1-7:12
+MERGED from [com.squareup.leakcanary:leakcanary-object-watcher-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/99139b5858a4eee1044f9098c0212562/leakcanary-object-watcher-android-2.6/AndroidManifest.xml:2:1-15:12
+MERGED from [com.squareup.leakcanary:plumber-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/4f7e5c676d62ea1222a6359db05aedf0/plumber-android-2.6/AndroidManifest.xml:2:1-15:12
+MERGED from [com.squareup.leakcanary:leakcanary-android-utils:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/765ea0dc28aa435c80702ccc7c1c2dfc/leakcanary-android-utils-2.6/AndroidManifest.xml:2:1-7:12
+MERGED from [com.qcloud.cos:cos-android-lite:5.6.14] /Users/natchi/.gradle/caches/transforms-2/files-2.1/6687481fb0c8ea8966bcba5389821da2/cos-android-lite-5.6.14/AndroidManifest.xml:23:1-38:12
+MERGED from [com.qcloud.cos:qcloud-foundation:1.5.31] /Users/natchi/.gradle/caches/transforms-2/files-2.1/3783d88a1363d031d621d1d9d3fded46/qcloud-foundation-1.5.31/AndroidManifest.xml:23:1-37:12
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /Users/natchi/.gradle/caches/transforms-2/files-2.1/c5743fbdc634481604adf26baa51d6c0/constraint-layout-1.1.3/AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support:design:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/9c08ff3c2670e473f2925d89c79a6b78/design-28.0.0/AndroidManifest.xml:17:1-24:12
+MERGED from [com.lxj:xpermission:1.0.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/b52f2dc59c2cd6139c7ca3b41137986e/xpermission-1.0.1/AndroidManifest.xml:2:1-22:12
+MERGED from [com.android.support:appcompat-v7:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/d2ccad979d91c522c68d3e5fd362b372/appcompat-v7-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:recyclerview-v7:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/38f5161bba3127d36fbbfec68184bf91/recyclerview-v7-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.tencent.bugly:crashreport:3.4.4] /Users/natchi/.gradle/caches/transforms-2/files-2.1/f8540eb78e3dd48be3df776cce32da44/crashreport-3.4.4/AndroidManifest.xml:2:1-9:12
+MERGED from [com.android.support:support-v4:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/5b0ecd635daf614ebb5eab0d16955405/support-v4-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/f8489356af893933a562b27ec2ea1dc8/animated-vector-drawable-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-vector-drawable:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/0583a460c546c89ec94e0d26c4db75e2/support-vector-drawable-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.tencent.liteav:LiteAVSDK_TRTC:8.3.9882] /Users/natchi/.gradle/caches/transforms-2/files-2.1/67b26939227e414f3cb35b45cd6e6616/LiteAVSDK_TRTC-8.3.9882/AndroidManifest.xml:2:1-35:12
+MERGED from [com.android.support:support-fragment:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/6d8b881cf056b6b6b2ca0c3d329d7f01/support-fragment-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-ui:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/8917bb556a1e7950d206ead3890e237c/support-core-ui-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-utils:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/306f65e1a55fd4db9c835cd18491f28d/support-core-utils-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-media-compat:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/ae218d527e7c9d9e04d9bdd6a9cbb3ef/support-media-compat-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:transition:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/c41158d84d32ba10af2cfcca8d569863/transition-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:loader:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/5fb88217109b45ea082896b2bcf32894/loader-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:viewpager:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/8d829f292b9ed11edd08f9a39ac78a3d/viewpager-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:coordinatorlayout:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/02392082739a196b40cb583864795b64/coordinatorlayout-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:drawerlayout:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/639be8d6b220115e6a064c8c3284cffa/drawerlayout-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:slidingpanelayout:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/d250030197fc743c440eb4f331f7be0f/slidingpanelayout-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:customview:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/b5e669499101d5dbafbbfa7dc5d25ef6/customview-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/fb839ad1b1496a2c0af451f27d7096ac/swiperefreshlayout-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/b5553dfd297fac5739ebd80bedff76e8/asynclayoutinflater-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-compat:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/397e2646f2c53470658aa81b077e21a9/support-compat-28.0.0/AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/abc70672aad5c26112019fb3b075af83/versionedparcelable-28.0.0/AndroidManifest.xml:17:1-25:12
+MERGED from [com.android.support:cursoradapter:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/e4aec544839bc004e185f7739f43d465/cursoradapter-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:cardview-v7:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/3f189a17ee5601c189a85619bb221153/cardview-v7-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/ab64eef661566000c3073392e766a1f8/runtime-1.1.1/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:documentfile:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/80b16e61309f5acd3f3a71d3944f70f3/documentfile-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/943e9269fd3fa9e47b28d983317a4a9b/localbroadcastmanager-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:print:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/81dd0c8e47a366604a42c51ef2440e1a/print-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/e0c2fd2a46bdfd51ccdb601a73789420/viewmodel-1.1.1/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:interpolator:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/13467dda712c42374c5e30b434293c9f/interpolator-28.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata:1.1.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/b3c1eb3178925e935e47a667c5aff636/livedata-1.1.1/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/0a5cb8148891817aa2d43b77900504a3/livedata-core-1.1.1/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.core:runtime:1.1.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/6ed797ebc8d32d7aff1161117f466ec0/runtime-1.1.1/AndroidManifest.xml:17:1-22:12
+INJECTED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:2:1-27:12
+INJECTED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:2:1-27:12
+INJECTED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:2:1-27:12
+	package
+		ADDED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:3:5-26
+		INJECTED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml
+		INJECTED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml
+		ADDED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:2:1-27:12
+		INJECTED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml
+		ADDED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:2:1-27:12
+		INJECTED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:2:11-69
+application
+ADDED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:5:5-25:19
+MERGED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:34:5-95:19
+MERGED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:34:5-95:19
+MERGED from [com.squareup.leakcanary:leakcanary-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/bef0c1d8ce2fdc16e93a10216bb6db80/leakcanary-android-2.6/AndroidManifest.xml:22:5-26:19
+MERGED from [com.squareup.leakcanary:leakcanary-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/bef0c1d8ce2fdc16e93a10216bb6db80/leakcanary-android-2.6/AndroidManifest.xml:22:5-26:19
+MERGED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:28:5-73:19
+MERGED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:28:5-73:19
+MERGED from [com.squareup.leakcanary:leakcanary-object-watcher-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/99139b5858a4eee1044f9098c0212562/leakcanary-object-watcher-android-2.6/AndroidManifest.xml:7:5-13:19
+MERGED from [com.squareup.leakcanary:leakcanary-object-watcher-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/99139b5858a4eee1044f9098c0212562/leakcanary-object-watcher-android-2.6/AndroidManifest.xml:7:5-13:19
+MERGED from [com.squareup.leakcanary:plumber-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/4f7e5c676d62ea1222a6359db05aedf0/plumber-android-2.6/AndroidManifest.xml:7:5-13:19
+MERGED from [com.squareup.leakcanary:plumber-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/4f7e5c676d62ea1222a6359db05aedf0/plumber-android-2.6/AndroidManifest.xml:7:5-13:19
+MERGED from [com.qcloud.cos:qcloud-foundation:1.5.31] /Users/natchi/.gradle/caches/transforms-2/files-2.1/3783d88a1363d031d621d1d9d3fded46/qcloud-foundation-1.5.31/AndroidManifest.xml:34:5-35:19
+MERGED from [com.qcloud.cos:qcloud-foundation:1.5.31] /Users/natchi/.gradle/caches/transforms-2/files-2.1/3783d88a1363d031d621d1d9d3fded46/qcloud-foundation-1.5.31/AndroidManifest.xml:34:5-35:19
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /Users/natchi/.gradle/caches/transforms-2/files-2.1/c5743fbdc634481604adf26baa51d6c0/constraint-layout-1.1.3/AndroidManifest.xml:9:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /Users/natchi/.gradle/caches/transforms-2/files-2.1/c5743fbdc634481604adf26baa51d6c0/constraint-layout-1.1.3/AndroidManifest.xml:9:5-20
+MERGED from [com.android.support:design:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/9c08ff3c2670e473f2925d89c79a6b78/design-28.0.0/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:design:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/9c08ff3c2670e473f2925d89c79a6b78/design-28.0.0/AndroidManifest.xml:22:5-20
+MERGED from [com.lxj:xpermission:1.0.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/b52f2dc59c2cd6139c7ca3b41137986e/xpermission-1.0.1/AndroidManifest.xml:11:5-20:19
+MERGED from [com.lxj:xpermission:1.0.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/b52f2dc59c2cd6139c7ca3b41137986e/xpermission-1.0.1/AndroidManifest.xml:11:5-20:19
+MERGED from [com.tencent.liteav:LiteAVSDK_TRTC:8.3.9882] /Users/natchi/.gradle/caches/transforms-2/files-2.1/67b26939227e414f3cb35b45cd6e6616/LiteAVSDK_TRTC-8.3.9882/AndroidManifest.xml:29:5-33:19
+MERGED from [com.tencent.liteav:LiteAVSDK_TRTC:8.3.9882] /Users/natchi/.gradle/caches/transforms-2/files-2.1/67b26939227e414f3cb35b45cd6e6616/LiteAVSDK_TRTC-8.3.9882/AndroidManifest.xml:29:5-33:19
+MERGED from [com.android.support:support-compat:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/397e2646f2c53470658aa81b077e21a9/support-compat-28.0.0/AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:support-compat:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/397e2646f2c53470658aa81b077e21a9/support-compat-28.0.0/AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/abc70672aad5c26112019fb3b075af83/versionedparcelable-28.0.0/AndroidManifest.xml:22:5-23:19
+MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/abc70672aad5c26112019fb3b075af83/versionedparcelable-28.0.0/AndroidManifest.xml:22:5-23:19
+	android:appComponentFactory
+		ADDED from [com.android.support:support-compat:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/397e2646f2c53470658aa81b077e21a9/support-compat-28.0.0/AndroidManifest.xml:22:18-91
+	android:supportsRtl
+		ADDED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:10:9-35
+	android:label
+		ADDED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:9:9-41
+	android:icon
+		ADDED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:8:9-40
+	android:allowBackup
+		ADDED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:7:9-35
+	android:theme
+		ADDED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:11:9-40
+	android:usesCleartextTraffic
+		ADDED from [com.tencent.liteav:LiteAVSDK_TRTC:8.3.9882] /Users/natchi/.gradle/caches/transforms-2/files-2.1/67b26939227e414f3cb35b45cd6e6616/LiteAVSDK_TRTC-8.3.9882/AndroidManifest.xml:32:9-44
+	android:name
+		ADDED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:6:9-28
+activity#com.tx.znsl.login.MeetingActivity
+ADDED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:12:9-14:47
+	android:launchMode
+		ADDED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:14:13-44
+	android:name
+		ADDED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:13:13-50
+activity#com.tx.znsl.login.LoginActivity
+ADDED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:15:9-21:20
+	android:name
+		ADDED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:15:19-54
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:16:13-20:29
+action#android.intent.action.MAIN
+ADDED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:17:17-69
+	android:name
+		ADDED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:17:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:19:17-77
+	android:name
+		ADDED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:19:27-74
+meta-data#com.baidu.lbsapi.API_KEY
+ADDED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:22:9-24:64
+	android:value
+		ADDED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:24:13-61
+	android:name
+		ADDED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml:23:13-52
+uses-sdk
+INJECTED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml
+INJECTED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml
+MERGED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:8:5-10:41
+MERGED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:8:5-10:41
+MERGED from [com.squareup.leakcanary:leakcanary-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/bef0c1d8ce2fdc16e93a10216bb6db80/leakcanary-android-2.6/AndroidManifest.xml:20:5-44
+MERGED from [com.squareup.leakcanary:leakcanary-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/bef0c1d8ce2fdc16e93a10216bb6db80/leakcanary-android-2.6/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:multidex:1.0.2] /Users/natchi/.gradle/caches/transforms-2/files-2.1/8cba18991b0a8d4778727f4d018f45b1/multidex-1.0.2/AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:multidex:1.0.2] /Users/natchi/.gradle/caches/transforms-2/files-2.1/8cba18991b0a8d4778727f4d018f45b1/multidex-1.0.2/AndroidManifest.xml:20:5-43
+MERGED from [com.github.JustinWjq:commonwidget:1.0.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/bd24533e3aac2935c2021a5d95aaadab/commonwidget-1.0.1/AndroidManifest.xml:7:5-9:41
+MERGED from [com.github.JustinWjq:commonwidget:1.0.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/bd24533e3aac2935c2021a5d95aaadab/commonwidget-1.0.1/AndroidManifest.xml:7:5-9:41
+MERGED from [com.lxj:xpopup:1.8.8] /Users/natchi/.gradle/caches/transforms-2/files-2.1/c10a0606d083589d20f529b05c245693/xpopup-1.8.8/AndroidManifest.xml:7:5-9:41
+MERGED from [com.lxj:xpopup:1.8.8] /Users/natchi/.gradle/caches/transforms-2/files-2.1/c10a0606d083589d20f529b05c245693/xpopup-1.8.8/AndroidManifest.xml:7:5-9:41
+MERGED from [com.lxj:easyadapter:1.1.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/17da0f80d8760fe22af989bb2ccf9384/easyadapter-1.1.1/AndroidManifest.xml:7:5-9:41
+MERGED from [com.lxj:easyadapter:1.1.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/17da0f80d8760fe22af989bb2ccf9384/easyadapter-1.1.1/AndroidManifest.xml:7:5-9:41
+MERGED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:20:5-44
+MERGED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:20:5-44
+MERGED from [com.squareup.leakcanary:leakcanary-object-watcher-android-androidx:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/3daf54408453a08818f4d45dc79a7644/leakcanary-object-watcher-android-androidx-2.6/AndroidManifest.xml:5:5-44
+MERGED from [com.squareup.leakcanary:leakcanary-object-watcher-android-androidx:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/3daf54408453a08818f4d45dc79a7644/leakcanary-object-watcher-android-androidx-2.6/AndroidManifest.xml:5:5-44
+MERGED from [com.squareup.leakcanary:leakcanary-object-watcher-android-support-fragments:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/38f9955e435fe1dfc85c61b958b98151/leakcanary-object-watcher-android-support-fragments-2.6/AndroidManifest.xml:5:5-44
+MERGED from [com.squareup.leakcanary:leakcanary-object-watcher-android-support-fragments:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/38f9955e435fe1dfc85c61b958b98151/leakcanary-object-watcher-android-support-fragments-2.6/AndroidManifest.xml:5:5-44
+MERGED from [com.squareup.leakcanary:leakcanary-object-watcher-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/99139b5858a4eee1044f9098c0212562/leakcanary-object-watcher-android-2.6/AndroidManifest.xml:5:5-44
+MERGED from [com.squareup.leakcanary:leakcanary-object-watcher-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/99139b5858a4eee1044f9098c0212562/leakcanary-object-watcher-android-2.6/AndroidManifest.xml:5:5-44
+MERGED from [com.squareup.leakcanary:plumber-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/4f7e5c676d62ea1222a6359db05aedf0/plumber-android-2.6/AndroidManifest.xml:5:5-44
+MERGED from [com.squareup.leakcanary:plumber-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/4f7e5c676d62ea1222a6359db05aedf0/plumber-android-2.6/AndroidManifest.xml:5:5-44
+MERGED from [com.squareup.leakcanary:leakcanary-android-utils:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/765ea0dc28aa435c80702ccc7c1c2dfc/leakcanary-android-utils-2.6/AndroidManifest.xml:5:5-44
+MERGED from [com.squareup.leakcanary:leakcanary-android-utils:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/765ea0dc28aa435c80702ccc7c1c2dfc/leakcanary-android-utils-2.6/AndroidManifest.xml:5:5-44
+MERGED from [com.qcloud.cos:cos-android-lite:5.6.14] /Users/natchi/.gradle/caches/transforms-2/files-2.1/6687481fb0c8ea8966bcba5389821da2/cos-android-lite-5.6.14/AndroidManifest.xml:28:5-30:41
+MERGED from [com.qcloud.cos:cos-android-lite:5.6.14] /Users/natchi/.gradle/caches/transforms-2/files-2.1/6687481fb0c8ea8966bcba5389821da2/cos-android-lite-5.6.14/AndroidManifest.xml:28:5-30:41
+MERGED from [com.qcloud.cos:qcloud-foundation:1.5.31] /Users/natchi/.gradle/caches/transforms-2/files-2.1/3783d88a1363d031d621d1d9d3fded46/qcloud-foundation-1.5.31/AndroidManifest.xml:28:5-30:41
+MERGED from [com.qcloud.cos:qcloud-foundation:1.5.31] /Users/natchi/.gradle/caches/transforms-2/files-2.1/3783d88a1363d031d621d1d9d3fded46/qcloud-foundation-1.5.31/AndroidManifest.xml:28:5-30:41
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /Users/natchi/.gradle/caches/transforms-2/files-2.1/c5743fbdc634481604adf26baa51d6c0/constraint-layout-1.1.3/AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support.constraint:constraint-layout:1.1.3] /Users/natchi/.gradle/caches/transforms-2/files-2.1/c5743fbdc634481604adf26baa51d6c0/constraint-layout-1.1.3/AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support:design:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/9c08ff3c2670e473f2925d89c79a6b78/design-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:design:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/9c08ff3c2670e473f2925d89c79a6b78/design-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.lxj:xpermission:1.0.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/b52f2dc59c2cd6139c7ca3b41137986e/xpermission-1.0.1/AndroidManifest.xml:7:5-9:41
+MERGED from [com.lxj:xpermission:1.0.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/b52f2dc59c2cd6139c7ca3b41137986e/xpermission-1.0.1/AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:appcompat-v7:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/d2ccad979d91c522c68d3e5fd362b372/appcompat-v7-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/d2ccad979d91c522c68d3e5fd362b372/appcompat-v7-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/38f5161bba3127d36fbbfec68184bf91/recyclerview-v7-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:recyclerview-v7:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/38f5161bba3127d36fbbfec68184bf91/recyclerview-v7-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.tencent.bugly:crashreport:3.4.4] /Users/natchi/.gradle/caches/transforms-2/files-2.1/f8540eb78e3dd48be3df776cce32da44/crashreport-3.4.4/AndroidManifest.xml:5:5-7:41
+MERGED from [com.tencent.bugly:crashreport:3.4.4] /Users/natchi/.gradle/caches/transforms-2/files-2.1/f8540eb78e3dd48be3df776cce32da44/crashreport-3.4.4/AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support:support-v4:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/5b0ecd635daf614ebb5eab0d16955405/support-v4-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/5b0ecd635daf614ebb5eab0d16955405/support-v4-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/f8489356af893933a562b27ec2ea1dc8/animated-vector-drawable-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/f8489356af893933a562b27ec2ea1dc8/animated-vector-drawable-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/0583a460c546c89ec94e0d26c4db75e2/support-vector-drawable-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/0583a460c546c89ec94e0d26c4db75e2/support-vector-drawable-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.tencent.liteav:LiteAVSDK_TRTC:8.3.9882] /Users/natchi/.gradle/caches/transforms-2/files-2.1/67b26939227e414f3cb35b45cd6e6616/LiteAVSDK_TRTC-8.3.9882/AndroidManifest.xml:7:5-9:41
+MERGED from [com.tencent.liteav:LiteAVSDK_TRTC:8.3.9882] /Users/natchi/.gradle/caches/transforms-2/files-2.1/67b26939227e414f3cb35b45cd6e6616/LiteAVSDK_TRTC-8.3.9882/AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:support-fragment:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/6d8b881cf056b6b6b2ca0c3d329d7f01/support-fragment-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/6d8b881cf056b6b6b2ca0c3d329d7f01/support-fragment-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/8917bb556a1e7950d206ead3890e237c/support-core-ui-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/8917bb556a1e7950d206ead3890e237c/support-core-ui-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/306f65e1a55fd4db9c835cd18491f28d/support-core-utils-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/306f65e1a55fd4db9c835cd18491f28d/support-core-utils-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/ae218d527e7c9d9e04d9bdd6a9cbb3ef/support-media-compat-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-media-compat:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/ae218d527e7c9d9e04d9bdd6a9cbb3ef/support-media-compat-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/c41158d84d32ba10af2cfcca8d569863/transition-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:transition:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/c41158d84d32ba10af2cfcca8d569863/transition-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/5fb88217109b45ea082896b2bcf32894/loader-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/5fb88217109b45ea082896b2bcf32894/loader-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/8d829f292b9ed11edd08f9a39ac78a3d/viewpager-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/8d829f292b9ed11edd08f9a39ac78a3d/viewpager-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/02392082739a196b40cb583864795b64/coordinatorlayout-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/02392082739a196b40cb583864795b64/coordinatorlayout-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/639be8d6b220115e6a064c8c3284cffa/drawerlayout-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/639be8d6b220115e6a064c8c3284cffa/drawerlayout-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/d250030197fc743c440eb4f331f7be0f/slidingpanelayout-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/d250030197fc743c440eb4f331f7be0f/slidingpanelayout-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/b5e669499101d5dbafbbfa7dc5d25ef6/customview-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/b5e669499101d5dbafbbfa7dc5d25ef6/customview-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/fb839ad1b1496a2c0af451f27d7096ac/swiperefreshlayout-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/fb839ad1b1496a2c0af451f27d7096ac/swiperefreshlayout-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/b5553dfd297fac5739ebd80bedff76e8/asynclayoutinflater-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/b5553dfd297fac5739ebd80bedff76e8/asynclayoutinflater-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/397e2646f2c53470658aa81b077e21a9/support-compat-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/397e2646f2c53470658aa81b077e21a9/support-compat-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/abc70672aad5c26112019fb3b075af83/versionedparcelable-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/abc70672aad5c26112019fb3b075af83/versionedparcelable-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/e4aec544839bc004e185f7739f43d465/cursoradapter-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/e4aec544839bc004e185f7739f43d465/cursoradapter-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cardview-v7:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/3f189a17ee5601c189a85619bb221153/cardview-v7-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cardview-v7:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/3f189a17ee5601c189a85619bb221153/cardview-v7-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/ab64eef661566000c3073392e766a1f8/runtime-1.1.1/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/ab64eef661566000c3073392e766a1f8/runtime-1.1.1/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/80b16e61309f5acd3f3a71d3944f70f3/documentfile-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/80b16e61309f5acd3f3a71d3944f70f3/documentfile-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/943e9269fd3fa9e47b28d983317a4a9b/localbroadcastmanager-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/943e9269fd3fa9e47b28d983317a4a9b/localbroadcastmanager-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/81dd0c8e47a366604a42c51ef2440e1a/print-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/81dd0c8e47a366604a42c51ef2440e1a/print-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/e0c2fd2a46bdfd51ccdb601a73789420/viewmodel-1.1.1/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/e0c2fd2a46bdfd51ccdb601a73789420/viewmodel-1.1.1/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/13467dda712c42374c5e30b434293c9f/interpolator-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] /Users/natchi/.gradle/caches/transforms-2/files-2.1/13467dda712c42374c5e30b434293c9f/interpolator-28.0.0/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/b3c1eb3178925e935e47a667c5aff636/livedata-1.1.1/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/b3c1eb3178925e935e47a667c5aff636/livedata-1.1.1/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/0a5cb8148891817aa2d43b77900504a3/livedata-core-1.1.1/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/0a5cb8148891817aa2d43b77900504a3/livedata-core-1.1.1/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/6ed797ebc8d32d7aff1161117f466ec0/runtime-1.1.1/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/6ed797ebc8d32d7aff1161117f466ec0/runtime-1.1.1/AndroidManifest.xml:20:5-44
+INJECTED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml
+INJECTED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml
+		ADDED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml
+		INJECTED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml
+		ADDED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml
+		INJECTED from /Users/natchi/natchi_data/txpj/txslAndroidtoGit/universaldr/src/main/AndroidManifest.xml
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:5-79
+MERGED from [com.qcloud.cos:cos-android-lite:5.6.14] /Users/natchi/.gradle/caches/transforms-2/files-2.1/6687481fb0c8ea8966bcba5389821da2/cos-android-lite-5.6.14/AndroidManifest.xml:32:5-79
+MERGED from [com.qcloud.cos:cos-android-lite:5.6.14] /Users/natchi/.gradle/caches/transforms-2/files-2.1/6687481fb0c8ea8966bcba5389821da2/cos-android-lite-5.6.14/AndroidManifest.xml:32:5-79
+MERGED from [com.qcloud.cos:qcloud-foundation:1.5.31] /Users/natchi/.gradle/caches/transforms-2/files-2.1/3783d88a1363d031d621d1d9d3fded46/qcloud-foundation-1.5.31/AndroidManifest.xml:32:5-79
+MERGED from [com.qcloud.cos:qcloud-foundation:1.5.31] /Users/natchi/.gradle/caches/transforms-2/files-2.1/3783d88a1363d031d621d1d9d3fded46/qcloud-foundation-1.5.31/AndroidManifest.xml:32:5-79
+MERGED from [com.tencent.liteav:LiteAVSDK_TRTC:8.3.9882] /Users/natchi/.gradle/caches/transforms-2/files-2.1/67b26939227e414f3cb35b45cd6e6616/LiteAVSDK_TRTC-8.3.9882/AndroidManifest.xml:14:5-79
+MERGED from [com.tencent.liteav:LiteAVSDK_TRTC:8.3.9882] /Users/natchi/.gradle/caches/transforms-2/files-2.1/67b26939227e414f3cb35b45cd6e6616/LiteAVSDK_TRTC-8.3.9882/AndroidManifest.xml:14:5-79
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:12:22-76
+uses-permission#android.permission.INTERNET
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:13:5-67
+MERGED from [com.qcloud.cos:cos-android-lite:5.6.14] /Users/natchi/.gradle/caches/transforms-2/files-2.1/6687481fb0c8ea8966bcba5389821da2/cos-android-lite-5.6.14/AndroidManifest.xml:33:5-67
+MERGED from [com.qcloud.cos:cos-android-lite:5.6.14] /Users/natchi/.gradle/caches/transforms-2/files-2.1/6687481fb0c8ea8966bcba5389821da2/cos-android-lite-5.6.14/AndroidManifest.xml:33:5-67
+MERGED from [com.tencent.liteav:LiteAVSDK_TRTC:8.3.9882] /Users/natchi/.gradle/caches/transforms-2/files-2.1/67b26939227e414f3cb35b45cd6e6616/LiteAVSDK_TRTC-8.3.9882/AndroidManifest.xml:12:5-67
+MERGED from [com.tencent.liteav:LiteAVSDK_TRTC:8.3.9882] /Users/natchi/.gradle/caches/transforms-2/files-2.1/67b26939227e414f3cb35b45cd6e6616/LiteAVSDK_TRTC-8.3.9882/AndroidManifest.xml:12:5-67
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:13:22-64
+uses-permission#android.permission.MOUNT_UNMOUNT_FILESYSTEMS
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:14:5-84
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:14:22-81
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:15:5-80
+MERGED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:23:5-80
+MERGED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:23:5-80
+MERGED from [com.qcloud.cos:cos-android-lite:5.6.14] /Users/natchi/.gradle/caches/transforms-2/files-2.1/6687481fb0c8ea8966bcba5389821da2/cos-android-lite-5.6.14/AndroidManifest.xml:34:5-80
+MERGED from [com.qcloud.cos:cos-android-lite:5.6.14] /Users/natchi/.gradle/caches/transforms-2/files-2.1/6687481fb0c8ea8966bcba5389821da2/cos-android-lite-5.6.14/AndroidManifest.xml:34:5-80
+MERGED from [com.tencent.liteav:LiteAVSDK_TRTC:8.3.9882] /Users/natchi/.gradle/caches/transforms-2/files-2.1/67b26939227e414f3cb35b45cd6e6616/LiteAVSDK_TRTC-8.3.9882/AndroidManifest.xml:19:5-80
+MERGED from [com.tencent.liteav:LiteAVSDK_TRTC:8.3.9882] /Users/natchi/.gradle/caches/transforms-2/files-2.1/67b26939227e414f3cb35b45cd6e6616/LiteAVSDK_TRTC-8.3.9882/AndroidManifest.xml:19:5-80
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:15:22-77
+uses-permission#android.permission.CAMERA
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:16:5-65
+MERGED from [com.tencent.liteav:LiteAVSDK_TRTC:8.3.9882] /Users/natchi/.gradle/caches/transforms-2/files-2.1/67b26939227e414f3cb35b45cd6e6616/LiteAVSDK_TRTC-8.3.9882/AndroidManifest.xml:21:5-65
+MERGED from [com.tencent.liteav:LiteAVSDK_TRTC:8.3.9882] /Users/natchi/.gradle/caches/transforms-2/files-2.1/67b26939227e414f3cb35b45cd6e6616/LiteAVSDK_TRTC-8.3.9882/AndroidManifest.xml:21:5-65
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:16:22-62
+uses-permission#android.permission.RECORD_AUDIO
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:17:5-71
+MERGED from [com.tencent.liteav:LiteAVSDK_TRTC:8.3.9882] /Users/natchi/.gradle/caches/transforms-2/files-2.1/67b26939227e414f3cb35b45cd6e6616/LiteAVSDK_TRTC-8.3.9882/AndroidManifest.xml:23:5-71
+MERGED from [com.tencent.liteav:LiteAVSDK_TRTC:8.3.9882] /Users/natchi/.gradle/caches/transforms-2/files-2.1/67b26939227e414f3cb35b45cd6e6616/LiteAVSDK_TRTC-8.3.9882/AndroidManifest.xml:23:5-71
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:17:22-68
+uses-permission#android.permission.MODIFY_AUDIO_SETTINGS
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:18:5-80
+MERGED from [com.tencent.liteav:LiteAVSDK_TRTC:8.3.9882] /Users/natchi/.gradle/caches/transforms-2/files-2.1/67b26939227e414f3cb35b45cd6e6616/LiteAVSDK_TRTC-8.3.9882/AndroidManifest.xml:25:5-80
+MERGED from [com.tencent.liteav:LiteAVSDK_TRTC:8.3.9882] /Users/natchi/.gradle/caches/transforms-2/files-2.1/67b26939227e414f3cb35b45cd6e6616/LiteAVSDK_TRTC-8.3.9882/AndroidManifest.xml:25:5-80
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:18:22-77
+uses-permission#android.permission.PROCESS_OUTGOING_CALLS
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:19:5-81
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:19:22-78
+uses-permission#android.permission.READ_LOGS
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:20:5-68
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:20:22-65
+uses-permission#android.permission.REQUEST_INSTALL_PACKAGES
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:21:5-83
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:21:22-80
+uses-permission#android.permission.ACCESS_COARSE_LOCATION
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:22:5-81
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:22:22-78
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:23:5-79
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:23:22-76
+uses-permission#android.permission.CHANGE_WIFI_STATE
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:24:5-76
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:24:22-73
+uses-permission#android.permission.ACCESS_WIFI_STATE
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:25:5-76
+MERGED from [com.qcloud.cos:cos-android-lite:5.6.14] /Users/natchi/.gradle/caches/transforms-2/files-2.1/6687481fb0c8ea8966bcba5389821da2/cos-android-lite-5.6.14/AndroidManifest.xml:36:5-76
+MERGED from [com.qcloud.cos:cos-android-lite:5.6.14] /Users/natchi/.gradle/caches/transforms-2/files-2.1/6687481fb0c8ea8966bcba5389821da2/cos-android-lite-5.6.14/AndroidManifest.xml:36:5-76
+MERGED from [com.tencent.liteav:LiteAVSDK_TRTC:8.3.9882] /Users/natchi/.gradle/caches/transforms-2/files-2.1/67b26939227e414f3cb35b45cd6e6616/LiteAVSDK_TRTC-8.3.9882/AndroidManifest.xml:16:5-76
+MERGED from [com.tencent.liteav:LiteAVSDK_TRTC:8.3.9882] /Users/natchi/.gradle/caches/transforms-2/files-2.1/67b26939227e414f3cb35b45cd6e6616/LiteAVSDK_TRTC-8.3.9882/AndroidManifest.xml:16:5-76
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:25:22-73
+uses-permission#com.android.launcher.permission.READ_SETTINGS
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:26:5-85
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:26:22-82
+uses-permission#com.android.launcher.permission.WRITE_SETTINGS
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:27:5-86
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:27:22-83
+uses-permission#android.permission.READ_PHONE_STATE
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:28:5-75
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:28:22-72
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:29:5-81
+MERGED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:24:5-81
+MERGED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:24:5-81
+MERGED from [com.qcloud.cos:cos-android-lite:5.6.14] /Users/natchi/.gradle/caches/transforms-2/files-2.1/6687481fb0c8ea8966bcba5389821da2/cos-android-lite-5.6.14/AndroidManifest.xml:35:5-81
+MERGED from [com.qcloud.cos:cos-android-lite:5.6.14] /Users/natchi/.gradle/caches/transforms-2/files-2.1/6687481fb0c8ea8966bcba5389821da2/cos-android-lite-5.6.14/AndroidManifest.xml:35:5-81
+MERGED from [com.tencent.liteav:LiteAVSDK_TRTC:8.3.9882] /Users/natchi/.gradle/caches/transforms-2/files-2.1/67b26939227e414f3cb35b45cd6e6616/LiteAVSDK_TRTC-8.3.9882/AndroidManifest.xml:18:5-81
+MERGED from [com.tencent.liteav:LiteAVSDK_TRTC:8.3.9882] /Users/natchi/.gradle/caches/transforms-2/files-2.1/67b26939227e414f3cb35b45cd6e6616/LiteAVSDK_TRTC-8.3.9882/AndroidManifest.xml:18:5-81
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:29:22-78
+uses-permission#android.permission.BROADCAST_STICKY
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:30:5-75
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:30:22-72
+uses-permission#android.permission.BLUETOOTH
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:31:5-68
+MERGED from [com.tencent.liteav:LiteAVSDK_TRTC:8.3.9882] /Users/natchi/.gradle/caches/transforms-2/files-2.1/67b26939227e414f3cb35b45cd6e6616/LiteAVSDK_TRTC-8.3.9882/AndroidManifest.xml:27:5-68
+MERGED from [com.tencent.liteav:LiteAVSDK_TRTC:8.3.9882] /Users/natchi/.gradle/caches/transforms-2/files-2.1/67b26939227e414f3cb35b45cd6e6616/LiteAVSDK_TRTC-8.3.9882/AndroidManifest.xml:27:5-68
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:31:22-65
+uses-permission#android.permission.WAKE_LOCK
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:32:5-68
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:32:22-65
+activity#com.txt.sl.ui.crash.RestartActivity
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:38:9-72
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:38:19-69
+activity#com.txt.sl.ui.crash.CrashActivity
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:39:9-70
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:39:19-67
+activity#com.txt.sl.ui.invite.VideoUploadActivity
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:40:9-42:52
+	android:screenOrientation
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:42:13-49
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:41:13-68
+activity#com.txt.sl.ui.order.OrderDetailsPageActivity
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:43:9-46:52
+	android:screenOrientation
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:46:13-49
+	android:launchMode
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:45:13-44
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:44:13-72
+activity#com.txt.sl.ui.invite.InviteActivity
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:47:9-49:52
+	android:screenOrientation
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:49:13-49
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:48:13-63
+activity#com.txt.sl.ui.createorder.NewOrderSubActivity
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:50:9-52:52
+	android:screenOrientation
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:52:13-49
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:51:13-73
+activity#com.txt.sl.ui.search.SearchActivity
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:53:9-55:52
+	android:screenOrientation
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:55:13-49
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:54:13-63
+activity#com.txt.sl.ui.order.OrderActivity
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:56:9-58:52
+	android:screenOrientation
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:58:13-49
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:57:13-61
+activity#com.txt.sl.ui.order.OrderDetailsActivity
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:59:9-62:52
+	android:screenOrientation
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:62:13-49
+	android:launchMode
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:61:13-44
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:60:13-68
+activity#com.txt.sl.ui.video.VideoPlayActivity
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:63:9-65:52
+	android:screenOrientation
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:65:13-49
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:64:13-65
+activity#com.txt.sl.ui.createorder.NewOrderActivity
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:66:9-69:55
+	android:screenOrientation
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:68:13-49
+	android:windowSoftInputMode
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:69:13-52
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:67:13-70
+activity#com.txt.sl.ui.home.HomeActivity
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:70:9-73:52
+	android:screenOrientation
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:73:13-49
+	android:launchMode
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:72:13-44
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:71:13-59
+service#com.baidu.location.f
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:75:9-78:41
+	android:process
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:78:13-38
+	android:enabled
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:77:13-35
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:76:13-48
+activity#com.txt.sl.ui.video.RoomActivity
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:80:9-83:53
+	android:screenOrientation
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:83:13-50
+	android:configChanges
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:82:13-91
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:81:13-60
+activity#com.txt.sl.ui.video.OfflineActivity
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:84:9-87:53
+	android:screenOrientation
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:87:13-50
+	android:configChanges
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:86:13-91
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:85:13-63
+activity#com.txt.sl.utils.TxPermissionUtils$TransActivity
+ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:88:9-94:75
+	android:multiprocess
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:92:13-40
+	android:launchMode
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:91:13-48
+	android:windowSoftInputMode
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:94:13-72
+	android:configChanges
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:90:13-74
+	android:theme
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:93:13-58
+	android:name
+		ADDED from [:doublerecord] /Users/natchi/natchi_data/txpj/txslAndroidtoGit/doublerecord/build/intermediates/library_manifest/debug/AndroidManifest.xml:89:13-76
+service#leakcanary.internal.HeapAnalyzerService
+ADDED from [com.squareup.leakcanary:leakcanary-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/bef0c1d8ce2fdc16e93a10216bb6db80/leakcanary-android-2.6/AndroidManifest.xml:23:9-25:40
+	android:exported
+		ADDED from [com.squareup.leakcanary:leakcanary-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/bef0c1d8ce2fdc16e93a10216bb6db80/leakcanary-android-2.6/AndroidManifest.xml:25:13-37
+	android:name
+		ADDED from [com.squareup.leakcanary:leakcanary-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/bef0c1d8ce2fdc16e93a10216bb6db80/leakcanary-android-2.6/AndroidManifest.xml:24:13-67
+uses-permission#android.permission.FOREGROUND_SERVICE
+ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:26:5-77
+	android:name
+		ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:26:22-74
+provider#leakcanary.internal.LeakCanaryFileProvider
+ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:29:9-37:20
+	android:grantUriPermissions
+		ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:33:13-47
+	android:authorities
+		ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:31:13-88
+	android:exported
+		ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:32:13-37
+	android:name
+		ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:30:13-70
+meta-data#android.support.FILE_PROVIDER_PATHS
+ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:34:13-36:66
+	android:resource
+		ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:36:17-63
+	android:name
+		ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:35:17-67
+activity#leakcanary.internal.activity.LeakActivity
+ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:39:9-44:66
+	android:label
+		ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:42:13-71
+	android:icon
+		ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:41:13-52
+	android:theme
+		ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:44:13-63
+	android:taskAffinity
+		ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:43:13-76
+	android:name
+		ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:40:13-69
+activity-alias#leakcanary.internal.activity.LeakLauncherActivity
+ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:46:9-62:26
+	android:enabled
+		ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:49:13-66
+	android:label
+		ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:51:13-71
+	android:targetActivity
+		ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:52:13-79
+	android:icon
+		ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:50:13-52
+	android:banner
+		ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:48:13-59
+	android:theme
+		ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:54:13-63
+	android:taskAffinity
+		ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:53:13-76
+	android:name
+		ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:47:13-77
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER+category:name:android.intent.category.LEANBACK_LAUNCHER
+ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:55:13-61:29
+category#android.intent.category.LEANBACK_LAUNCHER
+ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:60:17-86
+	android:name
+		ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:60:27-83
+activity#leakcanary.internal.RequestStoragePermissionActivity
+ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:64:9-70:68
+	android:label
+		ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:68:13-82
+	android:excludeFromRecents
+		ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:66:13-46
+	android:icon
+		ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:67:13-52
+	android:theme
+		ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:70:13-65
+	android:taskAffinity
+		ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:69:13-76
+	android:name
+		ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:65:13-80
+receiver#leakcanary.internal.NotificationReceiver
+ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:72:9-77
+	android:name
+		ADDED from [com.squareup.leakcanary:leakcanary-android-core:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/16b454b9449b83fc6e23444d7b455100/leakcanary-android-core-2.6/AndroidManifest.xml:72:19-74
+provider#leakcanary.internal.AppWatcherInstaller$MainProcess
+ADDED from [com.squareup.leakcanary:leakcanary-object-watcher-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/99139b5858a4eee1044f9098c0212562/leakcanary-object-watcher-android-2.6/AndroidManifest.xml:8:9-12:40
+	android:enabled
+		ADDED from [com.squareup.leakcanary:leakcanary-object-watcher-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/99139b5858a4eee1044f9098c0212562/leakcanary-object-watcher-android-2.6/AndroidManifest.xml:11:13-69
+	android:authorities
+		ADDED from [com.squareup.leakcanary:leakcanary-object-watcher-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/99139b5858a4eee1044f9098c0212562/leakcanary-object-watcher-android-2.6/AndroidManifest.xml:10:13-72
+	android:exported
+		ADDED from [com.squareup.leakcanary:leakcanary-object-watcher-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/99139b5858a4eee1044f9098c0212562/leakcanary-object-watcher-android-2.6/AndroidManifest.xml:12:13-37
+	android:name
+		ADDED from [com.squareup.leakcanary:leakcanary-object-watcher-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/99139b5858a4eee1044f9098c0212562/leakcanary-object-watcher-android-2.6/AndroidManifest.xml:9:13-79
+provider#leakcanary.internal.PlumberInstaller
+ADDED from [com.squareup.leakcanary:plumber-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/4f7e5c676d62ea1222a6359db05aedf0/plumber-android-2.6/AndroidManifest.xml:8:9-12:40
+	android:enabled
+		ADDED from [com.squareup.leakcanary:plumber-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/4f7e5c676d62ea1222a6359db05aedf0/plumber-android-2.6/AndroidManifest.xml:11:13-69
+	android:authorities
+		ADDED from [com.squareup.leakcanary:plumber-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/4f7e5c676d62ea1222a6359db05aedf0/plumber-android-2.6/AndroidManifest.xml:10:13-69
+	android:exported
+		ADDED from [com.squareup.leakcanary:plumber-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/4f7e5c676d62ea1222a6359db05aedf0/plumber-android-2.6/AndroidManifest.xml:12:13-37
+	android:name
+		ADDED from [com.squareup.leakcanary:plumber-android:2.6] /Users/natchi/.gradle/caches/transforms-2/files-2.1/4f7e5c676d62ea1222a6359db05aedf0/plumber-android-2.6/AndroidManifest.xml:9:13-64
+meta-data#android.notch_support
+ADDED from [com.lxj:xpermission:1.0.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/b52f2dc59c2cd6139c7ca3b41137986e/xpermission-1.0.1/AndroidManifest.xml:12:9-14:36
+	android:value
+		ADDED from [com.lxj:xpermission:1.0.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/b52f2dc59c2cd6139c7ca3b41137986e/xpermission-1.0.1/AndroidManifest.xml:14:13-33
+	android:name
+		ADDED from [com.lxj:xpermission:1.0.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/b52f2dc59c2cd6139c7ca3b41137986e/xpermission-1.0.1/AndroidManifest.xml:13:13-49
+activity#com.lxj.xpermission.XPermission$PermissionActivity
+ADDED from [com.lxj:xpermission:1.0.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/b52f2dc59c2cd6139c7ca3b41137986e/xpermission-1.0.1/AndroidManifest.xml:17:9-19:75
+	android:theme
+		ADDED from [com.lxj:xpermission:1.0.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/b52f2dc59c2cd6139c7ca3b41137986e/xpermission-1.0.1/AndroidManifest.xml:19:13-72
+	android:name
+		ADDED from [com.lxj:xpermission:1.0.1] /Users/natchi/.gradle/caches/transforms-2/files-2.1/b52f2dc59c2cd6139c7ca3b41137986e/xpermission-1.0.1/AndroidManifest.xml:18:13-78
