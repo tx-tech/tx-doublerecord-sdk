@@ -1,2 +1,0 @@
--keep class android.support.v4.app.CoreComponentFactory { <init>(); }
--keep class com.tx.znsl.App { <init>(); }
