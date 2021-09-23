@@ -43,7 +43,7 @@ public class MainPageAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         if (position==0){
-            return "详情";
+            return "任务信息";
         }else{
             return "历史记录";
         }

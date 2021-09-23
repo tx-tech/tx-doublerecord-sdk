@@ -62,10 +62,12 @@
 
             </LinearLayout>
             <View
+                android:id="@+id/line_institutions"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/tx_dimen_1dp"
                 android:background="#eeeeee" />
             <LinearLayout
+                android:id="@+id/ll_institutions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/tx_txwhite"
@@ -98,10 +100,12 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/line_intermediaryinstitutions"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/tx_dimen_1dp"
                 android:background="#eeeeee" />
             <LinearLayout
+                android:id="@+id/ll_intermediaryinstitutions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/tx_txwhite"

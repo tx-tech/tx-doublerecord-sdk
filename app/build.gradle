@@ -35,7 +35,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 28
         versionCode computeVersionName()
-        versionName "1.0.1.0"
+        versionName "1.0.2"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         defaultConfig {
@@ -122,12 +122,12 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    implementation project(':doublerecord')
+    api project(':doublerecord')
     implementation 'com.lxj:xpopup:1.8.8'
 
 
 
-//    implementation 'com.github.tx-tech:tx-doublerecord-sdk:1.0.1'
+//    implementation 'com.github.tx-tech:tx-doublerecord-sdk:1.0.3'
 
 
 

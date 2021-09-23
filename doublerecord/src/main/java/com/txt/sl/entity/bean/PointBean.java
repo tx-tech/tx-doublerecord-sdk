@@ -1,4 +1,4 @@
-package com.txt.sl.entity;
+package com.txt.sl.entity.bean;
 
 /**
  * Created by JustinWjq

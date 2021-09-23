@@ -15,8 +15,10 @@ import com.txt.sl.system.SystemHttpRequest
 import com.txt.sl.ui.adpter.OrderDetailsItemAdapter
 import com.txt.sl.ui.adpter.OrderExpandableItemAdapter1
 import com.txt.sl.ui.home.BaseLazyViewPagerFragment
+import com.txt.sl.ui.video.visibility
 import com.txt.sl.utils.GsonUtils
 import com.txt.sl.utils.LogUtils
+import kotlinx.android.synthetic.main.tx_activity_new_order.*
 import kotlinx.android.synthetic.main.tx_activity_order_details_page.*
 import kotlinx.android.synthetic.main.tx_fragment_order_details1.*
 import kotlinx.android.synthetic.main.tx_fragment_order_details1.nestedscrollview
@@ -128,11 +130,16 @@ class OrderDetailsFragment : BaseLazyViewPagerFragment() {
                             stringBuffer.append("暂无")
                         }
 
-                        orderDetailsItemlists.add(OrderDetailsItem("所属区域",stringBuffer.toString()))
-                        orderDetailsItemlists.add(OrderDetailsItem("中介机构", fields.optString("IntermediaryInstitutions")))
+                        if (TXManagerImpl.instance!!.getTenantCode()=="remoteRecordPoc") {
+                            orderDetailsItemlists.add(OrderDetailsItem("所属区域",TXManagerImpl.instance!!.getOrgAccountName()))
+                        }else{
+                            orderDetailsItemlists.add(OrderDetailsItem("所属区域",stringBuffer.toString()))
+                            orderDetailsItemlists.add(OrderDetailsItem("中介机构", fields.optString("IntermediaryInstitutions")))
+                        }
 
-                        orderDetailsItemlists.add(OrderDetailsItem("代理人姓名", agentJSONObject.optString("loginName")))
-                        orderDetailsItemlists.add(OrderDetailsItem("代理人编码", agentJSONObject.optString("fullName")))
+
+                        orderDetailsItemlists.add(OrderDetailsItem("代理人姓名", agentJSONObject.optString("fullName")))
+                        orderDetailsItemlists.add(OrderDetailsItem("代理人编码",agentJSONObject.optString("loginName")) )
                         val filterStr = mDataList?.filter { it.name == "投保人证件类型" }
                         val filterStr1 = filterStr?.get(0)!!.options.filter { it.key == fields.optString("agentCertificateType") }
                         if (filterStr1.isNotEmpty()&&filterStr1.size>0) {

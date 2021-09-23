@@ -92,8 +92,8 @@ class HomeActivity : BaseActivity() {
         val screenRecordStr = TxSPUtils.get(TXSdk.getInstance().application, flowId, "") as String
         if (!screenRecordStr.isEmpty()) {
             //上传视频
-            val customDialog = UploadVideoDialog(this)
-            customDialog.setFlowId(screenRecordStr)
+            val customDialog = UploadVideoDialog(this,true)
+            customDialog.setScreenRecordStr(screenRecordStr)
             TxPopup.Builder(this).setPopupCallback(object : XPopupCallback {
                 override fun onCreated() {
 
@@ -107,6 +107,7 @@ class HomeActivity : BaseActivity() {
                 }
 
                 override fun onDismiss() {
+
                 }
 
                 override fun onBackPressed(): Boolean {
@@ -115,7 +116,7 @@ class HomeActivity : BaseActivity() {
 
             }).asCustom(customDialog).show()
         } else {
-            showToastMsg("没有找到对应的录屏文件")
+            showToastMsg("查不到本地视频")
         }
 
 

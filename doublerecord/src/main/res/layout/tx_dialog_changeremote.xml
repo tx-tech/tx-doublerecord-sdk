@@ -121,6 +121,8 @@
             android:textColor="@color/tx_txcolor_333333"
             android:textSize="@dimen/tx_dimen_14sp"
             android:text="投保人、被保人（或被保人监护人）在一起"
+            android:drawablePadding="@dimen/tx_dp_10"
+            style="@style/tx_customradiotheme"
             />
         <RadioButton
             android:id="@+id/minpro_dev"
@@ -129,6 +131,8 @@
             android:textColor="@color/tx_txcolor_333333"
             android:textSize="@dimen/tx_dimen_14sp"
             android:text="投保人、被保人（或被保人监护人）不在一起"
+            android:layout_marginTop="@dimen/tx_dp_10"
+            style="@style/tx_customradiotheme"
             />
 
 

@@ -25,6 +25,7 @@ import com.txt.sl.entity.constant.SPConstant
 import com.txt.sl.http.https.HttpRequestClient
 import com.txt.sl.system.SystemHttpRequest
 import com.txt.sl.ui.adpter.OrderExpandableItemAdapter
+import com.txt.sl.ui.video.visibility
 import com.txt.sl.utils.*
 import kotlinx.android.synthetic.main.tx_activity_new_order.*
 import kotlinx.android.synthetic.main.tx_activity_new_order_item1.*
@@ -72,6 +73,17 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
         super.initView()
         requestOrderBean = RequestOrderBean()
         val bean = intent.getSerializableExtra(ARG_PARAM2)
+        if (TXManagerImpl.instance!!.getTenantCode()=="remoteRecordPoc") {
+            line_intermediaryinstitutions.visibility(false)
+            ll_intermediaryinstitutions.visibility(false)
+            line_institutions.visibility(false)
+            ll_institutions.visibility(false)
+        }else{
+            line_intermediaryinstitutions.visibility(true)
+            ll_intermediaryinstitutions.visibility(true)
+            line_institutions.visibility(true)
+            ll_institutions.visibility(true)
+        }
         if (bean != null) {
             isOrderFrom = true
             workerItemTypeBean = bean as WorkItemBean
@@ -238,14 +250,8 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
                 requestOrderBean?.ensureTheRenewal?.add(it.ensureTheRenewal)
 
             }
-            //     JSONArray insuranceCompanyArray = new JSONArray();
-            //            insuranceCompanyArray.put("60ed47deda28f16c75966b0d");
-            //            JSONArray ensureTheRenewalArray = new JSONArray();
-            //            ensureTheRenewalArray.put(false);
-            //            fieldsJsonObject.put("insuranceCompany",insuranceCompanyArray);
-            //            fieldsJsonObject.put( "ensureTheRenewal",ensureTheRenewalArray);
             SystemHttpRequest.getInstance().update(
-                    "",
+                TXManagerImpl.instance!!.getTenantCode(),
                     TXManagerImpl.instance!!.getAgentId(),
                     requestOrderBean, object : HttpRequestClient.RequestHttpCallBack {
                 override fun onSuccess(json: String?) {

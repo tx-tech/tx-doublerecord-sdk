@@ -52,13 +52,11 @@
         android:visibility="gone"
         tools:text="@string/tx_str" />
 
-    <TextView
+    <ImageView
         android:id="@+id/trtc_iv_nos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_local_video_toast"
-        android:layout_alignParentRight="true"
-        android:layout_marginLeft="@dimen/tx_dimen_5dp"
+        android:layout_alignParentLeft="true"
         android:gravity="center"
         android:textColor="@color/tx_txcolor_DF0125"
         android:visibility="visible"
@@ -80,52 +78,65 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:src="@drawable/tx_icon_novideo"
-            android:visibility="invisible"
-          />
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/tv_no_video"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="center"
             android:layout_marginTop="@dimen/tx_dp_20"
+            android:gravity="center"
             android:textColor="@color/tx_txwhite"
-            tools:text="123231"
-            />
+            tools:text="123231" />
     </LinearLayout>
-
 
     <LinearLayout
-        android:id="@+id/ll_remote_skip"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/trtc_tc_cloud_view"
-        android:layout_alignParentBottom="true"
-        android:background="@color/tx_txcolor_CCFFFFFF"
-        android:orientation="horizontal"
-        android:padding="@dimen/tx_dimen_10dp"
-        android:visibility="gone"
-        tools:visibility="visible">
-
-        <TextView
-            android:id="@+id/tv_prompt"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <ImageView
+            android:id="@+id/iv_ocr"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="1231312313"
-            android:textColor="@color/tx_txcolor_333333"
-            android:textSize="@dimen/tx_dimen_14sp" />
+            android:scaleType="fitXY"
+            android:src="@drawable/tx_ocr"
+            android:visibility="invisible"
+            tools:visibility="visible" />
 
-        <TextView
-            android:id="@+id/tv_remote_skip"
-            style="@style/txButtonStyle_1"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/ll_remote_skip"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="下一步"
-            android:visibility="gone" />
+            android:layout_alignParentBottom="true"
+            android:background="@color/tx_txcolor_CCFFFFFF"
+            android:orientation="horizontal"
+            android:padding="@dimen/tx_dimen_10dp"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/tv_prompt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="1231312313"
+                android:textColor="@color/tx_txcolor_333333"
+                android:textSize="@dimen/tx_dimen_14sp" />
+
+            <TextView
+                android:id="@+id/tv_remote_skip"
+                style="@style/txButtonStyle_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="下一步"
+                android:visibility="gone" />
+        </LinearLayout>
     </LinearLayout>
+
 
     <com.txt.sl.widget.HollowOutView
         android:id="@+id/hollowoutview"

@@ -32,8 +32,8 @@
         android:id="@+id/tv_title1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/tx_dimen_5dp"
         android:text = "不通过类型:"
-        android:layout_marginTop="@dimen/tx_dimen_15dp"
         app:layout_constraintLeft_toLeftOf="@+id/tv"
         app:layout_constraintTop_toBottomOf="@+id/tv"
         />

@@ -3,7 +3,6 @@ package com.txt.sl;
 import android.app.Activity;
 import android.app.Application;
 
-
 import com.common.widget.titlebar.TitleBar;
 import com.common.widget.base.SystemBase;
 import com.common.widget.base.SystemManager;
@@ -153,10 +152,11 @@ public class TXSdk implements ITXSDKApi {
     public void init(Application application) {
         init(application, environment, isDebug);
     }
-
-    public <T extends SystemBase>T getSystem(Class<T> tClass){
-        return SystemManager.getInstance().getSystem(tClass);
+    public void init(Application application, Environment en, boolean isDebug,String tenantCode) {
+        init(application, environment, isDebug);
     }
+
+
 
     public void init(Application application, Environment en, boolean isDebug) {
         TxLogUtils.i("SDKVersion:"+getSDKVersion());
@@ -171,14 +171,15 @@ public class TXSdk implements ITXSDKApi {
         AppUtils.init(application);
         ApplicationUtils.init(application);
         ToastUtils.init(application);
-//        CrashReport.setIsDevelopmentDevice(application, BuildConfig.DEBUG);
+        //        CrashReport.setIsDevelopmentDevice(application, BuildConfig.DEBUG);
 
         //        Beta.autoCheckUpgrade = false;
-//        CrashReport.initCrashReport(application, "5960ee0d93", BuildConfig.DEBUG);
+        //        CrashReport.initCrashReport(application, "5960ee0d93", BuildConfig.DEBUG);
 
         //设置appbar的样式
         TitleBar.setDefaultInitializer(new AppBarInitializer());
         SystemBaiduLocation.getInstance().initLocation();
+
     }
 
     @Override
@@ -237,7 +238,8 @@ public class TXSdk implements ITXSDKApi {
     public enum Environment {
         DEV,
         TEST,
-        RELEASE
+        RELEASE,
+        POC
     }
 
     public interface TXSDKErrorCode {

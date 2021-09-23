@@ -8,10 +8,9 @@
 
 
     <TextView
-        android:id="@+id/tx_imageView"
+        android:id="@+id/tx_emptycontent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="暂无工单"
         android:textColor="@color/tx_txcolorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

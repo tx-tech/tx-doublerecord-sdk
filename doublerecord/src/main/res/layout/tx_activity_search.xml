@@ -28,14 +28,25 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/tx_search_selector"
+            android:background="@drawable/tx_search_normal"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
+            <ImageView
+                android:layout_width="@dimen/tx_dp_16"
+                android:layout_height="@dimen/tx_dp_16"
+                android:background="@drawable/tx_search_ic"
+                android:layout_marginLeft="@dimen/tx_dp_10"
+                />
 
-            <android.support.v7.widget.SearchView
+            <com.common.widget.view.ClearEditText
                 android:id="@+id/searchView"
+                style="@style/txEditTextStyle"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/tx_dimen_40dp"
-                app:queryHint="请输入" />
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|start"
+                android:hint="请输入投保人姓名"
+                android:imeOptions="actionSearch" />
+
         </LinearLayout>
 
         <Button
@@ -46,22 +57,16 @@
             android:layout_toRightOf="@id/ll_searchView"
             android:background="@color/tx_txwhite"
             android:gravity="center"
-            android:text="@string/tx_cancel" />
+            android:textColor="@color/tx_common_accent_color"
+            style="@style/txTripFunClick"
+            android:text="查询" />
 
     </LinearLayout>
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayout"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/ll_searchView"
-        >
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </android.support.v4.widget.SwipeRefreshLayout>
-
-
+        />
 </RelativeLayout>

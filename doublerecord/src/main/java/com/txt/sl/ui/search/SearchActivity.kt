@@ -8,6 +8,7 @@ import android.support.v7.widget.SearchView
 import android.text.TextUtils
 import android.util.Log
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
 import com.common.widget.dialog.TxPopup
 import com.common.widget.dialog.interfaces.XPopupCallback
 import com.common.widget.recyclerviewadapterhelper.base.entity.MultiItemEntity
@@ -30,7 +31,6 @@ import com.txt.sl.utils.TxSPUtils
 import com.txt.sl.widget.LoadingView
 import kotlinx.android.synthetic.main.tx_activity_search.*
 import kotlinx.android.synthetic.main.tx_activity_search.recyclerView
-import kotlinx.android.synthetic.main.tx_activity_search.swipeRefreshLayout
 import org.json.JSONObject
 import java.util.*
 
@@ -51,9 +51,7 @@ class SearchActivity : AppMVPActivity<SearchContract.View, SearchPresenter>(), S
     override fun initView() {
         super.initView()
         title = "查询"
-        initSearchView()
         initRecyclerview()
-//        swipeRefreshLayout.setOnRefreshListener { refreshData() }
         recyclerView.layoutManager = LinearLayoutManager(this)
         mAdapter.apply {
             bindToRecyclerView(recyclerView)
@@ -61,52 +59,23 @@ class SearchActivity : AppMVPActivity<SearchContract.View, SearchPresenter>(), S
             setEmptyView(R.layout.tx_adapter_list_pic_empty, recyclerView)
         }
         recyclerView.adapter = mAdapter
-
+        searchView.setOnEditorActionListener { v, actionId, event ->
+           if ((actionId == 0 || actionId ==3 )&&event !=null){
+               refreshData(searchView.text.toString())
+               searchView.postDelayed({
+                   hideInput()
+               }, 200)
+               return@setOnEditorActionListener  true
+           }
+            false
+        }
         finish.setOnClickListener {
-            finish()
+
+            refreshData(searchView.text.toString())
         }
     }
 
     val mDataList = ArrayList<MultiItemEntity>()
-    private fun initSearchView() {
-
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                Log.e(TAG, "onQueryTextSubmit : " + query)
-                if (TextUtils.isEmpty(query)) {
-                    return false
-                }
-
-                refreshData(query.toString())
-
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-
-                Log.e(TAG, "onQueryTextChange : " + newText)
-                if (TextUtils.isEmpty(newText)) {
-                }
-
-                return false
-            }
-
-        })
-        searchView.setOnQueryTextFocusChangeListener { view, hasFocus ->
-            if (hasFocus) {
-                view.postDelayed({
-                    val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.showSoftInput(view.findFocus(), 0)
-                }, 200)
-            }
-        }
-//        searchView.setIconifiedByDefault(false)
-        searchView.isIconified = false
-        searchView.onActionViewExpanded()
-
-
-    }
-
     public var customDialog: CheckRemoteDialog? = null
     public fun showDialog() {
 
@@ -122,7 +91,6 @@ class SearchActivity : AppMVPActivity<SearchContract.View, SearchPresenter>(), S
         customDialog?.setOnRemoteClickListener(this)
         mLoadingView = LoadingView(this, "发起录制...", LoadingView.SHOWLOADING)
 
-        swipeRefreshLayout.setOnRefreshListener { refreshData() }
 
         mAdapter.setOnItemChildClickListener { adapter, view, position ->
             val bean = mDataList[position] as WorkerItemTypeBean
@@ -137,12 +105,12 @@ class SearchActivity : AppMVPActivity<SearchContract.View, SearchPresenter>(), S
                 R.id.tv_item1_sl, R.id.tv_replay -> {
                     val workItemBean = bean.workItemBean
 
-                    if ( workItemBean?.isSelfInsurance!!){
+                    if (workItemBean?.isSelfInsurance!!) {
                         //如果是自保件
                         InviteActivity.newInstance(
                             this, false, "2", workItemBean!!
                         )
-                    }else{
+                    } else {
                         customDialog?.setData(
                             workItemBean
                         )
@@ -152,14 +120,14 @@ class SearchActivity : AppMVPActivity<SearchContract.View, SearchPresenter>(), S
                 }
                 R.id.tv_unupload_play -> { //播放本地视频
                     val screenRecordStr =
-                        TxSPUtils.get(this, bean.workItemBean.flowId, "") as String
+                        TxSPUtils.get(this, bean.workItemBean.taskId, "") as String
                     LogUtils.i("screenRecordStr---$screenRecordStr")
                     if (!TextUtils.isEmpty(screenRecordStr)) {
                         val jsonObject = JSONObject(screenRecordStr)
                         val pathFile = jsonObject.getString("path")
                         VideoPlayActivity.Builder().setVideoSource(pathFile!!, false).start(this)
                     } else {
-                        showToastMsg("没有录屏文件")
+                        showToastMsg("查不到本地视频")
                     }
 
                 }
@@ -170,7 +138,7 @@ class SearchActivity : AppMVPActivity<SearchContract.View, SearchPresenter>(), S
                 }
                 R.id.tv_item2_play -> { //上传视频
                     val bean = mDataList[position] as WorkerItemTypeBean
-                    upload(bean.workItemBean.flowId)
+                    upload(bean.workItemBean.taskId)
 
                 }
 //                R.id.tv_wx_share -> { //邀请
@@ -202,8 +170,8 @@ class SearchActivity : AppMVPActivity<SearchContract.View, SearchPresenter>(), S
         val screenRecordStr = TxSPUtils.get(TXSdk.getInstance().application, flowId, "") as String
         if (!screenRecordStr.isEmpty()) {
             //上传视频
-            val customDialog = UploadVideoDialog(this)
-            customDialog.setFlowId(screenRecordStr)
+            val customDialog = UploadVideoDialog(this, true)
+            customDialog.setScreenRecordStr(screenRecordStr)
             TxPopup.Builder(this).setPopupCallback(object : XPopupCallback {
                 override fun onCreated() {
 
@@ -227,7 +195,7 @@ class SearchActivity : AppMVPActivity<SearchContract.View, SearchPresenter>(), S
                 .dismissOnTouchOutside(false)
                 .asCustom(customDialog).show()
         } else {
-            showToastMsg("没有找到对应的录屏文件")
+            showToastMsg("查不到本地视频")
         }
 
 
@@ -238,8 +206,7 @@ class SearchActivity : AppMVPActivity<SearchContract.View, SearchPresenter>(), S
 
         }
     }
-    var policyholderUrl  =""
-    var insuranceUrl = ""
+
 
     fun refreshData(name: String) {
         SystemHttpRequest.getInstance()
@@ -287,7 +254,6 @@ class SearchActivity : AppMVPActivity<SearchContract.View, SearchPresenter>(), S
 
                     runOnUiThread {
                         mDataList.clear()
-                        swipeRefreshLayout?.isRefreshing = false
 
                         arrayList.forEach {
                             val workerItemTypeBean = WorkerItemTypeBean(it)
@@ -314,7 +280,7 @@ class SearchActivity : AppMVPActivity<SearchContract.View, SearchPresenter>(), S
                         }
 
 
-
+                        mAdapter.emptyView.findViewById<TextView>(R.id.tx_emptycontent).text = "暂无工单"
                         mAdapter.setNewData(mDataList)
 
                     }
@@ -322,7 +288,6 @@ class SearchActivity : AppMVPActivity<SearchContract.View, SearchPresenter>(), S
 
                 override fun onFail(err: String?, code: Int) {
                     runOnUiThread {
-                        swipeRefreshLayout.isRefreshing = false
                     }
                     LogUtils.i("$err")
                 }

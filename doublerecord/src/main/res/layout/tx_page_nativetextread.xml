@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/page_basetype_origintextread"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:visibility="visible"
+    android:background="@color/tx_white"
+    tools:visibility="visible">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/ll_page11_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp">
+
+            <ImageView
+                android:id="@+id/iv_textRead"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </android.support.v4.widget.NestedScrollView>
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_origin_keepout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/tx_white"
+        android:clickable="false"
+        android:focusable="false"
+        android:orientation="horizontal"
+        android:padding="@dimen/tx_dimen_10dp">
+
+        <TextView
+            android:id="@+id/tv_origin_prompt1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/tx_dimen_20dp"
+            android:gravity="center"
+            android:paddingTop="@dimen/tx_dimen_5dp"
+            android:paddingBottom="@dimen/tx_dimen_5dp"
+            android:text="12313"
+            android:textColor="@color/tx_txcolor_333333"
+            android:textSize="@dimen/tx_dimen_14sp" />
+
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/tv_origin_textread_skip"
+            style="@style/txButtonStyle_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="下一步"
+            android:textColor="@color/tx_white"
+            android:visibility="invisible" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -49,8 +49,8 @@
         />
     <ImageView
         android:id="@+id/tx_iv_arrow"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:src="@drawable/tx_icon_right_arrow"
         app:layout_constraintRight_toLeftOf="@+id/tv_state"

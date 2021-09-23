@@ -83,13 +83,13 @@ public class OrderExpandableItemAdapter(var data: ArrayList<MultiItemEntity>) :
                 val insurancePaymentYearUnitName = filter2?.get(0)?.name
 
 
-                helper.setText(R.id.tv_insurancePaymentDown, mRequestSubOrderBean.insurancePaymentDown)
+                helper.setText(R.id.tv_insurancePaymentDown, mRequestSubOrderBean.insurancePaymentDown + "元")
 
 
 
                 helper.setText(R.id.tv_insurancePaymentMethod, filter1?.get(0)?.name)
-                helper.setText(R.id.tv_insurancePaymentPeriods, mRequestSubOrderBean.insurancePaymentPeriods)
-                helper.setText(R.id.tv_insurancePaymentPrice, mRequestSubOrderBean.insurancePaymentPrice)
+                helper.setText(R.id.tv_insurancePaymentPeriods, mRequestSubOrderBean.insurancePaymentPeriods +"期")
+                helper.setText(R.id.tv_insurancePaymentPrice, mRequestSubOrderBean.insurancePaymentPrice +"元")
 
                 helper.setText(R.id.tv_insurancePaymentYearUnit, if (insurancePaymentYearUnitName == "终身") {
                     "终身"

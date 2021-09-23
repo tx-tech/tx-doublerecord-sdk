@@ -68,7 +68,9 @@ public class CheckEnvUtils {
     }
 
     public void stopLight() {
-        mSensorManager.unregisterListener(mLightSensorListener);
+        if (null != mLightSensorListener) {
+            mSensorManager.unregisterListener(mLightSensorListener);
+        }
 
     }
 
@@ -116,8 +118,9 @@ public class CheckEnvUtils {
     }
 
     public void stopBatteryState(Context context) {
-
-        context.unregisterReceiver(mBatteryStateBroadcastReceiver);
+        if (null != mBatteryStateBroadcastReceiver) {
+            context.unregisterReceiver(mBatteryStateBroadcastReceiver);
+        }
     }
 
     //检测内存空间

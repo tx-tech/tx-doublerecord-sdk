@@ -14,6 +14,7 @@ public class DateUtils {
      * yyyy-MM-dd
      */
     public final static String FORMAT_DATE = "yyyy-MM-dd";
+    public final static String FORMAT_DATE1 = "yyyyMMdd";
     /**
      * yyyy-MM-dd HH:mm:ss
      */
@@ -102,7 +103,7 @@ public class DateUtils {
         if (source == null) {
             return null;
         } else {
-            return dateToString(source, FORMAT_DATE);
+            return dateToString(source, FORMAT_DATE1);
         }
     }
 

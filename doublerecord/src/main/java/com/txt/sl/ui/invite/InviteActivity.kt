@@ -99,7 +99,6 @@ public class InviteActivity : BaseActivity() {
                         ) {
 
                             requestRoom(isRemote,flowId,membersArray,selfInsurance,taskId,recordType)
-                            SystemBaiduLocation.instance!!.requestLocation()
                         } else {
                             showToastMsg("视频权限或音频权限未申请！")
                         }
@@ -282,6 +281,9 @@ public class InviteActivity : BaseActivity() {
                 }
                 TXSdk.Environment.RELEASE -> {
                     WXMiniProgramObject.MINIPTOGRAM_TYPE_RELEASE
+                }
+                TXSdk.Environment.POC -> {
+                    WXMiniProgramObject.MINIPROGRAM_TYPE_TEST
                 }
             }
 

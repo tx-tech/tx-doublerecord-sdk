@@ -87,7 +87,7 @@ class CheckFragment : BaseLazyViewPagerFragment() {
             bindToRecyclerView(recyclerView)
             openLoadAnimation()
             val inflate = layoutInflater.inflate(R.layout.tx_adapter_list_pic_empty, null)
-            val tv = inflate.findViewById<TextView>(R.id.tx_imageView)
+            val tv = inflate.findViewById<TextView>(R.id.tx_emptycontent)
             tv.text="暂无历史记录"
             setEmptyView(inflate)
         }

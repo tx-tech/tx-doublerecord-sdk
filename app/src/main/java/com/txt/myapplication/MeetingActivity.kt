@@ -1,15 +1,12 @@
 package com.txt.myapplication
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.interfaces.SimpleCallback
 import com.txt.sl.TXSdk
-import com.txt.sl.utils.LogUtils
 import com.txt.sl.utils.TxLogUtils
 import kotlinx.android.synthetic.main.activity_meeting.*
 import org.json.JSONObject

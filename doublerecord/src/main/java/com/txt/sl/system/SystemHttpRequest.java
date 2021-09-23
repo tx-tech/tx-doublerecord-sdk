@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.txt.sl.config.TXManagerImpl;
 import com.txt.sl.TXSdk;
+import com.txt.sl.entity.bean.UploadOcrPic;
 import com.txt.sl.entity.bean.UploadSignPic;
 import com.txt.sl.entity.bean.UploadShotPic;
 import com.txt.sl.entity.bean.RequestOrderBean;
@@ -48,8 +49,10 @@ public class SystemHttpRequest {
         }
         return singleton;
     }
-    String mCommonIp =  "";
+
+    String mCommonIp = "";
     String mDoubleRecordIP = "";
+
     public void changeIP(TXSdk.Environment environment) {
         switch (environment) {
             case DEV:
@@ -57,6 +60,9 @@ public class SystemHttpRequest {
                 break;
             case RELEASE:
                 mDoubleRecordIP = "https://video-sells.cloud-ins.cn";
+                break;
+            case POC:
+                mDoubleRecordIP = "https://doublerecord.cloud-ins.cn";
                 break;
             default:
                 mDoubleRecordIP = "https://new-2record.ikandy.cn";
@@ -68,12 +74,13 @@ public class SystemHttpRequest {
             case RELEASE:
                 mCommonIp = "https://video-sells.cloud-ins.cn";
                 break;
+            case POC:
+                mCommonIp = "https://common.cloud-ins.cn";
+                break;
             default:
                 mCommonIp = "https://service-support-test.ikandy.cn";
         }
     }
-
-
 
 
     public void changeIP(String ip, String port) {
@@ -83,6 +90,11 @@ public class SystemHttpRequest {
             mDoubleRecordIP = "https://" + ip + ":" + port;
         }
 
+    }
+
+    public void customIp(String commonIp,String doublerecordIp) {
+        mCommonIp = "";
+        mDoubleRecordIP = "";
     }
 
     public void uploadFile(String filePath, String preTime, String serviceId, String author,
@@ -111,6 +123,30 @@ public class SystemHttpRequest {
         HttpRequestClient.getIntance().cancelClient();
     }
 
+
+    public void getVideoSizeAndDuration(String fileName, onFileCallBack onFileCallBack) {
+
+        LogUtils.i(TAG, "fileName: " + fileName);
+
+        File upFile = null;
+        try {
+            upFile = new File(fileName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        try {
+            long length = upFile.length();
+            mediaPlayer.setDataSource(upFile.getAbsolutePath());
+            mediaPlayer.prepare();
+            int duration = mediaPlayer.getDuration();
+            onFileCallBack.onFile(length, duration);
+            mediaPlayer.release();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     //上传log日志
     public void uploadLogFile(String fileName, String preTime, String serviceId, onFileCallBack onFileCallBack, final onRequestCallBack callBack, HttpRequestClient.UploadProgressListener back) {
@@ -159,7 +195,7 @@ public class SystemHttpRequest {
 //        getSystem(SystemLogHelper.class).deleteFile(fileName); //删除文件
         LogUtils.d(TAG, "uploadLogFile: " + upFile.getAbsolutePath());
 //        cutFile(upFile.getAbsolutePath(),);
-        uploadFile(upFile.getAbsolutePath(), preTime, serviceId,  TXManagerImpl.getInstance().getToken(), new HttpRequestClient.RequestHttpCallBack() {
+        uploadFile(upFile.getAbsolutePath(), preTime, serviceId, TXManagerImpl.getInstance().getToken(), new HttpRequestClient.RequestHttpCallBack() {
             @Override
             public void onSuccess(String json) {
 
@@ -180,28 +216,34 @@ public class SystemHttpRequest {
             }
         }, back);
     }
+
     public void getRecordInstitutionList(String tenantId, HttpRequestClient.RequestHttpCallBack callback) {
 
 
-        HttpRequestClient.getIntance().get(mDoubleRecordIP + "/api/record/institutions?tenantId=" + tenantId,  TXManagerImpl.getInstance().getToken(), callback);
+        HttpRequestClient.getIntance().get(mDoubleRecordIP + "/api/record/institutions?tenantId=" + tenantId, TXManagerImpl.getInstance().getToken(), callback);
     }
 
+    // /api/serviceRoom/getCosStsToken
+    public void getCosStsToken(HttpRequestClient.RequestHttpCallBack callback) {
+
+
+        HttpRequestClient.getIntance().get(mDoubleRecordIP + "/api/serviceRoom/getCosStsToken", TXManagerImpl.getInstance().getToken(), callback);
+    }
 
     public void pushMessage(String json, HttpRequestClient.RequestHttpCallBack callback) {
 
 
-        HttpRequestClient.getIntance().post(mDoubleRecordIP + "/api/serviceRoom/pushMessage", json,  TXManagerImpl.getInstance().getToken(), callback);
+        HttpRequestClient.getIntance().post(mDoubleRecordIP + "/api/serviceRoom/pushMessage", json, TXManagerImpl.getInstance().getToken(), callback);
     }
 
 
     public void startRecord(String jsonObject, HttpRequestClient.RequestHttpCallBack callback) {
 
 
-        HttpRequestClient.getIntance().post(mDoubleRecordIP + "/api/serviceRoom/startRecord", jsonObject.toString(),  TXManagerImpl.getInstance().getToken(), callback);
+        HttpRequestClient.getIntance().post(mDoubleRecordIP + "/api/serviceRoom/startRecord", jsonObject.toString(), TXManagerImpl.getInstance().getToken(), callback);
     }
 
-    ///api/serviceRoom/setServiceRoomStatus
-    public void setServiceRoomStatus(String serviceId,String userId,String status, HttpRequestClient.RequestHttpCallBack callback) {
+    public void setServiceRoomStatus(String serviceId, String userId, String status, HttpRequestClient.RequestHttpCallBack callback) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("serviceId", serviceId);
@@ -212,25 +254,41 @@ public class SystemHttpRequest {
             e.printStackTrace();
         }
 
-        HttpRequestClient.getIntance().post(mDoubleRecordIP + "/api/serviceRoom/setServiceRoomStatus", jsonObject.toString(),  TXManagerImpl.getInstance().getToken(), callback);
+        HttpRequestClient.getIntance().post(mDoubleRecordIP + "/api/serviceRoom/setServiceRoomStatus", jsonObject.toString(), TXManagerImpl.getInstance().getToken(), callback);
     }
+
+    public void uploadServiceVideoNew(String serviceId, String preTime, String url, HttpRequestClient.RequestHttpCallBack callback) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("serviceId", serviceId);
+            jsonObject.put("preTime", preTime);
+            jsonObject.put("url", url);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        HttpRequestClient.getIntance().post(mDoubleRecordIP + "/api/serviceRoom/uploadServiceVideoNew", jsonObject.toString(), TXManagerImpl.getInstance().getToken(), callback);
+    }
+
+
     public void nextStep(String jsonObject, HttpRequestClient.RequestHttpCallBack callback) {
 
 
-        HttpRequestClient.getIntance().post(mDoubleRecordIP + "/api/serviceRoom/nextStep", jsonObject.toString(),  TXManagerImpl.getInstance().getToken(), callback);
+        HttpRequestClient.getIntance().post(mDoubleRecordIP + "/api/serviceRoom/nextStep", jsonObject.toString(), TXManagerImpl.getInstance().getToken(), callback);
     }
 
 
     public void endRecord(String jsonObject, HttpRequestClient.RequestHttpCallBack callback) {
 
 
-        HttpRequestClient.getIntance().post(mDoubleRecordIP + "/api/serviceRoom/endRecord", jsonObject.toString(),  TXManagerImpl.getInstance().getToken(), callback);
+        HttpRequestClient.getIntance().post(mDoubleRecordIP + "/api/serviceRoom/endRecord", jsonObject.toString(), TXManagerImpl.getInstance().getToken(), callback);
     }
 
 
     public void getRoomInfo(String serviceId, HttpRequestClient.RequestHttpCallBack callback) {
 
-        HttpRequestClient.getIntance().get(mDoubleRecordIP + "/api/serviceRoom/roomInfo/" + serviceId,  TXManagerImpl.getInstance().getToken(), callback);
+        HttpRequestClient.getIntance().get(mDoubleRecordIP + "/api/serviceRoom/roomInfo/" + serviceId, TXManagerImpl.getInstance().getToken(), callback);
     }
 
 
@@ -262,17 +320,17 @@ public class SystemHttpRequest {
 
     public void getAllSteps(String serviceId, HttpRequestClient.RequestHttpCallBack callback) {
 
-        HttpRequestClient.getIntance().get(mDoubleRecordIP + "/api/serviceRoom/getStepsAll?serviceId=" + serviceId , TXManagerImpl.getInstance().getToken(), callback);
+        HttpRequestClient.getIntance().get(mDoubleRecordIP + "/api/serviceRoom/getStepsAll?serviceId=" + serviceId, TXManagerImpl.getInstance().getToken(), callback);
     }
 
     public void getInsuranceData(String agentId, HttpRequestClient.RequestHttpCallBack callback) {
 
-        HttpRequestClient.getIntance().get(mCommonIp + "/api/insurance/agent?id=" + agentId,  TXManagerImpl.getInstance().getToken(), callback);
+        HttpRequestClient.getIntance().get(mCommonIp + "/api/insurance/agent?id=" + agentId, TXManagerImpl.getInstance().getToken(), callback);
     }
 
     public void getProductData(String agentId, HttpRequestClient.RequestHttpCallBack callback) {
 
-        HttpRequestClient.getIntance().get(mDoubleRecordIP + "/api/insurances",  TXManagerImpl.getInstance().getToken(), callback);
+        HttpRequestClient.getIntance().get(mDoubleRecordIP + "/api/insurances", TXManagerImpl.getInstance().getToken(), callback);
     }
 
 
@@ -293,6 +351,7 @@ public class SystemHttpRequest {
         try {
             jsonObject.put("loginName", loginName);
             jsonObject.put("password", password);
+            jsonObject.put("logOnToWay", "app");
         } catch (Exception e) {
 
         }
@@ -305,7 +364,16 @@ public class SystemHttpRequest {
         Gson gson = new Gson();
         String s = gson.toJson(flowId);
 
-        HttpRequestClient.getIntance().post(mCommonIp + "/api/idCompareRealTime/common", s,  TXManagerImpl.getInstance().getToken(), callback);
+        HttpRequestClient.getIntance().post(mCommonIp + "/api/idCompareRealTime/common", s, TXManagerImpl.getInstance().getToken(), callback);
+    }
+
+    public void ocr(UploadOcrPic uploadOcrPic, HttpRequestClient.RequestHttpCallBack callback) {
+//
+        Gson gson = new Gson();
+        String s = gson.toJson(uploadOcrPic);
+
+        HttpRequestClient.getIntance().post(mCommonIp + "/api/ocr/agentIdCard", s, TXManagerImpl.getInstance().getToken(), callback);
+
     }
 
     public void signPic(UploadSignPic signPicBean, HttpRequestClient.RequestHttpCallBack callback) {
@@ -313,32 +381,32 @@ public class SystemHttpRequest {
         Gson gson = new Gson();
         String s = gson.toJson(signPicBean);
 
-        HttpRequestClient.getIntance().post(mCommonIp + "/api/ocr/signPic", s,  TXManagerImpl.getInstance().getToken(), callback);
+        HttpRequestClient.getIntance().post(mCommonIp + "/api/ocr/signPic", s, TXManagerImpl.getInstance().getToken(), callback);
     }
 
     public void faceDetection(JSONObject jsonObject, HttpRequestClient.RequestHttpCallBack callback) {
 
-        HttpRequestClient.getIntance().post(mDoubleRecordIP + "/api/serviceRoom/faceDetection", jsonObject.toString(),  TXManagerImpl.getInstance().getToken(), callback);
+        HttpRequestClient.getIntance().post(mDoubleRecordIP + "/api/serviceRoom/faceDetection", jsonObject.toString(), TXManagerImpl.getInstance().getToken(), callback);
     }
 
 
-    public void update(String insuranceId, String agentId, RequestOrderBean bean, HttpRequestClient.RequestHttpCallBack callback) {
+    public void update(String code, String agentId, RequestOrderBean bean, HttpRequestClient.RequestHttpCallBack callback) {
 
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("code", "remoteRecord");
+            jsonObject.put("code", code);
             jsonObject.put("agentId", agentId);
 
             Gson gson = new Gson();
             String s = gson.toJson(bean);
             JSONObject fieldsJsonObject = new JSONObject(s);
-            jsonObject.put("fields",fieldsJsonObject);
+            jsonObject.put("fields", fieldsJsonObject);
         } catch (Exception e) {
 
         }
 
 
-        HttpRequestClient.getIntance().post(mCommonIp + "/api/report/CommonRecord/update", jsonObject.toString(),  TXManagerImpl.getInstance().getToken(), callback);
+        HttpRequestClient.getIntance().post(mCommonIp + "/api/report/CommonRecord/update", jsonObject.toString(), TXManagerImpl.getInstance().getToken(), callback);
     }
 
     public void list(String state, HttpRequestClient.RequestHttpCallBack callback) {
@@ -358,25 +426,25 @@ public class SystemHttpRequest {
             stringBuffer.append("&policyholderName=").append(policyholderName);
         }
 
-        HttpRequestClient.getIntance().get(stringBuffer.toString(),  TXManagerImpl.getInstance().getToken(), callback);
+        HttpRequestClient.getIntance().get(stringBuffer.toString(), TXManagerImpl.getInstance().getToken(), callback);
     }
 
     public void getFlowDetails(String flowid, String agentId, HttpRequestClient.RequestHttpCallBack callback) {
 
-        HttpRequestClient.getIntance().get(mCommonIp + "/api/report/detail?flowId=" + flowid + "&agentId=" + agentId,  TXManagerImpl.getInstance().getToken(), callback);
+        HttpRequestClient.getIntance().get(mCommonIp + "/api/report/detail?flowId=" + flowid + "&agentId=" + agentId, TXManagerImpl.getInstance().getToken(), callback);
     }
 
-    public void getFlowDetails(String flowid , HttpRequestClient.RequestHttpCallBack callback) {
+    public void getFlowDetails(String flowid, HttpRequestClient.RequestHttpCallBack callback) {
 
-        HttpRequestClient.getIntance().get(mDoubleRecordIP + "/api/record/tasks/app/getReportInfo?flowId=" + flowid,  TXManagerImpl.getInstance().getToken(), callback);
+        HttpRequestClient.getIntance().get(mDoubleRecordIP + "/api/record/tasks/app/getReportInfo?flowId=" + flowid, TXManagerImpl.getInstance().getToken(), callback);
     }
 
-    public void getFlowDetailsByTaskid(String taskid , HttpRequestClient.RequestHttpCallBack callback) {
+    public void getFlowDetailsByTaskid(String taskid, HttpRequestClient.RequestHttpCallBack callback) {
 
-        HttpRequestClient.getIntance().get(mDoubleRecordIP + "/api/record/tasks/app/getReportInfo?taskId=" + taskid,  TXManagerImpl.getInstance().getToken(), callback);
+        HttpRequestClient.getIntance().get(mDoubleRecordIP + "/api/record/tasks/app/getReportInfo?taskId=" + taskid, TXManagerImpl.getInstance().getToken(), callback);
     }
 
-    public void passwordFreeLogin(String orgCode, String sign,String loginName, String fullName,  HttpRequestClient.RequestHttpCallBack callback) {
+    public void passwordFreeLogin(String orgCode, String sign, String loginName, String fullName, HttpRequestClient.RequestHttpCallBack callback) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("orgCode", orgCode);
@@ -389,7 +457,7 @@ public class SystemHttpRequest {
             e.printStackTrace();
         }
 
-        HttpRequestClient.getIntance().post(mCommonIp + "/api/auth/passwordFreeLogin", jsonObject.toString(), "",  callback);
+        HttpRequestClient.getIntance().post(mCommonIp + "/api/auth/passwordFreeLogin", jsonObject.toString(), "", callback);
     }
 
 

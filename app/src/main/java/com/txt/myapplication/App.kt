@@ -38,6 +38,7 @@ class App : Application() {
 
         TXSdk.getInstance().init(this, TXSdk.Environment.TEST, true, txConfig)
         CrashReport.initCrashReport(this, "8351c98a70", true)
+
     }
 
     override fun attachBaseContext(base: Context?) {

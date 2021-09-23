@@ -23,14 +23,11 @@ import android.webkit.WebViewClient
 import android.widget.*
 import com.common.widget.base.BaseActivity
 import com.common.widget.dialog.TxPopup
-import com.common.widget.dialog.core.BasePopupView
 import com.common.widget.dialog.interfaces.OnConfirmListener
 import com.common.widget.dialog.interfaces.XPopupCallback
 import com.common.widget.immersionbar.TxBarHide
 import com.common.widget.recyclerviewadapterhelper.base.entity.MultiItemEntity
 import com.common.widget.titlebar.sign.SignatureView
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.tencent.aai.AAIClient
 import com.tencent.aai.audio.data.AudioRecordDataSource
 import com.tencent.aai.auth.LocalCredentialProvider
@@ -58,10 +55,7 @@ import com.txt.sl.R
 import com.txt.sl.config.TXManagerImpl
 import com.txt.sl.TXSdk
 import com.txt.sl.config.socket.SocketBusiness
-import com.txt.sl.entity.bean.FileBean
-import com.txt.sl.entity.bean.LevelItem1
-import com.txt.sl.entity.bean.UploadShotPic
-import com.txt.sl.entity.bean.UploadSignPic
+import com.txt.sl.entity.bean.*
 import com.txt.sl.http.https.HttpRequestClient
 import com.txt.sl.receive.SystemBaiduLocation
 import com.txt.sl.screenrecorder.ScreenRecordHelper
@@ -72,14 +66,20 @@ import com.txt.sl.system.SystemSocket
 import com.txt.sl.ui.adpter.CheckenvItemAdapter
 import com.txt.sl.ui.adpter.ExpandableItem1Adapter
 import com.txt.sl.ui.adpter.VideoDetailsItemAdapter
+import com.txt.sl.ui.dialog.ChooseSpeedDialog
 import com.txt.sl.ui.dialog.UploadVideoDialog
 import com.txt.sl.ui.video.trtc.BusinessLayout
 import com.txt.sl.ui.video.trtc.TRTCVideoLayout
-import com.txt.sl.ui.video.trtc.TRTCVideoLayoutManager
 import com.txt.sl.utils.*
-import com.txt.sl.entity.PointBean
 import com.txt.sl.ui.home.HomeActivity
 import kotlinx.android.synthetic.main.tx_activity_offline_room.*
+import kotlinx.android.synthetic.main.tx_activity_offline_room.room_time
+import kotlinx.android.synthetic.main.tx_activity_offline_room.tv_continue
+import kotlinx.android.synthetic.main.tx_activity_offline_room.tv_linkname
+import kotlinx.android.synthetic.main.tx_activity_offline_room.tv_linknameindex
+import kotlinx.android.synthetic.main.tx_activity_offline_room.tv_skip
+import kotlinx.android.synthetic.main.tx_activity_offline_room.tv_text_continue
+import kotlinx.android.synthetic.main.tx_activity_remote_room.*
 import kotlinx.android.synthetic.main.tx_page_checkenv.*
 import kotlinx.android.synthetic.main.tx_page_envpreview.*
 import kotlinx.android.synthetic.main.tx_page_linkpreview.*
@@ -189,6 +189,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
     private fun initView1() {
         getServiceId()
+        SystemBaiduLocation.instance!!.startLocationService()
         SystemSocket.instance?.connectSocket()
         SystemSocket.instance?.setonSocketListener(this)
         mBackButton = findViewById(R.id.trtc_ic_back)
@@ -271,7 +272,10 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                         ToastUtils.showLong(err!!)
                         if (-3 == code) {
 
-                            SystemSocket.instance?.setMSG(TXManagerImpl.instance?.getLoginName()!!,mServiceId)
+                            SystemSocket.instance?.setMSG(
+                                TXManagerImpl.instance?.getLoginName()!!,
+                                mServiceId
+                            )
                         }
                     }
                 }
@@ -308,7 +312,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                 override fun onFail(err: String?, code: Int) {
                     runOnUiThread {
                         listener.onFail(err, code)
-                        ToastUtils.showLong(err!!)
+                        showToastMsg(err!!)
                     }
                 }
 
@@ -393,10 +397,15 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             mSecretId,
             mSecretKey
         )
+
         longTextTtsController?.apply {
-            setVoiceSpeed(VoiceSpeed.VOICE_SPEED_NORMAL.getNum())
-            setVoiceType(VoiceType.VOICE_TYPE_AFFNITY_FEMALE.getNum())
-            setVoiceLanguage(VoiceLanguage.VOICE_LANGUAGE_CHINESE.getNum())
+            val i =
+                TxSPUtils.get(this@OfflineActivity, TXManagerImpl.instance!!.getAgentId(), 2) as Int
+            val values = VoiceSpeed.values()
+            val voiceSpeed = values[i]
+            setVoiceSpeed(voiceSpeed.num)
+            setVoiceType(VoiceType.VOICE_TYPE_AFFNITY_FEMALE.num)
+            setVoiceLanguage(VoiceLanguage.VOICE_LANGUAGE_CHINESE.num)
             setProjectId(0)
         }
     }
@@ -427,7 +436,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
     fun startTtsController(ttsStr: String, callBack: RoomHttpCallBack) {
         try {
-            val startTts = longTextTtsController?.startTts(
+            longTextTtsController?.startTts(
                 ttsStr,
                 mTtsExceHandler,
                 object : QCloudPlayerCallback {
@@ -494,6 +503,53 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     var isPassed = true
     var isStartRecord = false
     private fun initBusiness() {
+        tv_continue.setOnClickListener {
+            //上传视频
+            val customDialog = ChooseSpeedDialog(this)
+            customDialog.setAgentIdStr(TXManagerImpl.instance!!.getAgentId())
+            customDialog.setOnConfirmClickListener(object :
+                ChooseSpeedDialog.OnConfirmClickListener {
+                override fun onSpeedChoose(voiceSpeed: Int, content: String) {
+                    destroylongTextTtsController()
+                    longTextTtsController?.setVoiceSpeed(voiceSpeed)
+                    startTtsController(content, object : OfflineActivity.RoomHttpCallBack {
+                        override fun onSuccess(json: String?) {
+                        }
+
+                        override fun onFail(err: String?, code: Int) {
+                        }
+
+                    })
+                }
+
+                override fun onConfirm() {
+
+                }
+
+            })
+            TxPopup.Builder(this).maxWidth(900).dismissOnTouchOutside(false)
+                .dismissOnBackPressed(false).setPopupCallback(object : XPopupCallback {
+                    override fun onCreated() {
+
+                    }
+
+                    override fun beforeShow() {
+                    }
+
+                    override fun onShow() {
+
+                    }
+
+                    override fun onDismiss() {
+
+                    }
+
+                    override fun onBackPressed(): Boolean {
+                        return true
+                    }
+
+                }).asCustom(customDialog).show()
+        }
         tv_skip.setOnClickListener(CheckDoubleClickListener {
             it as TextView
             when (it.text) {
@@ -542,7 +598,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                 //开始上传视频
                                 //上传视频
                                 val customDialog = UploadVideoDialog(this@OfflineActivity)
-                                customDialog.setFlowId(jsonObject.toString())
+                                customDialog.setScreenRecordStr(jsonObject.toString())
                                 customDialog.setOnConfirmClickListener(object :
                                     UploadVideoDialog.OnConfirmClickListener {
                                     override fun onVideoUpload(isFinish: Boolean) {
@@ -554,8 +610,6 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                             )
                                         }
                                         finish()
-//                                        showToastMsg("上传完成")
-//                                        Handler().postDelayed({  }, 1000)
                                     }
 
                                 })
@@ -614,7 +668,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
     @SuppressLint("SetTextI18n")
     private fun enterRoom() {
-
+        SystemBaiduLocation.instance!!.requestLocation()
         ll_showLink.visibility(false)
         offlineVideoLayoutManager.visibility(true)
         val allocCloudVideoView1 = offlineVideoLayoutManager.allocCloudVideoView(
@@ -687,6 +741,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onDestroy() {
+        SystemBaiduLocation.instance!!.stopLocationService()
         stopCheckPhotoInVideo()
         destroylongTextTtsController()
         SystemLogHelper.getInstance().stop()
@@ -828,7 +883,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
         override fun onSpeedTest(p0: TRTCSpeedTestResult?, p1: Int, p2: Int) {
             super.onSpeedTest(p0, p1, p2)
-            LogUtils.i("onSpeedTest",p0.toString())
+            LogUtils.i("onSpeedTest", p0.toString())
         }
 
         override fun onEnterRoom(result: Long) {
@@ -838,7 +893,11 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             mStartRecordTimeMillis = System.currentTimeMillis()
             LogUtils.i("mStartRecordTimeMillis-----$mStartRecordTimeMillis")
             startCheckPhotoInVideo()
-            mTRTCCloud?.startSpeedTest(jsonObject1!!.getInt("sdkAppId"),mUserId,jsonObject1!!.getString("agentSig"))
+            mTRTCCloud?.startSpeedTest(
+                jsonObject1!!.getInt("sdkAppId"),
+                mUserId,
+                jsonObject1!!.getString("agentSig")
+            )
         }
 
         override fun onExitRoom(reason: Int) {
@@ -857,7 +916,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
             mTrtcVideolayout?.updateNetworkQuality(localQuality?.quality!!)
 
-            LogUtils.i("onNetworkQuality","${localQuality?.quality}")
+            LogUtils.i("onNetworkQuality", "${localQuality?.quality}")
         }
 
         override fun onRemoteUserLeaveRoom(p0: String?, p1: Int) {
@@ -974,6 +1033,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         hideView()
         room_time.visibility(true)
         ll_showLink.visibility(true)
+        tv_continue.visibility(true)
         tv_skip.visibility(true)
         tv_skip.text = "开始录制"
         val jsonArray = jsonObject1!!.optJSONArray("process")
@@ -1012,6 +1072,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
     private fun showPageTwo() {
         tv_skip.visibility(false)
+        tv_continue.visibility(false)
         ll_envpreview.visibility(false)
         hideView()
         ll_showLink.visibility(false)
@@ -1098,6 +1159,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     var page_endPage: View? = null
     var page_asr_userPage: View? = null
     var page_local_signPage: View? = null
+    var page_local_nativesignPage: View? = null
 
     fun inflate() {
         page_readnextPage = layoutInflater.inflate(R.layout.tx_page_readnext, null)
@@ -1111,6 +1173,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         page_endPage = layoutInflater.inflate(R.layout.tx_page_end, null)
         page_asr_userPage = layoutInflater.inflate(R.layout.tx_page_asr_user, null)
         page_local_signPage = layoutInflater.inflate(R.layout.tx_page_local_sign, null)
+        page_local_nativesignPage = layoutInflater.inflate(R.layout.tx_page_local_nativesign, null)
         page_asr_userPage!!.findViewById<TextView>(R.id.ll_page_voice_result_retry)
             .setOnClickListener(this)
     }
@@ -1168,6 +1231,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     private fun showReadNextPage(title: String, titleContent: String) {
         page_readnextPage?.visibility(true)
         tv_skip.visibility(false)
+        tv_continue.visibility(false)
         checkLeftVideoToRightScreen(page_readnextPage!!, false, titleContent)
 
     }
@@ -1175,6 +1239,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     //展示纯文本展示  左边视频右边提示
     private fun showTTSNext(contentStr: String) {
         tv_skip.visibility(false)
+        tv_continue.visibility(false)
         checkLeftVideoToRightScreen(page_ttsPage!!, false, contentStr)
         //播报
         startTtsController(contentStr, object : RoomHttpCallBack {
@@ -1630,13 +1695,6 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             })
     }
 
-    private fun showPage20() {
-//        hideView()
-//        ll_page11.visibility(false)
-//        ll_page12.visibility(true)
-
-    }
-
 
     private fun pageVoice() {
         page_asr_userPage!!.apply {
@@ -1810,13 +1868,16 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         tv_skip.text = when (buttonStr) {
             "startRecord" -> {
                 tv_skip.visibility(true)
+
                 "开始录制"
             }
             "next" -> {
+                tv_continue.visibility(false)
                 "下一步"
             }
             "finishRecord" -> {
                 tv_skip.visibility(true)
+                tv_continue.visibility(false)
                 "确认完成"
             }
 
@@ -2311,7 +2372,85 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
                                             }
                                         }
+                                        "originSignFile" -> { //投保人签字
+                                            runOnUiThread {
+                                                startTtsController(
+                                                    fillterData(stepDataNode!!),
+                                                    object : RoomHttpCallBack {
+                                                        override fun onSuccess(json: String?) {
+                                                        }
 
+                                                        override fun onFail(
+                                                            err: String?,
+                                                            code: Int
+                                                        ) {
+
+                                                        }
+
+                                                    })
+                                                showSignPage(stepDataNode!!.getJSONArray("target")!!)
+                                            }
+
+                                        }
+                                        "originTextRead" -> {
+                                            runOnUiThread {
+
+                                                val dataObject2 =
+                                                    stepDataNode?.getJSONObject("data")
+                                                if (dataObject2!!.has("textArray")) {
+                                                    val fillterData = fillterData(stepDataNode!!)
+                                                    startTtsController(
+                                                        fillterData,
+                                                        object : RoomHttpCallBack {
+                                                            override fun onSuccess(json: String?) {
+                                                            }
+
+                                                            override fun onFail(
+                                                                err: String?,
+                                                                code: Int
+                                                            ) {
+
+                                                            }
+
+                                                        })
+
+                                                    showTextReadPage(
+                                                        fillterData,
+                                                        stepDataNode!!.optString("fileUrl", "")
+                                                    )
+                                                } else {
+                                                    showToastMsg("没有textArray字段！！！")
+                                                }
+
+
+                                            }
+                                        }
+                                        "identityOCR" -> {
+                                            val dataObject2 = stepDataNode?.optJSONObject("data")
+
+                                            if (dataObject2!!.has("textArray")) {
+                                                val jsonArray =
+                                                    dataObject2.optJSONArray("textArray")
+                                                val stringBuffer = StringBuffer("")
+                                                for (index in 0 until jsonArray.length()) {
+                                                    val subStr = jsonArray.get(index) as String
+                                                    stringBuffer.append("$subStr \n")
+                                                }
+                                                failureButtonJSONArray =
+                                                    stepDataNode!!.optJSONArray("failureButton")!!
+                                                runOnUiThread {
+                                                    showOCRPage(
+                                                        stringBuffer.toString(),
+                                                        stepDataNode!!.optJSONArray("target")!!
+                                                    )
+
+                                                    tv_skip.visibility(false)
+
+                                                }
+                                            } else {
+                                                showToastMsg("没有textArray字段！！！")
+                                            }
+                                        }
                                         else -> {
                                         }
                                     }
@@ -2336,6 +2475,249 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             e.printStackTrace()
         }
 
+
+    }
+
+    private fun takePhotoOcr(param: OfflineActivity.PhotoHttpCallBack, role: String) {
+        LogUtils.i("mUserId---$mUserId")
+        mTRTCCloud?.snapshotVideo(null, TRTC_VIDEO_STREAM_TYPE_BIG) {
+            val saveBitmap1 = SystemCommon.getInstance().byteToBitmap(it)
+            if (saveBitmap1 != null) {
+                val encode = Base64.encode(saveBitmap1, Base64.DEFAULT)
+                val jsonObject = JSONObject(mRoomInfo)
+                val mflowId = jsonObject.optString("flowId", "")
+                val bulider = StringBuilder("data:image/png;base64,")
+                bulider.append(String(encode))
+
+
+                val replace = bulider.toString().replace("\n", "")
+                val uploadShotPic = UploadOcrPic()
+                uploadShotPic.apply {
+                    serviceId = mServiceId
+                    flowId = mflowId
+                    idCard = replace
+                    roole = role
+                }
+                SystemHttpRequest.getInstance()
+                    .ocr(uploadShotPic, object : HttpRequestClient.RequestHttpCallBack {
+                        override fun onSuccess(json: String?) {
+                            runOnUiThread {
+                                param.onSuccess(json)
+                            }
+
+                        }
+
+                        override fun onFail(err: String?, code: Int) {
+                            runOnUiThread {
+                                param.onFail(err, code)
+                            }
+
+                        }
+
+                    })
+            } else {
+                param.onFail("识别错误！！！", 1)
+            }
+        }
+
+
+    }
+
+    //当前谁是作用对象显示谁大图
+    private fun showOCRPage(title: String, jsonArray: JSONArray) {
+        mTrtcVideolayout?.setIvOcr(View.VISIBLE)
+        hideView()
+        var taget = ""
+        if (jsonArray.length() > 0) {
+            mWatingArray = jsonArray
+            taget = jsonArray.getString(0)
+        } else {
+            showToastMsg("当前没有作用对象")
+        }
+
+
+
+        checkLeftVideoToRightScreen(page_readnextPage!!, false, title)
+
+        stopCheckPhotoInVideo()
+
+        startTtsController(title, object : RoomHttpCallBack {
+            override fun onSuccess(json: String?) {
+                Handler().postDelayed({
+
+                    takePhotoOcr(object : OfflineActivity.PhotoHttpCallBack {
+                        override fun onSuccess(json: String?) {
+                            startCheckPhotoInVideo()
+                            mTrtcVideolayout?.setIvOcr(View.GONE)
+                            mTrtcVideolayout?.setll_page_voice_result(
+                                View.VISIBLE,
+                                true,
+                                "",
+                                failureButtonJSONArray
+                            )
+                            quickEnterRoom(true)
+                        }
+
+                        override fun onFail(err: String?, code: Int) {
+                            //{"errCode":-2,"errInfo":"[OCR识别]识别失败"}
+                            mTrtcVideolayout?.setIvOcr(View.GONE)
+                            startCheckPhotoInVideo()
+                            autoCheckBoolean = false
+
+                            mTrtcVideolayout?.setll_page_voice_result(
+                                View.VISIBLE,
+                                false,
+                                when (code) {
+                                    100 -> {
+                                        "身份证件识别失败"
+                                    }
+                                    101 -> {
+                                        "识别信息与所传信息不匹配"
+                                    }
+                                    else -> {
+                                        "身份证件识别失败，请核实后操作"
+                                    }
+                                }
+                                ,
+                                failureButtonJSONArray
+                            )
+                        }
+
+                    }, taget)
+                }, 2000)
+            }
+
+            override fun onFail(err: String?, code: Int) {
+            }
+
+        })
+
+    }
+
+
+    private fun showSignPage(jsonArray: JSONArray) {
+        val signatureview =
+            page_local_nativesignPage?.findViewById<SignatureView>(R.id.iv_page_local_signatureview)
+        page_local_nativesignPage?.apply {
+            findViewById<LinearLayout>(R.id.ll_clear)?.visibility(true)
+            findViewById<LinearLayout>(R.id.ll_clear)?.setOnClickListener {
+                signatureview?.clear()
+            }
+            findViewById<LinearLayout>(R.id.ll_page12_result)?.visibility(false)
+            findViewById<TextView>(R.id.ll_page12_result_success)?.visibility(false)
+            findViewById<TextView>(R.id.ll_page12_result_fail)?.visibility(false)
+            findViewById<TextView>(R.id.ll_page_voice_result_mark)?.visibility(false)
+            findViewById<TextView>(R.id.ll_page_voice_result_jump)?.visibility(false)
+            findViewById<TextView>(R.id.ll_page_voice_result_retry)?.visibility(false)
+            findViewById<TextView>(R.id.tv_name_sign)!!.text = "签名："
+        }
+        val checkName = when (jsonArray.getString(0)) {
+            "policyholder" -> policyholderName
+            "agent" -> agentName
+            else -> {
+                insuredName
+            }
+        }
+
+        page_local_nativesignPage?.findViewById<TextView>(R.id.tv_name)!!.text =
+            when (jsonArray.getString(0)) {
+                "policyholder" -> "投保人：" + checkName
+                "agent" -> "代理人：" + checkName
+                else -> {
+                    "被保人：" + checkName
+                }
+            }
+
+        checkLeftVideoToRightScreen(page_local_nativesignPage!!, true, "")
+        signatureview?.clear()
+        //上传签字文件
+        page_local_nativesignPage?.findViewById<TextView>(R.id.tv_sign)?.setOnClickListener {
+            upload(signatureview!!, object : PhotoHttpCallBack {
+                override fun onSuccess(json: String?) {
+                    runOnUiThread {
+                        LogUtils.i("upload------$json")
+                        page_local_nativesignPage?.findViewById<TextView>(R.id.tv_name_sign)!!.text =
+                            "签名：" + json
+                        if (checkName == json) {
+                            //识别成功，跳过
+                            page_local_nativesignPage?.apply {
+                                findViewById<LinearLayout>(R.id.ll_clear)?.visibility(false)
+                                findViewById<LinearLayout>(R.id.ll_page12_result)?.visibility(false)
+                                findViewById<TextView>(R.id.ll_page12_result_success)?.visibility(
+                                    true
+                                )
+                                findViewById<TextView>(R.id.ll_page12_result_fail)?.visibility(false)
+                                findViewById<TextView>(R.id.ll_page_voice_result_mark)?.visibility(
+                                    false
+                                )
+                                findViewById<TextView>(R.id.ll_page_voice_result_jump)?.visibility(
+                                    false
+                                )
+                                findViewById<TextView>(R.id.ll_page_voice_result_retry)?.visibility(
+                                    false
+                                )
+                            }
+                            startAutoNextStep(true)
+                        } else {
+                            page_local_nativesignPage?.apply {
+                                findViewById<LinearLayout>(R.id.ll_clear)?.visibility(false)
+                                findViewById<LinearLayout>(R.id.ll_page12_result)?.visibility(true)
+                                findViewById<TextView>(R.id.ll_page12_result_success)?.visibility(
+                                    false
+                                )
+                                findViewById<TextView>(R.id.ll_page12_result_fail)?.visibility(true)
+                                findViewById<TextView>(R.id.ll_page_voice_result_mark)?.visibility(
+                                    true
+                                )
+                                findViewById<TextView>(R.id.ll_page_voice_result_jump)?.visibility(
+                                    true
+                                )
+                                findViewById<TextView>(R.id.ll_page_voice_result_retry)?.visibility(
+                                    true
+                                )
+
+                                //重试
+                                findViewById<TextView>(R.id.ll_page_voice_result_mark)?.setOnClickListener {
+                                    quickEnterRoom(true)
+
+                                }
+                                findViewById<TextView>(R.id.ll_page_voice_result_jump)?.setOnClickListener {
+                                    setFailType("识别失败", "签字内容与保单信息不匹配")
+                                    quickEnterRoom(true)
+                                }
+                                findViewById<TextView>(R.id.ll_page_voice_result_retry)?.setOnClickListener {
+                                    pushMessage(
+                                        mCurrentMsg!!,
+                                        object : OfflineActivity.RoomHttpCallBack {
+                                            override fun onSuccess(json: String?) {
+
+                                            }
+
+                                            override fun onFail(err: String?, code: Int) {
+
+                                            }
+
+                                        })
+                                }
+
+                            }
+
+                        }
+                    }
+                }
+
+                override fun onFail(err: String?, code: Int) {
+
+                }
+
+            })
+
+        }
+
+        //清除
+        page_local_signPage?.findViewById<TextView>(R.id.tv_clear)?.setOnClickListener {
+            signatureview?.clear()
+        }
 
     }
 
@@ -2751,6 +3133,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
     private var mCheckLocal = false
     private var startCheckPhotoInVideoTimer: CountDownTimer? = null
+
     //停止检测人脸
     private fun stopCheckPhotoInVideo() {
         startCheckPhotoInVideoTimer?.cancel()
@@ -2824,6 +3207,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         startCheckPhotoInVideoTimer!!.start()
 
     }
+
     var isShowedAgentHaveFace = false;
 
 
@@ -2836,7 +3220,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         super.onConnect()
         LogUtils.i("rooms-onConnect")
 
-        SystemSocket.instance?.setMSG(TXManagerImpl.instance?.getLoginName()!!,mServiceId)
+        SystemSocket.instance?.setMSG(TXManagerImpl.instance?.getLoginName()!!, mServiceId)
     }
 
     override fun onBackPressed() {
@@ -2930,7 +3314,12 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             "0" -> {
                 mTrtcVideolayout?.setll_page_voice_result(View.GONE, false, "", null)
                 //标记
-                setFailType("识别失败", "送检失败")
+                if ("idComparison".equals(stepDataNodeType)) {
+                    setFailType("识别失败", "送检失败")
+                } else {
+
+                }
+
                 autoCheckBoolean = true
                 quickEnterRoom(isSystem = false)
             }
@@ -2944,22 +3333,39 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             "2" -> {
                 //重试
                 mTrtcVideolayout?.setll_page_voice_result(View.GONE, false, "", null)
-                val jsonArray = JSONArray()
-                mFailCacheArray.forEach {
-                    jsonArray.put(it)
+                if ("idComparison".equals(stepDataNodeType)) {
+
+                    val jsonArray = JSONArray()
+                    mFailCacheArray.forEach {
+                        jsonArray.put(it)
+                    }
+                    mCurrentMsg!!.getJSONObject("step").remove("target")
+                    mCurrentMsg!!.getJSONObject("step").put("target", jsonArray)
+                    mCurrentMsg!!.getJSONObject("step").put("roomType", "idComparison-retry")
+                    pushMessage(mCurrentMsg!!, object : OfflineActivity.RoomHttpCallBack {
+                        override fun onSuccess(json: String?) {
+
+                        }
+
+                        override fun onFail(err: String?, code: Int) {
+
+                        }
+                    })
+
+                } else {
+                    val title =
+                        stepDataNode!!.getJSONObject("data")
+                            .getJSONArray("textArray").getString(0)
+                    runOnUiThread {
+                        showOCRPage(
+                            title,
+                            stepDataNode!!.optJSONArray("target")!!
+                        )
+
+                        tv_skip.visibility(false)
+
+                    }
                 }
-                mCurrentMsg!!.getJSONObject("step").remove("target")
-                mCurrentMsg!!.getJSONObject("step").put("target", jsonArray)
-                mCurrentMsg!!.getJSONObject("step").put("roomType", "idComparison-retry")
-                pushMessage(mCurrentMsg!!, object : OfflineActivity.RoomHttpCallBack {
-                    override fun onSuccess(json: String?) {
-
-                    }
-
-                    override fun onFail(err: String?, code: Int) {
-
-                    }
-                })
 
 
             }

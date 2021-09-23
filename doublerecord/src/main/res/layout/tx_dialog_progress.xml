@@ -36,6 +36,7 @@
 
 
     <LinearLayout
+        android:id="@+id/ll_videocontent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -75,7 +76,21 @@
             />
 
     </LinearLayout>
-
+    <TextView
+        android:id="@+id/tv_gotovideo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/tx_dimen_10dp"
+        android:paddingTop="@dimen/tx_dimen_10dp"
+        android:paddingBottom="@dimen/tx_dimen_10dp"
+        android:text="开始上传"
+        android:gravity="center"
+        android:visibility="gone"
+        android:textColor="@color/tx_txcolorPrimary"
+        android:layout_below="@+id/ll_videocontent"
+        style="@style/txTripFunClick"
+        tools:visibility="visible"
+        />
 
 
 </RelativeLayout>

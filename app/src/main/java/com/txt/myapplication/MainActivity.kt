@@ -135,7 +135,7 @@ class MainActivity : AppCompatActivity(), onTxPageListener {
         when(pageType){
             "2","4"->{
                 flowid= if (BuildConfig.DEBUG){
-                    "2021081704"
+                    "202109030341"
                 }else{
                     et_flowid.text.toString()
                 }

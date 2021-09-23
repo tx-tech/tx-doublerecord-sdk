@@ -11,12 +11,18 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.common.widget.dialog.core.CenterPopupView
 import com.common.widget.dialog.util.XPopupUtils
+import com.tencent.cos.xml.transfer.TransferState
+import com.tencent.qcloud.core.task.QCloudTask
 import com.txt.sl.R
 import com.txt.sl.TXSdk
 import com.txt.sl.system.SystemHttpRequest
+import com.txt.sl.ui.invite.OnUploadListener
+import com.txt.sl.ui.invite.VideoUploadImp
 import com.txt.sl.utils.LogUtils
 import com.txt.sl.utils.MainThreadUtil
 import com.txt.sl.utils.ToastUtils
+import com.txt.sl.utils.TxSPUtils
+import kotlinx.android.synthetic.main.tx_activity_video_upload.*
 import org.json.JSONObject
 import java.text.DecimalFormat
 
@@ -25,7 +31,10 @@ import java.text.DecimalFormat
  * time ：2021/7/12.
  * des ： 上传视频框
  */
-class UploadVideoDialog(context: Context) : CenterPopupView(context) {
+class UploadVideoDialog(
+    context: Context,
+    var isShowBt: Boolean = false
+) : CenterPopupView(context) {
     override fun onCreate() {
         super.onCreate()
         initProgressDialog()
@@ -54,13 +63,14 @@ class UploadVideoDialog(context: Context) : CenterPopupView(context) {
 
     override fun onShow() {
         super.onShow()
-        upload(mFlowId!!)
+
+        upload(mScreenRecordStr!!)
     }
 
-    var mFlowId: String? = null
+    var mScreenRecordStr: String? = null
 
-    public fun setFlowId(flowId: String) {
-        mFlowId = flowId
+    public fun setScreenRecordStr(screenRecordStr: String) {
+        mScreenRecordStr = screenRecordStr
     }
 
     public fun upload(screenRecordStr: String) {
@@ -71,55 +81,62 @@ class UploadVideoDialog(context: Context) : CenterPopupView(context) {
         if (!TextUtils.isEmpty(screenRecordStr)) {
             val jsonObject = JSONObject(screenRecordStr)
             LogUtils.i("jsonObject---$jsonObject")
+            val flowId = jsonObject.getString("flowId")
             val preTime = jsonObject.getString("preTime")
             val serviceId = jsonObject.getString("serviceId")
             val pathFile = jsonObject.getString("path")
+            val uploadId = jsonObject.optString("uploadId")
+            if (isShowBt) {
+                tvGotovideo?.text = "暂停上传"
+            }
+            SystemHttpRequest.getInstance().getVideoSizeAndDuration(pathFile
+            ) { size, time ->
+                val byteToMB = byteToMB(size)
+                tvVideosize?.text = "视频大小：$byteToMB M"
+                LogUtils.i("time$time")
+                val min = time / 1000 / 60.0
+                var minSize = String.format("%.2f", min)
+                tvVideotime?.text = "视频时长：$minSize 分钟"
+            }
+            LogUtils.i("开始上传"+uploadId)
+            VideoUploadImp.instance.upload(
+                context, uploadId, preTime, serviceId, pathFile, object : OnUploadListener {
+                    override fun onProgress(complete: Long, target: Long) {
+                        MainThreadUtil.run(Runnable {
+                            updateProgress(target, complete)
+                        })
 
-//                        val preTime = "1"
-//                        val serviceId = "5edcc228dc18f7001e07be90"
-//                        val pathFile = PathUtils.getExternalStoragePath() + "/txsl/"+"txsl_1591525938353.mp4"
+                    }
 
-            LogUtils.i("开始上传")
-//                        updateProgress()
-            SystemHttpRequest.getInstance()
-                .uploadLogFile(pathFile, preTime, serviceId, { size, time ->
-                    val byteToMB = byteToMB(size)
-                    tvVideosize?.text = "$byteToMB M"
-                    LogUtils.i("time$time")
-                    val min = time / 1000 / 60.0
-                    var minSize = String.format("%.2f", min)
+                    override fun onStateChanged(
+                        var1: TransferState,
+                        uploadId: String
+                    ) {
+                        //如果暂停，就重新记录的 uploadI开始传 PAUSED
+                        jsonObject.put("uploadId", uploadId)
+                        TxSPUtils.put(
+                            context,
+                            flowId,
+                            jsonObject.toString()
+                        )
+                    }
 
-                    tvVideotime?.text = "$minSize 分钟"
-                }, object : SystemHttpRequest.onRequestCallBack {
+                    override fun onFail() {
+                        mOnItemClickListener?.onVideoUpload(isFinish = false)
+                    }
+
                     override fun onSuccess() {
+                        mOnItemClickListener?.onVideoUpload(isFinish = true)
+                        TxSPUtils.remove(
+                            context,
+                            flowId
+                        )
                         MainThreadUtil.run(Runnable {
-                            mOnItemClickListener?.onVideoUpload(true)
                             dismiss()
                         })
-
                     }
-
-                    override fun onFail(msg: String?) {
-                        MainThreadUtil.run(Runnable {
-                            ToastUtils.showShort(msg)
-                            mOnItemClickListener?.onVideoUpload(false)
-                            dismiss()
-                        })
-
-                        LogUtils.i("uploadLogFile$msg")
-                    }
-
-                }, { totalLength, currentLength ->
-
-
-                    MainThreadUtil.run(Runnable {
-                        val progress = (currentLength * 100.0 / totalLength)
-                        LogUtils.i("progress---$progress")
-                        updateProgress(totalLength, currentLength)
-                    })
 
                 })
-
 
         } else {
             ToastUtils.showShort("没有找到对应的录屏！！！")
@@ -134,20 +151,42 @@ class UploadVideoDialog(context: Context) : CenterPopupView(context) {
     var mTvSize: TextView? = null
     var tvVideosize: TextView? = null
     var tvVideotime: TextView? = null
+    var tvGotovideo: TextView? = null
 
     // 进度对话框
     open fun initProgressDialog() {
 
         mProgressBar = findViewById<View>(R.id.progressBar) as ProgressBar
-        mProgressBar?.setMax(100)
+        mProgressBar?.max = 100
         mTvPercent = findViewById<View>(R.id.tvPercent) as TextView
         mTvSize = findViewById<View>(R.id.cancel) as TextView
         tvVideosize = findViewById<View>(R.id.tv_videosize) as TextView
         tvVideotime = findViewById<View>(R.id.tv_videotime) as TextView
+        tvGotovideo = findViewById<View>(R.id.tv_gotovideo) as TextView
 
         mTvSize?.setOnClickListener {
             SystemHttpRequest.getInstance().cancelClient()
             dismiss()
+        }
+        tvGotovideo?.visibility = if (isShowBt) {
+            VISIBLE
+        } else {
+            GONE
+        }
+        tvGotovideo?.setOnClickListener {
+            if (tvGotovideo?.text == "暂停上传") {
+
+                val pauseSafely = VideoUploadImp.instance.cosxmlUploadTask?.pauseSafely()
+                if (pauseSafely!!) {
+                    tvGotovideo?.text = "继续上传"
+                } else {
+                    ToastUtils.showShort("暂停失败！！！")
+                }
+
+            } else if (tvGotovideo?.text == "继续上传") {
+                tvGotovideo?.text = "暂停上传"
+                VideoUploadImp.instance.cosxmlUploadTask?.resume()
+            }
         }
 
     }

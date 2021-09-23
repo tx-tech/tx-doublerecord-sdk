@@ -61,6 +61,11 @@ interface ITXManager {
             listener: onNetResultCallBack
     )
 
+    fun login(loginName: String,
+              password: String,
+              listener: onNetResultCallBack
+    )
+
     fun getToken() :String =""
 
     fun getAgentId() :String =""
@@ -72,5 +77,7 @@ interface ITXManager {
     fun getFullName():String =""
 
     fun getOrgAccountName():String =""
+
+    fun getTenantCode() :String = ""
 
 }

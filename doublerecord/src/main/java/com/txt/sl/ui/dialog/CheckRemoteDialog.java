@@ -80,7 +80,7 @@ public class CheckRemoteDialog extends Dialog implements View.OnClickListener, R
     public void show() {
         super.show();
         showLocalAndRemoteView();
-        changeView(false);
+        resetView();
         changeMembersView(membersArray);
     }
 
@@ -112,6 +112,7 @@ public class CheckRemoteDialog extends Dialog implements View.OnClickListener, R
 
     @Override
     public void dismiss() {
+        resetView();
         super.dismiss();
     }
 
@@ -136,6 +137,15 @@ public class CheckRemoteDialog extends Dialog implements View.OnClickListener, R
             }
         }
 
+    }
+
+    private void resetView(){
+        ll_person.clearCheck();
+        tv_confirm.setEnabled(false);
+        tv_local.setBackground(ContextCompat.getDrawable(mContext, R.drawable.tx_button_gray_all_20));
+
+        tv_remote.setBackground(ContextCompat.getDrawable(mContext, R.drawable.tx_button_gray_all_20));
+        group.setVisibility(View.GONE);
     }
 
     private void changeView(boolean isRemoteBo) {

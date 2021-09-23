@@ -171,7 +171,10 @@ public class HttpRequestClient {
 
                             if (errCode.equals("0")) {
                                 if (callBack != null) {
-                                    file.delete();
+                                    if (null != file) {
+                                        file.delete();
+                                    }
+
                                     callBack.onSuccess("上传成功！！！");
                                 }
                             } else {

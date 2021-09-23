@@ -74,10 +74,11 @@ public class HollowDoubleOutView extends FrameLayout {
         super.onSizeChanged(w, h, oldw, oldh);
         LogUtils.i("onSizeChanged" + w);
         LogUtils.i("onSizeChanged" + h);
-
+        //1505 926
+        //1253 960
         mRx = w / 4;
         mRy = h / 2;
-        mRadius = mRy/2 ;
+        mRadius = mRx-50 ;
 
     }
     Paint tvPaint;

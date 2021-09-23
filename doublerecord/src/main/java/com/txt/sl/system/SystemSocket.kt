@@ -122,9 +122,9 @@ open class SystemSocket :  SocketI {
         Constant.shouldUpload = true
         socketStatus?.onConnectError()
 
-        var args0 = args[0] as EngineIOException
+//        var args0 = args[0] as EngineIOException
 
-        LogUtils.i("SystemSocket", "Failure：onConnectError+${args0.transport}+${args0.code}")
+        LogUtils.i("SystemSocket", "Failure：onConnectError")
     }
 
 

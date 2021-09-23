@@ -6,13 +6,13 @@ import android.os.Handler
 import android.os.Looper
 import com.txt.sl.TXSdk
 import com.txt.sl.callback.onNetResultCallBack
-import com.txt.sl.callback.startVideoResultOnListener
 import com.txt.sl.callback.onSDKListener
+import com.txt.sl.callback.startVideoResultOnListener
 import com.txt.sl.entity.constant.SPConstant
 import com.txt.sl.http.https.HttpRequestClient
 import com.txt.sl.system.SystemHttpRequest
-import com.txt.sl.ui.home.HomeActivity
 import com.txt.sl.ui.createorder.NewOrderActivity
+import com.txt.sl.ui.home.HomeActivity
 import com.txt.sl.ui.invite.VideoUploadActivity
 import com.txt.sl.ui.order.OrderDetailsPageActivity
 import com.txt.sl.utils.*
@@ -201,6 +201,45 @@ class TXManagerImpl : ITXManager {
 
 
     }
+    //直接进入创建工单页面
+    public fun directCreateDetaisPage(context: Activity, listener: onSDKListener){
+        val stringStr = GsonUtils.getJson(TXSdk.getInstance().application, "reportstates.json")
+        val jsonObject1 = JSONObject(stringStr)
+        val reportStatesJB = jsonObject1.getJSONArray("reportStates")
+        TxSPUtils.put(TXSdk.getInstance().application, SPConstant.REPORT_STATESLIST, reportStatesJB.toString())
+
+        if (getAgentId().isEmpty() || getTenantId().isEmpty() || getToken().isEmpty()) {
+            MainThreadUtil.run {
+                listener?.onResultFail(10000, "返回参数为空")
+            }
+
+        } else {
+            MainThreadUtil.run {
+                listener?.onResultSuccess("")
+                NewOrderActivity.newActivity(context!!)
+            }
+        }
+
+    }
+    //直接进入双录页面
+    public fun directGotoOrderListPage(context: Activity, listener: onSDKListener){
+        val stringStr = GsonUtils.getJson(TXSdk.getInstance().application, "reportstates.json")
+        val jsonObject1 = JSONObject(stringStr)
+        val reportStatesJB = jsonObject1.getJSONArray("reportStates")
+        TxSPUtils.put(TXSdk.getInstance().application, SPConstant.REPORT_STATESLIST, reportStatesJB.toString())
+
+        if (getAgentId()!!.isEmpty() || getTenantId()!!.isEmpty() || getToken()!!.isEmpty()) {
+
+            MainThreadUtil.run {
+                listener?.onResultFail(10000, "返回参数为空")
+            }
+        } else {
+            MainThreadUtil.run {
+                listener?.onResultSuccess("")
+                HomeActivity.newActivity(context!!)
+            }
+        }
+    }
 
     //跳转到上传视频页面
     override fun gotoVideoUploadPage(
@@ -243,6 +282,7 @@ class TXManagerImpl : ITXManager {
     private var mLoginName: String? = null
     private var mFullName: String? = null
     private var mOrgAccountName: String? = null
+    private var mTenantCode  = ""
 
     //免登录接口
     override fun freeLogin(orgCode: String, sign: String, loginName: String, fullName: String, netResultCallBack: onNetResultCallBack) {
@@ -261,6 +301,8 @@ class TXManagerImpl : ITXManager {
                 mToken = token
                 mOrgAccountName = orgAccountName
                 mFullName = fullName
+//                val tenantCode = tenantJB.optString("code")
+//                mTenantCode = tenantCode
                 netResultCallBack.onResultSuccess(json!!)
 
             }
@@ -274,17 +316,60 @@ class TXManagerImpl : ITXManager {
 
     }
 
-    public override fun getToken(): String = mToken!!
+   public override fun login(loginName: String, password: String, listener: onNetResultCallBack) {
+       this.mLoginName = loginName
+        SystemHttpRequest.getInstance().login(loginName,password,object : HttpRequestClient.RequestHttpCallBack{
+            override fun onSuccess(json: String?) {
+                LogUtils.i("LoginPresenter", json!!)
+                val resultObject = JSONObject(json)
+                val agentObject = resultObject.getJSONObject("agent")
+                val token = resultObject.optString("token")
+                val agentId = agentObject.optString("_id")
+                val fullName = agentObject.optString("fullName")
+                val cellphone = agentObject.optString("cellphone")
+                val idCard = agentObject.optString("idCard")
+                val recordInstitutionJson = agentObject.optJSONObject("recordInstitution")
 
-    public override fun getAgentId(): String = mAgentId!!
+                val  orgName =recordInstitutionJson.optString("name")
+                val tenantJB = agentObject.getJSONObject("tenant")
+//                val orgAccountJB = agentObject.getJSONObject("orgAccount")
 
-    public override fun getTenantId(): String = mTenantId!!
+//                val orgName = orgAccountJB.optString("orgName")
+
+
+                val tenantId = tenantJB.optString("_id")
+                val tenantCode = tenantJB.optString("code")
+//                val orgAccountId = orgAccountJB.optString("_id")
+                mAgentId = agentId
+                mTenantId = tenantId
+                mToken = token
+                mOrgAccountName = orgName
+                mFullName = fullName
+                mTenantCode = tenantCode
+                listener.onResultSuccess(json!!)
+            }
+
+            override fun onFail(err: String?, code: Int) {
+                listener.onResultFail(code, err!!)
+            }
+
+        })
+    }
+
+    override fun getToken(): String = mToken!!
+
+    override fun getAgentId(): String = mAgentId!!
+
+    override fun getTenantId(): String = mTenantId!!
 
     override fun getLoginName(): String = mLoginName!!
 
     override fun getFullName(): String =  mFullName!!
 
     override fun getOrgAccountName(): String = mOrgAccountName!!
+
+    override fun getTenantCode(): String = mTenantCode!!
+
 
     companion object {
         @Volatile

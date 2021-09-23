@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.view.View
+import android.widget.TextView
 import com.common.widget.recyclerviewadapterhelper.base.entity.MultiItemEntity
 import com.tencent.mm.opensdk.openapi.IWXAPI
 import com.txt.sl.R
@@ -92,7 +93,7 @@ class HomeItemListFragment : BaseLazyViewPagerFragment(), CheckRemoteDialog.OnRe
                 R.id.tv_unupload_play -> { //播放本地视频
                     val bean = mDataList[position] as WorkerItemTypeBean
                     val screenRecordStr =
-                        TxSPUtils.get(_mActivity, bean.workItemBean.flowId, "") as String
+                        TxSPUtils.get(_mActivity, bean.workItemBean.taskId, "") as String
                     LogUtils.i("screenRecordStr---$screenRecordStr")
                     if (!TextUtils.isEmpty(screenRecordStr)) {
                         val jsonObject = JSONObject(screenRecordStr)
@@ -100,19 +101,24 @@ class HomeItemListFragment : BaseLazyViewPagerFragment(), CheckRemoteDialog.OnRe
                         VideoPlayActivity.Builder().setVideoSource(pathFile!!, false)
                             .start(_mActivity)
                     } else {
-                        ToastUtils.showShort("没有录屏文件")
+                        ToastUtils.showShort("查不到本地视频")
                     }
 
                 }
                 R.id.tv_playremotevideo -> { //播放远端视频
                     val bean = mDataList[position] as WorkerItemTypeBean
-                    VideoPlayActivity.Builder().setVideoSource(bean.workItemBean.recordUrl!!, true)
-                        .start(_mActivity)
+                    if (bean.workItemBean.recordUrl.isNullOrEmpty()) {
+                        ToastUtils.showShort("视频正在生成中，请稍等")
+                    }else{
+                        VideoPlayActivity.Builder().setVideoSource(bean.workItemBean.recordUrl!!, true)
+                            .start(_mActivity)
+                    }
+
                 }
                 R.id.tv_item2_play -> { //上传视频
                     val homeActivity = _mActivity as HomeActivity
                     val bean = mDataList[position] as WorkerItemTypeBean
-                    homeActivity.upload(bean.workItemBean.flowId)
+                    homeActivity.upload(bean.workItemBean.taskId)
 
                 }
                 else -> {
@@ -126,7 +132,10 @@ class HomeItemListFragment : BaseLazyViewPagerFragment(), CheckRemoteDialog.OnRe
         mAdapter.apply {
             bindToRecyclerView(recyclerView)
             openLoadAnimation()
-            setEmptyView(R.layout.tx_adapter_list_pic_empty, recyclerView)
+            val inflate = layoutInflater.inflate(R.layout.tx_adapter_list_pic_empty, null)
+            val tv = inflate.findViewById<TextView>(R.id.tx_emptycontent)
+            tv.text="暂无工单"
+            emptyView = inflate
         }
         recyclerView.adapter = mAdapter
 

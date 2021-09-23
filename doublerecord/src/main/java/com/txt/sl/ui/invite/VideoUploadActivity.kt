@@ -4,9 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.net.TrafficStats
 import android.text.TextUtils
-import android.view.View
 import com.common.widget.base.BaseActivity
 import com.common.widget.dialog.TxPopup
+import com.tencent.cos.xml.transfer.TransferState
 import com.txt.sl.R
 import com.txt.sl.TXSdk
 import com.txt.sl.http.https.HttpRequestClient
@@ -15,6 +15,8 @@ import com.txt.sl.utils.*
 import kotlinx.android.synthetic.main.tx_activity_video_upload.*
 import org.json.JSONObject
 import java.text.DecimalFormat
+import java.util.*
+
 
 class VideoUploadActivity : BaseActivity() {
     override fun getLayoutId(): Int = R.layout.tx_activity_video_upload
@@ -32,8 +34,8 @@ class VideoUploadActivity : BaseActivity() {
     override fun initView() {
         super.initView()
         title = "双录视频上传"
-        initProgressDialog()
 
+        initProgressDialog()
     }
 
     override fun onBackPressed() {
@@ -41,7 +43,10 @@ class VideoUploadActivity : BaseActivity() {
     }
 
     public fun showDialog() {
-        TxPopup.Builder(this).asConfirm(
+        TxPopup.Builder(this)
+            .dismissOnBackPressed(false)
+            .dismissOnTouchOutside(false)
+            .asConfirm(
             "退出",
             "确认退出双录视频上传页面？",
             "取消",
@@ -52,68 +57,19 @@ class VideoUploadActivity : BaseActivity() {
         ).show()
     }
 
-    public fun upload(flowId: String, screenRecordStr: String) {
-
-        //上传
-        //flowId
-        LogUtils.i("screenRecordStr---$screenRecordStr")
-        if (!TextUtils.isEmpty(screenRecordStr)) {
-            val jsonObject = JSONObject(screenRecordStr)
-            LogUtils.i("jsonObject---$jsonObject")
-            val preTime = jsonObject.getString("preTime")
-            val serviceId = jsonObject.getString("serviceId")
-            val pathFile = jsonObject.getString("path")
-
-//                        val preTime = "1"
-//                        val serviceId = "5edcc228dc18f7001e07be90"
-//                        val pathFile = PathUtils.getExternalStoragePath() + "/txsl/"+"txsl_1591525938353.mp4"
-
-            LogUtils.i("开始上传")
-            tv_gotovideo.visibility = View.GONE
-            SystemHttpRequest.getInstance()
-                .uploadLogFile(pathFile, preTime, serviceId, { size, time ->
-                    val byteToMB = byteToMB(size)
-                    tv_videosize?.text = "$byteToMB M"
-                    LogUtils.i("time$time")
-                    val min = time / 1000 / 60.0
-                    var minSize = String.format("%.2f", min)
-                    tv_videotime?.text = "$minSize 分钟"
-                }, object : SystemHttpRequest.onRequestCallBack {
-                    override fun onSuccess() {
-                        MainThreadUtil.run(Runnable {
-                            showToastMsg("上传成功")
-                            finish()
-                        })
-
-                    }
-
-                    override fun onFail(msg: String?) {
-                        MainThreadUtil.run(Runnable {
-                            showToastMsg("上传失败")
-                            tv_gotovideo.visibility = View.VISIBLE
-                            tv_gotovideo.text = "开始上传"
-                        })
-
-                        LogUtils.i("uploadLogFile$msg")
-                    }
-
-                }, { totalLength, currentLength ->
-
-
-                    MainThreadUtil.run(Runnable {
-                        val progress = (currentLength * 100.0 / totalLength)
-                        LogUtils.i("progress---$progress")
-                        updateProgress(totalLength, currentLength)
-                    })
-
-                })
-
-
-        } else {
-
-        }
-
-
+    fun showExitDialog() {
+        TxPopup.Builder(this)
+            .dismissOnBackPressed(false)
+            .dismissOnTouchOutside(false)
+            .asConfirm(
+                "退出",
+                "视频文件不存在，请从“我的双录”进入找到此单重新录制",
+                "",
+                "确认",
+                { finish() },
+                null,
+                true
+            ).show()
     }
 
     var mFlowId = ""
@@ -125,23 +81,15 @@ class VideoUploadActivity : BaseActivity() {
         mFlowId = intent.extras.getString(VideoUploadActivity.flowIdStr)
         val screenRecordStr = TxSPUtils.get(this, mFlowId, "") as String
         if (screenRecordStr.isEmpty()) {
-            TxPopup.Builder(this)
-                .dismissOnBackPressed(false)
-                .dismissOnTouchOutside(false)
-                .asConfirm(
-                "退出",
-                "视频文件不存在，请从“我的双录”进入找到此单重新录制",
-                "",
-                "确认",
-                { finish() },
-                null,
-                true
-            ).show()
+            showExitDialog()
         } else {
             SystemHttpRequest.getInstance()
                 .getFlowDetailsByTaskid(mFlowId, object : HttpRequestClient.RequestHttpCallBack {
                     override fun onSuccess(json: String?) {
-                        upload(mFlowId, screenRecordStr)
+                        runOnUiThread {
+                            upload(mFlowId, screenRecordStr)
+                        }
+
                     }
 
                     override fun onFail(err: String?, code: Int) {
@@ -166,8 +114,83 @@ class VideoUploadActivity : BaseActivity() {
 
         tv_invite_wx.text = "$mFlowId"
         tv_gotovideo.setOnClickListener {
-            upload(mFlowId, screenRecordStr)
+            if (tv_gotovideo.text == "暂停上传") {
+
+                val pauseSafely = VideoUploadImp.instance.cosxmlUploadTask?.pauseSafely()
+                if (pauseSafely!!) {
+                    tv_gotovideo.text = "继续上传"
+                } else {
+                    showToastMsg("暂停失败")
+                }
+
+            } else if (tv_gotovideo.text == "继续上传") {
+                VideoUploadImp.instance.cosxmlUploadTask?.resume()
+                tv_gotovideo.text = "暂停上传"
+            }
         }
+
+
+    }
+
+    fun upload(mFlowId: String?, screenRecordStr: String) {
+        if (!TextUtils.isEmpty(screenRecordStr)) {
+            val jsonObject = JSONObject(screenRecordStr)
+            LogUtils.i("jsonObject---$jsonObject")
+            val preTime = jsonObject.getString("preTime")
+            val serviceId = jsonObject.getString("serviceId")
+            val pathFile = jsonObject.getString("path")
+            val uploadId = jsonObject.optString("uploadId")
+            SystemHttpRequest.getInstance().getVideoSizeAndDuration(pathFile,
+                SystemHttpRequest.onFileCallBack {size,time->
+                    val byteToMB = byteToMB(size)
+                    tv_videosize?.text = "视频大小：$byteToMB M"
+                    LogUtils.i("time$time")
+                    val min = time / 1000 / 60.0
+                    var minSize = String.format("%.2f", min)
+                    tv_videotime?.text = "视频时长：$minSize 分钟"
+                })
+            LogUtils.i("开始上传")
+            tv_gotovideo.text = "暂停上传"
+            VideoUploadImp.instance.upload(
+                this, uploadId, preTime, serviceId, pathFile, object : OnUploadListener {
+                    override fun onProgress(complete: Long, target: Long) {
+                        runOnUiThread {
+                            updateProgress(target, complete)
+                        }
+                    }
+
+                    override fun onStateChanged(
+                        var1: TransferState,
+                        uploadId: String
+                    ) {
+                        //如果暂停，就重新记录的 uploadI开始传
+                        jsonObject.put("uploadId", uploadId)
+                        TxSPUtils.put(
+                            this@VideoUploadActivity,
+                            mFlowId,
+                            jsonObject.toString()
+                        )
+                    }
+
+                    override fun onFail() {
+
+                    }
+
+                    override fun onSuccess() {
+                        TxSPUtils.remove(
+                            this@VideoUploadActivity,
+                            mFlowId
+                        )
+                        finish()
+                    }
+
+                })
+
+
+        } else {
+            showExitDialog()
+        }
+
 
     }
 
@@ -220,5 +243,6 @@ class VideoUploadActivity : BaseActivity() {
         }
         super.onDestroy()
     }
+
 
 }

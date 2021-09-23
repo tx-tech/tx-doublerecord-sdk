@@ -49,7 +49,6 @@ public class OrderExpandableItemAdapter1(var data: ArrayList<MultiItemEntity>) :
                 }
                 helper.setText(R.id.tv_headtitle, title)
                 helper.setText(R.id.tv_insuranceName, levelItem1.insuranceName)
-
                 helper.setImageResource(
                     R.id.tx_iv_arrow,
                     if (levelItem1.isExpanded) {
@@ -93,7 +92,7 @@ public class OrderExpandableItemAdapter1(var data: ArrayList<MultiItemEntity>) :
 
                 helper.setText(
                     R.id.tv_insurancePaymentDown,
-                    mRequestSubOrderBean.insurancePaymentDown
+                    mRequestSubOrderBean.insurancePaymentDown +"元"
                 )
 
 
@@ -101,11 +100,11 @@ public class OrderExpandableItemAdapter1(var data: ArrayList<MultiItemEntity>) :
                 helper.setText(R.id.tv_insurancePaymentMethod, filter1?.get(0)?.name)
                 helper.setText(
                     R.id.tv_insurancePaymentPeriods,
-                    mRequestSubOrderBean.insurancePaymentPeriods
+                    mRequestSubOrderBean.insurancePaymentPeriods  + "期"
                 )
                 helper.setText(
                     R.id.tv_insurancePaymentPrice,
-                    mRequestSubOrderBean.insurancePaymentPrice
+                    mRequestSubOrderBean.insurancePaymentPrice + "元"
                 )
 
                 helper.setText(

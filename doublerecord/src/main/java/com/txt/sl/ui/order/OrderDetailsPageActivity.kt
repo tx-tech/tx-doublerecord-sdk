@@ -12,6 +12,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.txt.sl.R
 import com.txt.sl.TXSdk
+import com.txt.sl.config.TXManagerImpl
 import com.txt.sl.entity.bean.*
 import com.txt.sl.http.https.HttpRequestClient
 import com.txt.sl.system.SystemHttpRequest
@@ -202,28 +203,40 @@ class OrderDetailsPageActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClick
                                 stringBuffer.append("暂无")
                             }
 
-                            orderDetailsItemlists.add(
-                                OrderDetailsItem(
-                                    "所属区域",
-                                    stringBuffer.toString()
+
+
+                            if (TXManagerImpl.instance!!.getTenantCode()=="remoteRecordPoc") {
+                                orderDetailsItemlists.add(
+                                    OrderDetailsItem(
+                                        "所属区域",
+                                        TXManagerImpl.instance!!.getOrgAccountName()
+                                    )
                                 )
-                            )
-                            orderDetailsItemlists.add(
-                                OrderDetailsItem(
-                                    "中介机构",
-                                    fields.optString("IntermediaryInstitutions")
+                            }else{
+                                orderDetailsItemlists.add(
+                                    OrderDetailsItem(
+                                        "所属区域",
+                                        stringBuffer.toString()
+                                    )
                                 )
-                            )
+                                orderDetailsItemlists.add(
+                                    OrderDetailsItem(
+                                        "中介机构",
+                                        fields.optString("IntermediaryInstitutions")
+                                    )
+                                )
+                            }
                             orderDetailsItemlists.add(
                                 OrderDetailsItem(
                                     "代理人姓名",
-                                    agentJSONObject.optString("loginName"))
+                                    agentJSONObject.optString("fullName"))
                                 )
 
                             orderDetailsItemlists.add(
                                 OrderDetailsItem(
                                     "代理人编码",
-                                    agentJSONObject.optString("fullName"))
+                                    agentJSONObject.optString("loginName"))
+
                                 )
 
                             val filterStr = mDataList?.filter { it.name == "投保人证件类型" }

@@ -532,6 +532,48 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
         }
     }
 
+    /**
+     * 显示下一步布局
+     *
+     * @param userType
+     * @param pro
+     */
+    public void updateSkipLayoutByUserId(String userId, String pro, int visibility, int skipVisibility) {
+        if (userId == null) return;
+        for (TRTCLayoutEntity entity : mLayoutEntityList) {
+            if (entity.layout.getVisibility() == VISIBLE) {
+                if (userId.equals(entity.userId)) {
+                    entity.layout.setll_remote_skip(pro, visibility, skipVisibility);
+                }
+            }
+        }
+    }
+    //显示ocr识别框
+    public void updateOcrLayout(String userType,int visibility) {
+        if (userType == null) return;
+        for (TRTCLayoutEntity entity : mLayoutEntityList) {
+            if (entity.layout.getVisibility() == VISIBLE) {
+                if (userType.equals(entity.userType)) {
+                    entity.layout.setIvOcr(visibility);
+                }
+            }
+        }
+    }
+
+
+
+    //显示ocr识别框
+    public void updateOcrLayoutByUserId(String userId,int visibility) {
+        if (userId == null) return;
+        for (TRTCLayoutEntity entity : mLayoutEntityList) {
+            if (entity.layout.getVisibility() == VISIBLE) {
+                if (userId.equals(entity.userId)) {
+                    entity.layout.setIvOcr(visibility);
+                }
+            }
+        }
+    }
+
     //隐藏全部状态 布局
     public void hideAllStateView() {
         for (TRTCLayoutEntity entity : mLayoutEntityList) {
@@ -555,6 +597,23 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
         for (TRTCLayoutEntity entity : mLayoutEntityList) {
             if (entity.layout.getVisibility() == VISIBLE) {
                 if (userType.equals(entity.userType)) {
+                    entity.layout.setll_page_voice_result(visibility, isSuccess, successStr, btArray);
+                }
+            }
+        }
+    }
+
+    /**
+     * 显示重试布局
+     *
+     * @param userId
+     * @param visibility
+     */
+    public void updateRetryLayoutByUserId(String userId, int visibility, boolean isSuccess, String successStr, JSONArray btArray) {
+        if (userId == null) return;
+        for (TRTCLayoutEntity entity : mLayoutEntityList) {
+            if (entity.layout.getVisibility() == VISIBLE) {
+                if (userId.equals(entity.userId)) {
                     entity.layout.setll_page_voice_result(visibility, isSuccess, successStr, btArray);
                 }
             }

@@ -79,7 +79,7 @@
             android:paddingStart="@dimen/tx_dimen_15dp"
             android:paddingEnd="@dimen/tx_dimen_15dp"
             android:textColor="@color/tx_txcolorPrimary"
-            android:text="补充录制"
+            android:text="调整语速"
             android:visibility="gone" />
         <TextView
             android:id="@+id/tv_skip"

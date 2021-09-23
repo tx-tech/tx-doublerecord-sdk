@@ -3,6 +3,7 @@ package com.txt.sl.ui.video.trtc;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.ColorInt;
@@ -62,7 +63,7 @@ public class TRTCVideoLayout extends RelativeLayout implements View.OnClickListe
     private Button mBtnMuteVideo, mBtnMuteAudio, mBtnFill;
     private LinearLayout mLlNoVideo;
     private ImageView mIvNoS;
-    private TextView mTvNoS;
+    private ImageView mTvNoS;
     private ViewGroup mVgFuc;
     private HashMap<Integer, Integer> mNoSMap = null;
     private boolean mMoveable;
@@ -82,6 +83,7 @@ public class TRTCVideoLayout extends RelativeLayout implements View.OnClickListe
     private RoundView mRoundView;
     private HollowDoubleOutView mHollowDoubleOutView;
     private ImageView iv_person;
+    private ImageView iv_ocr;
     private ObjectAnimator rotation;
 
     public TRTCVideoLayout(Context context) {
@@ -120,7 +122,18 @@ public class TRTCVideoLayout extends RelativeLayout implements View.OnClickListe
         }
 
         if (mTvNoS != null) {
-            mTvNoS.setText("当前网络质量：" + quality);
+            Drawable drawable;
+            if (quality==6) {
+                 drawable = ContextCompat.getDrawable(mContext, R.drawable.tx_net_6);
+            }else if (quality==3) {
+                drawable = ContextCompat.getDrawable(mContext, R.drawable.tx_net_3);
+            }else if (quality>=4&& quality<=5) {
+                drawable = ContextCompat.getDrawable(mContext, R.drawable.tx_net_5);
+            }else{
+                //quality>=2&& quality<=0
+                drawable = ContextCompat.getDrawable(mContext, R.drawable.tx_net_2);
+            }
+            mTvNoS.setImageDrawable(drawable);
         }
     }
 
@@ -139,8 +152,13 @@ public class TRTCVideoLayout extends RelativeLayout implements View.OnClickListe
 
     public void updateNoVideoLayoutTv(String text, int visibility) {
         if (mTvNovideo != null) {
-            mTvNovideo.setText(text);
-            mTvNovideo.setVisibility(visibility);
+            if (text.isEmpty()) {
+                mTvNovideo.setVisibility(GONE);
+            }else{
+                mTvNovideo.setText(text);
+                mTvNovideo.setVisibility(visibility);
+            }
+
             mIvNoS.setVisibility(visibility);
             mLlNoVideo.setVisibility(visibility);
         }
@@ -322,9 +340,6 @@ public class TRTCVideoLayout extends RelativeLayout implements View.OnClickListe
                 ll_page_voice_result_retry.setVisibility(GONE);
             } else {
                 ll_page12_result_fail.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(mContext, R.drawable.tx_nopass_icon), null, null, null);
-//                ll_page_voice_result_mark.setVisibility(VISIBLE);
-//                ll_page_voice_result_jump.setVisibility(VISIBLE);
-//                ll_page_voice_result_retry.setVisibility(VISIBLE);
                 try {
                     if (null != btArray) {
                         //显示按钮的值
@@ -368,6 +383,17 @@ public class TRTCVideoLayout extends RelativeLayout implements View.OnClickListe
     }
 
 
+    public void setIvOcr(int visibility){
+        if (null !=  iv_ocr) {
+            if (visibility == GONE) {
+                iv_ocr.setVisibility(INVISIBLE);
+            }else{
+                iv_ocr.setVisibility(visibility);
+            }
+
+        }
+    }
+
     private void initNoS() {
         mNoSMap = new HashMap<>();
 //        mNoSMap.put(Integer.valueOf(TRTCCloudDef.TRTC_QUALITY_Down), Integer.valueOf(R.drawable.signal1));
@@ -399,6 +425,7 @@ public class TRTCVideoLayout extends RelativeLayout implements View.OnClickListe
         ll_page_voice_result_jump = (TextView) mVgFuc.findViewById(R.id.ll_page_voice_result_jump);
         ll_page_voice_result_retry = (TextView) mVgFuc.findViewById(R.id.ll_page_voice_result_retry);
         ll_page12_result_fail = (TextView) mVgFuc.findViewById(R.id.ll_page12_result_fail);
+        iv_ocr = (ImageView) mVgFuc.findViewById(R.id.iv_ocr);
 //        mVideoView.setOnClickListener(this);
         tv_remote_skip.setOnClickListener(this);
         ll_page_voice_result_mark.setOnClickListener(this);
@@ -414,7 +441,7 @@ public class TRTCVideoLayout extends RelativeLayout implements View.OnClickListe
 //        mBtnFill.setOnClickListener(this);
         mLlNoVideo = (LinearLayout) mVgFuc.findViewById(R.id.trtc_fl_no_video);
         mTvNovideo = (TextView) mVgFuc.findViewById(R.id.tv_no_video);
-        mTvNoS = (TextView) mVgFuc.findViewById(R.id.trtc_iv_nos);
+        mTvNoS = (ImageView) mVgFuc.findViewById(R.id.trtc_iv_nos);
         mIvNoS = (ImageView) mVgFuc.findViewById(R.id.trtc_iv_no_video);
 //        ToggleButton muteBtn = (ToggleButton) mVgFuc.findViewById(R.id.mute_in_speaker);
 //        muteBtn.setOnClickListener(this);

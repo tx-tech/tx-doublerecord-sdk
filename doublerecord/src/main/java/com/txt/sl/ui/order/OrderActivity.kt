@@ -56,8 +56,8 @@ class OrderActivity : BaseActivity() {
                                     val jsonObject1 = stepsJsonArray.getJSONObject(index1)
                                     val fileBean = FileBean()
                                     fileBean.name = jsonObject1.optString("name")
-                                    fileBean.failType = jsonObject1.optString("autoFailType")
-                                    fileBean.failReason = jsonObject1.optString("autoFailReason")
+                                    fileBean.failType = jsonObject1.optString("failType")
+                                    fileBean.failReason = jsonObject1.optString("failReason")
 
                                     isNoPublicItem.addSubItem(
                                             fileBean
