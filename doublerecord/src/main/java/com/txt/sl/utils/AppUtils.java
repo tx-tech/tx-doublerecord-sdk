@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -17,7 +16,6 @@ import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -95,10 +93,6 @@ public final class AppUtils {
             }
         }
 
-        ToastUtils.setBgResource(R.drawable.tx_shape_round);
-        ToastUtils.setMsgColor(0xFFFFFFFF);
-        ToastUtils.setGravity(Gravity.CENTER,0,0);
-        ToastUtils.setMsgTextSize(18);
     }
 
     /**

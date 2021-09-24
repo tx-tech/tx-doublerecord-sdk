@@ -11,7 +11,6 @@ import com.txt.sl.entity.bean.LevelItem1
 import com.txt.sl.http.https.HttpRequestClient
 import com.txt.sl.system.SystemHttpRequest
 import com.txt.sl.ui.adpter.ExpandableItemAdapter
-import com.txt.sl.utils.ToastUtils
 import kotlinx.android.synthetic.main.tx_activity_order.*
 import org.json.JSONArray
 import java.util.*
