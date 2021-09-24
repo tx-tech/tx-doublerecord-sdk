@@ -28,6 +28,7 @@ import com.common.widget.dialog.interfaces.XPopupCallback
 import com.common.widget.immersionbar.TxBarHide
 import com.common.widget.recyclerviewadapterhelper.base.entity.MultiItemEntity
 import com.common.widget.titlebar.sign.SignatureView
+import com.common.widget.toast.ToastUtils
 import com.tencent.aai.AAIClient
 import com.tencent.aai.audio.data.AudioRecordDataSource
 import com.tencent.aai.auth.LocalCredentialProvider
@@ -269,7 +270,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                 override fun onFail(err: String?, code: Int) {
                     runOnUiThread {
                         listener.onFail(err, code)
-                        ToastUtils.showLong(err!!)
+                        ToastUtils.show(err!!)
                         if (-3 == code) {
 
                             SystemSocket.instance?.setMSG(
@@ -503,53 +504,56 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     var isPassed = true
     var isStartRecord = false
     private fun initBusiness() {
-        tv_continue.setOnClickListener {
-            //上传视频
-            val customDialog = ChooseSpeedDialog(this)
-            customDialog.setAgentIdStr(TXManagerImpl.instance!!.getAgentId())
-            customDialog.setOnConfirmClickListener(object :
-                ChooseSpeedDialog.OnConfirmClickListener {
-                override fun onSpeedChoose(voiceSpeed: Int, content: String) {
-                    destroylongTextTtsController()
-                    longTextTtsController?.setVoiceSpeed(voiceSpeed)
-                    startTtsController(content, object : OfflineActivity.RoomHttpCallBack {
-                        override fun onSuccess(json: String?) {
+        tv_continue.setOnClickListener(
+            CheckDoubleClickListener {
+                //上传视频
+                val customDialog = ChooseSpeedDialog(this)
+                customDialog.setAgentIdStr(TXManagerImpl.instance!!.getAgentId())
+                customDialog.setOnConfirmClickListener(object :
+                    ChooseSpeedDialog.OnConfirmClickListener {
+                    override fun onSpeedChoose(voiceSpeed: Int, content: String) {
+                        destroylongTextTtsController()
+                        longTextTtsController?.setVoiceSpeed(voiceSpeed)
+                        startTtsController(content, object : OfflineActivity.RoomHttpCallBack {
+                            override fun onSuccess(json: String?) {
+                            }
+
+                            override fun onFail(err: String?, code: Int) {
+                            }
+
+                        })
+                    }
+
+                    override fun onConfirm() {
+
+                    }
+
+                })
+                TxPopup.Builder(this).maxWidth(900).dismissOnTouchOutside(false)
+                    .dismissOnBackPressed(false).setPopupCallback(object : XPopupCallback {
+                        override fun onCreated() {
+
                         }
 
-                        override fun onFail(err: String?, code: Int) {
+                        override fun beforeShow() {
                         }
 
-                    })
-                }
+                        override fun onShow() {
 
-                override fun onConfirm() {
+                        }
 
-                }
+                        override fun onDismiss() {
 
-            })
-            TxPopup.Builder(this).maxWidth(900).dismissOnTouchOutside(false)
-                .dismissOnBackPressed(false).setPopupCallback(object : XPopupCallback {
-                    override fun onCreated() {
+                        }
 
-                    }
+                        override fun onBackPressed(): Boolean {
+                            return true
+                        }
 
-                    override fun beforeShow() {
-                    }
+                    }).asCustom(customDialog).show()
 
-                    override fun onShow() {
-
-                    }
-
-                    override fun onDismiss() {
-
-                    }
-
-                    override fun onBackPressed(): Boolean {
-                        return true
-                    }
-
-                }).asCustom(customDialog).show()
-        }
+            }
+        )
         tv_skip.setOnClickListener(CheckDoubleClickListener {
             it as TextView
             when (it.text) {
@@ -1134,16 +1138,22 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         checkenv_recyclerview?.layoutManager = LinearLayoutManager(this)
         checkenv_recyclerview?.adapter = checkenvItemAdapter
 
-        tv_checkenv_retry.setOnClickListener {
-            startCheckEnv()
-        }
+        tv_checkenv_retry.setOnClickListener(
+            CheckDoubleClickListener {
+                startCheckEnv()
+            }
+        )
 
-        tv_checkenv_start.setOnClickListener {
-            showPageOne()
-        }
-        tv_checkenv_exit.setOnClickListener {
-            end()
-        }
+        tv_checkenv_start.setOnClickListener(
+            CheckDoubleClickListener {
+                showPageOne()
+            }
+        )
+        tv_checkenv_exit.setOnClickListener(
+            CheckDoubleClickListener {
+                end()
+            }
+        )
         startCheckEnv()
     }
 
@@ -1629,11 +1639,13 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         checkLeftVideoToRightScreen(page_11Page!!, true, "")
         page_11Page?.findViewById<TextView>(R.id.tv_prompt1)?.text = promtStr
         page_11Page?.findViewById<TextView>(R.id.tv_textread_skip)?.visibility(true)
-        page_11Page?.findViewById<TextView>(R.id.tv_textread_skip)?.setOnClickListener {
-            autoCheckBoolean = true
-            setFailType("", "")
-            quickEnterRoom(isSystem = true)
-        }
+        page_11Page?.findViewById<TextView>(R.id.tv_textread_skip)?.setOnClickListener(
+            CheckDoubleClickListener {
+                autoCheckBoolean = true
+                setFailType("", "")
+                quickEnterRoom(isSystem = true)
+            }
+        )
 
         val webView =
             page_11Page?.findViewById<WebView>(R.id.textreadWebView)
@@ -2094,33 +2106,42 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                                 findViewById<TextView>(R.id.ll_page_voice_result_mark)
                                             val ll_page_voice_result_retry =
                                                 findViewById<TextView>(R.id.ll_page_voice_result_retry)
-                                            ll_page_voice_result_jump.setOnClickListener {
-                                                autoCheckBoolean = false
-                                                setFailType("识别失败", "未识别出关键词")
-                                                quickEnterRoom(isSystem = false)
-                                            }
-                                            ll_page_voice_result_mark.setOnClickListener {
-                                                autoCheckBoolean = true
-                                                setFailType("识别失败", "未识别出关键词")
-                                                quickEnterRoom(isSystem = false)
-                                            }
-                                            ll_page_voice_result_retry.setOnClickListener {
-                                                pushMessage(
-                                                    mCurrentMsg!!,
-                                                    object : OfflineActivity.RoomHttpCallBack {
-                                                        override fun onSuccess(json: String?) {
+                                            ll_page_voice_result_jump.setOnClickListener(
+                                                CheckDoubleClickListener {
+                                                    autoCheckBoolean = false
+                                                    setFailType("识别失败", "未识别出关键词")
+                                                    quickEnterRoom(isSystem = false)
+                                                }
 
-                                                        }
+                                            )
+                                            ll_page_voice_result_mark.setOnClickListener(
+                                                CheckDoubleClickListener {
+                                                    autoCheckBoolean = true
+                                                    setFailType("识别失败", "未识别出关键词")
+                                                    quickEnterRoom(isSystem = false)
+                                                }
 
-                                                        override fun onFail(
-                                                            err: String?,
-                                                            code: Int
-                                                        ) {
+                                            )
+                                            ll_page_voice_result_retry.setOnClickListener(
+                                                CheckDoubleClickListener {
+                                                    pushMessage(
+                                                        mCurrentMsg!!,
+                                                        object : OfflineActivity.RoomHttpCallBack {
+                                                            override fun onSuccess(json: String?) {
 
-                                                        }
+                                                            }
 
-                                                    })
-                                            }
+                                                            override fun onFail(
+                                                                err: String?,
+                                                                code: Int
+                                                            ) {
+
+                                                            }
+
+                                                        })
+                                                }
+
+                                            )
 
                                             //显示按钮的值
                                             for (i in 0 until failureButtonJSONArray?.length()!!) {
@@ -2577,8 +2598,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                     else -> {
                                         "身份证件识别失败，请核实后操作"
                                     }
-                                }
-                                ,
+                                },
                                 failureButtonJSONArray
                             )
                         }
@@ -2600,9 +2620,11 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             page_local_nativesignPage?.findViewById<SignatureView>(R.id.iv_page_local_signatureview)
         page_local_nativesignPage?.apply {
             findViewById<LinearLayout>(R.id.ll_clear)?.visibility(true)
-            findViewById<LinearLayout>(R.id.ll_clear)?.setOnClickListener {
-                signatureview?.clear()
-            }
+            findViewById<LinearLayout>(R.id.ll_clear)?.setOnClickListener(
+                CheckDoubleClickListener {
+                    signatureview?.clear()
+                }
+            )
             findViewById<LinearLayout>(R.id.ll_page12_result)?.visibility(false)
             findViewById<TextView>(R.id.ll_page12_result_success)?.visibility(false)
             findViewById<TextView>(R.id.ll_page12_result_fail)?.visibility(false)
@@ -2631,93 +2653,106 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         checkLeftVideoToRightScreen(page_local_nativesignPage!!, true, "")
         signatureview?.clear()
         //上传签字文件
-        page_local_nativesignPage?.findViewById<TextView>(R.id.tv_sign)?.setOnClickListener {
-            upload(signatureview!!, object : PhotoHttpCallBack {
-                override fun onSuccess(json: String?) {
-                    runOnUiThread {
-                        LogUtils.i("upload------$json")
-                        page_local_nativesignPage?.findViewById<TextView>(R.id.tv_name_sign)!!.text =
-                            "签名：" + json
-                        if (checkName == json) {
-                            //识别成功，跳过
-                            page_local_nativesignPage?.apply {
-                                findViewById<LinearLayout>(R.id.ll_clear)?.visibility(false)
-                                findViewById<LinearLayout>(R.id.ll_page12_result)?.visibility(false)
-                                findViewById<TextView>(R.id.ll_page12_result_success)?.visibility(
-                                    true
-                                )
-                                findViewById<TextView>(R.id.ll_page12_result_fail)?.visibility(false)
-                                findViewById<TextView>(R.id.ll_page_voice_result_mark)?.visibility(
-                                    false
-                                )
-                                findViewById<TextView>(R.id.ll_page_voice_result_jump)?.visibility(
-                                    false
-                                )
-                                findViewById<TextView>(R.id.ll_page_voice_result_retry)?.visibility(
-                                    false
-                                )
+        page_local_nativesignPage?.findViewById<TextView>(R.id.tv_sign)?.setOnClickListener(
+            CheckDoubleClickListener {
+                upload(signatureview!!, object : PhotoHttpCallBack {
+                    override fun onSuccess(json: String?) {
+                        runOnUiThread {
+                            LogUtils.i("upload------$json")
+                            page_local_nativesignPage?.findViewById<TextView>(R.id.tv_name_sign)!!.text =
+                                "签名：" + json
+                            if (checkName == json) {
+                                //识别成功，跳过
+                                page_local_nativesignPage?.apply {
+                                    findViewById<LinearLayout>(R.id.ll_clear)?.visibility(false)
+                                    findViewById<LinearLayout>(R.id.ll_page12_result)?.visibility(
+                                        false
+                                    )
+                                    findViewById<TextView>(R.id.ll_page12_result_success)?.visibility(
+                                        true
+                                    )
+                                    findViewById<TextView>(R.id.ll_page12_result_fail)?.visibility(
+                                        false
+                                    )
+                                    findViewById<TextView>(R.id.ll_page_voice_result_mark)?.visibility(
+                                        false
+                                    )
+                                    findViewById<TextView>(R.id.ll_page_voice_result_jump)?.visibility(
+                                        false
+                                    )
+                                    findViewById<TextView>(R.id.ll_page_voice_result_retry)?.visibility(
+                                        false
+                                    )
+                                }
+                                startAutoNextStep(true)
+                            } else {
+                                page_local_nativesignPage?.apply {
+                                    findViewById<LinearLayout>(R.id.ll_clear)?.visibility(false)
+                                    findViewById<LinearLayout>(R.id.ll_page12_result)?.visibility(
+                                        true
+                                    )
+                                    findViewById<TextView>(R.id.ll_page12_result_success)?.visibility(
+                                        false
+                                    )
+                                    findViewById<TextView>(R.id.ll_page12_result_fail)?.visibility(
+                                        true
+                                    )
+                                    findViewById<TextView>(R.id.ll_page_voice_result_mark)?.visibility(
+                                        true
+                                    )
+                                    findViewById<TextView>(R.id.ll_page_voice_result_jump)?.visibility(
+                                        true
+                                    )
+                                    findViewById<TextView>(R.id.ll_page_voice_result_retry)?.visibility(
+                                        true
+                                    )
+
+                                    //重试
+                                    findViewById<TextView>(R.id.ll_page_voice_result_mark)?.setOnClickListener {
+                                        quickEnterRoom(true)
+
+                                    }
+                                    findViewById<TextView>(R.id.ll_page_voice_result_jump)?.setOnClickListener {
+                                        setFailType("识别失败", "签字内容与保单信息不匹配")
+                                        quickEnterRoom(true)
+                                    }
+                                    findViewById<TextView>(R.id.ll_page_voice_result_retry)?.setOnClickListener {
+                                        pushMessage(
+                                            mCurrentMsg!!,
+                                            object : OfflineActivity.RoomHttpCallBack {
+                                                override fun onSuccess(json: String?) {
+
+                                                }
+
+                                                override fun onFail(err: String?, code: Int) {
+
+                                                }
+
+                                            })
+                                    }
+
+                                }
+
                             }
-                            startAutoNextStep(true)
-                        } else {
-                            page_local_nativesignPage?.apply {
-                                findViewById<LinearLayout>(R.id.ll_clear)?.visibility(false)
-                                findViewById<LinearLayout>(R.id.ll_page12_result)?.visibility(true)
-                                findViewById<TextView>(R.id.ll_page12_result_success)?.visibility(
-                                    false
-                                )
-                                findViewById<TextView>(R.id.ll_page12_result_fail)?.visibility(true)
-                                findViewById<TextView>(R.id.ll_page_voice_result_mark)?.visibility(
-                                    true
-                                )
-                                findViewById<TextView>(R.id.ll_page_voice_result_jump)?.visibility(
-                                    true
-                                )
-                                findViewById<TextView>(R.id.ll_page_voice_result_retry)?.visibility(
-                                    true
-                                )
-
-                                //重试
-                                findViewById<TextView>(R.id.ll_page_voice_result_mark)?.setOnClickListener {
-                                    quickEnterRoom(true)
-
-                                }
-                                findViewById<TextView>(R.id.ll_page_voice_result_jump)?.setOnClickListener {
-                                    setFailType("识别失败", "签字内容与保单信息不匹配")
-                                    quickEnterRoom(true)
-                                }
-                                findViewById<TextView>(R.id.ll_page_voice_result_retry)?.setOnClickListener {
-                                    pushMessage(
-                                        mCurrentMsg!!,
-                                        object : OfflineActivity.RoomHttpCallBack {
-                                            override fun onSuccess(json: String?) {
-
-                                            }
-
-                                            override fun onFail(err: String?, code: Int) {
-
-                                            }
-
-                                        })
-                                }
-
-                            }
-
                         }
                     }
-                }
 
-                override fun onFail(err: String?, code: Int) {
+                    override fun onFail(err: String?, code: Int) {
 
-                }
+                    }
 
-            })
+                })
+            }
 
-        }
+
+        )
 
         //清除
-        page_local_signPage?.findViewById<TextView>(R.id.tv_clear)?.setOnClickListener {
-            signatureview?.clear()
-        }
+        page_local_signPage?.findViewById<TextView>(R.id.tv_clear)?.setOnClickListener(
+            CheckDoubleClickListener {
+                signatureview?.clear()
+            }
+        )
 
     }
 

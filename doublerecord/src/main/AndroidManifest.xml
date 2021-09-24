@@ -79,8 +79,6 @@
         <activity
             android:name=".utils.TxPermissionUtils$TransActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:launchMode="singleInstance"
-            android:multiprocess="true"
             android:theme="@style/tx_activityTranslucent"
             android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
     </application>

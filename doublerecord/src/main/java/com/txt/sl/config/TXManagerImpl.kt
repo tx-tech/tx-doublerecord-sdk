@@ -293,6 +293,7 @@ class TXManagerImpl : ITXManager {
                 val agentInfoJsonObject = jsonObject.getJSONObject("agentInfo")
                 val agentId = agentInfoJsonObject.optString("agentId")
                 val tenantId = agentInfoJsonObject.optString("tenant")
+                val tenantCode = agentInfoJsonObject.optString("tenantCode")
                 val orgAccountName = agentInfoJsonObject.optString("orgAccountName")
                 val fullName = agentInfoJsonObject.optString("fullName")
                 val token = jsonObject.optString("token")
@@ -302,7 +303,7 @@ class TXManagerImpl : ITXManager {
                 mOrgAccountName = orgAccountName
                 mFullName = fullName
 //                val tenantCode = tenantJB.optString("code")
-//                mTenantCode = tenantCode
+                mTenantCode = tenantCode
                 netResultCallBack.onResultSuccess(json!!)
 
             }

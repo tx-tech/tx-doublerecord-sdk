@@ -146,6 +146,7 @@ public class CheckRemoteDialog extends Dialog implements View.OnClickListener, R
 
         tv_remote.setBackground(ContextCompat.getDrawable(mContext, R.drawable.tx_button_gray_all_20));
         group.setVisibility(View.GONE);
+        recordType = "2";
     }
 
     private void changeView(boolean isRemoteBo) {

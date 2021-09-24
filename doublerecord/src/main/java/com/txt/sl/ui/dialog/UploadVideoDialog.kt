@@ -11,6 +11,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.common.widget.dialog.core.CenterPopupView
 import com.common.widget.dialog.util.XPopupUtils
+import com.common.widget.toast.ToastUtils
 import com.tencent.cos.xml.transfer.TransferState
 import com.tencent.qcloud.core.task.QCloudTask
 import com.txt.sl.R
@@ -20,7 +21,6 @@ import com.txt.sl.ui.invite.OnUploadListener
 import com.txt.sl.ui.invite.VideoUploadImp
 import com.txt.sl.utils.LogUtils
 import com.txt.sl.utils.MainThreadUtil
-import com.txt.sl.utils.ToastUtils
 import com.txt.sl.utils.TxSPUtils
 import kotlinx.android.synthetic.main.tx_activity_video_upload.*
 import org.json.JSONObject
@@ -139,7 +139,7 @@ class UploadVideoDialog(
                 })
 
         } else {
-            ToastUtils.showShort("没有找到对应的录屏！！！")
+            ToastUtils.show("没有找到对应的录屏！！！")
         }
 
 
@@ -180,7 +180,7 @@ class UploadVideoDialog(
                 if (pauseSafely!!) {
                     tvGotovideo?.text = "继续上传"
                 } else {
-                    ToastUtils.showShort("暂停失败！！！")
+                    ToastUtils.show("暂停失败！！！")
                 }
 
             } else if (tvGotovideo?.text == "继续上传") {

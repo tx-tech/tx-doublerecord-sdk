@@ -6,6 +6,7 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.TextView
 import com.common.widget.recyclerviewadapterhelper.base.entity.MultiItemEntity
+import com.common.widget.toast.ToastUtils
 import com.tencent.mm.opensdk.openapi.IWXAPI
 import com.txt.sl.R
 import com.txt.sl.entity.bean.WorkItemBean
@@ -20,7 +21,6 @@ import com.txt.sl.ui.invite.InviteActivity
 import com.txt.sl.ui.order.OrderActivity
 import com.txt.sl.ui.order.OrderDetailsActivity
 import com.txt.sl.utils.LogUtils
-import com.txt.sl.utils.ToastUtils
 import com.txt.sl.utils.TxSPUtils
 import com.txt.sl.widget.LoadingView
 import kotlinx.android.synthetic.main.tx_fragment_recycler_list_no_toolbar.*
@@ -101,14 +101,14 @@ class HomeItemListFragment : BaseLazyViewPagerFragment(), CheckRemoteDialog.OnRe
                         VideoPlayActivity.Builder().setVideoSource(pathFile!!, false)
                             .start(_mActivity)
                     } else {
-                        ToastUtils.showShort("查不到本地视频")
+                        ToastUtils.show("查不到本地视频")
                     }
 
                 }
                 R.id.tv_playremotevideo -> { //播放远端视频
                     val bean = mDataList[position] as WorkerItemTypeBean
                     if (bean.workItemBean.recordUrl.isNullOrEmpty()) {
-                        ToastUtils.showShort("视频正在生成中，请稍等")
+                        ToastUtils.show("视频正在生成中，请稍等")
                     }else{
                         VideoPlayActivity.Builder().setVideoSource(bean.workItemBean.recordUrl!!, true)
                             .start(_mActivity)

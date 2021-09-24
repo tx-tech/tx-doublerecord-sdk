@@ -192,31 +192,10 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
             insuredPhone = insuredPhoneStr
             insuranceAllPaymentDown = insuranceAllPaymentDownStr
             institutions = arrayListOf("60efdba39418525ea664d9b9","60efdba39418525ea664da1d","60efdba49418525ea664e146")
-            IntermediaryInstitutions = "我是李垒我最帅机构"
+            IntermediaryInstitutions = "测试机构"
             agentCode = "12313"
         }
 
-//        val insurancesLists = TxSPUtils.get(this, SPConstant.INSURANCES_LISTS, "") as String
-//        if (insurancesLists.isEmpty()) {
-//            showToastMsg("该账号没有配置险种信息")
-//            return
-//        }
-//        val insurancesListsJsonArray = JSONArray(insurancesLists)
-//        var mSelectBeanList = ArrayList<SelectBean>()
-//        var mSelectBeanStrList = ArrayList<String>()
-//        if (insurancesListsJsonArray.length() == 0) {
-//            showToastMsg("该账号没有配置险种信息")
-//            return
-//        } else {
-//            for (index in 0 until insurancesListsJsonArray.length()) {
-//                val jsonObject = insurancesListsJsonArray.getJSONObject(index)
-//                mSelectBeanList?.add(SelectBean(
-//                        jsonObject.getString("_id"),
-//                        jsonObject.getString("name")
-//                ))
-//                mSelectBeanStrList?.add(jsonObject.getString("name"))
-//            }
-//        }
         val checkBean = checkBean(requestOrderBean)
 
         if (!checkBean) {
@@ -257,7 +236,7 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
                 override fun onSuccess(json: String?) {
                     runOnUiThread {
                         hideInput()
-                        ToastUtils.showLong("提交成功,可从投保中的双录发起！！！")
+                        showToastMsg("提交成功,可从投保中的双录发起！！！")
                         finishPage()
                     }
                 }

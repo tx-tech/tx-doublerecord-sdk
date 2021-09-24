@@ -78,6 +78,7 @@ class MeetingActivity : BaseActivity() {
                     TxSPUtils.put(this@MeetingActivity, SPConstant.LOGIN_PWD, password)
 
                     LoginActivity.newActivity(this@MeetingActivity)
+                    finish()
                 }, null, false).show()
             }
 

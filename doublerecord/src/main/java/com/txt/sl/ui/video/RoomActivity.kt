@@ -140,7 +140,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         statusBarConfig.hideBar(TxBarHide.FLAG_HIDE_STATUS_BAR)
         super.initView()
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        audioManager!!.mode = AudioManager.MODE_IN_CALL
+        audioManager!!.mode = AudioManager.MODE_NORMAL
         handleIntent()
         // 先检查权限再加入通话
         this.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
@@ -155,7 +155,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         when (keyCode) {
             KeyEvent.KEYCODE_VOLUME_UP -> {
                 audioManager?.adjustStreamVolume(
-                    AudioManager.STREAM_VOICE_CALL,
+                    AudioManager.STREAM_MUSIC,
                     AudioManager.ADJUST_RAISE,
                     AudioManager.FX_FOCUS_NAVIGATION_UP
                 )
@@ -163,7 +163,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             }
             KeyEvent.KEYCODE_VOLUME_DOWN -> {
                 audioManager?.adjustStreamVolume(
-                    AudioManager.STREAM_VOICE_CALL,
+                    AudioManager.STREAM_MUSIC,
                     AudioManager.ADJUST_LOWER,
                     AudioManager.FX_FOCUS_NAVIGATION_UP
                 )
@@ -262,7 +262,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                 override fun onFail(err: String?, code: Int) {
                     runOnUiThread {
                         listener.onFail(err, code)
-                        ToastUtils.showLong(err!!)
+                        com.common.widget.toast.ToastUtils.show(err!!)
                     }
                 }
 
@@ -558,79 +558,89 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
 
         ll_page_voice_result_retry.isClickable = true
-        ll_page_voice_result_retry.setOnClickListener {
-            pushMessage(mCurrentMsg!!, object : RoomHttpCallBack {
-                override fun onSuccess(json: String?) {
+        ll_page_voice_result_retry.setOnClickListener(
+            CheckDoubleClickListener {
+                pushMessage(mCurrentMsg!!, object : RoomHttpCallBack {
+                    override fun onSuccess(json: String?) {
 
-                }
+                    }
 
-                override fun onFail(err: String?, code: Int) {
+                    override fun onFail(err: String?, code: Int) {
 
-                }
+                    }
 
-            })
-        }
-        ll_page_voice_result_jump.setOnClickListener {
+                })
+            }
+
+        )
+        ll_page_voice_result_jump.setOnClickListener(
             //跳过
-            quickEnterRoom(false)
-        }
+            CheckDoubleClickListener {
+                quickEnterRoom(false)
+            }
+        )
 
-        ll_page_voice_result_mark.setOnClickListener {
+        ll_page_voice_result_mark.setOnClickListener(
             //标记
-            setFailType("", "")
-            quickEnterRoom(false)
-        }
+            CheckDoubleClickListener {
+                setFailType("", "")
+                quickEnterRoom(false)
+            }
+
+        )
 
 
-        tv_continue.setOnClickListener {
+        tv_continue.setOnClickListener(
+            CheckDoubleClickListener {
+                //上传视频
+                val customDialog = ChooseSpeedDialog(this)
+                customDialog.setAgentIdStr(TXManagerImpl.instance!!.getAgentId())
+                customDialog.setOnConfirmClickListener(object :
+                    ChooseSpeedDialog.OnConfirmClickListener {
+                    override fun onSpeedChoose(voiceSpeed: Int, content: String) {
+                        destroylongTextTtsController()
+                        longTextTtsController?.setVoiceSpeed(voiceSpeed)
+                        startTtsController(content, object : OfflineActivity.RoomHttpCallBack {
+                            override fun onSuccess(json: String?) {
+                            }
 
-            //上传视频
-            val customDialog = ChooseSpeedDialog(this)
-            customDialog.setAgentIdStr(TXManagerImpl.instance!!.getAgentId())
-            customDialog.setOnConfirmClickListener(object :
-                ChooseSpeedDialog.OnConfirmClickListener {
-                override fun onSpeedChoose(voiceSpeed: Int, content: String) {
-                    destroylongTextTtsController()
-                    longTextTtsController?.setVoiceSpeed(voiceSpeed)
-                    startTtsController(content, object : OfflineActivity.RoomHttpCallBack {
-                        override fun onSuccess(json: String?) {
+                            override fun onFail(err: String?, code: Int) {
+                            }
+
+                        })
+                    }
+
+                    override fun onConfirm() {
+
+                    }
+
+                })
+                TxPopup.Builder(this).maxWidth(900).dismissOnTouchOutside(false)
+                    .dismissOnBackPressed(false).setPopupCallback(object : XPopupCallback {
+                        override fun onCreated() {
+
                         }
 
-                        override fun onFail(err: String?, code: Int) {
+                        override fun beforeShow() {
                         }
 
-                    })
-                }
+                        override fun onShow() {
 
-                override fun onConfirm() {
+                        }
 
-                }
+                        override fun onDismiss() {
 
-            })
-            TxPopup.Builder(this).maxWidth(900).dismissOnTouchOutside(false)
-                .dismissOnBackPressed(false).setPopupCallback(object : XPopupCallback {
-                    override fun onCreated() {
+                        }
 
-                    }
+                        override fun onBackPressed(): Boolean {
+                            return true
+                        }
 
-                    override fun beforeShow() {
-                    }
+                    }).asCustom(customDialog).show()
 
-                    override fun onShow() {
+            }
 
-                    }
-
-                    override fun onDismiss() {
-
-                    }
-
-                    override fun onBackPressed(): Boolean {
-                        return true
-                    }
-
-                }).asCustom(customDialog).show()
-
-        }
+        )
 
     }
 
@@ -1321,7 +1331,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             }
 
             override fun onFinish() {
-                CheckEnvUtils.getInstance().getCheckEnv(this@RoomActivity, true)
+                CheckEnvUtils.getInstance().getCheckEnv(this@RoomActivity, false)
                 checkenvItemAdapter?.notifyDataSetChanged()
                 CheckEnvUtils.getInstance().stopCheckEnv(this@RoomActivity)
                 if (CheckEnvUtils.getInstance().checkvolumeAndMemory) {
@@ -1358,17 +1368,23 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         checkenv_recyclerview?.layoutManager = LinearLayoutManager(this)
         checkenv_recyclerview?.adapter = checkenvItemAdapter
 
-        tv_checkenv_retry.setOnClickListener {
-            startCheckEnv()
-        }
+        tv_checkenv_retry.setOnClickListener(
+            CheckDoubleClickListener {
+                startCheckEnv()
+            }
+        )
 
-        tv_checkenv_start.setOnClickListener {
-            //开始获取录屏权限
+        tv_checkenv_start.setOnClickListener(CheckDoubleClickListener {
             requestRecordPer()
-        }
-        tv_checkenv_exit.setOnClickListener {
-            end()
-        }
+        })
+        //开始获取录屏权限
+
+
+        tv_checkenv_exit.setOnClickListener(
+            CheckDoubleClickListener {
+                end()
+            }
+        )
         startCheckEnv()
     }
 
@@ -1989,10 +2005,13 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
         LogUtils.i("promtStr------$promtStr")
         tv_prompt1.text = promtStr
-        tv_textread_skip.setOnClickListener {
-            autoCheckBoolean = true
-            quickEnterRoom(false)
-        }
+        tv_textread_skip.setOnClickListener(
+            CheckDoubleClickListener {
+                autoCheckBoolean = true
+                quickEnterRoom(false)
+            }
+
+        )
     }
 
 
@@ -2287,7 +2306,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                 override fun onFail(err: String?, code: Int) {
                     runOnUiThread {
                         listener.onFail(err, code)
-                        ToastUtils.showLong(err!!)
+                        com.common.widget.toast.ToastUtils.show(err)
                         if (-3 == code) {
 
                             SystemSocket.instance?.setMSG(
@@ -2944,24 +2963,32 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                         tv_page12_sign_nextstep.visibility(true)
                                         tv_page12_sign__retry.visibility(true)
                                         ll_page12_result_success.visibility(false)
-                                        tv_page12_sign_nextstep.setOnClickListener {
-                                            quickEnterRoom(isSystem = false)
-                                        }
+                                        tv_page12_sign_nextstep.setOnClickListener(
+                                            CheckDoubleClickListener {
+                                                quickEnterRoom(isSystem = false)
+                                            }
+                                        )
 
-                                        tv_page12_sign__retry.setOnClickListener {
-                                            mCurrentMsg!!.getJSONObject("step")
-                                                .put("roomType", "originSignFile-retry")
-                                            pushMessage(mCurrentMsg!!, object : RoomHttpCallBack {
-                                                override fun onSuccess(json: String?) {
+                                        tv_page12_sign__retry.setOnClickListener(
+                                            CheckDoubleClickListener {
+                                                mCurrentMsg!!.getJSONObject("step")
+                                                    .put("roomType", "originSignFile-retry")
+                                                pushMessage(
+                                                    mCurrentMsg!!,
+                                                    object : RoomHttpCallBack {
+                                                        override fun onSuccess(json: String?) {
 
-                                                }
+                                                        }
 
-                                                override fun onFail(err: String?, code: Int) {
+                                                        override fun onFail(
+                                                            err: String?,
+                                                            code: Int
+                                                        ) {
 
-                                                }
-                                            })
-
-                                        }
+                                                        }
+                                                    })
+                                            }
+                                        )
                                     }
 
 
@@ -3324,10 +3351,12 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         ll_page11_content.isEnabled = false
         ll_origin_keepout.isClickable = true
         ll_origin_keepout.isFocusable = true
-        tv_origin_textread_skip.setOnClickListener {
-            autoCheckBoolean = true
-            quickEnterRoom(false)
-        }
+        tv_origin_textread_skip.setOnClickListener(
+            CheckDoubleClickListener {
+                autoCheckBoolean = true
+                quickEnterRoom(false)
+            }
+        )
     }
 
     fun showSignFilePage() {
