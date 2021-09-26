@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/tx_txcolor_f1f1f1"
     tools:context=".ui.search.SearchActivity">
     <com.common.widget.titlebar.TitleBar
         android:id="@+id/titlebar"

@@ -9,7 +9,6 @@ import com.tx.znsl.R
 import com.txt.sl.entity.constant.SPConstant
 import com.txt.sl.utils.ApplicationUtils
 import com.txt.sl.utils.LogUtils
-import com.txt.sl.utils.ToastUtils
 import com.txt.sl.utils.TxSPUtils
 import kotlinx.android.synthetic.main.activity_main.*
 

@@ -56,15 +56,18 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
         hideInput()
         showDialog()
     }
-    private fun showDialog(){
+
+    private fun showDialog() {
         TxPopup.Builder(this@NewOrderActivity)
-                .asConfirm("退出",
-                        "确认退出新建页面？",
-                        "取消",
-                        "是的",
-                        { finishPage() },
-                        null,
-                        false).show()
+            .asConfirm(
+                "退出",
+                "确认退出新建页面？",
+                "取消",
+                "是的",
+                { finishPage() },
+                null,
+                false
+            ).show()
     }
 
     var workerItemTypeBean: WorkItemBean? = null
@@ -73,12 +76,12 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
         super.initView()
         requestOrderBean = RequestOrderBean()
         val bean = intent.getSerializableExtra(ARG_PARAM2)
-        if (TXManagerImpl.instance!!.getTenantCode()=="remoteRecordPoc") {
+        if (TXManagerImpl.instance!!.getTenantCode() == "remoteRecordPoc") {
             line_intermediaryinstitutions.visibility(false)
             ll_intermediaryinstitutions.visibility(false)
             line_institutions.visibility(false)
             ll_institutions.visibility(false)
-        }else{
+        } else {
             line_intermediaryinstitutions.visibility(true)
             ll_intermediaryinstitutions.visibility(true)
             line_institutions.visibility(true)
@@ -133,23 +136,29 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
 //        getInsuranceData()
     }
 
-    private fun  getInsuranceData(){
-        SystemHttpRequest.getInstance().getInsuranceData(TXManagerImpl.instance?.getAgentId(), object : HttpRequestClient.RequestHttpCallBack {
-            override fun onSuccess(json: String?) {
-                val resultObject = JSONObject(json)
-                val insurancesLists = resultObject.optString("insurances")
-                if (insurancesLists.isEmpty()) {
-                    showToastMsg("返回参数为空")
-                }else{
-                    TxSPUtils.put(TXSdk.getInstance().application, SPConstant.INSURANCES_LISTS, insurancesLists)
+    private fun getInsuranceData() {
+        SystemHttpRequest.getInstance().getInsuranceData(
+            TXManagerImpl.instance?.getAgentId(),
+            object : HttpRequestClient.RequestHttpCallBack {
+                override fun onSuccess(json: String?) {
+                    val resultObject = JSONObject(json)
+                    val insurancesLists = resultObject.optString("insurances")
+                    if (insurancesLists.isEmpty()) {
+                        showToastMsg("返回参数为空")
+                    } else {
+                        TxSPUtils.put(
+                            TXSdk.getInstance().application,
+                            SPConstant.INSURANCES_LISTS,
+                            insurancesLists
+                        )
+                    }
                 }
-            }
 
-            override fun onFail(err: String?, code: Int) {
+                override fun onFail(err: String?, code: Int) {
 
-            }
+                }
 
-        })
+            })
 
     }
 
@@ -191,7 +200,11 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
             insuredAge = insuredAgeStr.toInt()
             insuredPhone = insuredPhoneStr
             insuranceAllPaymentDown = insuranceAllPaymentDownStr
-            institutions = arrayListOf("60efdba39418525ea664d9b9","60efdba39418525ea664da1d","60efdba49418525ea664e146")
+            institutions = arrayListOf(
+                "60efdba39418525ea664d9b9",
+                "60efdba39418525ea664da1d",
+                "60efdba49418525ea664e146"
+            )
             IntermediaryInstitutions = "测试机构"
             agentCode = "12313"
         }
@@ -200,12 +213,13 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
 
         if (!checkBean) {
 
-            TxPopup.Builder(this).asConfirm("提交", "信息不能为空！！！", "取消", "好的", object : OnConfirmListener {
-                override fun onConfirm() {
+            TxPopup.Builder(this)
+                .asConfirm("提交", "信息不能为空！！！", "取消", "好的", object : OnConfirmListener {
+                    override fun onConfirm() {
 
-                }
+                    }
 
-            }, null, false).show()
+                }, null, false).show()
         } else {
             baseQuickAdapter?.getData()!!.forEach {
                 if (it is ProductLevelItem) {
@@ -231,31 +245,32 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
             }
             SystemHttpRequest.getInstance().update(
                 TXManagerImpl.instance!!.getTenantCode(),
-                    TXManagerImpl.instance!!.getAgentId(),
-                    requestOrderBean, object : HttpRequestClient.RequestHttpCallBack {
-                override fun onSuccess(json: String?) {
-                    runOnUiThread {
-                        hideInput()
-                        showToastMsg("提交成功,可从投保中的双录发起！！！")
-                        finishPage()
+                TXManagerImpl.instance!!.getAgentId(),
+                requestOrderBean, object : HttpRequestClient.RequestHttpCallBack {
+                    override fun onSuccess(json: String?) {
+                        runOnUiThread {
+                            hideInput()
+                            showToastMsg("提交成功,可从投保中的双录发起！！！")
+                            finishPage()
+                        }
                     }
-                }
 
-                override fun onFail(err: String?, code: Int) {
-                    runOnUiThread {
-                        hideInput()
-                        TxPopup.Builder(this@NewOrderActivity).asConfirm("提交", err, "", "好的", object : OnConfirmListener {
-                            override fun onConfirm() {
+                    override fun onFail(err: String?, code: Int) {
+                        runOnUiThread {
+                            hideInput()
+                            TxPopup.Builder(this@NewOrderActivity)
+                                .asConfirm("提交", err, "", "好的", object : OnConfirmListener {
+                                    override fun onConfirm() {
 
-                            }
+                                    }
 
-                        }, null, true).show()
+                                }, null, true).show()
 
 
+                        }
                     }
-                }
 
-            }
+                }
             )
         }
 
@@ -293,12 +308,14 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data)
         when (resultCode) {
             12000 -> {
-                val mRequestSubOrderBean = data?.extras?.getSerializable("requestSubOrderBean") as RequestSubOrderBean
+                val mRequestSubOrderBean =
+                    data?.extras?.getSerializable("requestSubOrderBean") as RequestSubOrderBean
 
                 val postion = data?.extras?.getInt(NewOrderSubActivity.POSTION, -1)
                 if (-1 != postion) {
                     //只需要更新数据
-                    val mProductLevelItem = baseQuickAdapter?.getData()?.get(postion!! - 1) as ProductLevelItem
+                    val mProductLevelItem =
+                        baseQuickAdapter?.getData()?.get(postion!! - 1) as ProductLevelItem
                     mProductLevelItem.insuranceName = mRequestSubOrderBean.insuranceName
                     mProductLevelItem.insuranceIsMain = mRequestSubOrderBean.insuranceIsMain
                     mProductLevelItem.subItems[0] = mRequestSubOrderBean
@@ -356,7 +373,10 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
         val jsonarr = json.getJSONArray("data")
 
         TxLogUtils.i("${jsonarr}")
-        mDataList = Gson().fromJson<java.util.ArrayList<OrderBean>>(jsonarr.toString(), object : TypeToken<java.util.ArrayList<OrderBean>>() {}.type)
+        mDataList = Gson().fromJson<java.util.ArrayList<OrderBean>>(
+            jsonarr.toString(),
+            object : TypeToken<java.util.ArrayList<OrderBean>>() {}.type
+        )
         initRelationshipPicker()
 
         initSaleFromPicker()
@@ -367,6 +387,18 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
         initInsuredGenderPicker()
         initInsuredCertificateTypePicker()
         initPolicyholderCertificateTypePicker1()
+        SystemHttpRequest.getInstance()
+            .getRecordInstitutionList(TXManagerImpl.instance!!.getTenantId(),
+                object : HttpRequestClient.RequestHttpCallBack {
+                    override fun onSuccess(json: String?) {
+
+                    }
+
+                    override fun onFail(err: String?, code: Int) {
+
+                    }
+
+                })
     }
 
 
@@ -380,51 +412,83 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
         }
 
 
-        relationshipOptions = OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
-            tv_relationship.apply {
-                text = dataList[options1]
-                setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.tx_txcolor_000000))
-            }
-            if ("本人" == dataList[options1]) {
-                et_insurancePaymentDown.setText(et_policyholderName.text)
-                et_insuredCertificateNo.setText(et_policyholderCertificateNo.text)
-                et_insuredAge.setText(et_policyholderAge.text)
-                et_insuredPhone.setText(et_policyholderPhone.text)
-                requestOrderBean?.insuredCertificateType = requestOrderBean?.policyholderCertificateType!!
-                requestOrderBean?.insuredGender = requestOrderBean?.policyholderGender!!
+        relationshipOptions =
+            OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
+                tv_relationship.apply {
+                    text = dataList[options1]
+                    setTextColor(
+                        ContextCompat.getColor(
+                            this@NewOrderActivity,
+                            R.color.tx_txcolor_000000
+                        )
+                    )
+                }
+                if ("本人" == dataList[options1]) {
+                    et_insurancePaymentDown.setText(et_policyholderName.text)
+                    et_insuredCertificateNo.setText(et_policyholderCertificateNo.text)
+                    et_insuredAge.setText(et_policyholderAge.text)
+                    et_insuredPhone.setText(et_policyholderPhone.text)
+                    requestOrderBean?.insuredCertificateType =
+                        requestOrderBean?.policyholderCertificateType!!
+                    requestOrderBean?.insuredGender = requestOrderBean?.policyholderGender!!
 
-                tv_insuredCertificateType.apply {
-                    text = tv_policyholderCertificateType.text
-                    setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.tx_txcolor_000000))
-                }
+                    tv_insuredCertificateType.apply {
+                        text = tv_policyholderCertificateType.text
+                        setTextColor(
+                            ContextCompat.getColor(
+                                this@NewOrderActivity,
+                                R.color.tx_txcolor_000000
+                            )
+                        )
+                    }
 
-                tv_insuredGender.apply {
-                    text = tv_policyholderGender.text
-                    setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.tx_txcolor_000000))
-                }
-            } else {
-                et_insurancePaymentDown.setText("")
-                et_insuredCertificateNo.setText("")
-                et_insuredAge.setText("")
-                et_insuredPhone.setText("")
+                    tv_insuredGender.apply {
+                        text = tv_policyholderGender.text
+                        setTextColor(
+                            ContextCompat.getColor(
+                                this@NewOrderActivity,
+                                R.color.tx_txcolor_000000
+                            )
+                        )
+                    }
+                } else {
+                    et_insurancePaymentDown.setText("")
+                    et_insuredCertificateNo.setText("")
+                    et_insuredAge.setText("")
+                    et_insuredPhone.setText("")
 
-                requestOrderBean?.insuredCertificateType = ""
-                requestOrderBean?.insuredGender = ""
-                tv_insuredCertificateType.apply {
-                    text = "请选择"
-                    setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.tx_txcolor_A5A7AC))
+                    requestOrderBean?.insuredCertificateType = ""
+                    requestOrderBean?.insuredGender = ""
+                    tv_insuredCertificateType.apply {
+                        text = "请选择"
+                        setTextColor(
+                            ContextCompat.getColor(
+                                this@NewOrderActivity,
+                                R.color.tx_txcolor_A5A7AC
+                            )
+                        )
+                    }
+                    tv_insuredCertificateType.apply {
+                        text = "请选择"
+                        setTextColor(
+                            ContextCompat.getColor(
+                                this@NewOrderActivity,
+                                R.color.tx_txcolor_A5A7AC
+                            )
+                        )
+                    }
+                    tv_insuredGender.apply {
+                        text = "请选择"
+                        setTextColor(
+                            ContextCompat.getColor(
+                                this@NewOrderActivity,
+                                R.color.tx_txcolor_A5A7AC
+                            )
+                        )
+                    }
                 }
-                tv_insuredCertificateType.apply {
-                    text = "请选择"
-                    setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.tx_txcolor_A5A7AC))
-                }
-                tv_insuredGender.apply {
-                    text = "请选择"
-                    setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.tx_txcolor_A5A7AC))
-                }
-            }
-            requestOrderBean?.relationship = data?.options?.get(options1)?.key!!
-        })
+                requestOrderBean?.relationship = data?.options?.get(options1)?.key!!
+            })
                 .setTitleText(data?.name)
                 .setDividerColor(Color.BLACK)
                 .setTextColorCenter(Color.BLACK)
@@ -447,15 +511,21 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
         data?.options?.forEach {
             dataList.add(it.name)
         }
-        policyholderCertificateTypeOptions1 = OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
-            tv_agentCertificateType.apply {
-                text = dataList[options1]
-                setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.tx_txcolor_000000))
-            }
-            requestOrderBean?.agentCertificateType = data?.options?.get(options1)?.key!!
+        policyholderCertificateTypeOptions1 =
+            OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
+                tv_agentCertificateType.apply {
+                    text = dataList[options1]
+                    setTextColor(
+                        ContextCompat.getColor(
+                            this@NewOrderActivity,
+                            R.color.tx_txcolor_000000
+                        )
+                    )
+                }
+                requestOrderBean?.agentCertificateType = data?.options?.get(options1)?.key!!
 
 
-        })
+            })
                 .setDividerColor(Color.BLACK)
                 .setTextColorCenter(Color.BLACK)
                 .setContentTextSize(20)
@@ -485,23 +555,35 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
         data?.options?.forEach {
             dataList.add(it.name)
         }
-        policyholderCertificateTypeOptions = OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
-            if (insuredPerson) {
-                tv_insuredCertificateType.apply {
-                    text = dataList[options1]
-                    setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.tx_txcolor_000000))
+        policyholderCertificateTypeOptions =
+            OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
+                if (insuredPerson) {
+                    tv_insuredCertificateType.apply {
+                        text = dataList[options1]
+                        setTextColor(
+                            ContextCompat.getColor(
+                                this@NewOrderActivity,
+                                R.color.tx_txcolor_000000
+                            )
+                        )
+                    }
+                    requestOrderBean?.insuredCertificateType = data?.options?.get(options1)?.key!!
+                } else {
+                    tv_policyholderCertificateType.apply {
+                        text = dataList[options1]
+                        setTextColor(
+                            ContextCompat.getColor(
+                                this@NewOrderActivity,
+                                R.color.tx_txcolor_000000
+                            )
+                        )
+                    }
+                    requestOrderBean?.policyholderCertificateType =
+                        data?.options?.get(options1)?.key!!
                 }
-                requestOrderBean?.insuredCertificateType = data?.options?.get(options1)?.key!!
-            } else {
-                tv_policyholderCertificateType.apply {
-                    text = dataList[options1]
-                    setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.tx_txcolor_000000))
-                }
-                requestOrderBean?.policyholderCertificateType = data?.options?.get(options1)?.key!!
-            }
 
 
-        })
+            })
                 .setDividerColor(Color.BLACK)
                 .setTextColorCenter(Color.BLACK)
                 .setContentTextSize(20)
@@ -534,13 +616,19 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
             dataList.add(it.name)
         }
 
-        saleFromOptions = OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
-            tv_saleFrom.apply {
-                text = dataList[options1]
-                setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.tx_txcolor_000000))
-            }
-            requestOrderBean?.saleFrom = data?.options?.get(options1)?.key!!
-        })
+        saleFromOptions =
+            OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
+                tv_saleFrom.apply {
+                    text = dataList[options1]
+                    setTextColor(
+                        ContextCompat.getColor(
+                            this@NewOrderActivity,
+                            R.color.tx_txcolor_000000
+                        )
+                    )
+                }
+                requestOrderBean?.saleFrom = data?.options?.get(options1)?.key!!
+            })
                 .setTitleText(data?.name)
                 .setDividerColor(Color.BLACK)
                 .setTextColorCenter(Color.BLACK)
@@ -565,13 +653,19 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
             dataList.add(it.name)
         }
 
-        taskFromOptions = OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
-            tv_taskFrom.apply {
-                text = dataList[options1]
-                setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.tx_txcolor_000000))
-            }
-            requestOrderBean?.taskFrom = data?.options?.get(options1)?.key!!
-        })
+        taskFromOptions =
+            OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
+                tv_taskFrom.apply {
+                    text = dataList[options1]
+                    setTextColor(
+                        ContextCompat.getColor(
+                            this@NewOrderActivity,
+                            R.color.tx_txcolor_000000
+                        )
+                    )
+                }
+                requestOrderBean?.taskFrom = data?.options?.get(options1)?.key!!
+            })
                 .setTitleText(data?.name)
                 .setDividerColor(Color.BLACK)
                 .setTextColorCenter(Color.BLACK)
@@ -597,13 +691,19 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
             dataList.add(it.name)
         }
 
-        policyholderGenderOptions = OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
-            tv_policyholderGender.apply {
-                text = dataList[options1]
-                setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.tx_txcolor_000000))
-            }
-            requestOrderBean?.policyholderGender = data?.options?.get(options1)?.key!!
-        })
+        policyholderGenderOptions =
+            OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
+                tv_policyholderGender.apply {
+                    text = dataList[options1]
+                    setTextColor(
+                        ContextCompat.getColor(
+                            this@NewOrderActivity,
+                            R.color.tx_txcolor_000000
+                        )
+                    )
+                }
+                requestOrderBean?.policyholderGender = data?.options?.get(options1)?.key!!
+            })
                 .setTitleText(data?.name)
                 .setDividerColor(Color.BLACK)
                 .setTextColorCenter(Color.BLACK)
@@ -628,13 +728,19 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
             dataList.add(it.name)
         }
 
-        insuredGenderOptions = OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
-            tv_insuredGender.apply {
-                text = dataList[options1]
-                setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.tx_txcolor_000000))
-            }
-            requestOrderBean?.insuredGender = data?.options?.get(options1)?.key!!
-        })
+        insuredGenderOptions =
+            OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
+                tv_insuredGender.apply {
+                    text = dataList[options1]
+                    setTextColor(
+                        ContextCompat.getColor(
+                            this@NewOrderActivity,
+                            R.color.tx_txcolor_000000
+                        )
+                    )
+                }
+                requestOrderBean?.insuredGender = data?.options?.get(options1)?.key!!
+            })
                 .setTitleText(data?.name)
                 .setDividerColor(Color.BLACK)
                 .setTextColorCenter(Color.BLACK)
@@ -661,13 +767,19 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
             dataList.add(it.name)
         }
 
-        insuredCertificateTypeOptions = OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
-            tv_insuredCertificateType.apply {
-                text = dataList[options1]
-                setTextColor(ContextCompat.getColor(this@NewOrderActivity, R.color.tx_txcolor_000000))
-            }
-            requestOrderBean?.insuredCertificateType = data?.options?.get(options1)?.key!!
-        })
+        insuredCertificateTypeOptions =
+            OptionsPickerBuilder(this, OnOptionsSelectListener { options1, options2, options3, v ->
+                tv_insuredCertificateType.apply {
+                    text = dataList[options1]
+                    setTextColor(
+                        ContextCompat.getColor(
+                            this@NewOrderActivity,
+                            R.color.tx_txcolor_000000
+                        )
+                    )
+                }
+                requestOrderBean?.insuredCertificateType = data?.options?.get(options1)?.key!!
+            })
                 .setTitleText(data?.name)
                 .setDividerColor(Color.BLACK)
                 .setTextColorCenter(Color.BLACK)

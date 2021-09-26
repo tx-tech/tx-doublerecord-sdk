@@ -2564,35 +2564,46 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                         "connectRoom" -> {
                             runOnUiThread {
                                 page_error.visibility(false)
-                                if (data.has("step")) {
-                                    stepDataNode = data.getJSONObject("step")
-                                    stepDataNodeType = stepDataNode!!.optString("baseType", "")
-                                    handlePage(stepDataNodeType)
+                                var finished = data.optBoolean("finished", false)
+                                if (finished) { //如果type 为roomMessage 就不处理 为显示是否有无人脸
+                                    runOnUiThread {
+                                        showEndPage()
+                                        initEndRecyclerview(data.optJSONArray("finishedStep"))
+                                        showLinkName("", "")
+                                    }
                                 } else {
-                                    //
-                                    //开始录制节点
-                                    if (tv_skip.text == "开始录制") {
-                                        pushMessage(JSONObject().apply {
-                                            put("type", "recordExchange")
-                                            put("serviceId", mServiceId)
-                                            put("step", JSONObject().apply {
-                                                put("roomType", "recordExchange")
-                                                put(
-                                                    "roomMessage",
-                                                    jsonObject1!!.getJSONArray("process")
-                                                )
+                                    if (data.has("step")) {
+                                        stepDataNode = data.getJSONObject("step")
+                                        stepDataNodeType = stepDataNode!!.optString("baseType", "")
+                                        handlePage(stepDataNodeType)
+                                    } else {
+                                        //
+                                        //开始录制节点
+                                        if (tv_skip.text == "开始录制") {
+                                            pushMessage(JSONObject().apply {
+                                                put("type", "recordExchange")
+                                                put("serviceId", mServiceId)
+                                                put("step", JSONObject().apply {
+                                                    put("roomType", "recordExchange")
+                                                    put(
+                                                        "roomMessage",
+                                                        jsonObject1!!.getJSONArray("process")
+                                                    )
+                                                })
+                                            }, object : RoomHttpCallBack {
+                                                override fun onSuccess(json: String?) {
+
+                                                }
+
+                                                override fun onFail(err: String?, code: Int) {
+
+                                                }
                                             })
-                                        }, object : RoomHttpCallBack {
-                                            override fun onSuccess(json: String?) {
+                                        }
 
-                                            }
-
-                                            override fun onFail(err: String?, code: Int) {
-
-                                            }
-                                        })
                                     }
                                 }
+
 
                             }
                         }
