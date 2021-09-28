@@ -19,7 +19,7 @@ public class App : Application() {
         txConfig.wxKey = "wx1fafe1ec5a12a7a8" //双录测试环境
 //        txConfig.wxKey = "wx716f1319f5dd623a"
         //dev 小程序开发版本  TEST 体验版本 RELEASE 正式颁布
-        txConfig.miniprogramType = TXSdk.Environment.TEST
+        txConfig.miniprogramType = TXSdk.Environment.RELEASE
         //小程序跳转参数
 //        txConfig.userName = "gh_fe0a27ed0ba5"
         txConfig.userName = "gh_72cea2621d8b"  //公司测试环境小程序
