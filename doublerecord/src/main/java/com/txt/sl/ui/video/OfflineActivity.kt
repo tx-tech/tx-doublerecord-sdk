@@ -8,6 +8,7 @@ import android.media.AudioManager
 import android.os.*
 import android.support.annotation.RequiresApi
 import android.support.v4.content.ContextCompat
+import android.support.v4.widget.NestedScrollView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Base64
@@ -999,8 +1000,9 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                             } else {
                                 getString(R.string.tx_title_ready)
                             }
+                            var title1 = getString(R.string.tx_title_ready_test)
                             mTrtcVideolayout?.setPersonView(mSelfInsurance)
-                            showReadNextPage("", title)
+                            showReadNextPage("", title1)
                             mTrtcVideolayout?.setll_remote_skip(
                                 "调整好位置后，请点击【下一步】",
                                 View.VISIBLE,
@@ -1211,10 +1213,8 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             // 显示文字的view
             page_readnextPage1?.visibility = View.VISIBLE
             page_readnextPage1?.findViewById<TextView>(R.id.tv_readNext_content)?.text = content
-
         } else {
             page_readnextPage1?.visibility = View.GONE
-//            mTextBusinessLayout?.visibility = View.GONE
         }
 
         isCacheLeftVideo = checkVideoToRight
@@ -1242,6 +1242,16 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         page_readnextPage?.visibility(true)
         tv_skip.visibility(false)
         tv_continue.visibility(false)
+        startTtsController(titleContent, object : RoomHttpCallBack {
+            override fun onSuccess(json: String?) {
+
+            }
+
+            override fun onFail(err: String?, code: Int) {
+
+            }
+
+        })
         checkLeftVideoToRightScreen(page_readnextPage!!, false, titleContent)
 
     }
@@ -3013,9 +3023,16 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
                 override fun onSliceSuccess(
                     request: AudioRecognizeRequest?,
-                    result: AudioRecognizeResult?,
+                    result: AudioRecognizeResult,
                     order: Int
                 ) {
+                    runOnUiThread {
+                        val replaceTV = replaceTV(result?.text)
+                        page_asr_userPage!!.findViewById<TextView>(R.id.tv_user_content2).text =
+                            "${replaceTV}"
+                        page_asr_userPage!!.findViewById<TextView>(R.id.tv_user_content2)
+                            .visibility(true)
+                    }
                     LogUtils.i("onSliceSuccess-------${result?.text}")
                 }
 

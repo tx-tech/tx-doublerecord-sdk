@@ -608,6 +608,21 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                             }
 
                         })
+                        pushMessage(JSONObject().apply {
+                            put("serviceId", mServiceId)
+                            put("type", "voiceSpeed")
+                            put("step", JSONObject().apply {
+                                put("roomType", "voiceSpeed")
+                                put("voiceSpeed", voiceSpeed)
+                            })
+                        }, object : RoomHttpCallBack {
+                            override fun onSuccess(json: String?) {
+
+                            }
+
+                            override fun onFail(err: String?, code: Int) {
+                            }
+                        })
                     }
 
                     override fun onConfirm() {
@@ -1245,7 +1260,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
                     })
             } else {
-
+                destroylongTextTtsController()
                 if (userId == mInsurantId) {
                     mTrtcrightvideolayoutmanager?.updateVideoStatus(
                         userId,
@@ -1268,7 +1283,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
         // 错误通知监听，错误通知意味着 SDK 不能继续运行
         override fun onError(errCode: Int, errMsg: String, extraInfo: Bundle) {
-            Log.d(Companion.TAG, "sdk callback onError")
+            LogUtils.d(Companion.TAG, "sdk callback onError")
             val activity = mContext.get()
             if (activity != null) {
                 showToastMsg("onError: $errMsg[$errCode]")
@@ -2612,6 +2627,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                             runOnUiThread {
                                 LogUtils.i("exitRoom")
                                 cancelAbsCredentialProvider()
+                                destroylongTextTtsController()
                                 hideVideoView()
                                 layout_right.visibility = View.VISIBLE
                                 page_error.visibility(true)
@@ -3387,14 +3403,10 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
         credentialProvider = LocalCredentialProvider(mSecretKey)
 
-        // 用户配置
-        //        ClientConfiguration.setServerProtocolHttps(false) // 是否启用https，默认启用
-
         ClientConfiguration.setMaxAudioRecognizeConcurrentNumber(2) // 语音识别的请求的最大并发数
 
         ClientConfiguration.setMaxRecognizeSliceConcurrentNumber(10) // 单个请求的分片最大并发数
 
-        // 为了方便用户测试，sdk提供了本地签名，但是为了secretKey的安全性，正式环境下请自行在第三方服务器上生成签名。
 
     }
 
@@ -3424,6 +3436,8 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                     order: Int
                 ) {
                     LogUtils.i("onSliceSuccess-------${result?.text}")
+                    tv_user_content2.visibility(true)
+                    tv_user_content2.text = result?.text
                 }
 
                 override fun onSegmentSuccess(
@@ -3767,6 +3781,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             LogUtils.i("exitRoom")
             if (page_error.visibility == View.GONE) {
                 cancelAbsCredentialProvider()
+                destroylongTextTtsController()
                 hideVideoView()
                 layout_right.visibility = View.VISIBLE
                 page_error.visibility(true)

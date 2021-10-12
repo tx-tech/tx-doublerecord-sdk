@@ -10,6 +10,7 @@
     android:visibility="visible">
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/page_tts_nestedscrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

@@ -19,13 +19,14 @@
         android:background="@color/tx_txwhite"
         >
 
-
         <ImageView
             android:id="@+id/trtc_ic_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/tx_arrows_left_ic" />
+            android:padding="@dimen/tx_dimen_10dp"
+            android:layout_marginLeft="@dimen/tx_dimen_10dp"
+            android:src="@drawable/tx_icon_train_query_list_left_arrow" />
+
 
 
         <TextView
