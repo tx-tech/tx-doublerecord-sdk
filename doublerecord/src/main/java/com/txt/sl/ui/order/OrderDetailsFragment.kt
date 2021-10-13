@@ -14,13 +14,9 @@ import com.txt.sl.http.https.HttpRequestClient
 import com.txt.sl.system.SystemHttpRequest
 import com.txt.sl.ui.adpter.OrderDetailsItemAdapter
 import com.txt.sl.ui.adpter.OrderExpandableItemAdapter1
-import com.txt.sl.ui.home.BaseLazyViewPagerFragment
-import com.txt.sl.ui.video.visibility
+import com.txt.sl.base.BaseLazyViewPagerFragment
 import com.txt.sl.utils.GsonUtils
 import com.txt.sl.utils.LogUtils
-import kotlinx.android.synthetic.main.tx_activity_new_order.*
-import kotlinx.android.synthetic.main.tx_activity_order_details_page.*
-import kotlinx.android.synthetic.main.tx_fragment_order_details1.*
 import kotlinx.android.synthetic.main.tx_fragment_order_details1.nestedscrollview
 import kotlinx.android.synthetic.main.tx_fragment_order_details1.recyclerview
 import kotlinx.android.synthetic.main.tx_fragment_order_details1.recyclerview1

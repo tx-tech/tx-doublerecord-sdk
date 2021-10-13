@@ -19,8 +19,8 @@
         android:id="@+id/ll_searchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/tx_dimen_10dp"
         android:background="@color/tx_txwhite"
+        android:layout_marginTop="@dimen/tx_dp_10"
         android:orientation="horizontal"
         android:layout_below="@+id/titlebar"
         >

@@ -1,4 +1,4 @@
-package com.txt.sl.ui.home;
+package com.txt.sl.base;
 
 import android.app.Activity;
 import android.content.Context;

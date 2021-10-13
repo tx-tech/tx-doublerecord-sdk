@@ -505,6 +505,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                                 jsonObject.toString()
                                             )
                                         }
+
                                         finish()
                                     }
 
@@ -784,6 +785,9 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onDestroy() {
+        sendBroadcast( Intent().apply {
+            action = HomeActivity.br_action
+        })
         SystemBaiduLocation.instance!!.stopLocationService()
         destroylongTextTtsController()
         stopCheckPhotoInVideo()
