@@ -162,6 +162,8 @@ public class CheckRemoteDialog extends Dialog implements View.OnClickListener, R
 
             tv_remote.setBackground(ContextCompat.getDrawable(mContext, R.drawable.tx_button_gray_all_20));
             group.setVisibility(View.GONE);
+            mMemberArray.clear();
+            mMemberArray.add("agent");
         } else {
 
             resetMembers();

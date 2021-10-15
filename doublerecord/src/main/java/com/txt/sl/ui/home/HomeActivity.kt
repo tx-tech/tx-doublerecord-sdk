@@ -280,13 +280,14 @@ class HomeActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClickListener {
 
     var applyStatusParams  = ""
     fun refreshData() {
+        val dialog = TxPopup.Builder(this).asLoading("获取工单中...").show()
         LogUtils.i("applyStatusParams", applyStatusParams!!)
         tv_unupload.visibility = if (applyStatusParams.equals("UnUploaded")) {
             View.VISIBLE
         } else {
             View.GONE
         }
-
+        mAdapter.setNewData(null)
         SystemHttpRequest.getInstance()
             .list(applyStatusParams, object : HttpRequestClient.RequestHttpCallBack {
                 override fun onSuccess(json: String?) {
@@ -338,6 +339,7 @@ class HomeActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClickListener {
                     }
 
                     runOnUiThread {
+                        dialog.dismiss()
                         mDataList.clear()
                         swipeRefreshLayout?.isRefreshing = false
 
@@ -374,6 +376,7 @@ class HomeActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClickListener {
 
                 override fun onFail(err: String?, code: Int) {
                     runOnUiThread {
+                        dialog.dismiss()
                         swipeRefreshLayout.isRefreshing = false
                     }
                     LogUtils.i("$err")

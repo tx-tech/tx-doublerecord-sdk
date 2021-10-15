@@ -155,7 +155,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         when (keyCode) {
             KeyEvent.KEYCODE_VOLUME_UP -> {
                 audioManager?.adjustStreamVolume(
-                    AudioManager.STREAM_MUSIC,
+                    AudioManager.STREAM_VOICE_CALL,
                     AudioManager.ADJUST_RAISE,
                     AudioManager.FX_FOCUS_NAVIGATION_UP
                 )
@@ -163,7 +163,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             }
             KeyEvent.KEYCODE_VOLUME_DOWN -> {
                 audioManager?.adjustStreamVolume(
-                    AudioManager.STREAM_MUSIC,
+                    AudioManager.STREAM_VOICE_CALL,
                     AudioManager.ADJUST_LOWER,
                     AudioManager.FX_FOCUS_NAVIGATION_UP
                 )
@@ -734,9 +734,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         ll_title.setBackgroundColor(ContextCompat.getColor(this, R.color.tx_txwhite))
         mTrtcrightvideolayoutmanager?.visibility(true)
         mTRTCCloud = TRTCCloud.sharedInstance(applicationContext)
-
         mTRTCCloud?.setListener(TRTCCloudImplListener(this@RoomActivity))
-
         allocCloudVideoView = mTrtcrightvideolayoutmanager?.allocCloudVideoView(
             mUserId,
             "agent",
@@ -756,7 +754,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 //        mTRTCCloud?.deviceManager?.setAudioRoute(TXDeviceManager.TXAudioRoute.TXAudioRouteSpeakerphone)
 
         // 开启本地声音采集并上行
-        mTRTCCloud?.startLocalAudio(TRTCCloudDef.TRTC_AUDIO_QUALITY_MUSIC)
+        mTRTCCloud?.startLocalAudio(TRTCCloudDef.TRTC_AUDIO_QUALITY_DEFAULT)
         // 开启本地画面采集并上行
         mTRTCCloud?.startLocalPreview(mIsFrontCamera, allocCloudVideoView)
 
@@ -1341,7 +1339,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         tv_checkenvstate.text = "检测中"
         tv_checkenvstate.background = ContextCompat.getDrawable(this, R.drawable.tx_checkenv_bg)
         val envData = CheckEnvUtils.getInstance().getEnvData()
-        CheckEnvUtils.getInstance().startCheckEnv(this, false)
+        CheckEnvUtils.getInstance().startCheckEnv(this, true)
         checkenvItemAdapter?.setNewData(envData)
         var timer = object : CountDownTimer(3000, 1000) {
             @SuppressLint("SetTextI18n")
@@ -1350,7 +1348,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             }
 
             override fun onFinish() {
-                CheckEnvUtils.getInstance().getCheckEnv(this@RoomActivity, false)
+                CheckEnvUtils.getInstance().getCheckEnv(this@RoomActivity, true)
                 checkenvItemAdapter?.notifyDataSetChanged()
                 CheckEnvUtils.getInstance().stopCheckEnv(this@RoomActivity)
                 if (CheckEnvUtils.getInstance().checkvolumeAndMemory) {
@@ -1423,19 +1421,19 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         page_tts.visibility(true)
 
         tts_page_content.text = contentStr
-        startTtsController(contentStr, object : OfflineActivity.RoomHttpCallBack {
-            override fun onSuccess(json: String?) {
-                autoCheckBoolean = true
-                failType = ""
-                failReason = ""
-                quickEnterRoom(isSystem = true)
-            }
-
-            override fun onFail(err: String?, code: Int) {
-
-            }
-
-        })
+//        startTtsController(contentStr, object : OfflineActivity.RoomHttpCallBack {
+//            override fun onSuccess(json: String?) {
+//                autoCheckBoolean = true
+//                failType = ""
+//                failReason = ""
+//                quickEnterRoom(isSystem = true)
+//            }
+//
+//            override fun onFail(err: String?, code: Int) {
+//
+//            }
+//
+//        })
     }
 
     private fun showUserASR(prompt: String, fillterData: String, isAgent: Boolean) {
@@ -1557,10 +1555,10 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                 )
                 "insured"
             }
-
+            mTrtcrightvideolayoutmanager?.updateOcrLayout(userType, View.VISIBLE)
             startTtsController(title, object : OfflineActivity.RoomHttpCallBack {
                 override fun onSuccess(json: String?) {
-                    mTrtcrightvideolayoutmanager?.updateOcrLayout(userType, View.VISIBLE)
+
                 }
 
                 override fun onFail(err: String?, code: Int) {
@@ -2196,7 +2194,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         tv_skip.text = when (buttonStr) {
             "startRecord" -> {
                 tv_skip.visibility(true)
-                tv_continue.visibility(true)
+                tv_continue.visibility(false)
                 "开始录制"
             }
             "next" -> {
@@ -3440,8 +3438,8 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                     order: Int
                 ) {
                     LogUtils.i("onSliceSuccess-------${result?.text}")
-                    tv_user_content2.visibility(true)
-                    tv_user_content2.text = result?.text
+//                    tv_user_content2.visibility(true)
+//                    tv_user_content2.text = result?.text
                 }
 
                 override fun onSegmentSuccess(
@@ -4121,44 +4119,44 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
 
     fun startTtsController(ttsStr: String, callBack: OfflineActivity.RoomHttpCallBack) {
-        destroylongTextTtsController()
-        try {
-            longTextTtsController?.startTts(
-                ttsStr,
-                mTtsExceHandler,
-                object : QCloudPlayerCallback {
-                    override fun onTTSPlayStart() {
-
-                    }
-
-                    override fun onTTSPlayProgress(p0: String?, p1: Int) {
-                    }
-
-                    override fun onTTSPlayAudioCachePath(p0: String?) {
-                    }
-
-                    override fun onTTSPlayWait() {
-                    }
-
-                    override fun onTTSPlayNext() {
-                    }
-
-                    override fun onTTSPlayStop() {
-                    }
-
-                    override fun onTTSPlayEnd() {
-                        callBack.onSuccess("")
-                    }
-
-                    override fun onTTSPlayResume() {
-                    }
-
-
-                })
-        } catch (e: TtsNotInitializedException) {
-            LogUtils.i("${e.message}")
-            callBack.onFail(e.message, 0)
-        }
+//        destroylongTextTtsController()
+//        try {
+//            longTextTtsController?.startTts(
+//                ttsStr,
+//                mTtsExceHandler,
+//                object : QCloudPlayerCallback {
+//                    override fun onTTSPlayStart() {
+//
+//                    }
+//
+//                    override fun onTTSPlayProgress(p0: String?, p1: Int) {
+//                    }
+//
+//                    override fun onTTSPlayAudioCachePath(p0: String?) {
+//                    }
+//
+//                    override fun onTTSPlayWait() {
+//                    }
+//
+//                    override fun onTTSPlayNext() {
+//                    }
+//
+//                    override fun onTTSPlayStop() {
+//                    }
+//
+//                    override fun onTTSPlayEnd() {
+//                        callBack.onSuccess("")
+//                    }
+//
+//                    override fun onTTSPlayResume() {
+//                    }
+//
+//
+//                })
+//        } catch (e: TtsNotInitializedException) {
+//            LogUtils.i("${e.message}")
+//            callBack.onFail(e.message, 0)
+//        }
 
     }
 

@@ -1043,7 +1043,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         hideView()
         room_time.visibility(true)
         ll_showLink.visibility(true)
-        tv_continue.visibility(true)
+        tv_continue.visibility(false)
         tv_skip.visibility(true)
         tv_skip.text = "开始录制"
         val jsonArray = jsonObject1!!.optJSONArray("process")
@@ -1246,16 +1246,6 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         page_readnextPage?.visibility(true)
         tv_skip.visibility(false)
         tv_continue.visibility(false)
-        startTtsController(titleContent, object : RoomHttpCallBack {
-            override fun onSuccess(json: String?) {
-
-            }
-
-            override fun onFail(err: String?, code: Int) {
-
-            }
-
-        })
         checkLeftVideoToRightScreen(page_readnextPage!!, false, titleContent)
 
     }
