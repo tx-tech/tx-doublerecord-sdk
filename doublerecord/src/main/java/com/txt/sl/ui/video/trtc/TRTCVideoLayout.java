@@ -27,7 +27,9 @@ import android.widget.TextView;
 import com.tencent.rtmp.ui.TXCloudVideoView;
 import com.tencent.trtc.TRTCCloudDef;
 import com.txt.sl.R;
+import com.txt.sl.utils.CheckDoubleClickListener;
 import com.txt.sl.utils.MainThreadUtil;
+import com.txt.sl.utils.OnCheckDoubleClick;
 import com.txt.sl.widget.HollowDoubleOutView;
 import com.txt.sl.widget.HollowOutView;
 import com.txt.sl.widget.RoundView;
@@ -52,11 +54,12 @@ import java.util.HashMap;
  * <p>
  * 2. 对{@link TXCloudVideoView} 与逻辑 UI 进行组合，在 muteLocal、音量回调等情况，能够进行 UI 相关的变化。若您的项目中，也相关的业务逻辑，可以参照 Demo 的相关实现。
  */
-public class TRTCVideoLayout extends RelativeLayout implements View.OnClickListener, BusinessVideo {
+public class TRTCVideoLayout extends RelativeLayout implements View.OnClickListener, BusinessVideo, OnCheckDoubleClick {
     public WeakReference<IVideoLayoutListener> mWefListener;
     private Context mContext;
     private TXCloudVideoView mVideoView;
     private OnClickListener mClickListener;
+    private CheckDoubleClickListener mDClickListener;
     private GestureDetector mSimpleOnGestureListener;
     private ProgressBar mPbAudioVolume;
     private LinearLayout mLlController;
@@ -427,10 +430,11 @@ public class TRTCVideoLayout extends RelativeLayout implements View.OnClickListe
         ll_page12_result_fail = (TextView) mVgFuc.findViewById(R.id.ll_page12_result_fail);
         iv_ocr = (ImageView) mVgFuc.findViewById(R.id.iv_ocr);
 //        mVideoView.setOnClickListener(this);
-        tv_remote_skip.setOnClickListener(this);
-        ll_page_voice_result_mark.setOnClickListener(this);
-        ll_page_voice_result_jump.setOnClickListener(this);
-        ll_page_voice_result_retry.setOnClickListener(this);
+        CheckDoubleClickListener checkDoubleClickListener = new CheckDoubleClickListener(this);
+        tv_remote_skip.setOnClickListener(checkDoubleClickListener);
+        ll_page_voice_result_mark.setOnClickListener(checkDoubleClickListener);
+        ll_page_voice_result_jump.setOnClickListener(checkDoubleClickListener);
+        ll_page_voice_result_retry.setOnClickListener(checkDoubleClickListener);
 //        mPbAudioVolume = (ProgressBar) mVgFuc.findViewById(R.id.trtc_pb_audio);
 //        mLlController = (LinearLayout) mVgFuc.findViewById(R.id.trtc_ll_controller);
 //        mBtnMuteVideo = (Button) mVgFuc.findViewById(R.id.trtc_btn_mute_video);
@@ -452,8 +456,8 @@ public class TRTCVideoLayout extends RelativeLayout implements View.OnClickListe
         mSimpleOnGestureListener = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onSingleTapUp(MotionEvent e) {
-                if (mClickListener != null) {
-                    mClickListener.onClick(TRTCVideoLayout.this);
+                if (mDClickListener != null) {
+                    mDClickListener.onClick(TRTCVideoLayout.this);
                 }
                 return true;
             }
@@ -491,7 +495,7 @@ public class TRTCVideoLayout extends RelativeLayout implements View.OnClickListe
 
     @Override
     public void setOnClickListener(@Nullable OnClickListener l) {
-        mClickListener = l;
+        mDClickListener = (CheckDoubleClickListener) l;
     }
 
 
@@ -501,33 +505,7 @@ public class TRTCVideoLayout extends RelativeLayout implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        IVideoLayoutListener listener = mWefListener != null ? mWefListener.get() : null;
-        if (listener == null) return;
-        int id = v.getId();
-        if (id == R.id.trtc_tc_cloud_view) {
-            mEnableFill = !mEnableFill;
-            //放大
-            if (listener != null) {
-                listener.onClickFill(this, mEnableFill);
-            }
 
-        } else if (id == R.id.tv_remote_skip) {
-            if (listener != null) {
-                listener.onClickMuteInSpeakerAudio(this, true);
-            }
-        } else if (id == R.id.ll_page_voice_result_mark) {
-            if (listener != null) {
-                listener.onClickRetry(this, "0");
-            }
-        } else if (id == R.id.ll_page_voice_result_jump) {
-            if (listener != null) {
-                listener.onClickRetry(this, "1");
-            }
-        } else if (id == R.id.ll_page_voice_result_retry) {
-            if (listener != null) {
-                listener.onClickRetry(this, "2");
-            }
-        }
 //        if (id == R.id.trtc_btn_fill) {
 //            mEnableFill = !mEnableFill;
 //            if (mEnableFill) {
@@ -562,6 +540,37 @@ public class TRTCVideoLayout extends RelativeLayout implements View.OnClickListe
             mWefListener = null;
         } else {
             mWefListener = new WeakReference<>(listener);
+        }
+    }
+
+    @Override
+    public void onCheckDoubleClick(View view) {
+        IVideoLayoutListener listener = mWefListener != null ? mWefListener.get() : null;
+        if (listener == null) return;
+        int id = view.getId();
+        if (id == R.id.trtc_tc_cloud_view) {
+            mEnableFill = !mEnableFill;
+            //放大
+            if (listener != null) {
+                listener.onClickFill(this, mEnableFill);
+            }
+
+        } else if (id == R.id.tv_remote_skip) {
+            if (listener != null) {
+                listener.onClickMuteInSpeakerAudio(this, true);
+            }
+        } else if (id == R.id.ll_page_voice_result_mark) {
+            if (listener != null) {
+                listener.onClickRetry(this, "0");
+            }
+        } else if (id == R.id.ll_page_voice_result_jump) {
+            if (listener != null) {
+                listener.onClickRetry(this, "1");
+            }
+        } else if (id == R.id.ll_page_voice_result_retry) {
+            if (listener != null) {
+                listener.onClickRetry(this, "2");
+            }
         }
     }
 

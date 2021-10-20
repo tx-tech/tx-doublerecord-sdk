@@ -10,28 +10,20 @@
     android:visibility="gone"
     tools:visibility="visible">
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/page_readnext_nestedscrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tv_readNext_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-
-            <TextView
-                android:id="@+id/tv_readNext_content"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textColor="@color/tx_txcolor_333333"
-                android:layout_marginTop="@dimen/tx_dimen_5dp"
-                android:lineSpacingExtra="@dimen/tx_dimen_10dp"
-                android:textSize="@dimen/tx_dimen_14sp" />
-
-
-        </LinearLayout>
-    </ScrollView>
+            android:textColor="@color/tx_txcolor_333333"
+            android:layout_marginTop="@dimen/tx_dimen_5dp"
+            android:lineSpacingExtra="@dimen/tx_dimen_10dp"
+            android:textSize="@dimen/tx_dimen_14sp" />
+    </android.support.v4.widget.NestedScrollView>
 
 
 </LinearLayout>

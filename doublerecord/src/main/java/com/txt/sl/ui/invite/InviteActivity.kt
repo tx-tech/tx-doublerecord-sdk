@@ -7,8 +7,12 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.os.Handler
+import android.os.SystemClock
 import android.view.View
 import com.common.widget.base.BaseActivity
+import com.common.widget.dialog.TxPopup
+import com.common.widget.dialog.core.BasePopupView
+import com.common.widget.dialog.impl.LoadingPopupView
 import com.common.widget.dialog.util.PermissionConstants
 import com.tencent.mm.opensdk.constants.ConstantsAPI
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
@@ -29,6 +33,7 @@ import com.txt.sl.ui.video.Constant
 import com.txt.sl.ui.video.OfflineActivity
 import com.txt.sl.ui.video.RoomActivity
 import com.txt.sl.utils.LogUtils
+import com.txt.sl.utils.TxLogUtils
 import com.txt.sl.utils.TxPermissionConstants
 import com.txt.sl.utils.TxPermissionUtils
 import com.txt.sl.widget.LoadingView
@@ -171,19 +176,15 @@ public class InviteActivity : BaseActivity() {
         finish()
     }
 
-    private var mLoadingView: LoadingView? = null
-
+    var dialog : LoadingPopupView?= null
     fun showLoading() {
-        if (mLoadingView == null) {
-            mLoadingView = LoadingView(this, "开始录制", LoadingView.SHOWLOADING)
-        }
-        mLoadingView!!.show()
+        dialog = TxPopup.Builder(this).asLoading("开始录制")
+        dialog?.show()
     }
 
 
     fun hideLoading() {
-        if (mLoadingView != null)
-            mLoadingView!!.dismiss()
+        dialog?.dismiss()
     }
 
     private fun requestRoom(
@@ -204,21 +205,20 @@ public class InviteActivity : BaseActivity() {
             override fun onSuccess(json: String?) {
                 runOnUiThread {
                    hideLoading()
-                    Handler().postDelayed({
-                        val jsonObject = JSONObject(json)
-                        val roomId = jsonObject.getString("roomId")
-                        val agentIdStr = jsonObject.getString("agentId")
+                    TxLogUtils.i("onSuccess------${System.currentTimeMillis()}")
+                    val jsonObject = JSONObject(json)
+                    val roomId = jsonObject.getString("roomId")
+                    val agentIdStr = jsonObject.getString("agentId")
 
-                        startEnterRoom(roomId,
-                            agentIdStr,
-                            jsonObject.toString(),
-                            isRemote,
-                            selfInsurance,
-                            taskId,
-                            recordType
-                        )
+                    startEnterRoom(roomId,
+                        agentIdStr,
+                        jsonObject.toString(),
+                        isRemote,
+                        selfInsurance,
+                        taskId,
+                        recordType
+                    )
 
-                    }, 80)
 
                 }
 

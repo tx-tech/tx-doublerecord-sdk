@@ -1,6 +1,7 @@
 package com.txt.myapplication
 
 //import com.txt.video.widget.utils.ToastUtils
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +9,8 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import com.lxj.xpopup.XPopup
+import com.lxj.xpopup.interfaces.SimpleCallback
 import com.tencent.bugly.crashreport.CrashReport
 import com.txt.sl.TXSdk
 import com.txt.sl.callback.onSDKListener
@@ -85,7 +88,7 @@ class MainActivity : AppCompatActivity(), onTxPageListener {
         et_account.setText(
                 when (TXSdk.getInstance().environment) {
                     TXSdk.Environment.DEV, TXSdk.Environment.TEST -> "remoteRecordOrg"
-                    else -> "gsc_test"
+                    else -> "remoteRecordOrg"
                 }
         )
         check_bt.text = when (TXSdk.getInstance().txConfig.miniprogramType) {
@@ -96,6 +99,20 @@ class MainActivity : AppCompatActivity(), onTxPageListener {
                 "体验版本" + appEnv1
             }
             else -> "正式版本$appEnv1"
+        }
+        check_bt.setOnClickListener {
+            XPopup.Builder(this)
+                .setPopupCallback(object : SimpleCallback() {
+                    override fun onDismiss() {
+                        super.onDismiss()
+                        changeUI()
+
+                    }
+                })
+                .hasStatusBarShadow(true)
+                .autoOpenSoftInput(true)
+                .asCustom(com.natchi.base.CustomFullScreenPopup(this))
+                .show()
         }
     }
 
@@ -135,7 +152,7 @@ class MainActivity : AppCompatActivity(), onTxPageListener {
         when(pageType){
             "2","4"->{
                 flowid= if (BuildConfig.DEBUG){
-                    "202109030341"
+                    "20210923270007"
                 }else{
                     et_flowid.text.toString()
                 }
@@ -212,6 +229,44 @@ class MainActivity : AppCompatActivity(), onTxPageListener {
         }
 
 
+    }
+    @SuppressLint("SetTextI18n")
+    fun changeUI() {
+
+        var sdkVersion = "SDK：" + TXSdk.getInstance().sdkVersion
+        var strb = StringBuffer()
+        var appEnv =
+          when (TXSdk.getInstance().txConfig.miniprogramType) {
+            TXSdk.Environment.DEV -> {
+                strb.append("开发版本")
+                "小程序：开发版本"
+            }
+            TXSdk.Environment.TEST -> {
+                strb.append("体验版本")
+                "小程序：体验版本"
+            }
+            else ->{
+                strb.append("正式版本")
+                "小程序：正式版本"
+            }
+
+        }
+        tv_dep.text =sdkVersion  + "\n" + appEnv + "\n" + when (TXSdk.getInstance().environment) {
+            TXSdk.Environment.DEV ->{
+                strb.append("/开发环境")
+                "App：开发环境"
+            }
+            TXSdk.Environment.TEST ->{
+                strb.append("/测试环境")
+                "App：测试环境"
+            }
+            else ->{
+                strb.append("/正式环境")
+                "App：正式环境"
+            }
+        }
+
+        check_bt.text = "${strb.toString()}"
     }
 
 

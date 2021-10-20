@@ -56,7 +56,7 @@ class MeetingActivity : AppCompatActivity() {
                     })
                     .hasStatusBarShadow(true)
                     .autoOpenSoftInput(true)
-                    .asCustom(CustomFullScreenPopup(this))
+                    .asCustom(com.natchi.base.CustomFullScreenPopup(this))
                     .show()
 //            val filterASRPassword = filterASRPassword(et_test.text.toString())
 //            LogUtils.i("filterASRPassword"+filterASRPassword)

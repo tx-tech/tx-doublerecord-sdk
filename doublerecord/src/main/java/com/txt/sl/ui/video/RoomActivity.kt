@@ -155,7 +155,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         when (keyCode) {
             KeyEvent.KEYCODE_VOLUME_UP -> {
                 audioManager?.adjustStreamVolume(
-                    AudioManager.STREAM_MUSIC,
+                    AudioManager.STREAM_VOICE_CALL,
                     AudioManager.ADJUST_RAISE,
                     AudioManager.FX_FOCUS_NAVIGATION_UP
                 )
@@ -163,7 +163,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             }
             KeyEvent.KEYCODE_VOLUME_DOWN -> {
                 audioManager?.adjustStreamVolume(
-                    AudioManager.STREAM_MUSIC,
+                    AudioManager.STREAM_VOICE_CALL,
                     AudioManager.ADJUST_LOWER,
                     AudioManager.FX_FOCUS_NAVIGATION_UP
                 )
@@ -505,6 +505,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                                 jsonObject.toString()
                                             )
                                         }
+
                                         finish()
                                     }
 
@@ -600,13 +601,28 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                     override fun onSpeedChoose(voiceSpeed: Int, content: String) {
                         destroylongTextTtsController()
                         longTextTtsController?.setVoiceSpeed(voiceSpeed)
-                        startTtsController(content, object : OfflineActivity.RoomHttpCallBack {
+//                        startTtsController(content, object : OfflineActivity.RoomHttpCallBack {
+//                            override fun onSuccess(json: String?) {
+//                            }
+//
+//                            override fun onFail(err: String?, code: Int) {
+//                            }
+//
+//                        })
+                        pushMessage(JSONObject().apply {
+                            put("serviceId", mServiceId)
+                            put("type", "voiceSpeed")
+                            put("step", JSONObject().apply {
+                                put("roomType", "voiceSpeed")
+                                put("voiceSpeed", voiceSpeed)
+                            })
+                        }, object : RoomHttpCallBack {
                             override fun onSuccess(json: String?) {
+
                             }
 
                             override fun onFail(err: String?, code: Int) {
                             }
-
                         })
                     }
 
@@ -718,9 +734,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         ll_title.setBackgroundColor(ContextCompat.getColor(this, R.color.tx_txwhite))
         mTrtcrightvideolayoutmanager?.visibility(true)
         mTRTCCloud = TRTCCloud.sharedInstance(applicationContext)
-
         mTRTCCloud?.setListener(TRTCCloudImplListener(this@RoomActivity))
-
         allocCloudVideoView = mTrtcrightvideolayoutmanager?.allocCloudVideoView(
             mUserId,
             "agent",
@@ -740,7 +754,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 //        mTRTCCloud?.deviceManager?.setAudioRoute(TXDeviceManager.TXAudioRoute.TXAudioRouteSpeakerphone)
 
         // 开启本地声音采集并上行
-        mTRTCCloud?.startLocalAudio(TRTCCloudDef.TRTC_AUDIO_QUALITY_MUSIC)
+        mTRTCCloud?.startLocalAudio(TRTCCloudDef.TRTC_AUDIO_QUALITY_DEFAULT)
         // 开启本地画面采集并上行
         mTRTCCloud?.startLocalPreview(mIsFrontCamera, allocCloudVideoView)
 
@@ -769,6 +783,9 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onDestroy() {
+        sendBroadcast( Intent().apply {
+            action = HomeActivity.br_action
+        })
         SystemBaiduLocation.instance!!.stopLocationService()
         destroylongTextTtsController()
         stopCheckPhotoInVideo()
@@ -1245,7 +1262,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
                     })
             } else {
-
+                destroylongTextTtsController()
                 if (userId == mInsurantId) {
                     mTrtcrightvideolayoutmanager?.updateVideoStatus(
                         userId,
@@ -1268,7 +1285,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
         // 错误通知监听，错误通知意味着 SDK 不能继续运行
         override fun onError(errCode: Int, errMsg: String, extraInfo: Bundle) {
-            Log.d(Companion.TAG, "sdk callback onError")
+            LogUtils.d(Companion.TAG, "sdk callback onError")
             val activity = mContext.get()
             if (activity != null) {
                 showToastMsg("onError: $errMsg[$errCode]")
@@ -1322,7 +1339,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         tv_checkenvstate.text = "检测中"
         tv_checkenvstate.background = ContextCompat.getDrawable(this, R.drawable.tx_checkenv_bg)
         val envData = CheckEnvUtils.getInstance().getEnvData()
-        CheckEnvUtils.getInstance().startCheckEnv(this, false)
+        CheckEnvUtils.getInstance().startCheckEnv(this, true)
         checkenvItemAdapter?.setNewData(envData)
         var timer = object : CountDownTimer(3000, 1000) {
             @SuppressLint("SetTextI18n")
@@ -1331,7 +1348,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             }
 
             override fun onFinish() {
-                CheckEnvUtils.getInstance().getCheckEnv(this@RoomActivity, false)
+                CheckEnvUtils.getInstance().getCheckEnv(this@RoomActivity, true)
                 checkenvItemAdapter?.notifyDataSetChanged()
                 CheckEnvUtils.getInstance().stopCheckEnv(this@RoomActivity)
                 if (CheckEnvUtils.getInstance().checkvolumeAndMemory) {
@@ -1404,19 +1421,19 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         page_tts.visibility(true)
 
         tts_page_content.text = contentStr
-        startTtsController(contentStr, object : OfflineActivity.RoomHttpCallBack {
-            override fun onSuccess(json: String?) {
-                autoCheckBoolean = true
-                failType = ""
-                failReason = ""
-                quickEnterRoom(isSystem = true)
-            }
-
-            override fun onFail(err: String?, code: Int) {
-
-            }
-
-        })
+//        startTtsController(contentStr, object : OfflineActivity.RoomHttpCallBack {
+//            override fun onSuccess(json: String?) {
+//                autoCheckBoolean = true
+//                failType = ""
+//                failReason = ""
+//                quickEnterRoom(isSystem = true)
+//            }
+//
+//            override fun onFail(err: String?, code: Int) {
+//
+//            }
+//
+//        })
     }
 
     private fun showUserASR(prompt: String, fillterData: String, isAgent: Boolean) {
@@ -1538,17 +1555,17 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                 )
                 "insured"
             }
-
-            startTtsController(title, object : OfflineActivity.RoomHttpCallBack {
-                override fun onSuccess(json: String?) {
-                    mTrtcrightvideolayoutmanager?.updateOcrLayout(userType, View.VISIBLE)
-                }
-
-                override fun onFail(err: String?, code: Int) {
-
-                }
-
-            })
+            mTrtcrightvideolayoutmanager?.updateOcrLayout(userType, View.VISIBLE)
+//            startTtsController(title, object : OfflineActivity.RoomHttpCallBack {
+//                override fun onSuccess(json: String?) {
+//
+//                }
+//
+//                override fun onFail(err: String?, code: Int) {
+//
+//                }
+//
+//            })
 
 
             if ("agent".equals(userType)) {
@@ -1814,16 +1831,16 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             Handler().postDelayed({ mTrtcrightvideolayoutmanager?.makeFullVideoView(1) }, 200)
         }
 
-        startTtsController(title, object : OfflineActivity.RoomHttpCallBack {
-            override fun onSuccess(json: String?) {
-
-            }
-
-            override fun onFail(err: String?, code: Int) {
-
-            }
-
-        })
+//        startTtsController(title, object : OfflineActivity.RoomHttpCallBack {
+//            override fun onSuccess(json: String?) {
+//
+//            }
+//
+//            override fun onFail(err: String?, code: Int) {
+//
+//            }
+//
+//        })
 
         mWatingArray = jsonArray
         for (index in 0 until jsonArray.length()) {
@@ -2177,7 +2194,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         tv_skip.text = when (buttonStr) {
             "startRecord" -> {
                 tv_skip.visibility(true)
-                tv_continue.visibility(true)
+                tv_continue.visibility(false)
                 "开始录制"
             }
             "next" -> {
@@ -2612,6 +2629,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                             runOnUiThread {
                                 LogUtils.i("exitRoom")
                                 cancelAbsCredentialProvider()
+                                destroylongTextTtsController()
                                 hideVideoView()
                                 layout_right.visibility = View.VISIBLE
                                 page_error.visibility(true)
@@ -3166,17 +3184,17 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                         stringBuffer.append("$subStr \n")
                     }
                     runOnUiThread {
-                        startTtsController(stringBuffer.toString(),
-                            object : OfflineActivity.RoomHttpCallBack {
-                                override fun onSuccess(json: String?) {
-
-                                }
-
-                                override fun onFail(err: String?, code: Int) {
-
-                                }
-
-                            })
+//                        startTtsController(stringBuffer.toString(),
+//                            object : OfflineActivity.RoomHttpCallBack {
+//                                override fun onSuccess(json: String?) {
+//
+//                                }
+//
+//                                override fun onFail(err: String?, code: Int) {
+//
+//                                }
+//
+//                            })
                         tv_skip.visibility(false)
                         showWatingPage(
                             stringBuffer.toString(),
@@ -3387,14 +3405,10 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
         credentialProvider = LocalCredentialProvider(mSecretKey)
 
-        // 用户配置
-        //        ClientConfiguration.setServerProtocolHttps(false) // 是否启用https，默认启用
-
         ClientConfiguration.setMaxAudioRecognizeConcurrentNumber(2) // 语音识别的请求的最大并发数
 
         ClientConfiguration.setMaxRecognizeSliceConcurrentNumber(10) // 单个请求的分片最大并发数
 
-        // 为了方便用户测试，sdk提供了本地签名，但是为了secretKey的安全性，正式环境下请自行在第三方服务器上生成签名。
 
     }
 
@@ -3424,6 +3438,8 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                     order: Int
                 ) {
                     LogUtils.i("onSliceSuccess-------${result?.text}")
+//                    tv_user_content2.visibility(true)
+//                    tv_user_content2.text = result?.text
                 }
 
                 override fun onSegmentSuccess(
@@ -3767,6 +3783,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             LogUtils.i("exitRoom")
             if (page_error.visibility == View.GONE) {
                 cancelAbsCredentialProvider()
+                destroylongTextTtsController()
                 hideVideoView()
                 layout_right.visibility = View.VISIBLE
                 page_error.visibility(true)

@@ -14,13 +14,9 @@ import com.txt.sl.http.https.HttpRequestClient
 import com.txt.sl.system.SystemHttpRequest
 import com.txt.sl.ui.adpter.OrderDetailsItemAdapter
 import com.txt.sl.ui.adpter.OrderExpandableItemAdapter1
-import com.txt.sl.ui.home.BaseLazyViewPagerFragment
-import com.txt.sl.ui.video.visibility
+import com.txt.sl.base.BaseLazyViewPagerFragment
 import com.txt.sl.utils.GsonUtils
 import com.txt.sl.utils.LogUtils
-import kotlinx.android.synthetic.main.tx_activity_new_order.*
-import kotlinx.android.synthetic.main.tx_activity_order_details_page.*
-import kotlinx.android.synthetic.main.tx_fragment_order_details1.*
 import kotlinx.android.synthetic.main.tx_fragment_order_details1.nestedscrollview
 import kotlinx.android.synthetic.main.tx_fragment_order_details1.recyclerview
 import kotlinx.android.synthetic.main.tx_fragment_order_details1.recyclerview1
@@ -78,13 +74,13 @@ class OrderDetailsFragment : BaseLazyViewPagerFragment() {
     var workItemBean: WorkItemBean? = null
     fun requestData() {
         val orderDetailsActivity = _mActivity as OrderDetailsActivity
-        orderDetailsActivity.mLoadingView?.show()
+        orderDetailsActivity.showLoading()
         SystemHttpRequest.getInstance().getFlowDetails(mFlowId, object : HttpRequestClient.RequestHttpCallBack {
             override fun onSuccess(json: String?) {
                 LogUtils.i("onSuccess$json")
                 _mActivity?.runOnUiThread {
                     orderDetailsItemlists.clear()
-                    orderDetailsActivity.mLoadingView?.dismiss()
+                    orderDetailsActivity.hideLoading()
                     try {
                         val jsonObject = JSONObject(json)
                         val fields = jsonObject.getJSONObject("fields")
@@ -231,7 +227,7 @@ class OrderDetailsFragment : BaseLazyViewPagerFragment() {
             override fun onFail(err: String?, code: Int) {
 
                 _mActivity?.runOnUiThread {
-                    orderDetailsActivity.mLoadingView?.dismiss()
+                    orderDetailsActivity.hideLoading()
                 }
             }
 

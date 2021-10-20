@@ -21,6 +21,8 @@
 
     <string name="tx_title_ready">正式开始录制前，请代理人与投保人按照画面引导位置进行双录若位置不正确，请调整位置，确保录制过程中人脸核身的准确率</string>
     <string name="tx_title_ready_oneperson">正式开始录制前，请代理人确认全脸入镜，确保双录的视频录制的质量。</string>
+    <string name="tx_title_ready_test">正式开始录制前，请代理人确认全脸入镜，确保双录的视频录制的质量。 </string>
+
     <string name="tx_title_ready1">温馨提示，请代理人与投保人沟通交流，并进行录制前沟通:\n
 
 1、确认视频通话画面是否流畅，声音是否清晰。\n

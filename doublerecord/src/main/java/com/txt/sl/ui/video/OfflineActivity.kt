@@ -8,6 +8,7 @@ import android.media.AudioManager
 import android.os.*
 import android.support.annotation.RequiresApi
 import android.support.v4.content.ContextCompat
+import android.support.v4.widget.NestedScrollView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Base64
@@ -139,7 +140,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     }
 
     override fun initView() {
-
+        TxLogUtils.i("onSuccess------${System.currentTimeMillis()}")
         statusBarConfig.hideBar(TxBarHide.FLAG_HIDE_STATUS_BAR)
         super.initView()
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
@@ -613,6 +614,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                                 jsonObject.toString()
                                             )
                                         }
+
                                         finish()
                                     }
 
@@ -745,6 +747,9 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onDestroy() {
+        sendBroadcast( Intent().apply {
+            action = HomeActivity.br_action
+        })
         SystemBaiduLocation.instance!!.stopLocationService()
         stopCheckPhotoInVideo()
         destroylongTextTtsController()
@@ -999,8 +1004,9 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                             } else {
                                 getString(R.string.tx_title_ready)
                             }
+                            var title1 = getString(R.string.tx_title_ready_test)
                             mTrtcVideolayout?.setPersonView(mSelfInsurance)
-                            showReadNextPage("", title)
+                            showReadNextPage("", title1)
                             mTrtcVideolayout?.setll_remote_skip(
                                 "调整好位置后，请点击【下一步】",
                                 View.VISIBLE,
@@ -1037,7 +1043,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         hideView()
         room_time.visibility(true)
         ll_showLink.visibility(true)
-        tv_continue.visibility(true)
+        tv_continue.visibility(false)
         tv_skip.visibility(true)
         tv_skip.text = "开始录制"
         val jsonArray = jsonObject1!!.optJSONArray("process")
@@ -1211,10 +1217,8 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             // 显示文字的view
             page_readnextPage1?.visibility = View.VISIBLE
             page_readnextPage1?.findViewById<TextView>(R.id.tv_readNext_content)?.text = content
-
         } else {
             page_readnextPage1?.visibility = View.GONE
-//            mTextBusinessLayout?.visibility = View.GONE
         }
 
         isCacheLeftVideo = checkVideoToRight
@@ -1231,10 +1235,10 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             }
 
         })
-        checkLeftVideoToRightScreen(page_readnextPage!!, false, title)
+        checkLeftVideoToRightScreen(page_readnextPage!!, false, titleContent)
 
 
-        mTrtcVideolayout?.setll_remote_skip(title, View.VISIBLE, View.VISIBLE)
+        mTrtcVideolayout?.setll_remote_skip(titleContent, View.VISIBLE, View.VISIBLE)
     }
 
     //展示纯文本展示  左边视频右边提示
@@ -3013,9 +3017,16 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
                 override fun onSliceSuccess(
                     request: AudioRecognizeRequest?,
-                    result: AudioRecognizeResult?,
+                    result: AudioRecognizeResult,
                     order: Int
                 ) {
+                    runOnUiThread {
+                        val replaceTV = replaceTV(result?.text)
+                        page_asr_userPage!!.findViewById<TextView>(R.id.tv_user_content2).text =
+                            "${replaceTV}"
+                        page_asr_userPage!!.findViewById<TextView>(R.id.tv_user_content2)
+                            .visibility(true)
+                    }
                     LogUtils.i("onSliceSuccess-------${result?.text}")
                 }
 
