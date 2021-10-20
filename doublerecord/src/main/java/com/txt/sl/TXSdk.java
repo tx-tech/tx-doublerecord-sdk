@@ -2,6 +2,7 @@ package com.txt.sl;
 
 import android.app.Activity;
 import android.app.Application;
+
 import com.common.widget.titlebar.TitleBar;
 import com.common.widget.toast.ToastUtils;
 import com.txt.sl.callback.onSDKListener;
@@ -37,7 +38,7 @@ public class TXSdk implements ITXSDKApi {
 
     private boolean isDemo = false;
 
-    private String SDKVersion = "v1.0.9";
+    private String SDKVersion = BuildConfig.SdkversionName;
 
     private String terminal = "android";
 

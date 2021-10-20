@@ -11,6 +11,8 @@ def keystoreProperties = new Properties()
 // Load your keystore.properties file into the keystoreProperties object.
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 def configuration = rootProject.ext.configuration
+def libraries = rootProject.ext.libraries
+def appconfig = rootProject.ext.appconfig
 android {
     compileSdkVersion 28
     buildToolsVersion "28.0.3"
@@ -35,7 +37,7 @@ android {
         minSdkVersion 19
         targetSdkVersion 28
         versionCode computeVersionName()
-        versionName "1.0.2"
+        versionName configuration.versionName
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         defaultConfig {
@@ -51,6 +53,8 @@ android {
         //设置正式环境开关
         buildConfigField "String", "key","\"${keystoreProperties['key']}\""
         buildConfigField "String", "initVector","\"${keystoreProperties['initVector']}\""
+        buildConfigField "String", "rekey","\"${keystoreProperties['rekey']}\""
+        buildConfigField "String", "reinitVector","\"${keystoreProperties['reinitVector']}\""
     }
 
     buildTypes {
@@ -115,15 +119,15 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 //    implementation fileTree(dir: "libs", include: ["*.aar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    api project(':doublerecord')
-    implementation 'com.lxj:xpopup:1.8.8'
+    api project(':base')
+
 
 
 

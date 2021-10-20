@@ -1,11 +1,11 @@
-package com.txt.myapplication
+package com.natchi.base
 
 import android.content.Context
 import android.widget.Button
+import android.widget.EditText
 import android.widget.RadioGroup
 import com.lxj.xpopup.impl.FullScreenPopupView
 import com.txt.sl.TXSdk
-import kotlinx.android.synthetic.main.layout_customfullscreen.view.*
 
 /**
  * Created by JustinWjq
@@ -23,6 +23,8 @@ public class CustomFullScreenPopup constructor(context: Context) : FullScreenPop
         val rgMimpro = findViewById<RadioGroup>(R.id.rg_mimpro)
         val rg_tx_app = findViewById<RadioGroup>(R.id.rg_tx_app)
         val btConfirm = findViewById<Button>(R.id.bt_confirm)
+        val et_tx_path = findViewById<EditText>(R.id.et_tx_path)
+        val et_tx_username = findViewById<EditText>(R.id.et_tx_username)
         btConfirm.setOnClickListener {
             TXSdk.getInstance().txConfig.miniprogramType  =when (rgMimpro.checkedRadioButtonId) {
                 R.id.minpro_test -> {

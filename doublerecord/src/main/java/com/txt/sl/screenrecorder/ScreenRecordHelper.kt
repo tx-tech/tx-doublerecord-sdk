@@ -256,9 +256,13 @@ class ScreenRecordHelper @JvmOverloads constructor(
     private fun syntheticAudio(audioDuration: Long, videoDuration: Long, afdd: AssetFileDescriptor) {
         Log.d(TAG, "start syntheticAudio")
         val newFile = File(savePath, "$saveName.mp4")
+//        val newFile1 = File(savePath, "$saveName.tmp")
         if (newFile.exists()) {
             newFile.delete()
         }
+//        if (newFile1.exists()) {
+//            newFile1.delete()
+//        }
         try {
             newFile.createNewFile()
             val videoExtractor = MediaExtractor()

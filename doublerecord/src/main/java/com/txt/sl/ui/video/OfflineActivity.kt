@@ -140,7 +140,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     }
 
     override fun initView() {
-
+        TxLogUtils.i("onSuccess------${System.currentTimeMillis()}")
         statusBarConfig.hideBar(TxBarHide.FLAG_HIDE_STATUS_BAR)
         super.initView()
         audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
@@ -1235,10 +1235,10 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             }
 
         })
-        checkLeftVideoToRightScreen(page_readnextPage!!, false, title)
+        checkLeftVideoToRightScreen(page_readnextPage!!, false, titleContent)
 
 
-        mTrtcVideolayout?.setll_remote_skip(title, View.VISIBLE, View.VISIBLE)
+        mTrtcVideolayout?.setll_remote_skip(titleContent, View.VISIBLE, View.VISIBLE)
     }
 
     //展示纯文本展示  左边视频右边提示

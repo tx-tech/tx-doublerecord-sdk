@@ -41,7 +41,8 @@ import org.json.JSONObject
 class HomeActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClickListener {
 
     companion object {
-        public const val br_action = "action.refreshFriend"
+        public const val br_action = "action.refreshlist"
+        public const val br_action_selectTab = "action.refreshListAndselect"
 
         @JvmStatic
         fun newActivity(context: Context) {
@@ -117,9 +118,9 @@ class HomeActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClickListener {
             tabLayout.addTab(newTab)
         }
 
-
         val intentFilter = IntentFilter()
         intentFilter.addAction(br_action)
+        intentFilter.addAction(br_action_selectTab)
         registerReceiver(broadcastReceiver, intentFilter)
     }
 
@@ -407,6 +408,10 @@ class HomeActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClickListener {
             if (br_action == intent?.action) {
                 TxLogUtils.i("收到消息 刷新列表")
                 refreshData()
+            }else if (br_action_selectTab == intent?.action) {
+                TxLogUtils.i("收到消息 刷新列表")
+                val tabAt = tabLayout?.getTabAt(2)
+                tabAt?.select()
             }
         }
 

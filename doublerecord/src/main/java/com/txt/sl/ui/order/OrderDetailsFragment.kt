@@ -74,13 +74,13 @@ class OrderDetailsFragment : BaseLazyViewPagerFragment() {
     var workItemBean: WorkItemBean? = null
     fun requestData() {
         val orderDetailsActivity = _mActivity as OrderDetailsActivity
-        orderDetailsActivity.mLoadingView?.show()
+        orderDetailsActivity.showLoading()
         SystemHttpRequest.getInstance().getFlowDetails(mFlowId, object : HttpRequestClient.RequestHttpCallBack {
             override fun onSuccess(json: String?) {
                 LogUtils.i("onSuccess$json")
                 _mActivity?.runOnUiThread {
                     orderDetailsItemlists.clear()
-                    orderDetailsActivity.mLoadingView?.dismiss()
+                    orderDetailsActivity.hideLoading()
                     try {
                         val jsonObject = JSONObject(json)
                         val fields = jsonObject.getJSONObject("fields")
@@ -227,7 +227,7 @@ class OrderDetailsFragment : BaseLazyViewPagerFragment() {
             override fun onFail(err: String?, code: Int) {
 
                 _mActivity?.runOnUiThread {
-                    orderDetailsActivity.mLoadingView?.dismiss()
+                    orderDetailsActivity.hideLoading()
                 }
             }
 

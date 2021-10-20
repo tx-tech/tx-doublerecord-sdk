@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.support.v4.app.Fragment
 import com.common.widget.base.BaseActivity
+import com.common.widget.dialog.TxPopup
+import com.common.widget.dialog.impl.LoadingPopupView
 import com.txt.sl.R
 import com.txt.sl.ui.adpter.MainPageAdapter
 import com.txt.sl.ui.adpter.WorkerItemTypeBean
@@ -30,7 +32,6 @@ class OrderDetailsActivity : BaseActivity() {
     private var adapter1: MainPageAdapter? = null
     private var fragments: MutableList<Fragment>? = ArrayList()
     var dataBean: WorkerItemTypeBean? = null
-    public var mLoadingView: LoadingView? = null
     override fun initView() {
         super.initView()
         title = "任务详情"
@@ -43,12 +44,22 @@ class OrderDetailsActivity : BaseActivity() {
         adapter1 = MainPageAdapter(
                 supportFragmentManager
         )
-        mLoadingView = LoadingView(this, "发起录制...", LoadingView.SHOWLOADING)
+
         adapter1?.setData(fragments)
         viewPager.adapter = adapter1
         tabLayout.setupWithViewPager(viewPager)
     }
 
+    var dialog : LoadingPopupView?= null
+    fun showLoading() {
+        dialog = TxPopup.Builder(this).asLoading("获取工单...")
+        dialog?.show()
+    }
+
+
+    fun hideLoading() {
+        dialog?.dismiss()
+    }
 
 
 }

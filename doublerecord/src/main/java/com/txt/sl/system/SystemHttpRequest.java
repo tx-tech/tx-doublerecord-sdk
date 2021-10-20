@@ -59,7 +59,7 @@ public class SystemHttpRequest {
                 mDoubleRecordIP = "https://developer.ikandy.cn:62727";
                 break;
             case RELEASE:
-                mDoubleRecordIP = "https://video-sells.cloud-ins.cn";
+                mDoubleRecordIP = "https://doublerecord.cloud-ins.cn";
                 break;
             case POC:
                 mDoubleRecordIP = "https://doublerecord.cloud-ins.cn";
@@ -72,7 +72,7 @@ public class SystemHttpRequest {
                 mCommonIp = "https://developer.ikandy.cn:62728";
                 break;
             case RELEASE:
-                mCommonIp = "https://video-sells.cloud-ins.cn";
+                mCommonIp = "https://common.cloud-ins.cn";
                 break;
             case POC:
                 mCommonIp = "https://common.cloud-ins.cn";

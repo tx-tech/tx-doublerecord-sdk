@@ -601,14 +601,14 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                     override fun onSpeedChoose(voiceSpeed: Int, content: String) {
                         destroylongTextTtsController()
                         longTextTtsController?.setVoiceSpeed(voiceSpeed)
-                        startTtsController(content, object : OfflineActivity.RoomHttpCallBack {
-                            override fun onSuccess(json: String?) {
-                            }
-
-                            override fun onFail(err: String?, code: Int) {
-                            }
-
-                        })
+//                        startTtsController(content, object : OfflineActivity.RoomHttpCallBack {
+//                            override fun onSuccess(json: String?) {
+//                            }
+//
+//                            override fun onFail(err: String?, code: Int) {
+//                            }
+//
+//                        })
                         pushMessage(JSONObject().apply {
                             put("serviceId", mServiceId)
                             put("type", "voiceSpeed")
@@ -1556,16 +1556,16 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                 "insured"
             }
             mTrtcrightvideolayoutmanager?.updateOcrLayout(userType, View.VISIBLE)
-            startTtsController(title, object : OfflineActivity.RoomHttpCallBack {
-                override fun onSuccess(json: String?) {
-
-                }
-
-                override fun onFail(err: String?, code: Int) {
-
-                }
-
-            })
+//            startTtsController(title, object : OfflineActivity.RoomHttpCallBack {
+//                override fun onSuccess(json: String?) {
+//
+//                }
+//
+//                override fun onFail(err: String?, code: Int) {
+//
+//                }
+//
+//            })
 
 
             if ("agent".equals(userType)) {
@@ -1831,16 +1831,16 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             Handler().postDelayed({ mTrtcrightvideolayoutmanager?.makeFullVideoView(1) }, 200)
         }
 
-        startTtsController(title, object : OfflineActivity.RoomHttpCallBack {
-            override fun onSuccess(json: String?) {
-
-            }
-
-            override fun onFail(err: String?, code: Int) {
-
-            }
-
-        })
+//        startTtsController(title, object : OfflineActivity.RoomHttpCallBack {
+//            override fun onSuccess(json: String?) {
+//
+//            }
+//
+//            override fun onFail(err: String?, code: Int) {
+//
+//            }
+//
+//        })
 
         mWatingArray = jsonArray
         for (index in 0 until jsonArray.length()) {
@@ -3184,17 +3184,17 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                         stringBuffer.append("$subStr \n")
                     }
                     runOnUiThread {
-                        startTtsController(stringBuffer.toString(),
-                            object : OfflineActivity.RoomHttpCallBack {
-                                override fun onSuccess(json: String?) {
-
-                                }
-
-                                override fun onFail(err: String?, code: Int) {
-
-                                }
-
-                            })
+//                        startTtsController(stringBuffer.toString(),
+//                            object : OfflineActivity.RoomHttpCallBack {
+//                                override fun onSuccess(json: String?) {
+//
+//                                }
+//
+//                                override fun onFail(err: String?, code: Int) {
+//
+//                                }
+//
+//                            })
                         tv_skip.visibility(false)
                         showWatingPage(
                             stringBuffer.toString(),
@@ -4119,44 +4119,44 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
 
     fun startTtsController(ttsStr: String, callBack: OfflineActivity.RoomHttpCallBack) {
-//        destroylongTextTtsController()
-//        try {
-//            longTextTtsController?.startTts(
-//                ttsStr,
-//                mTtsExceHandler,
-//                object : QCloudPlayerCallback {
-//                    override fun onTTSPlayStart() {
-//
-//                    }
-//
-//                    override fun onTTSPlayProgress(p0: String?, p1: Int) {
-//                    }
-//
-//                    override fun onTTSPlayAudioCachePath(p0: String?) {
-//                    }
-//
-//                    override fun onTTSPlayWait() {
-//                    }
-//
-//                    override fun onTTSPlayNext() {
-//                    }
-//
-//                    override fun onTTSPlayStop() {
-//                    }
-//
-//                    override fun onTTSPlayEnd() {
-//                        callBack.onSuccess("")
-//                    }
-//
-//                    override fun onTTSPlayResume() {
-//                    }
-//
-//
-//                })
-//        } catch (e: TtsNotInitializedException) {
-//            LogUtils.i("${e.message}")
-//            callBack.onFail(e.message, 0)
-//        }
+        destroylongTextTtsController()
+        try {
+            longTextTtsController?.startTts(
+                ttsStr,
+                mTtsExceHandler,
+                object : QCloudPlayerCallback {
+                    override fun onTTSPlayStart() {
+
+                    }
+
+                    override fun onTTSPlayProgress(p0: String?, p1: Int) {
+                    }
+
+                    override fun onTTSPlayAudioCachePath(p0: String?) {
+                    }
+
+                    override fun onTTSPlayWait() {
+                    }
+
+                    override fun onTTSPlayNext() {
+                    }
+
+                    override fun onTTSPlayStop() {
+                    }
+
+                    override fun onTTSPlayEnd() {
+                        callBack.onSuccess("")
+                    }
+
+                    override fun onTTSPlayResume() {
+                    }
+
+
+                })
+        } catch (e: TtsNotInitializedException) {
+            LogUtils.i("${e.message}")
+            callBack.onFail(e.message, 0)
+        }
 
     }
 

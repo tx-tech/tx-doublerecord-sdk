@@ -22,11 +22,11 @@ public class SignUtils {
     //测试密钥key
     public static final String key = BuildConfig.key;
     //正式密钥key
-    public static final String rekey = "";
+    public static final String rekey = BuildConfig.rekey;
     //测试向量iv
     public static final String initVector =  BuildConfig.initVector;
     //正式向量iv
-    public static final String reinitVector = "";
+    public static final String reinitVector = BuildConfig.reinitVector;
 
     //加密
     @JvmStatic
