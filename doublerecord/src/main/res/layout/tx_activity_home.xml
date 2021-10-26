@@ -5,6 +5,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/tx_txcolor_f1f1f1"
     >
     <com.common.widget.titlebar.TitleBar
         android:id="@+id/titlebar"
