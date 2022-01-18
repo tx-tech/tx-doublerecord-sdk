@@ -37,7 +37,7 @@ android {
         applicationId "com.txt.znsl"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode computeVersionName()
+        versionCode 12312312
         versionName "1.0.2"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -108,11 +108,11 @@ static def releaseTime() {
 }
 
 
-static def computeVersionName() {
-    String date = new Date().format("yyMMddHHmm")
-    return Integer.parseInt(date)
-
-}
+//static def computeVersionName() {
+//    String date = new Date().format("yyMMddHHmm")
+//    return Integer.parseInt(date)
+//
+//}
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])

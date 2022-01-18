@@ -45,11 +45,11 @@ task clean(type: Delete) {
 
 
 
-static def computeVersionName() {
-    String date = new Date().format("yyMMddHHmm")
-    return Integer.parseInt(date)
-
-}
+//static def computeVersionName() {
+//    String date = new Date().format("yyMMddHHmm")
+//    return Integer.parseInt(date)
+//
+//}
 ext {
 appconfig = [
         isShowOut          : "1",// 1 测试 ;2 dev ;3 正式;
@@ -80,7 +80,7 @@ appconfig = [
             minSdkVersion    : 19,
             buildToolsVersion: '28.0.0',
             versionName      : "v1.2.0",
-            versionCode : computeVersionName()
+            versionCode : 2021021021
 
 
     ]

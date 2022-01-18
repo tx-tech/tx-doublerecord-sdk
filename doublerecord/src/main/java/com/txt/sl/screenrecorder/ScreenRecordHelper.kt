@@ -110,7 +110,6 @@ class ScreenRecordHelper @JvmOverloads constructor(
                         listener?.onStartRecord()
                     } else {
                         showToast(R.string.tx_phone_not_support_screen_record)
-
                     }
                 }, 150)
             } else {

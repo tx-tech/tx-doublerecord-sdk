@@ -437,45 +437,46 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
 
     fun startTtsController(ttsStr: String, callBack: RoomHttpCallBack) {
-        try {
-            longTextTtsController?.startTts(
-                ttsStr,
-                mTtsExceHandler,
-                object : QCloudPlayerCallback {
-                    override fun onTTSPlayStart() {
+//        try {
+//            longTextTtsController?.startTts(
+//                ttsStr,
+//                mTtsExceHandler,
+//                object : QCloudPlayerCallback {
+//                    override fun onTTSPlayStart() {
+//
+//                    }
+//
+//                    override fun onTTSPlayProgress(p0: String?, p1: Int) {
+//                    }
+//
+//                    override fun onTTSPlayAudioCachePath(p0: String?) {
+//                    }
+//
+//                    override fun onTTSPlayWait() {
+//                    }
+//
+//                    override fun onTTSPlayNext() {
+//                    }
+//
+//                    override fun onTTSPlayStop() {
+//                    }
+//
+//                    override fun onTTSPlayEnd() {
+//                        callBack.onSuccess("")
+//                    }
+//
+//                    override fun onTTSPlayResume() {
+//                    }
+//
+//
+//                })
+//        } catch (e: TtsNotInitializedException) {
+//            LogUtils.i("${e.message}")
+//            callBack.onFail(e.message, 0)
+//        }
 
-                    }
-
-                    override fun onTTSPlayProgress(p0: String?, p1: Int) {
-                    }
-
-                    override fun onTTSPlayAudioCachePath(p0: String?) {
-                    }
-
-                    override fun onTTSPlayWait() {
-                    }
-
-                    override fun onTTSPlayNext() {
-                    }
-
-                    override fun onTTSPlayStop() {
-                    }
-
-                    override fun onTTSPlayEnd() {
-                        callBack.onSuccess("")
-                    }
-
-                    override fun onTTSPlayResume() {
-                    }
-
-
-                })
-        } catch (e: TtsNotInitializedException) {
-            LogUtils.i("${e.message}")
-            callBack.onFail(e.message, 0)
-        }
-
-
+        var media = MediaPlayControl()
+        media.creatPlayMedia(this)
     }
 
     private var mTtsExceHandler: TtsExceptionHandler = TtsExceptionHandler {
@@ -860,7 +861,8 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                         override fun onSuccess(json: String?) {
                             runOnUiThread {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                    screenRecordHelper?.cancelRecord()
+//                                    screenRecordHelper?.cancelRecord()
+                                    screenRecordHelper?.stopRecord()
                                 }
 
                                 finish()
@@ -872,7 +874,8 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                 LogUtils.d(err!!)
                                 showToastMsg(err)
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                    screenRecordHelper?.cancelRecord()
+//                                    screenRecordHelper?.cancelRecord()
+                                    screenRecordHelper?.stopRecord()
                                 }
 
                                 finish()
