@@ -37,7 +37,10 @@ class OrderDetailsFragment : BaseLazyViewPagerFragment() {
         val stringStr = GsonUtils.getJson(_mActivity, "ordertypelist.json")
         val json = JSONObject(stringStr)
         val jsonarr = json.getJSONArray("data")
-        mDataList = Gson().fromJson<java.util.ArrayList<OrderBean>>(jsonarr.toString(), object : TypeToken<java.util.ArrayList<OrderBean>>() {}.type)
+        mDataList = Gson().fromJson<java.util.ArrayList<OrderBean>>(
+            jsonarr.toString(),
+            object : TypeToken<java.util.ArrayList<OrderBean>>() {}.type
+        )
         initRecyclerview()
         initRecyclerview1()
         requestData()
@@ -75,163 +78,306 @@ class OrderDetailsFragment : BaseLazyViewPagerFragment() {
     fun requestData() {
         val orderDetailsActivity = _mActivity as OrderDetailsActivity
         orderDetailsActivity.showLoading()
-        SystemHttpRequest.getInstance().getFlowDetails(mFlowId, object : HttpRequestClient.RequestHttpCallBack {
-            override fun onSuccess(json: String?) {
-                LogUtils.i("onSuccess$json")
-                _mActivity?.runOnUiThread {
-                    orderDetailsItemlists.clear()
-                    orderDetailsActivity.hideLoading()
-                    try {
-                        val jsonObject = JSONObject(json)
-                        val fields = jsonObject.getJSONObject("fields")
-                        val agentJSONObject = jsonObject.getJSONObject("agent")
-                        val _id = jsonObject.getString("insurance")
-                        workItemBean = WorkItemBean().apply {
-                            flowId = jsonObject.optString("flowId")
-                            ctime = jsonObject.optString("ctime")
-                            status = jsonObject.optString("state")
-                            canEdit = jsonObject.optInt("canEdit", 1)
-                            recordUrl = jsonObject.optString("recordUrl")
-                            isIsRemote = jsonObject.optBoolean("isRemote")
-                            insuranceName = ""
+        SystemHttpRequest.getInstance()
+            .getFlowDetails(mFlowId, object : HttpRequestClient.RequestHttpCallBack {
+                override fun onSuccess(json: String?) {
+                    LogUtils.i("onSuccess$json")
+                    _mActivity?.runOnUiThread {
+                        orderDetailsItemlists.clear()
+                        orderDetailsActivity.hideLoading()
+                        try {
+                            val jsonObject = JSONObject(json)
+                            val fields = jsonObject.getJSONObject("fields")
+                            val agentJSONObject = jsonObject.getJSONObject("agent")
+                            val _id = jsonObject.getString("insurance")
+                            workItemBean = WorkItemBean().apply {
+                                flowId = jsonObject.optString("flowId")
+                                ctime = jsonObject.optString("ctime")
+                                status = jsonObject.optString("state")
+                                canEdit = jsonObject.optInt("canEdit", 1)
+                                recordUrl = jsonObject.optString("recordUrl")
+                                isIsRemote = jsonObject.optBoolean("isRemote")
+                                insuranceName = ""
 
-                            insurantName = fields.optString("insurantName")
-                            insurantIdCard = fields.optString("insurantIdCard")
-                            insurantPhone = fields.optString("insurantPhone")
+                                insurantName = fields.optString("insurantName")
+                                insurantIdCard = fields.optString("insurantIdCard")
+                                insurantPhone = fields.optString("insurantPhone")
 
-                            insuredMoney = fields.optString("insuredMoney")
-                            insuredDate = fields.optString("insuredDate")
-                            insuredIdCard = fields.optString("insuredIdCard")
-                            insuredName = fields.optString("insuredName")
-                            insuredPhone = fields.optString("insuredPhone")
-
-
-                            payType = fields.optString("payType")
+                                insuredMoney = fields.optString("insuredMoney")
+                                insuredDate = fields.optString("insuredDate")
+                                insuredIdCard = fields.optString("insuredIdCard")
+                                insuredName = fields.optString("insuredName")
+                                insuredPhone = fields.optString("insuredPhone")
 
 
-                            relationship = fields.optString("relationship")
-                            repordId = fields.optString("reportId")
-                            insurance = _id //险种id
-                        }
-
-                        orderDetailsItemlists.add(OrderDetailsItem("业务单号", fields.optString("taskId")))
-                        val stringBuffer = StringBuffer()
-                        val optJSONArray = fields.optJSONArray("institutionNames")
-                        if (null != optJSONArray) {
-                            for (index in 0 until optJSONArray.length()) {
-                                val subStr = optJSONArray.getString(index)
-                                stringBuffer.append("$subStr")
-                            }
-                        }else{
-                            stringBuffer.append("暂无")
-                        }
-
-                        if (TXManagerImpl.instance!!.getTenantCode()=="remoteRecordPoc") {
-                            orderDetailsItemlists.add(OrderDetailsItem("所属区域",TXManagerImpl.instance!!.getOrgAccountName()))
-                        }else{
-                            orderDetailsItemlists.add(OrderDetailsItem("所属区域",stringBuffer.toString()))
-                            orderDetailsItemlists.add(OrderDetailsItem("中介机构", fields.optString("IntermediaryInstitutions")))
-                        }
+                                payType = fields.optString("payType")
 
 
-                        orderDetailsItemlists.add(OrderDetailsItem("代理人姓名", agentJSONObject.optString("fullName")))
-                        orderDetailsItemlists.add(OrderDetailsItem("代理人编码",agentJSONObject.optString("loginName")) )
-                        val filterStr = mDataList?.filter { it.name == "投保人证件类型" }
-                        val filterStr1 = filterStr?.get(0)!!.options.filter { it.key == fields.optString("agentCertificateType") }
-                        if (filterStr1.isNotEmpty()&&filterStr1.size>0) {
-                            orderDetailsItemlists.add(OrderDetailsItem("代理人证件类型", filterStr1[0].name))
-                        }else{
-                            orderDetailsItemlists.add(OrderDetailsItem("代理人证件类型", "暂无"))
-                        }
-
-                        orderDetailsItemlists.add(OrderDetailsItem("代理人证件号", fields.optString("agentCertificateNo","暂无")))
-                        orderDetailsItemlists.add(OrderDetailsItem("投保人姓名", fields.optString("policyholderName")))
-
-
-                        val filter = mDataList?.filter { it.name == "投保人证件类型" }
-                        val filter1 = filter?.get(0)!!.options.filter { it.key == fields.optString("policyholderCertificateType") }
-                        if (filter1.isNotEmpty()) {
-                            orderDetailsItemlists.add(OrderDetailsItem("投保人证件类型", filter1[0].name))
-                        }else{
-                            orderDetailsItemlists.add(OrderDetailsItem("投保人证件类型","暂无"))
-                        }
-
-                        orderDetailsItemlists.add(OrderDetailsItem("投保人证件号", fields.optString("policyholderCertificateNo")))
-                        orderDetailsItemlists.add(OrderDetailsItem("投保人年龄", fields.optString("policyholderAge")))
-                        orderDetailsItemlists.add(OrderDetailsItem("投保人手机号", fields.optString("policyholderPhone")))
-
-                        val policyholderGenderfilter = mDataList?.filter { it.name == "投保人性别" }
-                        val policyholderGenderfilter1 = policyholderGenderfilter?.get(0)!!.options.filter { it.key == fields.optString("policyholderGender") }
-                        if (policyholderGenderfilter1.isNotEmpty()) {
-                            orderDetailsItemlists.add(OrderDetailsItem("投保人性别", policyholderGenderfilter1[0].name))
-                        }else{
-                            orderDetailsItemlists.add(OrderDetailsItem("投保人性别", "暂无"))
-                        }
-
-                        val relationshipfilter = mDataList?.filter { it.name == "与投保人关系" }
-                        val relationshipfilter1 = relationshipfilter?.get(0)!!.options.filter { it.key == fields.optString("relationship") }
-                        if (relationshipfilter1.isNotEmpty()) {
-                            orderDetailsItemlists.add(OrderDetailsItem("与投保人关系",  relationshipfilter1[0].name))
-                        }else{
-                            orderDetailsItemlists.add(OrderDetailsItem("与投保人关系",  "暂无"))
-                        }
-
-                        orderDetailsItemlists.add(OrderDetailsItem("被保人姓名", fields.optString("insuredName")))
-
-                        val insuredCertificateTypefilter = mDataList?.filter { it.name == "被保人证件类型" }
-                        val insuredCertificateTypefilter1 = insuredCertificateTypefilter?.get(0)!!.options.filter { it.key == fields.optString("insuredCertificateType") }
-                        if (insuredCertificateTypefilter1.isNotEmpty()) {
-                            orderDetailsItemlists.add(OrderDetailsItem("被保人证件类型", insuredCertificateTypefilter1[0].name))
-                        }else{
-                            orderDetailsItemlists.add(OrderDetailsItem("被保人证件类型", "暂无"))
-                        }
-                        orderDetailsItemlists.add(OrderDetailsItem("被保人证件号", fields.optString("insuredCertificateNo")))
-                        orderDetailsItemlists.add(OrderDetailsItem("被保人年龄", fields.optString("insuredAge")))
-                        orderDetailsItemlists.add(OrderDetailsItem("被保人手机号", fields.optString("insuredPhone")))
-                        val insuredGenderfilter = mDataList?.filter { it.name == "被保人性别" }
-                        val insuredGenderfilter1 = insuredGenderfilter?.get(0)!!.options.filter { it.key == fields.optString("insuredGender") }
-                        if (insuredGenderfilter1.isNotEmpty()) {
-                            orderDetailsItemlists.add(OrderDetailsItem("被保人性别", insuredGenderfilter1[0].name))
-                        }else{
-                            orderDetailsItemlists.add(OrderDetailsItem("被保人性别","暂无"))
-                        }
-
-                        orderDetailsItemlists.add(OrderDetailsItem("整单首期保费", fields.optString("insuranceAllPaymentDown")))
-                        val jsonArray = fields.getJSONArray("insuranceIsMain")
-                        list1.clear()
-                        if (null!=jsonArray&&jsonArray.length()>0) {
-                            for (index in 0 until jsonArray.length()){
-                                val requestSubOrderBean = RequestSubOrderBean()
-                                requestSubOrderBean.insuranceIsMain = fields!!.getJSONArray("insuranceIsMain")!!.getInt(index)
-                                requestSubOrderBean.insuranceType = fields!!.getJSONArray("insuranceType")!!.getString(index)
-                                requestSubOrderBean.insuranceName = fields!!.getJSONArray("insuranceName")!!.getString(index)
-                                requestSubOrderBean.insurancePaymentDown = fields!!.getJSONArray("insurancePaymentDown")!!.getString(index)
-                                requestSubOrderBean.insurancePaymentMethod = fields!!.getJSONArray("insurancePaymentMethod")!!.getString(index)
-                                requestSubOrderBean.insurancePaymentPeriods = fields!!.getJSONArray("insurancePaymentPeriods")!!.getString(index)
-                                requestSubOrderBean.insurancePaymentPrice = fields!!.getJSONArray("insurancePaymentPrice")!!.getString(index)
-                                requestSubOrderBean.insurancePaymentYearUnit = fields!!.getJSONArray("insurancePaymentYearUnit")!!.getString(index)
-                                requestSubOrderBean.insurancePaymentYear = fields!!.getJSONArray("insurancePaymentYear")!!.getInt(index)
-                                requestSubOrderBean.insuranceCode = fields!!.getJSONArray("insuranceCode")!!.getString(index)
-                                addProductData(requestSubOrderBean)
+                                relationship = fields.optString("relationship")
+                                repordId = fields.optString("reportId")
+                                insurance = _id //险种id
                             }
 
-                        }
+                            orderDetailsItemlists.add(
+                                OrderDetailsItem(
+                                    "业务单号",
+                                    fields.optString("taskId")
+                                )
+                            )
+                            val stringBuffer = StringBuffer()
+                            val optJSONArray = fields.optJSONArray("institutionNames")
+                            if (null != optJSONArray) {
+                                for (index in 0 until optJSONArray.length()) {
+                                    val subStr = optJSONArray.getString(index)
+                                    stringBuffer.append("$subStr")
+                                }
+                            } else {
+                                stringBuffer.append("暂无")
+                            }
 
-                    } catch (e: JSONException) {
-                        LogUtils.i(e.message!!)
+                            if (TXManagerImpl.instance!!.getTenantCode() == "remoteRecord") {
+                                orderDetailsItemlists.add(
+                                    OrderDetailsItem(
+                                        "所属区域",
+                                        stringBuffer.toString()
+                                    )
+                                )
+                                orderDetailsItemlists.add(
+                                    OrderDetailsItem(
+                                        "中介机构",
+                                        fields.optString("IntermediaryInstitutions")
+                                    )
+                                )
+
+                            } else {
+                                orderDetailsItemlists.add(
+                                    OrderDetailsItem(
+                                        "所属区域",
+                                        TXManagerImpl.instance!!.getOrgAccountName()
+                                    )
+                                )
+
+                            }
+
+
+                            orderDetailsItemlists.add(
+                                OrderDetailsItem(
+                                    "代理人姓名",
+                                    agentJSONObject.optString("fullName")
+                                )
+                            )
+                            orderDetailsItemlists.add(
+                                OrderDetailsItem(
+                                    "代理人编码",
+                                    agentJSONObject.optString("loginName")
+                                )
+                            )
+                            val filterStr = mDataList?.filter { it.name == "投保人证件类型" }
+                            val filterStr1 =
+                                filterStr?.get(0)!!.options.filter { it.key == fields.optString("agentCertificateType") }
+                            if (filterStr1.isNotEmpty() && filterStr1.size > 0) {
+                                orderDetailsItemlists.add(
+                                    OrderDetailsItem(
+                                        "代理人证件类型",
+                                        filterStr1[0].name
+                                    )
+                                )
+                            } else {
+                                orderDetailsItemlists.add(OrderDetailsItem("代理人证件类型", "暂无"))
+                            }
+
+                            orderDetailsItemlists.add(
+                                OrderDetailsItem(
+                                    "代理人证件号",
+                                    fields.optString("agentCertificateNo", "暂无")
+                                )
+                            )
+                            orderDetailsItemlists.add(
+                                OrderDetailsItem(
+                                    "投保人姓名",
+                                    fields.optString("policyholderName")
+                                )
+                            )
+
+
+                            val filter = mDataList?.filter { it.name == "投保人证件类型" }
+                            val filter1 =
+                                filter?.get(0)!!.options.filter { it.key == fields.optString("policyholderCertificateType") }
+                            if (filter1.isNotEmpty()) {
+                                orderDetailsItemlists.add(
+                                    OrderDetailsItem(
+                                        "投保人证件类型",
+                                        filter1[0].name
+                                    )
+                                )
+                            } else {
+                                orderDetailsItemlists.add(OrderDetailsItem("投保人证件类型", "暂无"))
+                            }
+
+                            orderDetailsItemlists.add(
+                                OrderDetailsItem(
+                                    "投保人证件号",
+                                    fields.optString("policyholderCertificateNo")
+                                )
+                            )
+                            orderDetailsItemlists.add(
+                                OrderDetailsItem(
+                                    "投保人年龄",
+                                    fields.optString("policyholderAge")
+                                )
+                            )
+                            orderDetailsItemlists.add(
+                                OrderDetailsItem(
+                                    "投保人手机号",
+                                    fields.optString("policyholderPhone")
+                                )
+                            )
+
+                            val policyholderGenderfilter = mDataList?.filter { it.name == "投保人性别" }
+                            val policyholderGenderfilter1 =
+                                policyholderGenderfilter?.get(0)!!.options.filter {
+                                    it.key == fields.optString("policyholderGender")
+                                }
+                            if (policyholderGenderfilter1.isNotEmpty()) {
+                                orderDetailsItemlists.add(
+                                    OrderDetailsItem(
+                                        "投保人性别",
+                                        policyholderGenderfilter1[0].name
+                                    )
+                                )
+                            } else {
+                                orderDetailsItemlists.add(OrderDetailsItem("投保人性别", "暂无"))
+                            }
+
+                            val relationshipfilter = mDataList?.filter { it.name == "与投保人关系" }
+                            val relationshipfilter1 = relationshipfilter?.get(0)!!.options.filter {
+                                it.key == fields.optString("relationship")
+                            }
+                            if (relationshipfilter1.isNotEmpty()) {
+                                orderDetailsItemlists.add(
+                                    OrderDetailsItem(
+                                        "与投保人关系",
+                                        relationshipfilter1[0].name
+                                    )
+                                )
+                            } else {
+                                orderDetailsItemlists.add(OrderDetailsItem("与投保人关系", "暂无"))
+                            }
+
+                            orderDetailsItemlists.add(
+                                OrderDetailsItem(
+                                    "被保人姓名",
+                                    fields.optString("insuredName")
+                                )
+                            )
+
+                            val insuredCertificateTypefilter =
+                                mDataList?.filter { it.name == "被保人证件类型" }
+                            val insuredCertificateTypefilter1 =
+                                insuredCertificateTypefilter?.get(0)!!.options.filter {
+                                    it.key == fields.optString("insuredCertificateType")
+                                }
+                            if (insuredCertificateTypefilter1.isNotEmpty()) {
+                                orderDetailsItemlists.add(
+                                    OrderDetailsItem(
+                                        "被保人证件类型",
+                                        insuredCertificateTypefilter1[0].name
+                                    )
+                                )
+                            } else {
+                                orderDetailsItemlists.add(OrderDetailsItem("被保人证件类型", "暂无"))
+                            }
+                            orderDetailsItemlists.add(
+                                OrderDetailsItem(
+                                    "被保人证件号",
+                                    fields.optString("insuredCertificateNo")
+                                )
+                            )
+                            orderDetailsItemlists.add(
+                                OrderDetailsItem(
+                                    "被保人年龄",
+                                    fields.optString("insuredAge")
+                                )
+                            )
+                            orderDetailsItemlists.add(
+                                OrderDetailsItem(
+                                    "被保人手机号",
+                                    fields.optString("insuredPhone")
+                                )
+                            )
+                            val insuredGenderfilter = mDataList?.filter { it.name == "被保人性别" }
+                            val insuredGenderfilter1 =
+                                insuredGenderfilter?.get(0)!!.options.filter {
+                                    it.key == fields.optString("insuredGender")
+                                }
+                            if (insuredGenderfilter1.isNotEmpty()) {
+                                orderDetailsItemlists.add(
+                                    OrderDetailsItem(
+                                        "被保人性别",
+                                        insuredGenderfilter1[0].name
+                                    )
+                                )
+                            } else {
+                                orderDetailsItemlists.add(OrderDetailsItem("被保人性别", "暂无"))
+                            }
+
+                            orderDetailsItemlists.add(
+                                OrderDetailsItem(
+                                    "整单首期保费",
+                                    fields.optString("insuranceAllPaymentDown")
+                                )
+                            )
+                            val jsonArray = fields.getJSONArray("insuranceIsMain")
+                            list1.clear()
+                            if (null != jsonArray && jsonArray.length() > 0) {
+                                for (index in 0 until jsonArray.length()) {
+                                    val requestSubOrderBean = RequestSubOrderBean()
+                                    requestSubOrderBean.insuranceIsMain =
+                                        fields!!.getJSONArray("insuranceIsMain")!!.getInt(index)
+                                    requestSubOrderBean.insuranceType =
+                                        fields!!.getJSONArray("insuranceType")!!.getString(index)
+                                    requestSubOrderBean.insuranceName =
+                                        fields!!.getJSONArray("insuranceName")!!.getString(index)
+                                    requestSubOrderBean.insurancePaymentDown =
+                                        fields!!.getJSONArray("insurancePaymentDown")!!
+                                            .getString(index)
+                                    requestSubOrderBean.insurancePaymentMethod =
+                                        fields!!.getJSONArray("insurancePaymentMethod")!!
+                                            .getString(index)
+                                    requestSubOrderBean.insurancePaymentPeriods =
+                                        fields!!.getJSONArray("insurancePaymentPeriods")!!
+                                            .getString(index)
+                                    requestSubOrderBean.insurancePaymentPrice =
+                                        fields!!.getJSONArray("insurancePaymentPrice")!!
+                                            .getString(index)
+                                    requestSubOrderBean.insurancePaymentYearUnit =
+                                        fields!!.getJSONArray("insurancePaymentYearUnit")!!
+                                            .getString(index)
+                                    requestSubOrderBean.insurancePaymentYear =
+                                        fields!!.getJSONArray("insurancePaymentYear")!!
+                                            .getInt(index)
+                                    requestSubOrderBean.insuranceCode =
+                                        fields!!.getJSONArray("insuranceCode")!!.getString(index)
+                                    addProductData(requestSubOrderBean)
+                                }
+
+                            }
+
+                        } catch (e: JSONException) {
+                            LogUtils.i(e.message!!)
+                        }
+                        baseQuickAdapter?.setNewData(orderDetailsItemlists)
                     }
-                    baseQuickAdapter?.setNewData(orderDetailsItemlists)
                 }
-            }
 
-            override fun onFail(err: String?, code: Int) {
+                override fun onFail(err: String?, code: Int) {
 
-                _mActivity?.runOnUiThread {
-                    orderDetailsActivity.hideLoading()
+                    _mActivity?.runOnUiThread {
+                        orderDetailsActivity.hideLoading()
+                    }
                 }
-            }
 
-        })
+            })
     }
 
 
@@ -246,13 +392,13 @@ class OrderDetailsFragment : BaseLazyViewPagerFragment() {
                 R.id.headerliner -> {
                     LogUtils.i("position$position")
                     val itemBean = baseQuickAdapter1?.data?.get(position)
-                    if (itemBean is ProductLevelItem ){
+                    if (itemBean is ProductLevelItem) {
                         if (itemBean.isExpanded) {
                             baseQuickAdapter1?.collapse(position)
 
                         } else {
                             baseQuickAdapter1?.expand(position)
-                            Handler().postDelayed({ nestedscrollview.smoothScrollBy(0,700)},500)
+                            Handler().postDelayed({ nestedscrollview.smoothScrollBy(0, 700) }, 500)
                         }
                     }
                 }
@@ -267,14 +413,13 @@ class OrderDetailsFragment : BaseLazyViewPagerFragment() {
         baseQuickAdapter1?.setNewData(list1)
     }
 
-    fun addProductData(requestSubOrderBean:RequestSubOrderBean){
+    fun addProductData(requestSubOrderBean: RequestSubOrderBean) {
         val levelItem1 = ProductLevelItem()
         levelItem1.insuranceName = requestSubOrderBean.insuranceName
         levelItem1.insuranceIsMain = requestSubOrderBean.insuranceIsMain
         levelItem1.addSubItem(requestSubOrderBean)
         baseQuickAdapter1?.addData(levelItem1)
     }
-
 
 
     companion object {

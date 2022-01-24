@@ -36,7 +36,7 @@ class App : Application() {
 
         txConfig.miniprogramDescription = "" //显示小程序描述
 
-        TXSdk.getInstance().init(this, TXSdk.Environment.TEST, true, txConfig)
+        TXSdk.getInstance().init(this, TXSdk.Environment.RELEASE, true, txConfig)
         CrashReport.initCrashReport(this, "8351c98a70", true)
 
     }

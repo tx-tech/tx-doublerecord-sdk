@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.txt.sl.screenrecorder.ScreenRecordHelper;
-import com.txt.sl.ui.video.MediaPlayControl;
 import com.txt.sl.utils.TxPathUtils;
 
 public class MainActivity extends AppCompatActivity {
@@ -36,8 +35,6 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.tv_starttts).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MediaPlayControl media = new MediaPlayControl();
-                media.creatPlayMedia(MainActivity.this);
             }
         });
 

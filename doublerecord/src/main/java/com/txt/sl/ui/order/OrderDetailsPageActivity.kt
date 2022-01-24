@@ -127,7 +127,7 @@ class OrderDetailsPageActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClick
 
     var list = ArrayList<OrderDetailsItem>()
     var workItemBean: WorkItemBean? = null
-    var mTaskId  = ""
+    var mTaskId = ""
     fun requestData() {
         val dialog = TxPopup.Builder(this).asLoading("获取信息中...").show()
         mTaskId = intent.extras.getString(OrderDetailsPageActivity.taskIdStr)
@@ -205,14 +205,8 @@ class OrderDetailsPageActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClick
 
 
 
-                            if (TXManagerImpl.instance!!.getTenantCode()=="remoteRecordPoc") {
-                                orderDetailsItemlists.add(
-                                    OrderDetailsItem(
-                                        "所属区域",
-                                        TXManagerImpl.instance!!.getOrgAccountName()
-                                    )
-                                )
-                            }else{
+                            if (TXManagerImpl.instance!!.getTenantCode() == "remoteRecord") {
+
                                 orderDetailsItemlists.add(
                                     OrderDetailsItem(
                                         "所属区域",
@@ -225,19 +219,29 @@ class OrderDetailsPageActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClick
                                         fields.optString("IntermediaryInstitutions")
                                     )
                                 )
+                            } else {
+                                orderDetailsItemlists.add(
+                                    OrderDetailsItem(
+                                        "所属区域",
+                                        TXManagerImpl.instance!!.getOrgAccountName()
+                                    )
+                                )
+
                             }
                             orderDetailsItemlists.add(
                                 OrderDetailsItem(
                                     "代理人姓名",
-                                    agentJSONObject.optString("fullName"))
+                                    agentJSONObject.optString("fullName")
                                 )
+                            )
 
                             orderDetailsItemlists.add(
                                 OrderDetailsItem(
                                     "代理人编码",
-                                    agentJSONObject.optString("loginName"))
-
+                                    agentJSONObject.optString("loginName")
                                 )
+
+                            )
 
                             val filterStr = mDataList?.filter { it.name == "投保人证件类型" }
                             val filterStr1 =

@@ -76,16 +76,16 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
         super.initView()
         requestOrderBean = RequestOrderBean()
         val bean = intent.getSerializableExtra(ARG_PARAM2)
-        if (TXManagerImpl.instance!!.getTenantCode() == "remoteRecordPoc") {
-            line_intermediaryinstitutions.visibility(false)
-            ll_intermediaryinstitutions.visibility(false)
-            line_institutions.visibility(false)
-            ll_institutions.visibility(false)
-        } else {
+        if (TXManagerImpl.instance!!.getTenantCode() == "remoteRecord") {
             line_intermediaryinstitutions.visibility(true)
             ll_intermediaryinstitutions.visibility(true)
             line_institutions.visibility(true)
             ll_institutions.visibility(true)
+        } else {
+            line_intermediaryinstitutions.visibility(false)
+            ll_intermediaryinstitutions.visibility(false)
+            line_institutions.visibility(false)
+            ll_institutions.visibility(false)
         }
         if (bean != null) {
             isOrderFrom = true
