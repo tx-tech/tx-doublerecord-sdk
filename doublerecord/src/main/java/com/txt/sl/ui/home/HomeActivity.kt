@@ -60,7 +60,6 @@ class HomeActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClickListener {
 
     override fun onRightClick(view: View?) {
         SearchActivity.newActivity(this)
-//        TestActivity.newActivity(this)
     }
 
 
