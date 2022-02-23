@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.kezong.fat-aar'
+apply plugin: 'maven-publish'
 def configuration = rootProject.ext.configuration
 def libraries = rootProject.ext.libraries
 def appconfig = rootProject.ext.appconfig
