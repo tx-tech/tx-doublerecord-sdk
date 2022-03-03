@@ -10,9 +10,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.view.View
 import android.widget.TextView
+import com.common.widget.base.BaseActivity
 import com.common.widget.dialog.TxPopup
 import com.common.widget.dialog.interfaces.XPopupCallback
-import com.common.widget.base.BaseActivity
 import com.common.widget.recyclerviewadapterhelper.base.entity.MultiItemEntity
 import com.common.widget.toast.ToastUtils
 import com.txt.sl.R
@@ -34,9 +34,11 @@ import com.txt.sl.utils.LogUtils
 import com.txt.sl.utils.TxLogUtils
 import com.txt.sl.utils.TxSPUtils
 import com.txt.sl.widget.LoadingView
+import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.tx_activity_home.*
 import org.json.JSONArray
 import org.json.JSONObject
+
 
 class HomeActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClickListener {
 
@@ -121,6 +123,20 @@ class HomeActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClickListener {
         intentFilter.addAction(br_action)
         intentFilter.addAction(br_action_selectTab)
         registerReceiver(broadcastReceiver, intentFilter)
+
+    }
+
+    fun test(){
+        val music: MutableMap<String, Any> = HashMap()
+        music["music_type"] = "popular" //自定义参数：音乐类型，值：流行
+
+        music["singer"] = "JJ" //歌手：(林俊杰)JJ
+
+        music["song_name"] = "A_Thousand_Years_Later" //歌名：一千年以后
+
+        music["song_price"] = 100 //价格：100元
+
+        MobclickAgent.onEventObject(this, "play_music", music)
     }
 
     override fun onDestroy() {
