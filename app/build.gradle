@@ -111,7 +111,7 @@ static def releaseTime() {
 
 static def computeVersionName() {
     String date = new Date().format("yyMMddHHmm")
-    return Integer.parseInt(date)
+    return 12312321
 
 }
 

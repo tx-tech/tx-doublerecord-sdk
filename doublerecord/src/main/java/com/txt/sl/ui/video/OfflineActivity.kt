@@ -1677,6 +1677,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         })
         if (!url.isEmpty()) {
             webView.loadUrl(url)
+            webView.reload()
         } else {
             showToastMsg("url为空")
         }

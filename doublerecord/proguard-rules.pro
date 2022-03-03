@@ -366,3 +366,17 @@
 -keep class com.tencent.mm.sdk.** {
     *;
 }
+
+-keep class com.uc.** {*;}
+
+-keep class com.efs.** {*;}
+-keep class com.umeng.** {*;}
+
+-keepclassmembers class * {
+   public <init> (org.json.JSONObject);
+}
+
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
