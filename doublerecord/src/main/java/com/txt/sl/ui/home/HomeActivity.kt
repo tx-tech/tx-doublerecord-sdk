@@ -34,7 +34,6 @@ import com.txt.sl.utils.LogUtils
 import com.txt.sl.utils.TxLogUtils
 import com.txt.sl.utils.TxSPUtils
 import com.txt.sl.widget.LoadingView
-import com.umeng.analytics.MobclickAgent
 import kotlinx.android.synthetic.main.tx_activity_home.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -126,18 +125,7 @@ class HomeActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClickListener {
 
     }
 
-    fun test(){
-        val music: MutableMap<String, Any> = HashMap()
-        music["music_type"] = "popular" //自定义参数：音乐类型，值：流行
 
-        music["singer"] = "JJ" //歌手：(林俊杰)JJ
-
-        music["song_name"] = "A_Thousand_Years_Later" //歌名：一千年以后
-
-        music["song_price"] = 100 //价格：100元
-
-        MobclickAgent.onEventObject(this, "play_music", music)
-    }
 
     override fun onDestroy() {
         super.onDestroy()
