@@ -56,7 +56,8 @@ public class SystemHttpRequest {
     public void changeIP(TXSdk.Environment environment) {
         switch (environment) {
             case DEV:
-                mDoubleRecordIP = "https://developer.ikandy.cn:62727";
+//                mDoubleRecordIP = "https://developer.ikandy.cn:62727";
+                mDoubleRecordIP = "https://dev1.ikandy.cn:60427";
                 break;
             case RELEASE:
                 mDoubleRecordIP = "https://doublerecord.cloud-ins.cn";
@@ -69,7 +70,8 @@ public class SystemHttpRequest {
         }
         switch (environment) {
             case DEV:
-                mCommonIp = "https://developer.ikandy.cn:62728";
+//                mCommonIp = "https://developer.ikandy.cn:62728";
+                mCommonIp = "https://dev1.ikandy.cn:60428";
                 break;
             case RELEASE:
                 mCommonIp = "https://common.cloud-ins.cn";

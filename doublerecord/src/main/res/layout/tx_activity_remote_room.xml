@@ -71,13 +71,27 @@
             android:id="@+id/tv_continue"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/tx_dimen_30dp"
-            android:layout_marginEnd="@dimen/tx_dimen_35dp"
+            android:layout_marginEnd="5dp"
             android:background="@drawable/tx_shape_goods_item_thespot_yes_28"
             android:gravity="center"
             android:paddingStart="@dimen/tx_dimen_15dp"
             android:paddingEnd="@dimen/tx_dimen_15dp"
             android:text="调整语速"
             android:textColor="@color/tx_txcolorPrimary"
+            android:visibility="gone" />
+
+
+        <TextView
+            android:id="@+id/tv_continue1"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/tx_dimen_30dp"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/tx_shape_goods_item_thespot_yes_28"
+            android:gravity="center"
+            android:paddingStart="@dimen/tx_dimen_15dp"
+            android:paddingEnd="@dimen/tx_dimen_15dp"
+            android:textColor="@color/tx_txcolorPrimary"
+            android:text="补充录制"
             android:visibility="gone" />
         <TextView
             android:id="@+id/tv_skip"

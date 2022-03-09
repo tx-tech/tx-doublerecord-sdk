@@ -79,6 +79,14 @@ import com.txt.sl.ui.home.HomeActivity
 import com.txt.sl.ui.video.trtc.TRTCRightVideoLayoutManager
 import com.txt.sl.utils.*
 import kotlinx.android.synthetic.main.tx_activity_remote_room.*
+import kotlinx.android.synthetic.main.tx_activity_remote_room.ll_title
+import kotlinx.android.synthetic.main.tx_activity_remote_room.room_time
+import kotlinx.android.synthetic.main.tx_activity_remote_room.tv_continue
+import kotlinx.android.synthetic.main.tx_activity_remote_room.tv_continue1
+import kotlinx.android.synthetic.main.tx_activity_remote_room.tv_linkname
+import kotlinx.android.synthetic.main.tx_activity_remote_room.tv_linknameindex
+import kotlinx.android.synthetic.main.tx_activity_remote_room.tv_skip
+import kotlinx.android.synthetic.main.tx_activity_remote_room.tv_text_continue
 import kotlinx.android.synthetic.main.tx_page_asr_user.*
 import kotlinx.android.synthetic.main.tx_page_checkenv.*
 import kotlinx.android.synthetic.main.tx_page_end.*
@@ -196,7 +204,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                 mTaskId = intent.getStringExtra(Constant.TASKID)
             }
             if (intent.getStringExtra(Constant.RECORDTYPE) != null) {
-                mRecordType = intent.getStringExtra(Constant.RECORDTYPE)
+                mRecordType = intent.getStringExtra(Constant.RECORDTYPE)!!
             }
         }
 
@@ -590,73 +598,110 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
         )
 
-
-        tv_continue.setOnClickListener(
-            CheckDoubleClickListener {
-                //上传视频
-                val customDialog = ChooseSpeedDialog(this)
-                customDialog.setAgentIdStr(TXManagerImpl.instance!!.getAgentId())
-                customDialog.setOnConfirmClickListener(object :
-                    ChooseSpeedDialog.OnConfirmClickListener {
-                    override fun onSpeedChoose(voiceSpeed: Int, content: String) {
-                        destroylongTextTtsController()
-                        longTextTtsController?.setVoiceSpeed(voiceSpeed)
-//                        startTtsController(content, object : OfflineActivity.RoomHttpCallBack {
+//
+//        tv_continue.setOnClickListener(
+//            CheckDoubleClickListener {
+//                //上传视频
+//                val customDialog = ChooseSpeedDialog(this)
+//                customDialog.setAgentIdStr(TXManagerImpl.instance!!.getAgentId())
+//                customDialog.setOnConfirmClickListener(object :
+//                    ChooseSpeedDialog.OnConfirmClickListener {
+//                    override fun onSpeedChoose(voiceSpeed: Int, content: String) {
+//                        destroylongTextTtsController()
+//                        longTextTtsController?.setVoiceSpeed(voiceSpeed)
+////                        startTtsController(content, object : OfflineActivity.RoomHttpCallBack {
+////                            override fun onSuccess(json: String?) {
+////                            }
+////
+////                            override fun onFail(err: String?, code: Int) {
+////                            }
+////
+////                        })
+//                        pushMessage(JSONObject().apply {
+//                            put("serviceId", mServiceId)
+//                            put("type", "voiceSpeed")
+//                            put("step", JSONObject().apply {
+//                                put("roomType", "voiceSpeed")
+//                                put("voiceSpeed", voiceSpeed)
+//                            })
+//                        }, object : RoomHttpCallBack {
 //                            override fun onSuccess(json: String?) {
+//
 //                            }
 //
 //                            override fun onFail(err: String?, code: Int) {
 //                            }
-//
 //                        })
-                        pushMessage(JSONObject().apply {
-                            put("serviceId", mServiceId)
-                            put("type", "voiceSpeed")
-                            put("step", JSONObject().apply {
-                                put("roomType", "voiceSpeed")
-                                put("voiceSpeed", voiceSpeed)
-                            })
-                        }, object : RoomHttpCallBack {
-                            override fun onSuccess(json: String?) {
+//                    }
+//
+//                    override fun onConfirm() {
+//
+//                    }
+//
+//                })
+//                TxPopup.Builder(this).maxWidth(900).dismissOnTouchOutside(false)
+//                    .dismissOnBackPressed(false).setPopupCallback(object : XPopupCallback {
+//                        override fun onCreated() {
+//
+//                        }
+//
+//                        override fun beforeShow() {
+//                        }
+//
+//                        override fun onShow() {
+//
+//                        }
+//
+//                        override fun onDismiss() {
+//
+//                        }
+//
+//                        override fun onBackPressed(): Boolean {
+//                            return true
+//                        }
+//
+//                    }).asCustom(customDialog).show()
+//
+//            }
+//
+//        )
 
+        tv_continue1.setOnClickListener (
+               CheckDoubleClickListener {
+                TxPopup.Builder(this).maxWidth(700).asConfirm(
+                    "补充录制",
+                    "由于您还有疑问，现对您不通过的\n环节进行补充录制",
+                    "取消",
+                    "确认",
+                    {
+                        mCurrentEndTimer = System.currentTimeMillis()
+
+                        mCurrentEndTime =
+                            mCurrentStartTime + (mCurrentEndTimer - mCurrentStartTimer) / 1000L
+
+                        LogUtils.i("quickEnterRoom------当前节点第:${mCurrentStartTime}秒开始-----当前节点第:${mCurrentEndTime}秒结束")
+
+
+                        nextStep(isPassed, object : RoomActivity.RoomHttpCallBack {
+                            override fun onSuccess(json: String?) {
+                                mCurrentStartTimer = mCurrentEndTimer
+                                mCurrentStartTime = mCurrentEndTime
+                                tv_continue1.visibility(false)
+                                tv_text_continue.visibility(false)
                             }
 
                             override fun onFail(err: String?, code: Int) {
+
                             }
+
                         })
-                    }
-
-                    override fun onConfirm() {
-
-                    }
-
-                })
-                TxPopup.Builder(this).maxWidth(900).dismissOnTouchOutside(false)
-                    .dismissOnBackPressed(false).setPopupCallback(object : XPopupCallback {
-                        override fun onCreated() {
-
-                        }
-
-                        override fun beforeShow() {
-                        }
-
-                        override fun onShow() {
-
-                        }
-
-                        override fun onDismiss() {
-
-                        }
-
-                        override fun onBackPressed(): Boolean {
-                            return true
-                        }
-
-                    }).asCustom(customDialog).show()
-
+                    },
+                    null,
+                    false
+                ).show()
             }
+                )
 
-        )
 
     }
 
@@ -783,7 +828,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onDestroy() {
-        sendBroadcast( Intent().apply {
+        sendBroadcast(Intent().apply {
             action = HomeActivity.br_action
         })
         SystemBaiduLocation.instance!!.stopLocationService()
@@ -2215,6 +2260,18 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
     }
 
+    /***
+     *  百度租户显示 remoteRecordPoc1
+     */
+    public fun jugeTenantId() {
+        //getTenantCode
+        tv_continue1.visibility(
+            TXManagerImpl.instance?.getTenantCode() == "remoteRecordPoc1"
+        )
+
+
+    }
+
     public fun showLinkName(linkName: String, linkIndex: String) {
         tv_linkname.text = linkName
         tv_linknameindex.text = linkIndex
@@ -2359,7 +2416,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         var isFailBoolean = false
         for (index in 0 until jsonArray.length()) {
             val jsonObject = jsonArray.getJSONObject(index)
-            val name = jsonObject.getString("name")
+            val name = jsonObject.optString("name")
             val stepsJsonArray = jsonObject.getJSONArray("steps")
             val isPubliclist: java.util.ArrayList<MultiItemEntity> =
                 java.util.ArrayList<MultiItemEntity>()
@@ -2367,9 +2424,9 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             for (index1 in 0 until stepsJsonArray.length()) {
                 val jsonObject1 = stepsJsonArray.getJSONObject(index1)
                 val fileBean = FileBean()
-                fileBean.name = jsonObject1.getString("name")
-                fileBean.failType = jsonObject1.getString("autoFailType")
-                fileBean.failReason = jsonObject1.getString("autoFailReason")
+                fileBean.name = jsonObject1.optString("name")
+                fileBean.failType = jsonObject1.optString("autoFailType")
+                fileBean.failReason = jsonObject1.optString("autoFailReason")
                 isFailBoolean = true
                 isNoPublicItem.addSubItem(
                     fileBean
@@ -2379,7 +2436,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             list?.add(isNoPublicItem)
         }
         if (isFailBoolean) {
-//            tv_continue.visibility(true)
+            jugeTenantId()
             tv_text_continue.visibility(true)
             tv_text_continue.text = "AI预质检：不合格"
             tv_text_continue.setTextColor(ContextCompat.getColor(this, R.color.tx_txcolor_ED6656))

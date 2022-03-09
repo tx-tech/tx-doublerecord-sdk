@@ -11,6 +11,7 @@ public class SocketEvent {
 
     public static final String SC_Call_Status = "serviceRoomMessage"; //会话状态
     public static final String agentOnline = "agentOnline"; //会话状态
+    public static final String agentOnlineNew = "agentOnlineNew"; //会话状态
 
 
 }

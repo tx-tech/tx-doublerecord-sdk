@@ -16,6 +16,8 @@
         <activity
             android:name=".login.LoginActivity"
             android:launchMode="singleTask" />
+
+
         <activity android:name=".login.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,9 +25,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="aY1khZhBxKFAgGNeHShMOpQ0dXrispTr" />
+
+        <activity
+            android:name=".AppMeetingActivity"
+            android:launchMode="singleTask" />
+
+
+        <activity
+            android:name=".AvoidTheLoginActivity"
+            android:launchMode="singleTask"/>
     </application>
 
 </manifest>

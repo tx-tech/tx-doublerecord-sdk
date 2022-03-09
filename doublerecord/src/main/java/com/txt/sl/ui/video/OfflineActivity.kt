@@ -81,7 +81,6 @@ import kotlinx.android.synthetic.main.tx_activity_offline_room.tv_linkname
 import kotlinx.android.synthetic.main.tx_activity_offline_room.tv_linknameindex
 import kotlinx.android.synthetic.main.tx_activity_offline_room.tv_skip
 import kotlinx.android.synthetic.main.tx_activity_offline_room.tv_text_continue
-import kotlinx.android.synthetic.main.tx_activity_remote_room.*
 import kotlinx.android.synthetic.main.tx_page_checkenv.*
 import kotlinx.android.synthetic.main.tx_page_envpreview.*
 import kotlinx.android.synthetic.main.tx_page_linkpreview.*
@@ -504,56 +503,91 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     var isPassed = true
     var isStartRecord = false
     private fun initBusiness() {
-        tv_continue.setOnClickListener(
-            CheckDoubleClickListener {
-                //上传视频
-                val customDialog = ChooseSpeedDialog(this)
-                customDialog.setAgentIdStr(TXManagerImpl.instance!!.getAgentId())
-                customDialog.setOnConfirmClickListener(object :
-                    ChooseSpeedDialog.OnConfirmClickListener {
-                    override fun onSpeedChoose(voiceSpeed: Int, content: String) {
-                        destroylongTextTtsController()
-                        longTextTtsController?.setVoiceSpeed(voiceSpeed)
-                        startTtsController(content, object : OfflineActivity.RoomHttpCallBack {
+//        tv_continue.setOnClickListener(
+//            CheckDoubleClickListener {
+//                //上传视频
+//                val customDialog = ChooseSpeedDialog(this)
+//                customDialog.setAgentIdStr(TXManagerImpl.instance!!.getAgentId())
+//                customDialog.setOnConfirmClickListener(object :
+//                    ChooseSpeedDialog.OnConfirmClickListener {
+//                    override fun onSpeedChoose(voiceSpeed: Int, content: String) {
+//                        destroylongTextTtsController()
+//                        longTextTtsController?.setVoiceSpeed(voiceSpeed)
+//                        startTtsController(content, object : OfflineActivity.RoomHttpCallBack {
+//                            override fun onSuccess(json: String?) {
+//                            }
+//
+//                            override fun onFail(err: String?, code: Int) {
+//                            }
+//
+//                        })
+//                    }
+//
+//                    override fun onConfirm() {
+//
+//                    }
+//
+//                })
+//                TxPopup.Builder(this).maxWidth(900).dismissOnTouchOutside(false)
+//                    .dismissOnBackPressed(false).setPopupCallback(object : XPopupCallback {
+//                        override fun onCreated() {
+//
+//                        }
+//
+//                        override fun beforeShow() {
+//                        }
+//
+//                        override fun onShow() {
+//
+//                        }
+//
+//                        override fun onDismiss() {
+//
+//                        }
+//
+//                        override fun onBackPressed(): Boolean {
+//                            return true
+//                        }
+//
+//                    }).asCustom(customDialog).show()
+//
+//            }
+//        )
+        tv_continue1.setOnClickListener ( CheckDoubleClickListener {
+                TxPopup.Builder(this).maxWidth(700).asConfirm(
+                    "补充录制",
+                    "由于您还有疑问，现对您不通过的\n环节进行补充录制",
+                    "取消",
+                    "确认",
+                    {
+                        mCurrentEndTimer = System.currentTimeMillis()
+
+                        mCurrentEndTime =
+                            mCurrentStartTime + (mCurrentEndTimer - mCurrentStartTimer) / 1000L
+
+                        LogUtils.i("quickEnterRoom------当前节点第:${mCurrentStartTime}秒开始-----当前节点第:${mCurrentEndTime}秒结束")
+
+
+                        nextStep(isPassed, object : OfflineActivity.RoomHttpCallBack {
                             override fun onSuccess(json: String?) {
+                                mCurrentStartTimer = mCurrentEndTimer
+                                mCurrentStartTime = mCurrentEndTime
+                                tv_continue1.visibility(false)
+                                tv_text_continue.visibility(false)
                             }
 
                             override fun onFail(err: String?, code: Int) {
+
                             }
 
                         })
-                    }
+                    },
+                    null,
+                    false
+                ).show()
+            })
 
-                    override fun onConfirm() {
 
-                    }
-
-                })
-                TxPopup.Builder(this).maxWidth(900).dismissOnTouchOutside(false)
-                    .dismissOnBackPressed(false).setPopupCallback(object : XPopupCallback {
-                        override fun onCreated() {
-
-                        }
-
-                        override fun beforeShow() {
-                        }
-
-                        override fun onShow() {
-
-                        }
-
-                        override fun onDismiss() {
-
-                        }
-
-                        override fun onBackPressed(): Boolean {
-                            return true
-                        }
-
-                    }).asCustom(customDialog).show()
-
-            }
-        )
         tv_skip.setOnClickListener(CheckDoubleClickListener {
             it as TextView
             when (it.text) {
@@ -1678,6 +1712,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         })
         if (!url.isEmpty()) {
             webView.loadUrl(url)
+            webView.reload()
         } else {
             showToastMsg("url为空")
         }
@@ -1787,6 +1822,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         }
         if (isFailBoolean) {
 //            tv_continue.visibility(true)
+            jugeTenantId()
             tv_text_continue.visibility(true)
             tv_text_continue.text = "AI预质检：不合格"
             tv_text_continue.setTextColor(ContextCompat.getColor(this, R.color.tx_txcolor_ED6656))
@@ -1801,6 +1837,18 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         recyclerView?.layoutManager = LinearLayoutManager(this)
         mExpandableItemAdapter = ExpandableItem1Adapter(list!!)
         recyclerView?.adapter = mExpandableItemAdapter
+    }
+
+    /***
+     *  百度租户显示 remoteRecordPoc1
+     */
+    public fun jugeTenantId() {
+        //getTenantCode
+        tv_continue1.visibility(
+            TXManagerImpl.instance?.getTenantCode() == "remoteRecordPoc1"
+        )
+
+
     }
 
     //取消录像计时器
@@ -3189,7 +3237,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     //开始检测人脸
     private fun startCheckPhotoInVideo() {
         if (null == startCheckPhotoInVideoTimer) {
-            startCheckPhotoInVideoTimer = object : CountDownTimer(600000, 3000) {
+            startCheckPhotoInVideoTimer = object : CountDownTimer(600000, 6000) {
                 @SuppressLint("SetTextI18n")
                 override fun onTick(millisUntilFinished: Long) {
                     LogUtils.i("checkPhotoInVideo----")

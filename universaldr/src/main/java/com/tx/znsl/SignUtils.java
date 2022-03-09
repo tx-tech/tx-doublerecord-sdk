@@ -1,4 +1,4 @@
-package com.txt.myapplication;
+package com.tx.znsl;
 
 
 

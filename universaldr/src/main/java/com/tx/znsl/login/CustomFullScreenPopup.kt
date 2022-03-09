@@ -1,10 +1,12 @@
 package com.tx.znsl.login
 
+import android.app.Activity
 import android.content.Context
 import android.widget.Button
 import android.widget.RadioGroup
 import com.lxj.xpopup.impl.FullScreenPopupView
 import com.tx.znsl.R
+import com.tx.znsl.AppMeetingActivity
 import com.txt.sl.TXSdk
 import kotlinx.android.synthetic.main.layout_customfullscreen.view.*
 
@@ -62,7 +64,12 @@ public class CustomFullScreenPopup constructor(context: Context) : FullScreenPop
 
             dismiss()
         }
+        var mContext =   context  as Activity
+        bt_checkmode.setOnClickListener {
+            //切换到免登录模式
 
+            AppMeetingActivity.gotoActivity(mContext)
+        }
 
         when (TXSdk.getInstance().txConfig.miniprogramType) {
             TXSdk.Environment.TEST-> {

@@ -1,7 +1,6 @@
 include ':doublerecord'
-include ':app'
 //include ':LocalRepo'
 //include ':ttssdk'
 include ':universaldr'
 include ':base'
-include ':screenrecorddemo'
+//include ':screenrecorddemo'

@@ -69,6 +69,14 @@ open class SystemSocket :  SocketI {
         mSocket?.emit(SocketEvent.agentOnline, jsonObject)
   }
 
+    public  fun setMSG(loginName : String){
+        LogUtils.i("setMSG---$loginName")
+        val jsonObject = JSONObject()
+
+        jsonObject.put("loginName",loginName)
+        mSocket?.emit(SocketEvent.agentOnlineNew, jsonObject)
+    }
+
     override fun offSocket() {
         mSocket?.off(Socket.EVENT_CONNECT, onConnect)
 

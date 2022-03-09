@@ -15,19 +15,23 @@ import com.tx.znsl.R
 import com.txt.sl.base.AppMVPActivity
 import com.txt.sl.callback.onSDKListener
 import com.txt.sl.config.TXManagerImpl
+import com.txt.sl.config.socket.SocketBusiness
 import com.txt.sl.entity.constant.SPConstant
+import com.txt.sl.system.SystemSocket
 import com.txt.sl.ui.dialog.CustomDialog
 import com.txt.sl.utils.InfoUtils
 import com.txt.sl.utils.TxSPUtils
 import com.txt.sl.widget.LoadingView
 import kotlinx.android.synthetic.main.activity_login.*
+import org.json.JSONObject
 import java.util.*
 
 
 /** 613980e6e7cf5e50a523ff8c 通用双录
  * Created by pc on 2017/10/18.
  */
-class LoginActivity : AppMVPActivity< LoginContract.View, LoginPresenter>(), View.OnClickListener, LoginContract.View {
+class LoginActivity : AppMVPActivity< LoginContract.View, LoginPresenter>(), View.OnClickListener, LoginContract.View,
+    SocketBusiness {
     private var mLoadingView: LoadingView? = null
     private var mLoginPresenter: LoginPresenter? = null
     private var mAccount: String? = null
@@ -91,10 +95,17 @@ class LoginActivity : AppMVPActivity< LoginContract.View, LoginPresenter>(), Vie
     override fun onClick(v: View) {
         when (v.id) {
             R.id.btn_login -> {
+<<<<<<< Updated upstream
+//                if (BuildConfig.DEBUG) {
+//                    etAccount!!.setText("sl-zs")
+//                    etPassWord!!.setText("123")
+//                }
+=======
                 if (BuildConfig.DEBUG) {
-                    etAccount!!.setText("sl-zs")
+                    etAccount!!.setText("sl-zx-004")
                     etPassWord!!.setText("123")
                 }
+>>>>>>> Stashed changes
                 mAccount = etAccount!!.text.toString().trim { it <= ' ' }
                 mPassWord = etPassWord!!.text.toString().trim { it <= ' ' }
                 if (TextUtils.isEmpty(mAccount)||TextUtils.isEmpty(mPassWord)){
@@ -204,4 +215,11 @@ class LoginActivity : AppMVPActivity< LoginContract.View, LoginPresenter>(), Vie
 
 
     override fun createPresenter(): LoginPresenter? = LoginPresenter(this, this)
+    override fun onReceiveMSG(data: JSONObject) {
+
+    }
+
+    override fun agentOnline(data: JSONObject) {
+
+    }
 }

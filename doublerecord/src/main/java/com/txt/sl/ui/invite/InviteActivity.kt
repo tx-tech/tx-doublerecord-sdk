@@ -157,7 +157,7 @@ public class InviteActivity : BaseActivity() {
         isRemote: Boolean,
         selfInsurance: Boolean,
         taskId: String,
-        recordType: String
+        recordType: String?
     ) {
         val intent =  if (isRemote) {
             Intent(this, RoomActivity::class.java)
@@ -193,7 +193,7 @@ public class InviteActivity : BaseActivity() {
         membersArray: java.util.ArrayList<String>,
         selfInsurance: Boolean,
         taskId: String,
-        recordType:String
+        recordType:String?
     ) {
 
 
@@ -205,10 +205,9 @@ public class InviteActivity : BaseActivity() {
             override fun onSuccess(json: String?) {
                 runOnUiThread {
                    hideLoading()
-                    TxLogUtils.i("onSuccess------${System.currentTimeMillis()}")
                     val jsonObject = JSONObject(json)
-                    val roomId = jsonObject.getString("roomId")
-                    val agentIdStr = jsonObject.getString("agentId")
+                    val roomId = jsonObject.optString("roomId")
+                    val agentIdStr = jsonObject.optString("agentId")
 
                     startEnterRoom(roomId,
                         agentIdStr,

@@ -1,25 +1,40 @@
-package com.txt.myapplication
+package com.tx.znsl
 
 import android.annotation.SuppressLint
-import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
+import android.app.Activity
+import android.content.Intent
 import android.view.View
+import com.common.widget.base.BaseActivity
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.interfaces.SimpleCallback
 import com.txt.sl.TXSdk
 import com.txt.sl.utils.TxLogUtils
-import kotlinx.android.synthetic.main.activity_meeting.*
+import kotlinx.android.synthetic.main.activity_appmeeting.*
+
 import org.json.JSONObject
 
-class MeetingActivity : AppCompatActivity() {
-    enum class TYPE {
-        CREATEROOM, JOINROOM, RESERVATIONROOM
+class AppMeetingActivity : BaseActivity() {
+
+    companion object {
+        fun gotoActivity(context: Activity) {
+            context.startActivity(
+                Intent(context, AppMeetingActivity::class.java)
+            )
+
+        }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_meeting)
 
+    override fun getLayoutId(): Int =  R.layout.activity_appmeeting
+
+    override fun initView() {
+        super.initView()
+        statusBarConfig
+            .statusBarDarkFont(true)
+            // 指定导航栏背景颜色
+            .navigationBarColor(R.color.white)
+            .statusBarColor(R.color.white)
+            .init()
     }
 
     public fun onMeetClick(v: View) {
@@ -61,7 +76,7 @@ class MeetingActivity : AppCompatActivity() {
 //            val filterASRPassword = filterASRPassword(et_test.text.toString())
 //            LogUtils.i("filterASRPassword"+filterASRPassword)
         }else{
-            MainActivity.gotoActivity(this, type)
+            AvoidTheLoginActivity.gotoActivity(this, type)
         }
 
     }

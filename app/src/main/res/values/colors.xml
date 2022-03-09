@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="tx_txcolorPrimary">#006DFF</color>
-    <color name="tx_txcolorPrimaryDark">#006DFF</color>
-    <color name="tx_txcolorAccent">#03DAC5</color>
-</resources>

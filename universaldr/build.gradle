@@ -50,10 +50,11 @@ android {
 //                JPUSH_PKGNAME: rootProject.ext.applicationId,
 //                JPUSH_APPKEY : jpush_key, //JPush 上注册的包名对应的 Appkey.
 //                JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
-//        ]
         //设置正式环境开关
         buildConfigField "String", "key","\"${keystoreProperties['key']}\""
         buildConfigField "String", "initVector","\"${keystoreProperties['initVector']}\""
+        buildConfigField "String", "rekey","\"${keystoreProperties['rekey']}\""
+        buildConfigField "String", "reinitVector","\"${keystoreProperties['reinitVector']}\""
     }
 
     buildTypes {
@@ -125,7 +126,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    api project(':doublerecord')
+    api project(':base')
     implementation 'com.lxj:xpopup:1.8.8'
     implementation 'com.github.JustinWjq:commonwidget:1.0.1'
 

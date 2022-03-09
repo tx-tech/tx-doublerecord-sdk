@@ -34,7 +34,7 @@ class OrderActivity : BaseActivity() {
     }
 
     override fun initData() {
-        val mFlowId = intent.extras.getString(flowIdStr)
+        val mFlowId = intent.extras?.getString(flowIdStr)
         SystemHttpRequest.getInstance().getRecordTaskProcessDisabled(
                 mFlowId,
                 object : HttpRequestClient.RequestHttpCallBack{

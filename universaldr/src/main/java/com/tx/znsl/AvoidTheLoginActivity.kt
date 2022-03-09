@@ -1,41 +1,30 @@
-package com.txt.myapplication
+package com.tx.znsl
 
 //import com.txt.video.widget.utils.ToastUtils
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import com.common.widget.base.BaseActivity
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.interfaces.SimpleCallback
-import com.tencent.bugly.crashreport.CrashReport
 import com.txt.sl.TXSdk
 import com.txt.sl.callback.onSDKListener
 import com.txt.sl.callback.onTxPageListener
+import kotlinx.android.synthetic.main.activity_appmain.*
 import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONObject
 
-class MainActivity : AppCompatActivity(), onTxPageListener {
+class AvoidTheLoginActivity : BaseActivity(), onTxPageListener {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        setContentView(R.layout.activity_main)
-        if (BuildConfig.DEBUG)
-            et.setText("sl-wjq-001")
-        initView()
-
-    }
-
-    override fun onSaveInstanceState(outState: Bundle?) {
-        super.onSaveInstanceState(outState)
-    }
+    override fun getLayoutId(): Int = R.layout.activity_appmain
 
     var type = ""
-    fun initView() {
+    override  fun initView() {
+        if (BuildConfig.DEBUG)
+            et.setText("sl-wjq-001")
         TXSdk.getInstance().addOnTxPageListener(this)
         if (intent != null) {
             type = if (intent?.getStringExtra("type") != null) {
@@ -137,29 +126,24 @@ class MainActivity : AppCompatActivity(), onTxPageListener {
         val fullname = et_fullname.text.toString()
 //        val orgAccount = "gscjg"
         if (loginName.isEmpty()) {
-            Toast.makeText(this@MainActivity, "请填入账号！", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@AvoidTheLoginActivity, "请填入账号！", Toast.LENGTH_SHORT).show()
             return
         }
         if (orgAccount.isEmpty()) {
-            Toast.makeText(this@MainActivity, "请填入组织代码！", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@AvoidTheLoginActivity, "请填入组织代码！", Toast.LENGTH_SHORT).show()
             return
         }
         if (fullname.isEmpty()) {
-            Toast.makeText(this@MainActivity, "请填入姓名！", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@AvoidTheLoginActivity, "请填入姓名！", Toast.LENGTH_SHORT).show()
             return
         }
         var flowid =""
         when(pageType){
             "2","4"->{
-                flowid= if (BuildConfig.DEBUG){
-                    "20210923270007"
-                }else{
-                    et_flowid.text.toString()
-                }
-
+                flowid= et_flowid.text.toString()
 
                 if (flowid.isEmpty()) {
-                    Toast.makeText(this@MainActivity, "请填入业务单号！", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@AvoidTheLoginActivity, "请填入业务单号！", Toast.LENGTH_SHORT).show()
                     return
                 }
             }
@@ -275,7 +259,7 @@ class MainActivity : AppCompatActivity(), onTxPageListener {
         var TYPE = ""
         fun gotoActivity(context: Activity, type: String) {
             context.startActivityForResult(
-                Intent(context, MainActivity::class.java).apply {
+                Intent(context, AvoidTheLoginActivity::class.java).apply {
                     putExtra("type", type)
                 },
                 12300
@@ -285,11 +269,11 @@ class MainActivity : AppCompatActivity(), onTxPageListener {
     }
 
     override fun onSuccess(taskId: String) {
-        Toast.makeText(this@MainActivity,"返回的业务单号为："+ taskId, Toast.LENGTH_SHORT).show()
+        Toast.makeText(this@AvoidTheLoginActivity,"返回的业务单号为："+ taskId, Toast.LENGTH_SHORT).show()
     }
 
     override fun onSuccess() {
-        Toast.makeText(this@MainActivity,"返回了", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this@AvoidTheLoginActivity,"返回了", Toast.LENGTH_SHORT).show()
     }
     override fun onFail(errCode: Int, errMsg: String) {
 

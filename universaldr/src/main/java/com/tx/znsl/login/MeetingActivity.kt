@@ -1,18 +1,11 @@
 package com.tx.znsl.login
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
-import android.util.Log
 import android.view.View
 import com.common.widget.base.BaseActivity
 import com.lxj.xpopup.XPopup
-import com.lxj.xpopup.interfaces.OnConfirmListener
-import com.lxj.xpopup.interfaces.SimpleCallback
 import com.tx.znsl.R
-import com.txt.sl.TXSdk
 import com.txt.sl.callback.onSDKListener
 import com.txt.sl.config.TXManagerImpl
 import com.txt.sl.entity.constant.SPConstant

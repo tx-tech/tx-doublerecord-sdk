@@ -130,7 +130,7 @@ class OrderDetailsPageActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClick
     var mTaskId = ""
     fun requestData() {
         val dialog = TxPopup.Builder(this).asLoading("获取信息中...").show()
-        mTaskId = intent.extras.getString(OrderDetailsPageActivity.taskIdStr)
+        mTaskId = intent?.extras?.getString(OrderDetailsPageActivity.taskIdStr)!!
         SystemHttpRequest.getInstance()
             .getFlowDetailsByTaskid(mTaskId, object : HttpRequestClient.RequestHttpCallBack {
                 override fun onSuccess(json: String?) {
