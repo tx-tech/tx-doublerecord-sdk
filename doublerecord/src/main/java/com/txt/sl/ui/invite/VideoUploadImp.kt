@@ -146,9 +146,9 @@ public class VideoUploadImp {
             }
 
             override fun onFail(
-                request: CosXmlRequest,
-                clientException: CosXmlClientException,
-                serviceException: CosXmlServiceException
+                request: CosXmlRequest?,
+                clientException: CosXmlClientException?,
+                serviceException: CosXmlServiceException?
             ) {
 
 
@@ -157,12 +157,12 @@ public class VideoUploadImp {
                     if (clientException != null) {
                         clientException.printStackTrace()
                     } else {
-                        serviceException.printStackTrace()
+                        serviceException?.printStackTrace()
                     }
                     TxLogUtils.i(
-                        "onFail：" + request.bucket + "clientException:"
-                                + clientException.message + clientException.errorCode +
-                                "serviceException:" + serviceException.message + serviceException.errorCode
+                        "onFail：" + request?.bucket + "clientException:"
+                                + clientException?.message + clientException?.errorCode +
+                                "serviceException:" + serviceException?.message + serviceException?.errorCode
                     )
                 }catch (e:Exception){
 

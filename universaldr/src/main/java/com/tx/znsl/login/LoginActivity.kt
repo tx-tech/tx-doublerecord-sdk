@@ -19,7 +19,9 @@ import com.txt.sl.config.socket.SocketBusiness
 import com.txt.sl.entity.constant.SPConstant
 import com.txt.sl.system.SystemSocket
 import com.txt.sl.ui.dialog.CustomDialog
+import com.txt.sl.utils.CheckEnvUtils
 import com.txt.sl.utils.InfoUtils
+import com.txt.sl.utils.TxLogUtils
 import com.txt.sl.utils.TxSPUtils
 import com.txt.sl.widget.LoadingView
 import kotlinx.android.synthetic.main.activity_login.*
@@ -95,26 +97,15 @@ class LoginActivity : AppMVPActivity< LoginContract.View, LoginPresenter>(), Vie
     override fun onClick(v: View) {
         when (v.id) {
             R.id.btn_login -> {
-<<<<<<< Updated upstream
-//                if (BuildConfig.DEBUG) {
-//                    etAccount!!.setText("sl-zs")
-//                    etPassWord!!.setText("123")
-//                }
-=======
                 if (BuildConfig.DEBUG) {
                     etAccount!!.setText("sl-zx-004")
                     etPassWord!!.setText("123")
                 }
->>>>>>> Stashed changes
                 mAccount = etAccount!!.text.toString().trim { it <= ' ' }
                 mPassWord = etPassWord!!.text.toString().trim { it <= ' ' }
                 if (TextUtils.isEmpty(mAccount)||TextUtils.isEmpty(mPassWord)){
-                    XPopup.Builder(this).asConfirm("登录","账号/密码不能为空","","好的",object :OnConfirmListener{
-                        override fun onConfirm() {
-
-                        }
-
-                    },null,true).show()
+                    XPopup.Builder(this).asConfirm("登录","账号/密码不能为空","","好的",
+                        { },null,true).show()
                 }else{
                     showLoading()
                     mPresenter?.loginReuqest(mAccount!!,mPassWord!!)

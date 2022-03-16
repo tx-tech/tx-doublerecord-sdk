@@ -119,7 +119,6 @@ class MainActivity : AppCompatActivity(), LoginContract.View {
 
     override fun LoginBFail(errCode: Int, err: String?) {
         runOnUiThread {
-            Toast.makeText(this,"",Toast.LENGTH_SHORT).show()
             LoginActivity.newActivity(this)
             finish()
         }

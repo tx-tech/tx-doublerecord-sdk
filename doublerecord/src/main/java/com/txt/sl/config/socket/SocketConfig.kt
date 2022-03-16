@@ -75,7 +75,7 @@ class SocketConfig private constructor() {
                 TXSdk.Environment.DEV ->
                     "https://dev1.ikandy.cn:60427"
                 TXSdk.Environment.RELEASE ->
-                    "https://doublerecord.cloud-ins.cn"
+                    "https://sl-zrhj.cloud-ins.cn"
                 TXSdk.Environment.POC ->
                     "https://doublerecord.cloud-ins.cn"
                 else ->

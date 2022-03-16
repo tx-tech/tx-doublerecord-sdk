@@ -36,6 +36,7 @@ public class SignUtils {
             switch (TXSdk.getInstance().getEnvironment()) {
                 case DEV:
                 case TEST:
+                case RELEASE:
                     iv = new IvParameterSpec(initVector.getBytes("UTF-8"));
                     break;
                 default:
@@ -45,6 +46,7 @@ public class SignUtils {
             switch (TXSdk.getInstance().getEnvironment()) {
                 case DEV:
                 case TEST:
+                case RELEASE:
                     skeySpec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
                     break;
                 default:

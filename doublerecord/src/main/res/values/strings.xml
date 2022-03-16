@@ -27,10 +27,17 @@
 
 1、确认视频通话画面是否流畅，声音是否清晰。\n
 2、请代理人确认与投保人屏幕内容显示是否一致。\n
-3、请参与人员全程将头像保持在视频内。</string>
+3、请参与人员全程将头像保持在视频内。\n
+4、请不要使用耳机，请使用声音外放
+
+    </string>
 
     <string name="tx_title_ready2">温馨提示，请代理人与投保人沟通交流，并进行录制前沟通</string>
-    <string name="tx_title_ready3">1、确认视频通话画面是否流畅，声音是否清晰。\n2、请代理人确认与投保人屏幕内容显示是否一致。\n3、请参与人员全程将头像保持在视频内。</string>
+    <string name="tx_title_ready3">1、确认视频通话画面是否流畅，声音是否清晰。\n
+        2、请代理人确认与投保人屏幕内容显示是否一致。\n
+        3、请参与人员全程将头像保持在视频内。\n
+        4、请不要使用耳机，请使用声音外放
+    </string>
 
     <string name="tx_str_endRecord">确认完成</string>
     <string name="tx_common_loading">加载中...</string>

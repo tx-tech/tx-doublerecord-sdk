@@ -23,6 +23,12 @@ class AvoidTheLoginActivity : BaseActivity(), onTxPageListener {
 
     var type = ""
     override  fun initView() {
+        statusBarConfig
+            .statusBarDarkFont(true)
+            // 指定导航栏背景颜色
+            .navigationBarColor(R.color.white)
+            .statusBarColor(R.color.white)
+            .init()
         if (BuildConfig.DEBUG)
             et.setText("sl-wjq-001")
         TXSdk.getInstance().addOnTxPageListener(this)

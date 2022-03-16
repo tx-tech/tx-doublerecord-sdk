@@ -25,13 +25,14 @@ class MeetingActivity : BaseActivity() {
     }
 
     override fun initView() {
-        super.initView()
+
         statusBarConfig
             .statusBarDarkFont(true)
             // 指定导航栏背景颜色
             .navigationBarColor(R.color.tx_white)
             .statusBarColor(R.color.tx_white)
             .init()
+        super.initView()
     }
 
 

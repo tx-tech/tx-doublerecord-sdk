@@ -202,6 +202,9 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
         initBusiness()
         initAbsCredentialProvider()
+        mTRTCCloud = TRTCCloud.sharedInstance(applicationContext)
+
+        mTRTCCloud?.setListener(TRTCCloudImplListener(this@OfflineActivity))
     }
 
     interface RoomHttpCallBack {
@@ -747,9 +750,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         )
 
 
-        mTRTCCloud = TRTCCloud.sharedInstance(applicationContext)
 
-        mTRTCCloud?.setListener(TRTCCloudImplListener(this@OfflineActivity))
 
 
         LogUtils.i("width--${allocCloudVideoView1?.width}-----height--${allocCloudVideoView1?.height}")
@@ -775,7 +776,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
         mTRTCCloud?.setVideoEncoderParam(encParam)
         mTrtcVideolayout?.setIVideoLayoutListener(this)
-
+        startCheckPhotoInVideo()
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -928,6 +929,9 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         override fun onSpeedTest(p0: TRTCSpeedTestResult?, p1: Int, p2: Int) {
             super.onSpeedTest(p0, p1, p2)
             LogUtils.i("onSpeedTest", p0.toString())
+
+           //4 5 6
+            CheckEnvUtils.getInstance().setNetSpeed(p0?.quality!!)
         }
 
         override fun onEnterRoom(result: Long) {
@@ -936,12 +940,8 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 //            tv_local_video.text = "代理人：$agentName"
             mStartRecordTimeMillis = System.currentTimeMillis()
             LogUtils.i("mStartRecordTimeMillis-----$mStartRecordTimeMillis")
-            startCheckPhotoInVideo()
-            mTRTCCloud?.startSpeedTest(
-                jsonObject1!!.getInt("sdkAppId"),
-                mUserId,
-                jsonObject1!!.getString("agentSig")
-            )
+
+
         }
 
         override fun onExitRoom(reason: Int) {
@@ -1133,6 +1133,11 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         tv_checkenvstate.background =
             ContextCompat.getDrawable(this@OfflineActivity, R.drawable.tx_checkenv_bg)
         val envData = CheckEnvUtils.getInstance().getEnvData()
+        mTRTCCloud?.startSpeedTest(
+            jsonObject1!!.getInt("sdkAppId"),
+            mUserId,
+            jsonObject1!!.getString("agentSig")
+        )
         CheckEnvUtils.getInstance().startCheckEnv(this, false)
         checkenvItemAdapter?.setNewData(envData)
         var timer = object : CountDownTimer(3000, 1000) {
@@ -2344,7 +2349,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                         "waiting" -> {//纯文字展示,数组第一个元素为标题
                                             runOnUiThread {
                                                 val fillterData = fillterData(stepDataNode!!)
-                                                showWatingPage("", fillterData)
+                                                showWatingPage(fillterData, fillterData)
 
                                             }
 
@@ -3237,7 +3242,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     //开始检测人脸
     private fun startCheckPhotoInVideo() {
         if (null == startCheckPhotoInVideoTimer) {
-            startCheckPhotoInVideoTimer = object : CountDownTimer(600000, 6000) {
+            startCheckPhotoInVideoTimer = object : CountDownTimer(600000, 3000) {
                 @SuppressLint("SetTextI18n")
                 override fun onTick(millisUntilFinished: Long) {
                     LogUtils.i("checkPhotoInVideo----")

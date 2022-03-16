@@ -5,7 +5,7 @@
     android:id="@+id/page_checkenv"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/tx_dimen_40dp"
+    android:layout_marginTop="@dimen/tx_dimen_10dp"
     android:layout_marginBottom="@dimen/tx_dimen_5dp"
     android:padding="5dp"
     android:visibility="gone"

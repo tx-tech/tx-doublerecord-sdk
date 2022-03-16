@@ -27,8 +27,8 @@
         android:text="如发现检测不合格，请按提示调整后重新检测录制环境" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:src="@drawable/tx_checkenv_tip" />
 
 

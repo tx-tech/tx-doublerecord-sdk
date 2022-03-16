@@ -6,6 +6,7 @@ import android.support.multidex.MultiDex
 import com.tencent.bugly.crashreport.CrashReport
 import com.txt.sl.TXSdk
 import com.txt.sl.config.TxConfig
+import com.umeng.commonsdk.UMConfigure
 
 /**
  * Created by JustinWjq
@@ -28,7 +29,7 @@ public class App : Application() {
         txConfig.miniprogramTitle = "智能双录"//显示小程序描述
         txConfig.miniprogramDescription = "智能双录"//显示小程序描述
 
-        TXSdk.getInstance().init(this, TXSdk.Environment.TEST, true, txConfig)
+        TXSdk.getInstance().init(this, TXSdk.Environment.RELEASE, true, txConfig)
         CrashReport.initCrashReport(this, "8351c98a70", true)
 //        val txConfig = TxConfig()
 //        txConfig.wxKey = "wx1fafe1ec5a12a7a8" //双录测试环境
@@ -53,7 +54,7 @@ public class App : Application() {
 //
 //        TXSdk.getInstance().init(this, TXSdk.Environment.TEST, true, txConfig)
 //        CrashReport.initCrashReport(this, "8351c98a70", true)
-//        UMConfigure.init(this, "622042e8317aa8776078adcc", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "")
+        UMConfigure.init(this, "622042e8317aa8776078adcc", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "")
     }
 
     override fun attachBaseContext(base: Context?) {
