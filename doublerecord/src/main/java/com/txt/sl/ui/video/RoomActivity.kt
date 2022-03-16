@@ -2061,6 +2061,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         })
         if (!url.isEmpty()) {
             textreadWebView.loadUrl(url)
+            textreadWebView.reload()
         } else {
             showToastMsg("url为空")
         }

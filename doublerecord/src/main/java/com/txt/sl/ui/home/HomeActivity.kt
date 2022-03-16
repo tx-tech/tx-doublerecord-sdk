@@ -10,9 +10,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.view.View
 import android.widget.TextView
+import com.common.widget.base.BaseActivity
 import com.common.widget.dialog.TxPopup
 import com.common.widget.dialog.interfaces.XPopupCallback
-import com.common.widget.base.BaseActivity
 import com.common.widget.recyclerviewadapterhelper.base.entity.MultiItemEntity
 import com.common.widget.toast.ToastUtils
 import com.txt.sl.R
@@ -38,6 +38,7 @@ import kotlinx.android.synthetic.main.tx_activity_home.*
 import org.json.JSONArray
 import org.json.JSONObject
 
+
 class HomeActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClickListener {
 
     companion object {
@@ -60,7 +61,6 @@ class HomeActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClickListener {
 
     override fun onRightClick(view: View?) {
         SearchActivity.newActivity(this)
-//        TestActivity.newActivity(this)
     }
 
 
@@ -122,7 +122,10 @@ class HomeActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClickListener {
         intentFilter.addAction(br_action)
         intentFilter.addAction(br_action_selectTab)
         registerReceiver(broadcastReceiver, intentFilter)
+
     }
+
+
 
     override fun onDestroy() {
         super.onDestroy()

@@ -17,6 +17,7 @@ import com.txt.sl.system.SystemHttpRequest;
 import com.txt.sl.utils.AppUtils;
 import com.txt.sl.utils.ApplicationUtils;
 import com.txt.sl.utils.TxLogUtils;
+//import com.umeng.commonsdk.UMConfigure;
 
 
 /**
@@ -177,7 +178,7 @@ public class TXSdk implements ITXSDKApi {
         //设置appbar的样式
         TitleBar.setDefaultInitializer(new AppBarInitializer());
         SystemBaiduLocation.getInstance().initLocation();
-
+//        UMConfigure.init(application, "622042e8317aa8776078adcc", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
     }
 
     @Override
