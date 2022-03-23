@@ -163,7 +163,13 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         when (keyCode) {
             KeyEvent.KEYCODE_VOLUME_UP -> {
                 audioManager?.adjustStreamVolume(
-                    AudioManager.STREAM_VOICE_CALL,
+                    if (jugeTenantIdIsRemoteRecord()) {
+                        AudioManager.STREAM_VOICE_CALL
+                    }else{
+                        AudioManager.STREAM_MUSIC
+                    }
+
+                   ,
                     AudioManager.ADJUST_RAISE,
                     AudioManager.FX_FOCUS_NAVIGATION_UP
                 )
@@ -171,7 +177,11 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             }
             KeyEvent.KEYCODE_VOLUME_DOWN -> {
                 audioManager?.adjustStreamVolume(
-                    AudioManager.STREAM_VOICE_CALL,
+                    if (jugeTenantIdIsRemoteRecord()) {
+                        AudioManager.STREAM_VOICE_CALL
+                    }else{
+                        AudioManager.STREAM_MUSIC
+                    },
                     AudioManager.ADJUST_LOWER,
                     AudioManager.FX_FOCUS_NAVIGATION_UP
                 )
@@ -598,73 +608,75 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
         )
 
-//
-//        tv_continue.setOnClickListener(
-//            CheckDoubleClickListener {
-//                //上传视频
-//                val customDialog = ChooseSpeedDialog(this)
-//                customDialog.setAgentIdStr(TXManagerImpl.instance!!.getAgentId())
-//                customDialog.setOnConfirmClickListener(object :
-//                    ChooseSpeedDialog.OnConfirmClickListener {
-//                    override fun onSpeedChoose(voiceSpeed: Int, content: String) {
-//                        destroylongTextTtsController()
-//                        longTextTtsController?.setVoiceSpeed(voiceSpeed)
-////                        startTtsController(content, object : OfflineActivity.RoomHttpCallBack {
-////                            override fun onSuccess(json: String?) {
-////                            }
-////
-////                            override fun onFail(err: String?, code: Int) {
-////                            }
-////
-////                        })
-//                        pushMessage(JSONObject().apply {
-//                            put("serviceId", mServiceId)
-//                            put("type", "voiceSpeed")
-//                            put("step", JSONObject().apply {
-//                                put("roomType", "voiceSpeed")
-//                                put("voiceSpeed", voiceSpeed)
-//                            })
-//                        }, object : RoomHttpCallBack {
-//                            override fun onSuccess(json: String?) {
-//
-//                            }
-//
-//                            override fun onFail(err: String?, code: Int) {
-//                            }
-//                        })
-//                    }
-//
-//                    override fun onConfirm() {
-//
-//                    }
-//
-//                })
-//                TxPopup.Builder(this).maxWidth(900).dismissOnTouchOutside(false)
-//                    .dismissOnBackPressed(false).setPopupCallback(object : XPopupCallback {
-//                        override fun onCreated() {
-//
-//                        }
-//
-//                        override fun beforeShow() {
-//                        }
-//
-//                        override fun onShow() {
-//
-//                        }
-//
-//                        override fun onDismiss() {
-//
-//                        }
-//
-//                        override fun onBackPressed(): Boolean {
-//                            return true
-//                        }
-//
-//                    }).asCustom(customDialog).show()
-//
-//            }
-//
-//        )
+        if (!jugeTenantIdIsRemoteRecord()) {
+            tv_continue.setOnClickListener(
+                CheckDoubleClickListener {
+                    //上传视频
+                    val customDialog = ChooseSpeedDialog(this)
+                    customDialog.setAgentIdStr(TXManagerImpl.instance!!.getAgentId())
+                    customDialog.setOnConfirmClickListener(object :
+                        ChooseSpeedDialog.OnConfirmClickListener {
+                        override fun onSpeedChoose(voiceSpeed: Int, content: String) {
+                            destroylongTextTtsController()
+                            longTextTtsController?.setVoiceSpeed(voiceSpeed)
+                            startTtsController(content, object : OfflineActivity.RoomHttpCallBack {
+                                override fun onSuccess(json: String?) {
+                                    }
+
+                                override fun onFail(err: String?, code: Int) {
+                                    }
+
+                        })
+                            pushMessage(JSONObject().apply {
+                                put("serviceId", mServiceId)
+                                put("type", "voiceSpeed")
+                                put("step", JSONObject().apply {
+                                    put("roomType", "voiceSpeed")
+                                    put("voiceSpeed", voiceSpeed)
+                                })
+                            }, object : RoomHttpCallBack {
+                                override fun onSuccess(json: String?) {
+
+                                }
+
+                                override fun onFail(err: String?, code: Int) {
+                                }
+                            })
+                        }
+
+                        override fun onConfirm() {
+
+                        }
+
+                    })
+                    TxPopup.Builder(this).maxWidth(900).dismissOnTouchOutside(false)
+                        .dismissOnBackPressed(false).setPopupCallback(object : XPopupCallback {
+                            override fun onCreated() {
+
+                            }
+
+                            override fun beforeShow() {
+                            }
+
+                            override fun onShow() {
+
+                            }
+
+                            override fun onDismiss() {
+
+                            }
+
+                            override fun onBackPressed(): Boolean {
+                                return true
+                            }
+
+                        }).asCustom(customDialog).show()
+
+                }
+
+            )
+        }
+
 
         tv_continue1.setOnClickListener (
                CheckDoubleClickListener {
@@ -799,7 +811,13 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 //        mTRTCCloud?.deviceManager?.setAudioRoute(TXDeviceManager.TXAudioRoute.TXAudioRouteSpeakerphone)
 
         // 开启本地声音采集并上行
-        mTRTCCloud?.startLocalAudio(TRTCCloudDef.TRTC_AUDIO_QUALITY_DEFAULT)
+
+        mTRTCCloud?.startLocalAudio(
+            if (jugeTenantIdIsRemoteRecord()) {
+                TRTCCloudDef.TRTC_AUDIO_QUALITY_DEFAULT
+            }else{
+                TRTCCloudDef.TRTC_AUDIO_QUALITY_MUSIC
+            })
         // 开启本地画面采集并上行
         mTRTCCloud?.startLocalPreview(mIsFrontCamera, allocCloudVideoView)
 
@@ -1393,7 +1411,11 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             }
 
             override fun onFinish() {
-                CheckEnvUtils.getInstance().getCheckEnv(this@RoomActivity, true)
+                CheckEnvUtils.getInstance().getCheckEnv(this@RoomActivity, if (jugeTenantIdIsRemoteRecord()) {
+                    true
+                }else{
+                    false
+                })
                 checkenvItemAdapter?.notifyDataSetChanged()
                 CheckEnvUtils.getInstance().stopCheckEnv(this@RoomActivity)
                 if (CheckEnvUtils.getInstance().checkvolumeAndMemory) {
@@ -1466,19 +1488,24 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         page_tts.visibility(true)
 
         tts_page_content.text = contentStr
-//        startTtsController(contentStr, object : OfflineActivity.RoomHttpCallBack {
-//            override fun onSuccess(json: String?) {
-//                autoCheckBoolean = true
-//                failType = ""
-//                failReason = ""
-//                quickEnterRoom(isSystem = true)
-//            }
-//
-//            override fun onFail(err: String?, code: Int) {
-//
-//            }
-//
-//        })
+        if (jugeTenantIdIsRemoteRecord()) {
+
+        }else{
+            startTtsController(contentStr, object : OfflineActivity.RoomHttpCallBack {
+            override fun onSuccess(json: String?) {
+                autoCheckBoolean = true
+                failType = ""
+                failReason = ""
+                quickEnterRoom(isSystem = true)
+            }
+
+            override fun onFail(err: String?, code: Int) {
+
+            }
+
+        })
+        }
+
     }
 
     private fun showUserASR(prompt: String, fillterData: String, isAgent: Boolean) {
@@ -1600,17 +1627,24 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                 )
                 "insured"
             }
-            mTrtcrightvideolayoutmanager?.updateOcrLayout(userType, View.VISIBLE)
-//            startTtsController(title, object : OfflineActivity.RoomHttpCallBack {
-//                override fun onSuccess(json: String?) {
-//
-//                }
-//
-//                override fun onFail(err: String?, code: Int) {
-//
-//                }
-//
-//            })
+            if (jugeTenantIdIsRemoteRecord()) {
+                mTrtcrightvideolayoutmanager?.updateOcrLayout(userType, View.VISIBLE)
+
+            }else{
+                startTtsController(title, object : OfflineActivity.RoomHttpCallBack {
+                    override fun onSuccess(json: String?) {
+                        mTrtcrightvideolayoutmanager?.updateOcrLayout(userType, View.VISIBLE)
+                    }
+
+                    override fun onFail(err: String?, code: Int) {
+
+                    }
+
+                })
+            }
+
+
+
 
 
             if ("agent".equals(userType)) {
@@ -1875,17 +1909,21 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             layout_right.visibility = View.INVISIBLE
             Handler().postDelayed({ mTrtcrightvideolayoutmanager?.makeFullVideoView(1) }, 200)
         }
+        if (jugeTenantIdIsRemoteRecord()) {
 
-//        startTtsController(title, object : OfflineActivity.RoomHttpCallBack {
-//            override fun onSuccess(json: String?) {
-//
-//            }
-//
-//            override fun onFail(err: String?, code: Int) {
-//
-//            }
-//
-//        })
+        }else{
+            startTtsController(title, object : OfflineActivity.RoomHttpCallBack {
+            override fun onSuccess(json: String?) {
+
+            }
+
+            override fun onFail(err: String?, code: Int) {
+
+            }
+
+        })
+        }
+
 
         mWatingArray = jsonArray
         for (index in 0 until jsonArray.length()) {
@@ -2240,7 +2278,8 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         tv_skip.text = when (buttonStr) {
             "startRecord" -> {
                 tv_skip.visibility(true)
-                tv_continue.visibility(false)
+
+                tv_continue.visibility(!jugeTenantIdIsRemoteRecord())
                 "开始录制"
             }
             "next" -> {
@@ -2267,11 +2306,15 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     public fun jugeTenantId() {
         //getTenantCode
         tv_continue1.visibility(
-            TXManagerImpl.instance?.getTenantCode() == "remoteRecordPoc1"
+            TXManagerImpl.instance?.getTenantCode().equals("remoteRecordPoc1")
         )
 
 
     }
+    /***
+     *  慧金租户 RemoteRecord
+     */
+    public fun jugeTenantIdIsRemoteRecord() :Boolean = TXManagerImpl.instance?.getTenantCode().equals("remoteRecord")
 
     public fun showLinkName(linkName: String, linkIndex: String) {
         tv_linkname.text = linkName
@@ -3242,17 +3285,6 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                         stringBuffer.append("$subStr \n")
                     }
                     runOnUiThread {
-//                        startTtsController(stringBuffer.toString(),
-//                            object : OfflineActivity.RoomHttpCallBack {
-//                                override fun onSuccess(json: String?) {
-//
-//                                }
-//
-//                                override fun onFail(err: String?, code: Int) {
-//
-//                                }
-//
-//                            })
                         tv_skip.visibility(false)
                         showWatingPage(
                             stringBuffer.toString(),
@@ -3290,7 +3322,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 //                                            }
 //
 //                                        }
-            "signFile", "textRead" -> {
+            "signFile", "textRead" -> { //小程序跳出新页面，播报有问题，需要app这边单独播报
                 runOnUiThread {
                     layout_right.visibility = View.VISIBLE
                     tv_skip.visibility(false)

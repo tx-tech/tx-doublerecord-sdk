@@ -347,6 +347,7 @@ class TXManagerImpl : ITXManager {
                 mOrgAccountName = orgName
                 mFullName = fullName
                 mTenantCode = tenantCode
+                TxLogUtils.i("mTenantCode---$mTenantCode")
                 listener.onResultSuccess(json!!)
             }
 

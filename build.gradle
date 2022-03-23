@@ -79,12 +79,8 @@ appconfig = [
             targetSdkVersion : 28,
             minSdkVersion    : 19,
             buildToolsVersion: '28.0.0',
-            versionName      : "v1.2.0",
-<<<<<<< HEAD
+            versionName      : "v1.2.1",
             versionCode : 2021021021
-=======
-            versionCode : 123131321
->>>>>>> fix_1.2.0.1
 
 
     ]

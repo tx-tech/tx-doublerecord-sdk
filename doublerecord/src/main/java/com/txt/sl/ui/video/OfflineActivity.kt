@@ -506,56 +506,59 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     var isPassed = true
     var isStartRecord = false
     private fun initBusiness() {
-//        tv_continue.setOnClickListener(
-//            CheckDoubleClickListener {
-//                //上传视频
-//                val customDialog = ChooseSpeedDialog(this)
-//                customDialog.setAgentIdStr(TXManagerImpl.instance!!.getAgentId())
-//                customDialog.setOnConfirmClickListener(object :
-//                    ChooseSpeedDialog.OnConfirmClickListener {
-//                    override fun onSpeedChoose(voiceSpeed: Int, content: String) {
-//                        destroylongTextTtsController()
-//                        longTextTtsController?.setVoiceSpeed(voiceSpeed)
-//                        startTtsController(content, object : OfflineActivity.RoomHttpCallBack {
-//                            override fun onSuccess(json: String?) {
-//                            }
-//
-//                            override fun onFail(err: String?, code: Int) {
-//                            }
-//
-//                        })
-//                    }
-//
-//                    override fun onConfirm() {
-//
-//                    }
-//
-//                })
-//                TxPopup.Builder(this).maxWidth(900).dismissOnTouchOutside(false)
-//                    .dismissOnBackPressed(false).setPopupCallback(object : XPopupCallback {
-//                        override fun onCreated() {
-//
-//                        }
-//
-//                        override fun beforeShow() {
-//                        }
-//
-//                        override fun onShow() {
-//
-//                        }
-//
-//                        override fun onDismiss() {
-//
-//                        }
-//
-//                        override fun onBackPressed(): Boolean {
-//                            return true
-//                        }
-//
-//                    }).asCustom(customDialog).show()
-//
-//            }
-//        )
+        if (!jugeTenantIdIsRemoteRecord()) {
+            tv_continue.setOnClickListener(
+                CheckDoubleClickListener {
+                    //上传视频
+                    val customDialog = ChooseSpeedDialog(this)
+                    customDialog.setAgentIdStr(TXManagerImpl.instance!!.getAgentId())
+                    customDialog.setOnConfirmClickListener(object :
+                        ChooseSpeedDialog.OnConfirmClickListener {
+                        override fun onSpeedChoose(voiceSpeed: Int, content: String) {
+                            destroylongTextTtsController()
+                            longTextTtsController?.setVoiceSpeed(voiceSpeed)
+                            startTtsController(content, object : OfflineActivity.RoomHttpCallBack {
+                                override fun onSuccess(json: String?) {
+                                }
+
+                                override fun onFail(err: String?, code: Int) {
+                                }
+
+                            })
+                        }
+
+                        override fun onConfirm() {
+
+                        }
+
+                    })
+                    TxPopup.Builder(this).maxWidth(900).dismissOnTouchOutside(false)
+                        .dismissOnBackPressed(false).setPopupCallback(object : XPopupCallback {
+                            override fun onCreated() {
+
+                            }
+
+                            override fun beforeShow() {
+                            }
+
+                            override fun onShow() {
+
+                            }
+
+                            override fun onDismiss() {
+
+                            }
+
+                            override fun onBackPressed(): Boolean {
+                                return true
+                            }
+
+                        }).asCustom(customDialog).show()
+
+                }
+            )
+        }
+
         tv_continue1.setOnClickListener ( CheckDoubleClickListener {
                 TxPopup.Builder(this).maxWidth(700).asConfirm(
                     "补充录制",
@@ -764,8 +767,8 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         trtcParams.role = TRTCCloudDef.TRTCRoleAnchor
 
         // 进入通话
-        mTRTCCloud?.enterRoom(trtcParams, TRTCCloudDef.TRTC_APP_SCENE_VIDEOCALL)
-
+//        mTRTCCloud?.enterRoom(trtcParams, TRTCCloudDef.TRTC_APP_SCENE_VIDEOCALL)
+        mStartRecordTimeMillis = System.currentTimeMillis()
         mTRTCCloud?.startLocalPreview(mIsFrontCamera, allocCloudVideoView1)
 
         val encParam = TRTCVideoEncParam()
@@ -938,7 +941,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             super.onEnterRoom(result)
             LogUtils.i("onEnterRoom-----result----$result")
 //            tv_local_video.text = "代理人：$agentName"
-            mStartRecordTimeMillis = System.currentTimeMillis()
+//            mStartRecordTimeMillis = System.currentTimeMillis()
             LogUtils.i("mStartRecordTimeMillis-----$mStartRecordTimeMillis")
 
 
@@ -1078,7 +1081,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         hideView()
         room_time.visibility(true)
         ll_showLink.visibility(true)
-        tv_continue.visibility(false)
+        tv_continue.visibility(!jugeTenantIdIsRemoteRecord())
         tv_skip.visibility(true)
         tv_skip.text = "开始录制"
         val jsonArray = jsonObject1!!.optJSONArray("process")
@@ -1938,7 +1941,6 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         tv_skip.text = when (buttonStr) {
             "startRecord" -> {
                 tv_skip.visibility(true)
-
                 "开始录制"
             }
             "next" -> {
@@ -3474,6 +3476,10 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         }
     }
 
+    /***
+     *  慧金租户 RemoteRecord
+     */
+    public fun jugeTenantIdIsRemoteRecord() :Boolean = TXManagerImpl.instance?.getTenantCode().equals("remoteRecord")
 
 }
 
