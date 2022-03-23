@@ -2306,7 +2306,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     public fun jugeTenantId() {
         //getTenantCode
         tv_continue1.visibility(
-            TXManagerImpl.instance?.getTenantCode().equals("remoteRecordPoc1")
+            !TXManagerImpl.instance?.getTenantCode().equals("remoteRecord")
         )
 
 

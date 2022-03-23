@@ -1848,12 +1848,12 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     }
 
     /***
-     *  百度租户显示 remoteRecordPoc1
+     *  百度租户显示 remoteRecordPoc1 慧金租户 remoteRecord
      */
     public fun jugeTenantId() {
         //getTenantCode
         tv_continue1.visibility(
-            TXManagerImpl.instance?.getTenantCode() == "remoteRecordPoc1"
+            !TXManagerImpl.instance?.getTenantCode().equals("remoteRecord")
         )
 
 
