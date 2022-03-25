@@ -1639,7 +1639,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     }
 
     private fun showTextReadPage(promtStr: String, url: String) {
-
+        TxLogUtils.i("showTextReadPage","url-----"+url)
         checkLeftVideoToRightScreen(page_11Page!!, true, "")
         page_11Page?.findViewById<TextView>(R.id.tv_prompt1)?.text = promtStr
         page_11Page?.findViewById<TextView>(R.id.tv_textread_skip)?.visibility(true)
@@ -1663,21 +1663,9 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         settings.defaultTextEncodingName = "UTF-8"
         settings.domStorageEnabled = true
         settings.javaScriptCanOpenWindowsAutomatically = true
-        webView?.setWebChromeClient(object : WebChromeClient() {
-            override fun onProgressChanged(view: WebView, newProgress: Int) {
-                if (newProgress == 100) {
-                }
-            }
-        })
-        webView?.setWebViewClient(object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-                view.loadUrl(url)
-                return true
-            }
-        })
         if (!url.isEmpty()) {
             webView.loadUrl(url)
-            webView.reload()
+//            webView.reload()
         } else {
             showToastMsg("url为空")
         }

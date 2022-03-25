@@ -2002,21 +2002,8 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         settings.defaultTextEncodingName = "UTF-8"
         settings.domStorageEnabled = true
         settings.javaScriptCanOpenWindowsAutomatically = true
-        textreadWebView?.setWebChromeClient(object : WebChromeClient() {
-            override fun onProgressChanged(view: WebView, newProgress: Int) {
-                if (newProgress == 100) {
-                }
-            }
-        })
-        textreadWebView?.setWebViewClient(object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-                view.loadUrl(url)
-                return true
-            }
-        })
         if (!url.isEmpty()) {
             textreadWebView.loadUrl(url)
-            textreadWebView.reload()
         } else {
             showToastMsg("url为空")
         }
