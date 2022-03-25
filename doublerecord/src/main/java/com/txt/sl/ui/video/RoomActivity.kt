@@ -2314,7 +2314,8 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     /***
      *  慧金租户 RemoteRecord
      */
-    public fun jugeTenantIdIsRemoteRecord() :Boolean = TXManagerImpl.instance?.getTenantCode().equals("remoteRecord")
+//    public fun jugeTenantIdIsRemoteRecord() :Boolean = TXManagerImpl.instance?.getTenantCode().equals("remoteRecord")
+    public fun jugeTenantIdIsRemoteRecord() :Boolean = true
 
     public fun showLinkName(linkName: String, linkIndex: String) {
         tv_linkname.text = linkName
