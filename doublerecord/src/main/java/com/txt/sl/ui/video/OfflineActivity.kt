@@ -1226,7 +1226,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     }
 
     fun showWatingPage(title: String, titleContent: String) {
-        startTtsController(title, object : RoomHttpCallBack {
+        startTtsController(titleContent, object : RoomHttpCallBack {
             override fun onSuccess(json: String?) {
 
             }
