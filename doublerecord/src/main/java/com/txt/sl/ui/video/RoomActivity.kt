@@ -3486,6 +3486,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         ll_page12_result.visibility(false)
         page_basetype_originsign.visibility(true)
         rl_sign.visibility(true)
+        iv_page_sign_12.clear()
     }
 
     var credentialProvider: LocalCredentialProvider? = null

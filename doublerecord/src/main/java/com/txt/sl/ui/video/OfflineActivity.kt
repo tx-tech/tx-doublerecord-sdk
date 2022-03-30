@@ -1699,6 +1699,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         val settings: WebSettings = webView?.getSettings()!!
         settings.javaScriptEnabled = true
         settings.setSupportZoom(true)
+
         settings.builtInZoomControls = true
         settings.displayZoomControls = false
         settings.cacheMode = WebSettings.LOAD_NO_CACHE
@@ -1706,21 +1707,25 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         settings.defaultTextEncodingName = "UTF-8"
         settings.domStorageEnabled = true
         settings.javaScriptCanOpenWindowsAutomatically = true
-        webView?.setWebChromeClient(object : WebChromeClient() {
-            override fun onProgressChanged(view: WebView, newProgress: Int) {
-                if (newProgress == 100) {
-                }
-            }
-        })
-        webView?.setWebViewClient(object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-                view.loadUrl(url)
-                return true
-            }
-        })
+        settings.layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
+        //0 web.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
+        //11 web.getSettings().setLoadWithOverviewMode(true);
+//        webView?.setWebChromeClient(object : WebChromeClient() {
+//            override fun onProgressChanged(view: WebView, newProgress: Int) {
+//                if (newProgress == 100) {
+//                }
+//            }
+//        })
+//        webView?.setWebViewClient(object : WebViewClient() {
+//            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+//                view.loadUrl(url)
+//                return true
+//            }
+//        })
         if (!url.isEmpty()) {
+//            webView.setInitialScale(80)
             webView.loadUrl(url)
-            webView.reload()
+//            webView.reload()
         } else {
             showToastMsg("url为空")
         }

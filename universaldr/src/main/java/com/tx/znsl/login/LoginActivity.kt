@@ -98,8 +98,8 @@ class LoginActivity : AppMVPActivity< LoginContract.View, LoginPresenter>(), Vie
         when (v.id) {
             R.id.btn_login -> {
                 if (BuildConfig.DEBUG) {
-                    etAccount!!.setText("sl-zx-004")
-                    etPassWord!!.setText("123")
+                    etAccount!!.setText("aixin-poc")
+                    etPassWord!!.setText("ax123456")
                 }
                 mAccount = etAccount!!.text.toString().trim { it <= ' ' }
                 mPassWord = etPassWord!!.text.toString().trim { it <= ' ' }
