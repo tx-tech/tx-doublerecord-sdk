@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.SystemClock
 import android.text.TextUtils
 import android.view.View
+import android.widget.LinearLayout
 import com.common.widget.dialog.TxPopup
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.interfaces.OnConfirmListener
@@ -57,7 +58,6 @@ class LoginActivity : AppMVPActivity< LoginContract.View, LoginPresenter>(), Vie
     override fun getLayoutId(): Int = R.layout.activity_login
 
 
-
     private fun continuousClick() {
         //每次点击时，数组向前移动一位
         System.arraycopy(mHits, 1, mHits, 0, mHits.size - 1)
@@ -91,10 +91,10 @@ class LoginActivity : AppMVPActivity< LoginContract.View, LoginPresenter>(), Vie
     override fun onClick(v: View) {
         when (v.id) {
             R.id.btn_login -> {
-                if (BuildConfig.DEBUG) {
-                    etAccount!!.setText("sl-zx-c-001")
-                    etPassWord!!.setText("123456")
-                }
+//                if (BuildConfig.DEBUG) {
+//                    etAccount!!.setText("lj-dobule-baolian-app")
+//                    etPassWord!!.setText("123456")
+//                }
                 mAccount = etAccount!!.text.toString().trim { it <= ' ' }
                 mPassWord = etPassWord!!.text.toString().trim { it <= ' ' }
                 if (TextUtils.isEmpty(mAccount)||TextUtils.isEmpty(mPassWord)){

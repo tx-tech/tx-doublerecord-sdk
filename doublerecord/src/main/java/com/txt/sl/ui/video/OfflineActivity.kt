@@ -724,13 +724,13 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         val trtcParams = TRTCParams()
         trtcParams.sdkAppId = jsonObject1!!.optInt("sdkAppId")
         trtcParams.userId = mUserId
-        trtcParams.roomId = mRoomId?.toInt()!!
+//        trtcParams.roomId = mRoomId?.toInt()!!
         // userSig是进入房间的用户签名，相当于密码（这里生成的是测试签名，正确做法需要业务服务器来生成，然后下发给客户端）
         trtcParams.userSig = jsonObject1!!.optString("agentSig")
         trtcParams.role = TRTCCloudDef.TRTCRoleAnchor
 
         // 进入通话
-        mTRTCCloud?.enterRoom(trtcParams, TRTCCloudDef.TRTC_APP_SCENE_VIDEOCALL)
+//        mTRTCCloud?.enterRoom(trtcParams, TRTCCloudDef.TRTC_APP_SCENE_VIDEOCALL)
 
         mTRTCCloud?.startLocalPreview(mIsFrontCamera, allocCloudVideoView1)
 

@@ -73,7 +73,7 @@ class SocketConfig private constructor() {
 
             var IP = when (TXSdk.getInstance().environment) {
                 TXSdk.Environment.DEV ->
-                    "https://developer.ikandy.cn:62727"
+                    "https://dev1.ikandy.cn:60427"
                 TXSdk.Environment.RELEASE ->
                     "https://doublerecord.cloud-ins.cn"
                 TXSdk.Environment.POC ->
