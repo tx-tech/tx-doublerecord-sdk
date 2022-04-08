@@ -78,7 +78,7 @@ class VideoUploadActivity : BaseActivity() {
     open fun initProgressDialog() {
 
         progressBar?.max = 100
-        mFlowId = intent.extras.getString(VideoUploadActivity.flowIdStr)
+        mFlowId = intent.extras?.getString(VideoUploadActivity.flowIdStr)!!
         val screenRecordStr = TxSPUtils.get(this, mFlowId, "") as String
         if (screenRecordStr.isEmpty()) {
             showExitDialog()

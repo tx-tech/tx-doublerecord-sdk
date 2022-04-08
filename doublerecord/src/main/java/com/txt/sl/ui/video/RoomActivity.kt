@@ -196,7 +196,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                 mTaskId = intent.getStringExtra(Constant.TASKID)
             }
             if (intent.getStringExtra(Constant.RECORDTYPE) != null) {
-                mRecordType = intent.getStringExtra(Constant.RECORDTYPE)
+                mRecordType = intent.getStringExtra(Constant.RECORDTYPE)!!
             }
         }
 
