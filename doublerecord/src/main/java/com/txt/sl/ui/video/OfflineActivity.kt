@@ -761,7 +761,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         val trtcParams = TRTCParams()
         trtcParams.sdkAppId = jsonObject1!!.optInt("sdkAppId")
         trtcParams.userId = mUserId
-        trtcParams.roomId = mRoomId?.toInt()!!
+//        trtcParams.roomId = mRoomId?.toInt()!!
         // userSig是进入房间的用户签名，相当于密码（这里生成的是测试签名，正确做法需要业务服务器来生成，然后下发给客户端）
         trtcParams.userSig = jsonObject1!!.optString("agentSig")
         trtcParams.role = TRTCCloudDef.TRTCRoleAnchor
@@ -1265,11 +1265,11 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         }
 
         isCacheLeftVideo = checkVideoToRight
-
+        resetWebviewUrl()
     }
 
     fun showWatingPage(title: String, titleContent: String) {
-        startTtsController(title, object : RoomHttpCallBack {
+        startTtsController(titleContent, object : RoomHttpCallBack {
             override fun onSuccess(json: String?) {
 
             }
@@ -1681,8 +1681,9 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
     }
 
+    var webView :WebView ?= null
     private fun showTextReadPage(promtStr: String, url: String) {
-
+        TxLogUtils.i("showTextReadPage","url-----"+url)
         checkLeftVideoToRightScreen(page_11Page!!, true, "")
         page_11Page?.findViewById<TextView>(R.id.tv_prompt1)?.text = promtStr
         page_11Page?.findViewById<TextView>(R.id.tv_textread_skip)?.visibility(true)
@@ -1694,7 +1695,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             }
         )
 
-        val webView =
+        webView =
             page_11Page?.findViewById<WebView>(R.id.textreadWebView)
         val settings: WebSettings = webView?.getSettings()!!
         settings.javaScriptEnabled = true
@@ -1707,7 +1708,6 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         settings.defaultTextEncodingName = "UTF-8"
         settings.domStorageEnabled = true
         settings.javaScriptCanOpenWindowsAutomatically = true
-        settings.layoutAlgorithm = WebSettings.LayoutAlgorithm.SINGLE_COLUMN
         //0 web.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
         //11 web.getSettings().setLoadWithOverviewMode(true);
 //        webView?.setWebChromeClient(object : WebChromeClient() {
@@ -1723,12 +1723,15 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 //            }
 //        })
         if (!url.isEmpty()) {
-//            webView.setInitialScale(80)
-            webView.loadUrl(url)
-//            webView.reload()
+            webView?.loadUrl(url)
         } else {
             showToastMsg("url为空")
         }
+
+    }
+
+      private fun resetWebviewUrl(){
+        webView?.loadUrl("")
 
     }
 
@@ -1852,17 +1855,6 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         recyclerView?.adapter = mExpandableItemAdapter
     }
 
-    /***
-     *  百度租户显示 remoteRecordPoc1 慧金租户 remoteRecord
-     */
-    public fun jugeTenantId() {
-        //getTenantCode
-        tv_continue1.visibility(
-            !TXManagerImpl.instance?.getTenantCode().equals("remoteRecord")
-        )
-
-
-    }
 
     //取消录像计时器
     private fun cancelTitleTimer() {
@@ -3486,6 +3478,19 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
      */
 //    public fun jugeTenantIdIsRemoteRecord() :Boolean = TXManagerImpl.instance?.getTenantCode().equals("remoteRecord")
     public fun jugeTenantIdIsRemoteRecord() :Boolean = true
+
+
+    /***
+     *  百度租户显示 remoteRecordPoc1 慧金租户 remoteRecord
+     */
+    public fun jugeTenantId() {
+        //getTenantCode
+        tv_continue1.visibility(
+            !TXManagerImpl.instance?.getTenantCode().equals("remoteRecord")
+        )
+
+
+    }
 
 }
 

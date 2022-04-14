@@ -88,7 +88,7 @@ object TxLogUtils {
         if (TXSdk.getInstance().isDebug) {
             w(
                     DEFAULT_TAG,
-                    msg
+                    msg!!
             )
         }
     }

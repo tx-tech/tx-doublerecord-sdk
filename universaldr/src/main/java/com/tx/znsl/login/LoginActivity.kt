@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.SystemClock
 import android.text.TextUtils
 import android.view.View
+import android.widget.LinearLayout
 import com.common.widget.dialog.TxPopup
 import com.lxj.xpopup.XPopup
 import com.lxj.xpopup.interfaces.OnConfirmListener
@@ -61,7 +62,6 @@ class LoginActivity : AppMVPActivity< LoginContract.View, LoginPresenter>(), Vie
         }
     }
     override fun getLayoutId(): Int = R.layout.activity_login
-
 
 
     private fun continuousClick() {

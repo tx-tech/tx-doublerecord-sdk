@@ -2069,7 +2069,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
     }
 
-
+    var webView :WebView ?= null
     private fun showTextReadPage(promtStr: String, obj: String, url: String) {
         hideView()
         hideVideoView()
@@ -2085,21 +2085,8 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         settings.defaultTextEncodingName = "UTF-8"
         settings.domStorageEnabled = true
         settings.javaScriptCanOpenWindowsAutomatically = true
-        textreadWebView?.setWebChromeClient(object : WebChromeClient() {
-            override fun onProgressChanged(view: WebView, newProgress: Int) {
-                if (newProgress == 100) {
-                }
-            }
-        })
-        textreadWebView?.setWebViewClient(object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-                view.loadUrl(url)
-                return true
-            }
-        })
         if (!url.isEmpty()) {
             textreadWebView.loadUrl(url)
-            textreadWebView.reload()
         } else {
             showToastMsg("url为空")
         }
@@ -2113,6 +2100,11 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             }
 
         )
+    }
+
+    private fun resetWebviewUrl(){
+        webView?.loadUrl("")
+
     }
 
 
@@ -3859,6 +3851,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         ll_pageend.visibility(false)
         tv_text_continue.visibility(false)
         page_error.visibility(false)
+        resetWebviewUrl()
     }
 
     override fun onConnect() {

@@ -56,7 +56,6 @@ public class SystemHttpRequest {
     public void changeIP(TXSdk.Environment environment) {
         switch (environment) {
             case DEV:
-//                mDoubleRecordIP = "https://developer.ikandy.cn:62727";
                 mDoubleRecordIP = "https://dev1.ikandy.cn:60427";
                 break;
             case RELEASE:
@@ -70,7 +69,6 @@ public class SystemHttpRequest {
         }
         switch (environment) {
             case DEV:
-//                mCommonIp = "https://developer.ikandy.cn:62728";
                 mCommonIp = "https://dev1.ikandy.cn:60428";
                 break;
             case RELEASE:
@@ -402,6 +400,33 @@ public class SystemHttpRequest {
             Gson gson = new Gson();
             String s = gson.toJson(bean);
             JSONObject fieldsJsonObject = new JSONObject(s);
+
+            //insurancePrompt: '投保提示书',
+            fieldsJsonObject.put("insurancePrompt","https://gdrb-dingsun-test-1255383806.cos.ap-shanghai.myqcloud.com/%E3%80%90%E5%A4%87%E6%A1%88%E7%89%88%E3%80%91%E7%88%B1%E5%BF%83%E4%BA%BA%E5%AF%BF%E9%99%84%E5%8A%A0%E6%8A%95%E4%BF%9D%E4%BA%BA%E8%B1%81%E5%85%8D2021%E6%9D%A1%E6%AC%BE.pdf");
+            //   productsClause: '产品条款',
+            //   writtenDocument: '免除保险人责任条款的书面说明',
+            //   insurancePolicy: '投保单',
+            //   productSpecification: '产品说明书'
+            //   insuranceClause:‘保险条款’
+            //   bankTransferAdvice:'银行转账通知'
+            fieldsJsonObject.put("productsClause","https://gdrb-dingsun-test-1255383806.cos.ap-shanghai.myqcloud.com/%E7%88%B1%E5%BF%83%E4%BA%BA%E5%AF%BF%E5%AE%88%E6%8A%A4%E7%A5%9E2.0%E7%BB%88%E8%BA%AB%E5%AF%BF%E9%99%A9--%E6%9D%A1%E6%AC%BE.pdf");
+            fieldsJsonObject.put("writtenDocument","https://gdrb-dingsun-test-1255383806.cos.ap-shanghai.myqcloud.com/%E7%88%B1%E5%BF%83%E4%BA%BA%E5%AF%BF%E5%AE%88%E6%8A%A4%E7%A5%9E2.0%E7%BB%88%E8%BA%AB%E5%AF%BF%E9%99%A9-%E5%85%B3%E4%BA%8E%E5%85%8D%E9%99%A4%E4%BF%9D%E9%99%A9%E4%BA%BA%E8%B4%A3%E4%BB%BB%E6%9D%A1%E6%AC%BE%E7%9A%84%E4%B9%A6%E9%9D%A2%E8%AF%B4%E6%98%8E.pdf");
+            fieldsJsonObject.put("insurancePolicy","https://csms-uat.ebaocloud.com.cn/csms2/mobile/policy-fxbdx/signature/4268?delegated=ZRHJ.zr-longkou&ticket=CSMD%20WlJISjoyMDY2NjEwOTA2MWIwMGJjOTQ0MWY2NTg4N2VlM2Y4ZToxNjQ4NTY5NjAwMDAw&token=nedKneC0kf1PtJTpFMWc&parcel=company-zrhj%2Cproduct-FXBDXXYLQ%2Cagent-zr-longkou&rootUrlFrom=https%3A%2F%2Fappuat.zrbxyun.com%2F%23!%2Fapp%2Ftab%2Fhome&actionType=read&pageStep=sign-signature");
+            fieldsJsonObject.put("productSpecification","https://csms-uat.ebaocloud.com.cn/csms2/mobile/policy-fxbdx/signature/4268?delegated=ZRHJ.zr-longkou&ticket=CSMD%20WlJISjoyMDY2NjEwOTA2MWIwMGJjOTQ0MWY2NTg4N2VlM2Y4ZToxNjQ4NTY5NjAwMDAw&token=nedKneC0kf1PtJTpFMWc&parcel=company-zrhj%2Cproduct-FXBDXXYLQ%2Cagent-zr-longkou&rootUrlFrom=https%3A%2F%2Fappuat.zrbxyun.com%2F%23!%2Fapp%2Ftab%2Fhome&actionType=read&pageStep=sign-signature");
+           //            fieldsJsonObject.put("insuranceClause","https://csms-uat.ebaocloud.com.cn/csms2/mobile/policy-fxbdx/signature/4268?delegated=ZRHJ.zr-longkou&ticket=CSMD%20WlJISjoyMDY2NjEwOTA2MWIwMGJjOTQ0MWY2NTg4N2VlM2Y4ZToxNjQ4NTY5NjAwMDAw&token=nedKneC0kf1PtJTpFMWc&parcel=company-zrhj%2Cproduct-FXBDXXYLQ%2Cagent-zr-longkou&rootUrlFrom=https%3A%2F%2Fappuat.zrbxyun.com%2F%23!%2Fapp%2Ftab%2Fhome&actionType=read&pageStep=sign-signature");
+//            fieldsJsonObject.put("bankTransferAdvice","https://csms-uat.ebaocloud.com.cn/csms2/mobile/policy-fxbdx/signature/4268?delegated=ZRHJ.zr-longkou&ticket=CSMD%20WlJISjoyMDY2NjEwOTA2MWIwMGJjOTQ0MWY2NTg4N2VlM2Y4ZToxNjQ4NTY5NjAwMDAw&token=nedKneC0kf1PtJTpFMWc&parcel=company-zrhj%2Cproduct-FXBDXXYLQ%2Cagent-zr-longkou&rootUrlFrom=https%3A%2F%2Fappuat.zrbxyun.com%2F%23!%2Fapp%2Ftab%2Fhome&actionType=read&pageStep=sign-signature");
+
+            fieldsJsonObject.put("insuranceCompanyLevel2","623c365bf70d00000f0007e8");
+            fieldsJsonObject.put("insuranceCompanyNew","623aaaf92f740000aa0023e8");
+            //
+           // 当签字对象为投保人时，取客户推送保单信息接口中的policyHolderSignPage的url，跟同屏SDK交互，获取两个链接
+
+           // 当签字对象为被保人时，取客户推送保单信息接口中的insuredSignPage的url，跟同屏SDK交互，获取两个链接
+            fieldsJsonObject.put("policyHolderSignPage","https://csms-uat.ebaocloud.com.cn/csms2/mobile/policy-fxbdx/signature/4268?delegated=ZRHJ.zr-longkou&ticket=CSMD%20WlJISjoyMDY2NjEwOTA2MWIwMGJjOTQ0MWY2NTg4N2VlM2Y4ZToxNjQ4NTY5NjAwMDAw&token=nedKneC0kf1PtJTpFMWc&parcel=company-zrhj%2Cproduct-FXBDXXYLQ%2Cagent-zr-longkou&rootUrlFrom=https%3A%2F%2Fappuat.zrbxyun.com%2F%23!%2Fapp%2Ftab%2Fhome&actionType=read&pageStep=sign-signature");
+            fieldsJsonObject.put("insuredSignPage","https://csms-uat.ebaocloud.com.cn/csms2/mobile/policy-fxbdx/signature/4268?delegated=ZRHJ.zr-longkou&ticket=CSMD%20WlJISjoyMDY2NjEwOTA2MWIwMGJjOTQ0MWY2NTg4N2VlM2Y4ZToxNjQ4NTY5NjAwMDAw&token=nedKneC0kf1PtJTpFMWc&parcel=company-zrhj%2Cproduct-FXBDXXYLQ%2Cagent-zr-longkou&rootUrlFrom=https%3A%2F%2Fappuat.zrbxyun.com%2F%23!%2Fapp%2Ftab%2Fhome&actionType=read&pageStep=sign-signature");
+
+//          "insuranceCompanyLevel2": "623c365bf70d00000f0007e8",
+//          "insuranceCompanyNew": "623aaaf92f740000aa0023e8",
             jsonObject.put("fields", fieldsJsonObject);
         } catch (Exception e) {
 

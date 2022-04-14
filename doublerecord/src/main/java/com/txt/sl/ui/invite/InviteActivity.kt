@@ -103,7 +103,7 @@ public class InviteActivity : BaseActivity() {
                                 )&&permissionsGranted.contains("android.permission.ACCESS_FINE_LOCATION")
                         ) {
 
-                            requestRoom(isRemote,flowId,membersArray,selfInsurance,taskId,recordType)
+                            requestRoom(isRemote,flowId,membersArray,selfInsurance,taskId,recordType!!)
                         } else {
                             showToastMsg("视频权限或音频权限未申请！")
                         }
@@ -124,7 +124,7 @@ public class InviteActivity : BaseActivity() {
                 }
                 ).request()
             } else {
-                requestRoom(isRemote, flowId, membersArray, selfInsurance, taskId,recordType)
+                requestRoom(isRemote, flowId, membersArray, selfInsurance, taskId,recordType!!)
             }
 
 
