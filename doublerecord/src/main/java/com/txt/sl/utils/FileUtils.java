@@ -6,12 +6,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.util.Base64;
 import android.util.Log;
 
@@ -547,17 +549,48 @@ public class FileUtils {
         return true; //压缩成功返回true
     }
 
-    public static int getFileSize(String path) {
+
+    /**
+     * 获取文件的大小
+     *
+     * @param path 文件路径
+     * @return size 大小
+     */
+    public static long getFileSize(String path) {
+        long size = 0L;
         File file = new File(path);
         try {
             FileInputStream inputStream = new FileInputStream(file);
-            return inputStream.available() / 1024;
+            size = (long)inputStream.available();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return -1;
+        return size;
+    }
+    /**
+     * 获取文件的大小
+     *
+     * @param file 文件
+     * @return size 大小
+     */
+    public static long getFileSize(@NonNull File file) {
+        long size = 0L;
+
+        try {
+            if (file.exists()) {
+                FileInputStream fis = null;
+                fis = new FileInputStream(file);
+                size = (long)fis.available();
+            } else {
+                Log.e(TAG, "文件不存在!");
+            }
+        } catch (Exception var4) {
+            var4.printStackTrace();
+        }
+
+        return size;
     }
 
 
@@ -712,6 +745,63 @@ public class FileUtils {
         return bitmapdata;
     }
 
+    public static void cutFile(String src, String endsrc, int num) {
+        FileInputStream fis = null;
+        File file = null;
+        try {
+            fis = new FileInputStream(src);
+            file = new File(src);
+            //创建规定大小的byte数组
+            byte[] b = new byte[num];
+            int len = 0;
+            //name为以后的小文件命名做准备
+            int name = 1;
+            //遍历将大文件读入byte数组中，当byte数组读满后写入对应的小文件中
+            while ((len = fis.read(b)) != -1) {
+                //分别找到原大文件的文件名和文件类型，为下面的小文件命名做准备
+                String name2 = file.getName();
+                int lastIndexOf = name2.lastIndexOf(".");
+                String substring = name2.substring(0, lastIndexOf);
+                String substring2 = name2.substring(lastIndexOf, name2.length());
+                FileOutputStream fos = new FileOutputStream(endsrc + substring + "_" + name + substring2);
+                //将byte数组写入对应的小文件中
+                fos.write(b, 0, len);
+                //结束资源
+                fos.close();
+                name++;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (fis != null) {
+                    //结束资源
+                    fis.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
+    /**
+     * 获取文件的时长
+     *
+     * @param videoPath 文件路径
+     * @return
+     */
+    public static int getLocalVideoDuration(String videoPath) {
+        try {
+            MediaMetadataRetriever mmr = new MediaMetadataRetriever();
+            mmr.setDataSource(videoPath);
+            int duration = Integer.parseInt(mmr.extractMetadata(9));
+            return duration;
+        } catch (Exception var3) {
+            var3.printStackTrace();
+            return 0;
+        }
+    }
 
 }

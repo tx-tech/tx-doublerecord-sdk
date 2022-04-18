@@ -759,12 +759,12 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         LogUtils.i("width--${allocCloudVideoView1?.width}-----height--${allocCloudVideoView1?.height}")
         // 初始化配置 SDK 参数
         val trtcParams = TRTCParams()
-        trtcParams.sdkAppId = jsonObject1!!.optInt("sdkAppId")
-        trtcParams.userId = mUserId
+//        trtcParams.sdkAppId = jsonObject1!!.optInt("sdkAppId")
+//        trtcParams.userId = mUserId
 //        trtcParams.roomId = mRoomId?.toInt()!!
         // userSig是进入房间的用户签名，相当于密码（这里生成的是测试签名，正确做法需要业务服务器来生成，然后下发给客户端）
-        trtcParams.userSig = jsonObject1!!.optString("agentSig")
-        trtcParams.role = TRTCCloudDef.TRTCRoleAnchor
+//        trtcParams.userSig = jsonObject1!!.optString("agentSig")
+//        trtcParams.role = TRTCCloudDef.TRTCRoleAnchor
 
         // 进入通话
 //        mTRTCCloud?.enterRoom(trtcParams, TRTCCloudDef.TRTC_APP_SCENE_VIDEOCALL)
@@ -1137,9 +1137,9 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             ContextCompat.getDrawable(this@OfflineActivity, R.drawable.tx_checkenv_bg)
         val envData = CheckEnvUtils.getInstance().getEnvData()
         mTRTCCloud?.startSpeedTest(
-            jsonObject1!!.getInt("sdkAppId"),
+            jsonObject1!!.optInt("sdkAppId"),
             mUserId,
-            jsonObject1!!.getString("agentSig")
+            jsonObject1!!.optString("agentSig")
         )
         CheckEnvUtils.getInstance().startCheckEnv(this, false)
         checkenvItemAdapter?.setNewData(envData)

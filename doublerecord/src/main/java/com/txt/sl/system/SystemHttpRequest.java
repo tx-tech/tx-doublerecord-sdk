@@ -4,12 +4,14 @@ import android.media.MediaPlayer;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
+import com.tencent.rtmp.TXLog;
 import com.txt.sl.config.TXManagerImpl;
 import com.txt.sl.TXSdk;
 import com.txt.sl.entity.bean.UploadOcrPic;
 import com.txt.sl.entity.bean.UploadSignPic;
 import com.txt.sl.entity.bean.UploadShotPic;
 import com.txt.sl.entity.bean.RequestOrderBean;
+import com.txt.sl.utils.FileUtils;
 import com.txt.sl.utils.LogUtils;
 import com.txt.sl.BuildConfig;
 import com.txt.sl.http.https.HttpRequestClient;
@@ -127,25 +129,12 @@ public class SystemHttpRequest {
     public void getVideoSizeAndDuration(String fileName, onFileCallBack onFileCallBack) {
 
         LogUtils.i(TAG, "fileName: " + fileName);
-
-        File upFile = null;
-        try {
-            upFile = new File(fileName);
-        } catch (Exception e) {
-            e.printStackTrace();
+        int localVideoDuration = FileUtils.getLocalVideoDuration(fileName);
+        long fileSize = FileUtils.getFileSize(fileName);
+        if (null != onFileCallBack) {
+            onFileCallBack.onFile(fileSize, localVideoDuration);
         }
 
-        MediaPlayer mediaPlayer = new MediaPlayer();
-        try {
-            long length = upFile.length();
-            mediaPlayer.setDataSource(upFile.getAbsolutePath());
-            mediaPlayer.prepare();
-            int duration = mediaPlayer.getDuration();
-            onFileCallBack.onFile(length, duration);
-            mediaPlayer.release();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     //上传log日志
@@ -188,6 +177,7 @@ public class SystemHttpRequest {
             mediaPlayer.prepare();
             int duration = mediaPlayer.getDuration();
             onFileCallBack.onFile(length, duration);
+            LogUtils.d(TAG, "getLocalVideoDuration: " + upFile.getAbsolutePath());
             mediaPlayer.release();
         } catch (IOException e) {
             e.printStackTrace();
@@ -401,8 +391,8 @@ public class SystemHttpRequest {
             String s = gson.toJson(bean);
             JSONObject fieldsJsonObject = new JSONObject(s);
 
-            //insurancePrompt: '投保提示书',
             fieldsJsonObject.put("insurancePrompt","https://gdrb-dingsun-test-1255383806.cos.ap-shanghai.myqcloud.com/%E3%80%90%E5%A4%87%E6%A1%88%E7%89%88%E3%80%91%E7%88%B1%E5%BF%83%E4%BA%BA%E5%AF%BF%E9%99%84%E5%8A%A0%E6%8A%95%E4%BF%9D%E4%BA%BA%E8%B1%81%E5%85%8D2021%E6%9D%A1%E6%AC%BE.pdf");
+            //insurancePrompt: '投保提示书',
             //   productsClause: '产品条款',
             //   writtenDocument: '免除保险人责任条款的书面说明',
             //   insurancePolicy: '投保单',
@@ -413,8 +403,8 @@ public class SystemHttpRequest {
             fieldsJsonObject.put("writtenDocument","https://gdrb-dingsun-test-1255383806.cos.ap-shanghai.myqcloud.com/%E7%88%B1%E5%BF%83%E4%BA%BA%E5%AF%BF%E5%AE%88%E6%8A%A4%E7%A5%9E2.0%E7%BB%88%E8%BA%AB%E5%AF%BF%E9%99%A9-%E5%85%B3%E4%BA%8E%E5%85%8D%E9%99%A4%E4%BF%9D%E9%99%A9%E4%BA%BA%E8%B4%A3%E4%BB%BB%E6%9D%A1%E6%AC%BE%E7%9A%84%E4%B9%A6%E9%9D%A2%E8%AF%B4%E6%98%8E.pdf");
             fieldsJsonObject.put("insurancePolicy","https://csms-uat.ebaocloud.com.cn/csms2/mobile/policy-fxbdx/signature/4268?delegated=ZRHJ.zr-longkou&ticket=CSMD%20WlJISjoyMDY2NjEwOTA2MWIwMGJjOTQ0MWY2NTg4N2VlM2Y4ZToxNjQ4NTY5NjAwMDAw&token=nedKneC0kf1PtJTpFMWc&parcel=company-zrhj%2Cproduct-FXBDXXYLQ%2Cagent-zr-longkou&rootUrlFrom=https%3A%2F%2Fappuat.zrbxyun.com%2F%23!%2Fapp%2Ftab%2Fhome&actionType=read&pageStep=sign-signature");
             fieldsJsonObject.put("productSpecification","https://csms-uat.ebaocloud.com.cn/csms2/mobile/policy-fxbdx/signature/4268?delegated=ZRHJ.zr-longkou&ticket=CSMD%20WlJISjoyMDY2NjEwOTA2MWIwMGJjOTQ0MWY2NTg4N2VlM2Y4ZToxNjQ4NTY5NjAwMDAw&token=nedKneC0kf1PtJTpFMWc&parcel=company-zrhj%2Cproduct-FXBDXXYLQ%2Cagent-zr-longkou&rootUrlFrom=https%3A%2F%2Fappuat.zrbxyun.com%2F%23!%2Fapp%2Ftab%2Fhome&actionType=read&pageStep=sign-signature");
-           //            fieldsJsonObject.put("insuranceClause","https://csms-uat.ebaocloud.com.cn/csms2/mobile/policy-fxbdx/signature/4268?delegated=ZRHJ.zr-longkou&ticket=CSMD%20WlJISjoyMDY2NjEwOTA2MWIwMGJjOTQ0MWY2NTg4N2VlM2Y4ZToxNjQ4NTY5NjAwMDAw&token=nedKneC0kf1PtJTpFMWc&parcel=company-zrhj%2Cproduct-FXBDXXYLQ%2Cagent-zr-longkou&rootUrlFrom=https%3A%2F%2Fappuat.zrbxyun.com%2F%23!%2Fapp%2Ftab%2Fhome&actionType=read&pageStep=sign-signature");
-//            fieldsJsonObject.put("bankTransferAdvice","https://csms-uat.ebaocloud.com.cn/csms2/mobile/policy-fxbdx/signature/4268?delegated=ZRHJ.zr-longkou&ticket=CSMD%20WlJISjoyMDY2NjEwOTA2MWIwMGJjOTQ0MWY2NTg4N2VlM2Y4ZToxNjQ4NTY5NjAwMDAw&token=nedKneC0kf1PtJTpFMWc&parcel=company-zrhj%2Cproduct-FXBDXXYLQ%2Cagent-zr-longkou&rootUrlFrom=https%3A%2F%2Fappuat.zrbxyun.com%2F%23!%2Fapp%2Ftab%2Fhome&actionType=read&pageStep=sign-signature");
+            fieldsJsonObject.put("insuranceClause","https://csms-uat.ebaocloud.com.cn/csms2/mobile/policy-fxbdx/signature/4268?delegated=ZRHJ.zr-longkou&ticket=CSMD%20WlJISjoyMDY2NjEwOTA2MWIwMGJjOTQ0MWY2NTg4N2VlM2Y4ZToxNjQ4NTY5NjAwMDAw&token=nedKneC0kf1PtJTpFMWc&parcel=company-zrhj%2Cproduct-FXBDXXYLQ%2Cagent-zr-longkou&rootUrlFrom=https%3A%2F%2Fappuat.zrbxyun.com%2F%23!%2Fapp%2Ftab%2Fhome&actionType=read&pageStep=sign-signature");
+            fieldsJsonObject.put("bankTransferAdvice","https://csms-uat.ebaocloud.com.cn/csms2/mobile/policy-fxbdx/signature/4268?delegated=ZRHJ.zr-longkou&ticket=CSMD%20WlJISjoyMDY2NjEwOTA2MWIwMGJjOTQ0MWY2NTg4N2VlM2Y4ZToxNjQ4NTY5NjAwMDAw&token=nedKneC0kf1PtJTpFMWc&parcel=company-zrhj%2Cproduct-FXBDXXYLQ%2Cagent-zr-longkou&rootUrlFrom=https%3A%2F%2Fappuat.zrbxyun.com%2F%23!%2Fapp%2Ftab%2Fhome&actionType=read&pageStep=sign-signature");
 
             fieldsJsonObject.put("insuranceCompanyLevel2","623c365bf70d00000f0007e8");
             fieldsJsonObject.put("insuranceCompanyNew","623aaaf92f740000aa0023e8");
@@ -488,46 +478,6 @@ public class SystemHttpRequest {
     }
 
 
-    public static void cutFile(String src, String endsrc, int num) {
-        FileInputStream fis = null;
-        File file = null;
-        try {
-            fis = new FileInputStream(src);
-            file = new File(src);
-            //创建规定大小的byte数组
-            byte[] b = new byte[num];
-            int len = 0;
-            //name为以后的小文件命名做准备
-            int name = 1;
-            //遍历将大文件读入byte数组中，当byte数组读满后写入对应的小文件中
-            while ((len = fis.read(b)) != -1) {
-                //分别找到原大文件的文件名和文件类型，为下面的小文件命名做准备
-                String name2 = file.getName();
-                int lastIndexOf = name2.lastIndexOf(".");
-                String substring = name2.substring(0, lastIndexOf);
-                String substring2 = name2.substring(lastIndexOf, name2.length());
-                FileOutputStream fos = new FileOutputStream(endsrc + substring + "_" + name + substring2);
-                //将byte数组写入对应的小文件中
-                fos.write(b, 0, len);
-                //结束资源
-                fos.close();
-                name++;
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (fis != null) {
-                    //结束资源
-                    fis.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     public interface onRequestCallBack {
         public void onSuccess();

@@ -19,9 +19,7 @@ import com.txt.sl.TXSdk
 import com.txt.sl.system.SystemHttpRequest
 import com.txt.sl.ui.invite.OnUploadListener
 import com.txt.sl.ui.invite.VideoUploadImp
-import com.txt.sl.utils.LogUtils
-import com.txt.sl.utils.MainThreadUtil
-import com.txt.sl.utils.TxSPUtils
+import com.txt.sl.utils.*
 import kotlinx.android.synthetic.main.tx_activity_video_upload.*
 import org.json.JSONObject
 import java.text.DecimalFormat
@@ -86,6 +84,7 @@ class UploadVideoDialog(
             val serviceId = jsonObject.getString("serviceId")
             val pathFile = jsonObject.getString("path")
             val uploadId = jsonObject.optString("uploadId")
+            LogUtils.i("upload","upload---${FileUtils.getLocalVideoDuration(pathFile)/1000/60.0}")
             if (isShowBt) {
                 tvGotovideo?.text = "暂停上传"
             }
@@ -177,9 +176,16 @@ class UploadVideoDialog(
             if (tvGotovideo?.text == "暂停上传") {
 
                 val pauseSafely = VideoUploadImp.instance.cosxmlUploadTask?.pauseSafely()
-                if (pauseSafely!!) {
-                    tvGotovideo?.text = "继续上传"
-                } else {
+                if (null != pauseSafely) {
+                    if (pauseSafely!!) {
+                        tvGotovideo?.text = "继续上传"
+                    } else {
+                        TxLogUtils.i("暂停失败---pauseSafely${pauseSafely}")
+                        ToastUtils.show("暂停失败！！！")
+                    }
+
+                }else {
+                    TxLogUtils.i("暂停失败---pauseSafely为null")
                     ToastUtils.show("暂停失败！！！")
                 }
 

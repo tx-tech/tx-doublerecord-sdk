@@ -136,10 +136,12 @@ class VideoUploadActivity : BaseActivity() {
         if (!TextUtils.isEmpty(screenRecordStr)) {
             val jsonObject = JSONObject(screenRecordStr)
             LogUtils.i("jsonObject---$jsonObject")
-            val preTime = jsonObject.getString("preTime")
-            val serviceId = jsonObject.getString("serviceId")
-            val pathFile = jsonObject.getString("path")
+            val preTime = jsonObject.optString("preTime")
+            val serviceId = jsonObject.optString("serviceId")
+            val pathFile = jsonObject.optString("path")
             val uploadId = jsonObject.optString("uploadId")
+
+            LogUtils.i("upload","upload---${FileUtils.getLocalVideoDuration(pathFile)}")
             SystemHttpRequest.getInstance().getVideoSizeAndDuration(pathFile,
                 SystemHttpRequest.onFileCallBack {size,time->
                     val byteToMB = byteToMB(size)
