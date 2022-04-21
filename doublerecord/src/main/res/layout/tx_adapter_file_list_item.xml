@@ -25,7 +25,7 @@
         app:layout_constraintLeft_toRightOf="@+id/tv_point"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginLeft="@dimen/tx_dimen_10dp"
-        tools:text ="12313"
+        tools:text ="1231312313123131231312313123131231312313"
         />
 
     <TextView
@@ -61,12 +61,14 @@
 
     <TextView
         android:id="@+id/tv2"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/tx_dimen_10dp"
         app:layout_constraintLeft_toRightOf="@+id/tv_title2"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_title2"
-        tools:text ="12313"
+        android:paddingRight="@dimen/tx_dp_10"
+        tools:text ="1231312313123131231312313123131231312313123131231312313"
         />
 
     <TextView
@@ -76,17 +78,18 @@
         android:text = "人工质检不通过意见:"
         android:layout_marginTop="@dimen/tx_dimen_5dp"
         app:layout_constraintLeft_toLeftOf="@+id/tv"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title2"
+        app:layout_constraintTop_toBottomOf="@+id/tv2"
         />
 
     <TextView
         android:id="@+id/tv3"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/tx_dimen_10dp"
         app:layout_constraintLeft_toRightOf="@+id/tv_title3"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_title3"
-        tools:text ="12313"
+        tools:text ="123131231312313123131231312313123131231312313"
         />
 
 

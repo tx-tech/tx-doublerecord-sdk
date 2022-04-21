@@ -12,9 +12,9 @@ public class LocationInfo {
     //位置信息
     private String address;
     //报案所在省
-    private String province;
+    private String province = "";
     //报案所在市
-    private String city;
+    private String city = "";
 
     public String getLatitude() {
         return altitude;

@@ -13,7 +13,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:text="投保人名字"
+            android:text="投保人姓名"
             android:layout_width="@dimen/tx_dimen_100dp"
             android:layout_height="wrap_content"
             style="@style/txTextViewStyle"

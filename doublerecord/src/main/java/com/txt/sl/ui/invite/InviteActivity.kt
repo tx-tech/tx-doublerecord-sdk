@@ -5,13 +5,11 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.location.LocationManager
 import android.os.Build
-import android.os.Handler
-import android.os.SystemClock
 import android.view.View
 import com.common.widget.base.BaseActivity
 import com.common.widget.dialog.TxPopup
-import com.common.widget.dialog.core.BasePopupView
 import com.common.widget.dialog.impl.LoadingPopupView
 import com.common.widget.dialog.util.PermissionConstants
 import com.tencent.mm.opensdk.constants.ConstantsAPI
@@ -21,13 +19,13 @@ import com.tencent.mm.opensdk.modelmsg.WXMiniProgramObject
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject
 import com.tencent.mm.opensdk.openapi.IWXAPI
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
+import com.tencent.rtmp.TXLog
 import com.tencent.trtc.TRTCCloud
 import com.txt.sl.R
 import com.txt.sl.TXSdk
 import com.txt.sl.config.TXManagerImpl
 import com.txt.sl.entity.bean.WorkItemBean
 import com.txt.sl.http.https.HttpRequestClient
-import com.txt.sl.receive.SystemBaiduLocation
 import com.txt.sl.system.SystemHttpRequest
 import com.txt.sl.ui.video.Constant
 import com.txt.sl.ui.video.OfflineActivity
@@ -36,7 +34,6 @@ import com.txt.sl.utils.LogUtils
 import com.txt.sl.utils.TxLogUtils
 import com.txt.sl.utils.TxPermissionConstants
 import com.txt.sl.utils.TxPermissionUtils
-import com.txt.sl.widget.LoadingView
 import kotlinx.android.synthetic.main.tx_activity_invite.*
 import org.json.JSONObject
 
@@ -87,45 +84,56 @@ public class InviteActivity : BaseActivity() {
             tv_invite.text = "电子签名发送完成后，可以开始进行双录"
             titleBar?.title = "发送电子签名"
         }
+        var lm = getSystemService(LOCATION_SERVICE) as LocationManager
+
+        val enable: Boolean = lm.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        TxLogUtils.i("enable","$enable")
+
         tv_gotovideo.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                TxPermissionUtils.permission(
+
+            if (enable){//位置信息打开
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    TxPermissionUtils.permission(
                         PermissionConstants.CAMERA,
                         PermissionConstants.MICROPHONE,
                         PermissionConstants.LOCATION,
-                    TxPermissionConstants.STORAGE
-                ).callback(object : TxPermissionUtils.FullCallback {
-                    override fun onGranted(permissionsGranted: List<String>) {
-                        LogUtils.i("permissionsGranted"+permissionsGranted)
+                        TxPermissionConstants.STORAGE
+                    ).callback(object : TxPermissionUtils.FullCallback {
+                        override fun onGranted(permissionsGranted: List<String>) {
+                            LogUtils.i("permissionsGranted"+permissionsGranted)
 
-                        if (permissionsGranted.contains("android.permission.CAMERA") && permissionsGranted.contains(
-                                        "android.permission.RECORD_AUDIO"
+                            if (permissionsGranted.contains("android.permission.CAMERA") && permissionsGranted.contains(
+                                    "android.permission.RECORD_AUDIO"
                                 )&&permissionsGranted.contains("android.permission.ACCESS_FINE_LOCATION")
-                        ) {
+                            ) {
 
-                            requestRoom(isRemote,flowId,membersArray,selfInsurance,taskId,recordType!!)
-                        } else {
-                            showToastMsg("视频权限或音频权限未申请！")
+                                requestRoom(isRemote,flowId,membersArray,selfInsurance,taskId,recordType!!)
+                            } else {
+                                showToastMsg("视频权限或音频权限未申请！")
+                            }
                         }
-                    }
 
-                    override fun onDenied(
+                        override fun onDenied(
                             permissionsDeniedForever: List<String>,
                             permissionsDenied: List<String>
-                    ) {
-                        if (permissionsDenied.contains("android.permission.CAMERA") || permissionsDenied.contains(
-                                        "android.permission.RECORD_AUDIO"
-                                )
                         ) {
-                            showToastMsg("视频权限或音频权限未申请！")
-                        } else {
+                            if (permissionsDenied.contains("android.permission.CAMERA") || permissionsDenied.contains(
+                                    "android.permission.RECORD_AUDIO"
+                                )
+                            ) {
+                                showToastMsg("视频权限或音频权限未申请！")
+                            } else {
+                            }
                         }
                     }
+                    ).request()
+                } else {
+                    requestRoom(isRemote, flowId, membersArray, selfInsurance, taskId,recordType!!)
                 }
-                ).request()
-            } else {
-                requestRoom(isRemote, flowId, membersArray, selfInsurance, taskId,recordType!!)
+            }else{
+                showToastMsg("GPS定位未打开！")
             }
+
 
 
         }
