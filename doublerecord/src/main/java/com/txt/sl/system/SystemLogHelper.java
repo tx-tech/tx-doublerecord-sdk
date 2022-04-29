@@ -6,6 +6,7 @@ import com.txt.sl.TXSdk;
 import com.txt.sl.utils.DateUtils;
 import com.txt.sl.utils.LogUtils;
 import com.txt.sl.utils.AndroidSystemUtil;
+import com.txt.sl.utils.TxLogUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,7 +16,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * Created by DELL on 2017/9/4.
+ * 日志监控管理
  */
 
 public class SystemLogHelper  {
@@ -72,9 +73,13 @@ public class SystemLogHelper  {
     }
 
     public void start() {
+        if (null == PATH_LOGCAT) {
+            throw new IllegalStateException("SystemLogHelper not init?");
+        }
         if (mLogDumper == null) {
             mLogDumper = new LogDumper(String.valueOf(mPId), PATH_LOGCAT);
             mLogDumper.start();
+            TxLogUtils.i(TAG,"开启log日志采集");
         }
     }
 
@@ -82,6 +87,7 @@ public class SystemLogHelper  {
         if (mLogDumper != null) {
             mLogDumper.stopLogs();
             mLogDumper = null;
+            TxLogUtils.i(TAG,"停止log日志采集");
         }
     }
 

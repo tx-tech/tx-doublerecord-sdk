@@ -9,6 +9,7 @@ import com.txt.sl.entity.bean.LocationInfo
 import com.txt.sl.system.SystemCommon
 import com.txt.sl.system.SystemSocket
 import com.txt.sl.utils.LogUtils
+import com.txt.sl.utils.TxLogUtils
 
 
 /**
@@ -59,14 +60,17 @@ class SystemBaiduLocation {
             locationService = LocationService(TXSdk.getInstance().application)
             //获取locationservice实例，建议应用中只初始化1个location实例，然后使用，可以参考其他示例的activity，都是通过此种方式获取locationservice实例的
             locationService!!.registerListener(mListener)
+            LogUtils.i(TAG, "startLocationService: ")
         }
     }
 
     fun requestLocation() {
+        LogUtils.i(TAG, "requestLocation: ")
         locationService?.requestLocation()
     }
 
     fun stopLocationService() {
+        LogUtils.i(TAG, "stopLocationService: ")
         locationService?.stop()
         locationService?.unregisterListener(mListener)
         locationService = null
@@ -155,7 +159,7 @@ class SystemBaiduLocation {
                     sb.append("无法获取有效定位依据导致定位失败，一般是由于手机的原因，处于飞行模式下一般会造成这种结果，可以试着重启手机")
                 }
 
-                LogUtils.i("百度地图", "onReceiveLocation: " + sb.toString())
+                LogUtils.i(TAG, "onReceiveLocation: " + sb.toString())
                 if (location.addrStr != null) {
                     instantiation()
                     mInfo?.apply {

@@ -21,13 +21,26 @@ data class RequestSubOrderBean(
         var insurancePaymentYear: Int = -1,
         var insuranceCode: String = "",
         var insuranceCompany: String = "",
-        var ensureTheRenewal: Boolean = false
+        var ensureTheRenewal: Boolean = false,
+        var insuranceId: String = ""
+
 ) : Serializable, MultiItemEntity {
 
 
     override fun getItemType(): Int = 1
     override fun toString(): String {
-        return "RequestSubOrderBean(insuranceIsMain=$insuranceIsMain, insuranceType='$insuranceType', insuranceName='$insuranceName', insurancePaymentDown='$insurancePaymentDown', insurancePaymentMethod='$insurancePaymentMethod', insurancePaymentPeriods='$insurancePaymentPeriods', insurancePaymentPrice='$insurancePaymentPrice', insurancePaymentYearUnit='$insurancePaymentYearUnit', insurancePaymentYear=$insurancePaymentYear, insuranceCode='$insuranceCode')"
+        return "RequestSubOrderBean(insuranceIsMain=$insuranceIsMain, " +
+                "insuranceType='$insuranceType', " +
+                "insuranceName='$insuranceName', " +
+                "insurancePaymentDown='$insurancePaymentDown', " +
+                "insurancePaymentMethod='$insurancePaymentMethod', " +
+                "insurancePaymentPeriods='$insurancePaymentPeriods', " +
+                "insurancePaymentPrice='$insurancePaymentPrice'," +
+                " insurancePaymentYearUnit='$insurancePaymentYearUnit'," +
+                " insurancePaymentYear=$insurancePaymentYear, " +
+                "insuranceCode='$insuranceCode" +
+                "insuranceId='$insuranceId" +
+                "')"
     }
 
 }

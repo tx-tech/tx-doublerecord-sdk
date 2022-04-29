@@ -125,7 +125,7 @@ dependencies {
     api project(':base')
 
 
-//    implementation 'com.tencent.tbs:tbssdk:44136'
+    implementation 'com.tencent.tbs:tbssdk:44136'
 
 //    implementation 'com.github.tx-tech:tx-doublerecord-sdk:1.0.3'
 
@@ -148,4 +148,9 @@ dependencies {
     //    implementation 'com.contrarywind:Android-PickerView:4.1.6'
 //    implementation 'com.tencent.bugly:crashreport:3.3.3'
 //    implementation 'com.tencent.bugly:nativecrashreport:3.9.1'
+    implementation 'com.github.Justson.AgentWeb:agentweb-core:v5.0.0-alpha' // (必选)
+    // chrome inspector
+    implementation 'com.facebook.stetho:stetho:1.5.1'
+// `stetho-okhttp3` 如果需要对网络拦截，需要导入该引用，不需要则可引入
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
 }

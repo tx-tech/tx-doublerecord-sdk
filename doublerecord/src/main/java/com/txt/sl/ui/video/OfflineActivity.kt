@@ -8,7 +8,6 @@ import android.media.AudioManager
 import android.os.*
 import android.support.annotation.RequiresApi
 import android.support.v4.content.ContextCompat
-import android.support.v4.widget.NestedScrollView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Base64
@@ -20,7 +19,6 @@ import android.view.WindowManager
 import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
-import android.webkit.WebViewClient
 import android.widget.*
 import com.common.widget.base.BaseActivity
 import com.common.widget.dialog.TxPopup
@@ -54,8 +52,8 @@ import com.tencent.trtc.TRTCCloudDef
 import com.tencent.trtc.TRTCCloudDef.*
 import com.tencent.trtc.TRTCCloudListener
 import com.txt.sl.R
-import com.txt.sl.config.TXManagerImpl
 import com.txt.sl.TXSdk
+import com.txt.sl.config.TXManagerImpl
 import com.txt.sl.config.socket.SocketBusiness
 import com.txt.sl.entity.bean.*
 import com.txt.sl.http.https.HttpRequestClient
@@ -70,17 +68,11 @@ import com.txt.sl.ui.adpter.ExpandableItem1Adapter
 import com.txt.sl.ui.adpter.VideoDetailsItemAdapter
 import com.txt.sl.ui.dialog.ChooseSpeedDialog
 import com.txt.sl.ui.dialog.UploadVideoDialog
+import com.txt.sl.ui.home.HomeActivity
 import com.txt.sl.ui.video.trtc.BusinessLayout
 import com.txt.sl.ui.video.trtc.TRTCVideoLayout
 import com.txt.sl.utils.*
-import com.txt.sl.ui.home.HomeActivity
 import kotlinx.android.synthetic.main.tx_activity_offline_room.*
-import kotlinx.android.synthetic.main.tx_activity_offline_room.room_time
-import kotlinx.android.synthetic.main.tx_activity_offline_room.tv_continue
-import kotlinx.android.synthetic.main.tx_activity_offline_room.tv_linkname
-import kotlinx.android.synthetic.main.tx_activity_offline_room.tv_linknameindex
-import kotlinx.android.synthetic.main.tx_activity_offline_room.tv_skip
-import kotlinx.android.synthetic.main.tx_activity_offline_room.tv_text_continue
 import kotlinx.android.synthetic.main.tx_page_checkenv.*
 import kotlinx.android.synthetic.main.tx_page_envpreview.*
 import kotlinx.android.synthetic.main.tx_page_linkpreview.*
@@ -139,6 +131,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     }
 
     override fun initView() {
+        SystemLogHelper.getInstance().start()
         TxLogUtils.i("onSuccess------${System.currentTimeMillis()}")
         statusBarConfig.hideBar(TxBarHide.FLAG_HIDE_STATUS_BAR)
         super.initView()
@@ -473,7 +466,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
                 })
         } catch (e: TtsNotInitializedException) {
-            LogUtils.i("${e.message}")
+            LogUtils.i("TtsException-----${e.message}")
             callBack.onFail(e.message, 0)
         }
 
@@ -481,13 +474,61 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
     private var mTtsExceHandler: TtsExceptionHandler = TtsExceptionHandler {
 
+        LogUtils.i("TtsException-----${it.errMsg}")
+
+        //弹出 异常页面
+        //[
+        //            {
+        //                "_id":"61e54414f21228206948ec13",
+        //                "key":"releaseSuccessful",
+        //                "buttonName":"标记成功",
+        //                "check":true
+        //            },
+        //            {
+        //                "_id":"61e54414f21228206948ec12",
+        //                "key":"releaseFailure",
+        //                "buttonName":"忽略",
+        //                "check":true
+        //            },
+        //            {
+        //                "_id":"61e54414f21228206948ec11",
+        //                "key":"retry",
+        //                "buttonName":"重试",
+        //                "check":true
+        //            }
+        //        ]
+        val jsonObject = JSONObject()
+        jsonObject.put("key","releaseSuccessful")
+        jsonObject.put("buttonName","标记成功")
+        jsonObject.put("check",true)
+
+        val jsonObject1 = JSONObject()
+        jsonObject1.put("key","retry")
+        jsonObject1.put("buttonName","重试")
+        jsonObject1.put("check",true)
+
+
+        val jsonArray = JSONArray()
+        jsonArray.put(jsonObject)
+        jsonArray.put(jsonObject1)
+        runOnUiThread {
+            mTrtcVideolayout?.setll_page_voice_result(
+                View.VISIBLE,
+                false,
+                "",
+                jsonArray
+            )
+        }
+
+
     }
 
     public fun pushMessage(jsonObject: JSONObject, listener: RoomHttpCallBack) {
-
+        LogUtils.i("pushMessage-----${jsonObject}")
         SystemHttpRequest.getInstance()
             .pushMessage(jsonObject.toString(), object : HttpRequestClient.RequestHttpCallBack {
                 override fun onSuccess(json: String?) {
+                    LogUtils.i("pushMessage-----onSuccess${jsonObject}")
                     runOnUiThread {
                         listener.onSuccess(json!!)
                     }
@@ -495,6 +536,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                 }
 
                 override fun onFail(err: String?, code: Int) {
+                    LogUtils.i("pushMessage-----onFail{jsonObject}")
                     runOnUiThread {
                         listener.onFail(err, code)
                     }
@@ -788,9 +830,9 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             action = HomeActivity.br_action
         })
         SystemBaiduLocation.instance!!.stopLocationService()
+        SystemLogHelper.getInstance().stop()
         stopCheckPhotoInVideo()
         destroylongTextTtsController()
-        SystemLogHelper.getInstance().stop()
         exitRoom()
         cancelAbsCredentialProvider()
         cancelTitleTimer()
@@ -897,8 +939,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                         override fun onSuccess(json: String?) {
                             runOnUiThread {
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                                    screenRecordHelper?.cancelRecord()
-                                    screenRecordHelper?.stopRecord()
+                                    screenRecordHelper?.cancelRecord()
                                 }
 
                                 finish()
@@ -910,8 +951,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                 LogUtils.d(err!!)
                                 showToastMsg(err)
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                                    screenRecordHelper?.cancelRecord()
-                                    screenRecordHelper?.stopRecord()
+                                    screenRecordHelper?.cancelRecord()
                                 }
 
                                 finish()
@@ -931,7 +971,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
         override fun onSpeedTest(p0: TRTCSpeedTestResult?, p1: Int, p2: Int) {
             super.onSpeedTest(p0, p1, p2)
-            LogUtils.i("onSpeedTest", p0.toString())
+            LogUtils.i("onSpeedTest------"+ p0.toString())
 
            //4 5 6
             CheckEnvUtils.getInstance().setNetSpeed(p0?.quality!!)
@@ -963,19 +1003,19 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
             mTrtcVideolayout?.updateNetworkQuality(localQuality?.quality!!)
 
-            LogUtils.i("onNetworkQuality", "${localQuality?.quality}")
+            LogUtils.i("onNetworkQuality-------${localQuality?.quality}")
         }
 
         override fun onRemoteUserLeaveRoom(p0: String?, p1: Int) {
             super.onRemoteUserLeaveRoom(p0, p1)
-            LogUtils.i("RoomActivity", "onRemoteUserLeaveRoom-----p0----$p0,p1---$p1")
+            LogUtils.i( "onRemoteUserLeaveRoom----$p0,p1---$p1")
 
 
         }
 
         override fun onRemoteUserEnterRoom(p0: String?) {
             super.onRemoteUserEnterRoom(p0)
-            LogUtils.i("RoomActivity", "onRemoteUserEnterRoom----p0----$p0")
+            LogUtils.i("onRemoteUserEnterRoom----$p0")
 
         }
 
@@ -1153,12 +1193,10 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                 CheckEnvUtils.getInstance().getCheckEnv(this@OfflineActivity, false)
                 checkenvItemAdapter?.notifyDataSetChanged()
                 CheckEnvUtils.getInstance().stopCheckEnv(this@OfflineActivity)
-                if (CheckEnvUtils.getInstance().checkvolumeAndMemory) {
-                    //不展示 坚持录制按钮
-                    tv_checkenv_start.visibility(true)
-                } else {
-                    tv_checkenv_start.visibility(false)
-                }
+                tv_checkenv_start.visibility(
+                    CheckEnvUtils.getInstance().checkvolumeAndMemory
+                )
+
                 if (CheckEnvUtils.getInstance().checkEnvResult) {
                     //监测成功
                     pagetwo_count.visibility(true)
@@ -1682,11 +1720,12 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     }
 
     var webView :WebView ?= null
-    private fun showTextReadPage(promtStr: String, url: String) {
-        TxLogUtils.i("showTextReadPage","url-----"+url)
+    private fun showTextReadPage(promtStr: String, url: String,isPdf :Boolean) {
+        TxLogUtils.i("showTextReadPage:url-----${url}---isPdf${isPdf}")
         checkLeftVideoToRightScreen(page_11Page!!, true, "")
         page_11Page?.findViewById<TextView>(R.id.tv_prompt1)?.text = promtStr
-        page_11Page?.findViewById<TextView>(R.id.tv_textread_skip)?.visibility(true)
+
+        page_11Page?.findViewById<TextView>(R.id.tv_textread_skip)?.visibility(!isPdf)
         page_11Page?.findViewById<TextView>(R.id.tv_textread_skip)?.setOnClickListener(
             CheckDoubleClickListener {
                 autoCheckBoolean = true
@@ -1700,7 +1739,6 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         val settings: WebSettings = webView?.getSettings()!!
         settings.javaScriptEnabled = true
         settings.setSupportZoom(true)
-
         settings.builtInZoomControls = true
         settings.displayZoomControls = false
         settings.cacheMode = WebSettings.LOAD_NO_CACHE
@@ -1708,14 +1746,15 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         settings.defaultTextEncodingName = "UTF-8"
         settings.domStorageEnabled = true
         settings.javaScriptCanOpenWindowsAutomatically = true
-        //0 web.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
-        //11 web.getSettings().setLoadWithOverviewMode(true);
-//        webView?.setWebChromeClient(object : WebChromeClient() {
-//            override fun onProgressChanged(view: WebView, newProgress: Int) {
-//                if (newProgress == 100) {
-//                }
-//            }
-//        })
+        webView?.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY)
+        webView?.setWebChromeClient(object : WebChromeClient() {
+            override fun onProgressChanged(view: WebView, newProgress: Int) {
+                if (newProgress == 100) {
+                    TxLogUtils.i("加载完成")
+//                    showToastMsg("加载完成")
+                }
+            }
+        })
 //        webView?.setWebViewClient(object : WebViewClient() {
 //            override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
 //                view.loadUrl(url)
@@ -1751,7 +1790,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         SystemHttpRequest.getInstance()
             .signPic(uploadShotPic, object : HttpRequestClient.RequestHttpCallBack {
                 override fun onSuccess(json: String?) {
-                    //{"errCode":0,"result":"王健泉"}
+                    //{"errCode":0,"result":"test"}
                     callback.onSuccess(json)
                 }
 
@@ -1858,6 +1897,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
     //取消录像计时器
     private fun cancelTitleTimer() {
+        TxLogUtils.i("取消时间计时器")
         timer?.cancel()
         timer = null
     }
@@ -2071,13 +2111,21 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
         try {
 
-            if (data.getString("serviceId") == mServiceId) {
+            if (data.optString("serviceId") == mServiceId) {
 
-                val mType = data.getString("type")
+                val mType = data.optString("type")
                 if (mType == "roomMessage" || mType == "end") { //如果type 为roomMessage 就不处理 为显示是否有无人脸
 
-                } else {
-                    LogUtils.i("scSC_Call_Status", "收到消息------$data")
+                }else if(mType == "syncNotice"){
+                    //收到单证阅读字段
+                        TxLogUtils.i("接受到syncNotice")
+                    runOnUiThread {
+                        autoCheckBoolean = true
+                        setFailType("", "")
+                        quickEnterRoom(isSystem = true)
+                    }
+                }else {
+                    LogUtils.i("收到消息------$data")
 
                     var finished = data.optBoolean("finished", false)
                     if (finished) {
@@ -2101,6 +2149,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
                         val roomType = stepDataJson?.optString("roomType")
                         cancleTimer()
+                        //如果销毁了，还能收到消息
                         if (roomType!!.isNotEmpty()) { //房间内自定义type判断
                             when (roomType) {
 
@@ -2421,7 +2470,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                             runOnUiThread {
 
                                                 val dataObject2 =
-                                                    stepDataNode?.getJSONObject("data")
+                                                    stepDataNode?.optJSONObject("data")
                                                 if (dataObject2!!.has("textArray")) {
                                                     val fillterData = fillterData(stepDataNode!!)
                                                     startTtsController(
@@ -2441,7 +2490,8 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
                                                     showTextReadPage(
                                                         fillterData,
-                                                        stepDataNode!!.optString("clientUrl", "")
+                                                        stepDataNode!!.optString("clientUrl", ""),
+                                                        stepDataNode!!.optBoolean("isPdf", false)
                                                     )
                                                 } else {
                                                     showToastMsg("没有textArray字段！！！")
@@ -2494,7 +2544,8 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
                                                     showTextReadPage(
                                                         fillterData,
-                                                        stepDataNode!!.optString("fileUrl", "")
+                                                        stepDataNode!!.optString("fileUrl", ""),
+                                                        isPdf = false
                                                     )
                                                 } else {
                                                     showToastMsg("没有textArray字段！！！")
@@ -3244,11 +3295,9 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             startCheckPhotoInVideoTimer = object : CountDownTimer(600000, 3000) {
                 @SuppressLint("SetTextI18n")
                 override fun onTick(millisUntilFinished: Long) {
-                    LogUtils.i("checkPhotoInVideo----")
                     mTRTCCloud?.snapshotVideo(null, TRTC_VIDEO_STREAM_TYPE_BIG) { p0 ->
                         ThreadPoolManager.getInstance().execute {
                             val bytes = SystemCommon.getInstance()?.byteToBitmap(p0)
-                            LogUtils.i("checkPhotoInVideo----${bytes}")
                             if (bytes != null) {
                                 val encode = Base64.encode(bytes, Base64.DEFAULT)
                                 val bulider = StringBuilder("data:image/png;base64,")
@@ -3263,6 +3312,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                         object : HttpRequestClient.RequestHttpCallBack {
                                             override fun onSuccess(json: String?) {
                                                 //没有人脸 0 , 有1
+                                                LogUtils.i("检测人脸中，onSuccess$json")
                                                 runOnUiThread {
                                                     var color = if (mSelfInsurance!!) {
                                                         checkColorPerson("1", json!!)
@@ -3282,7 +3332,8 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                             }
 
                                             override fun onFail(err: String?, code: Int) {
-
+                                                //没有人脸 0 , 有1
+                                                LogUtils.i("检测人脸中，onFail${err}")
                                             }
                                         }
 
@@ -3385,7 +3436,6 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         } else {
             startRecord(object : RoomHttpCallBack {
                 override fun onSuccess(json: String?) {
-                    SystemLogHelper.getInstance().start()
                     mStartRecordNetMillis = System.currentTimeMillis()
                     mCurrentStartTimer = System.currentTimeMillis()
                     mCurrentStartTime = (mStartRecordNetMillis - mStartRecordTimeMillis) / 1000L

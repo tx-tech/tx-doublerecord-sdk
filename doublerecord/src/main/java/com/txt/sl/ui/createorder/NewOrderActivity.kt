@@ -201,9 +201,7 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
             insuredPhone = insuredPhoneStr
             insuranceAllPaymentDown = insuranceAllPaymentDownStr
             institutions = arrayListOf(
-                "60efdba39418525ea664d9b9",
-                "60efdba39418525ea664da1d",
-                "60efdba49418525ea664e146"
+                InstitutionsBean("623acfcf2f740000aa0023eb")
             )
             IntermediaryInstitutions = "测试机构"
             agentCode = "12313"
@@ -241,6 +239,7 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
                 requestOrderBean?.insuranceCode?.add(it.insuranceCode)
                 requestOrderBean?.insuranceCompany?.add(it.insuranceCompany)
                 requestOrderBean?.ensureTheRenewal?.add(it.ensureTheRenewal)
+                requestOrderBean?.insuranceId?.add(it.insuranceId)
 
             }
             SystemHttpRequest.getInstance().update(

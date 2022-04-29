@@ -25,7 +25,7 @@ data class RequestOrderBean(
         var insuredPhone: String = "",
         var saleFrom: String = "",
         var taskFrom: String = "",
-        var institutions: ArrayList<String> =ArrayList(),
+        var institutions: ArrayList<InstitutionsBean> =ArrayList(),
         var IntermediaryInstitutions: String = "",
         var agentCode: String = "",
         var insuranceAllPaymentDown: String = "",
@@ -40,7 +40,8 @@ data class RequestOrderBean(
         var insurancePaymentYear:ArrayList<Int> =ArrayList(),
         var insuranceCode:ArrayList<String> =ArrayList(),
         var insuranceCompany:ArrayList<String> =ArrayList(),
-        var ensureTheRenewal:ArrayList<Boolean> =ArrayList()
+        var ensureTheRenewal:ArrayList<Boolean> =ArrayList(),
+        var insuranceId:ArrayList<String> =ArrayList()
 ) {
     override fun toString(): String {
         return "RequestOrderBean(taskId='$taskId', policyholderName='$policyholderName', policyholderCertificateType='$policyholderCertificateType', policyholderCertificateNo='$policyholderCertificateNo', policyholderAge='$policyholderAge', policyholderGender='$policyholderGender', policyholderPhone='$policyholderPhone', relationship='$relationship', insuredName='$insuredName', insuredCertificateType='$insuredCertificateType', insuredCertificateNo='$insuredCertificateNo', insuredAge='$insuredAge', insuredGender='$insuredGender', insuredPhone='$insuredPhone', saleFrom='$saleFrom', taskFrom='$taskFrom', insuranceAllPaymentDown='$insuranceAllPaymentDown', insuranceIsMain=$insuranceIsMain, insuranceType=$insuranceType, insuranceName=$insuranceName, insurancePaymentDown=$insurancePaymentDown, insurancePaymentMethod=$insurancePaymentMethod, insurancePaymentPeriods=$insurancePaymentPeriods, insurancePaymentPrice=$insurancePaymentPrice, insurancePaymentYearUnit=$insurancePaymentYearUnit, insurancePaymentYear=$insurancePaymentYear, insuranceCode=$insuranceCode)"

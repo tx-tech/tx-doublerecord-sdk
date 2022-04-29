@@ -14,6 +14,7 @@ import com.txt.sl.config.TXManagerImpl;
 import com.txt.sl.config.TxConfig;
 import com.txt.sl.receive.SystemBaiduLocation;
 import com.txt.sl.system.SystemHttpRequest;
+import com.txt.sl.system.SystemLogHelper;
 import com.txt.sl.utils.AppUtils;
 import com.txt.sl.utils.ApplicationUtils;
 import com.txt.sl.utils.TxLogUtils;
@@ -170,14 +171,10 @@ public class TXSdk implements ITXSDKApi {
         AppUtils.init(application);
         ApplicationUtils.init(application);
         ToastUtils.init(application);
-        //        CrashReport.setIsDevelopmentDevice(application, BuildConfig.DEBUG);
-
-        //        Beta.autoCheckUpgrade = false;
-        //        CrashReport.initCrashReport(application, "5960ee0d93", BuildConfig.DEBUG);
-
         //设置appbar的样式
         TitleBar.setDefaultInitializer(new AppBarInitializer());
         SystemBaiduLocation.getInstance().initLocation();
+        SystemLogHelper.getInstance().init();
 //        UMConfigure.init(application, "622042e8317aa8776078adcc", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "");
     }
 

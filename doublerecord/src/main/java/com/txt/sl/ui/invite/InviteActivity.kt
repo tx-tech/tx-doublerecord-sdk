@@ -7,10 +7,12 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.location.LocationManager
 import android.os.Build
+import android.text.TextUtils
 import android.view.View
 import com.common.widget.base.BaseActivity
 import com.common.widget.dialog.TxPopup
 import com.common.widget.dialog.impl.LoadingPopupView
+import com.common.widget.dialog.interfaces.XPopupCallback
 import com.common.widget.dialog.util.PermissionConstants
 import com.tencent.mm.opensdk.constants.ConstantsAPI
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
@@ -26,6 +28,7 @@ import com.txt.sl.TXSdk
 import com.txt.sl.config.TXManagerImpl
 import com.txt.sl.entity.bean.WorkItemBean
 import com.txt.sl.http.https.HttpRequestClient
+import com.txt.sl.receive.SystemBaiduLocation
 import com.txt.sl.system.SystemHttpRequest
 import com.txt.sl.ui.video.Constant
 import com.txt.sl.ui.video.OfflineActivity
@@ -42,7 +45,7 @@ public class InviteActivity : BaseActivity() {
 
     override fun initView() {
         super.initView()
-
+        initLoading()
     }
 
     @SuppressLint("WrongConstant")
@@ -86,11 +89,10 @@ public class InviteActivity : BaseActivity() {
         }
         var lm = getSystemService(LOCATION_SERVICE) as LocationManager
 
-        val enable: Boolean = lm.isProviderEnabled(LocationManager.GPS_PROVIDER)
-        TxLogUtils.i("enable","$enable")
-
         tv_gotovideo.setOnClickListener {
-
+          val  enable =   lm.isProviderEnabled(LocationManager.GPS_PROVIDER)
+            TxLogUtils.i("enable","$enable")
+            //获取地理位置
             if (enable){//位置信息打开
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     TxPermissionUtils.permission(
@@ -185,8 +187,33 @@ public class InviteActivity : BaseActivity() {
     }
 
     var dialog : LoadingPopupView?= null
+    fun initLoading(){
+        dialog = TxPopup
+            .Builder(this)
+            .setPopupCallback(object : XPopupCallback {
+                override fun onCreated() {
+
+                }
+
+                override fun beforeShow() {
+                }
+
+                override fun onShow() {
+                }
+
+                override fun onDismiss() {
+                    SystemHttpRequest.getInstance().cancelClient()
+                }
+
+                override fun onBackPressed(): Boolean {
+                  return  true
+                }
+
+            })
+            .asLoading("开始录制")
+    }
     fun showLoading() {
-        dialog = TxPopup.Builder(this).asLoading("开始录制")
+
         dialog?.show()
     }
 

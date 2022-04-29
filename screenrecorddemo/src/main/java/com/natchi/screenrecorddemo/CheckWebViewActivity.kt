@@ -54,13 +54,14 @@ class CheckWebViewActivity : AppCompatActivity() {
 
     }
     var smartWebDialog : SmartWebDialog ?= null
-    private fun loadUrl(){
+    private fun loadUrl() {
         if (null == smartWebDialog) {
             smartWebDialog = SmartWebDialog(this)
         }
         smartWebDialog?.show()
-        smartWebDialog?.request("https://webdemo.agora.io/agora_webrtc_troubleshooting/","")
+        smartWebDialog?.request(
+            "https://sync-fileview.cloud-ins.cn/onlinePreview?syncid=1-lt21101802-3&synctoken=006880b027964924e6ca254b77531c2eaf3IAAznxSNdqqNlMmYMXm8Y84BijRhHNvztGOC3Rwf31JrXL0AKGEAAAAAEACjXG2OwZVnYgEA6APBlWdi&sync=test&dr=true&url=aHR0cHM6Ly9nZHJiLWRpbmdzdW4tdGVzdC0xMjU1MzgzODA2LmNvcy5hcC1zaGFuZ2hhaS5teXFjbG91ZC5jb20vJUU3JTg4JUIxJUU1JUJGJTgzJUU0JUJBJUJBJUU1JUFGJUJGJUU1JUFFJTg4JUU2JThBJUE0JUU3JUE1JTlFMi4wJUU3JUJCJTg4JUU4JUJBJUFCJUU1JUFGJUJGJUU5JTk5JUE5LSVFNSU4NSVCMyVFNCVCQSU4RSVFNSU4NSU4RCVFOSU5OSVBNCVFNCVCRiU5RCVFOSU5OSVBOSVFNCVCQSVCQSVFOCVCNCVBMyVFNCVCQiVCQiVFNiU5RCVBMSVFNiVBQyVCRSVFNyU5QSU4NCVFNCVCOSVBNiVFOSU5RCVBMiVFOCVBRiVCNCVFNiU5OCU4RS5wZGY%3D",            ""
+        )
+
     }
-
-
 }

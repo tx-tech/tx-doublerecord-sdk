@@ -54,7 +54,7 @@
             android:layout_marginStart="@dimen/tx_dp_5"
             android:text="下一步"
             android:textColor="@color/tx_txcolor_FFFFFF"
-            android:visibility="visible" />
+            android:visibility="invisible" />
 
     </LinearLayout>
 

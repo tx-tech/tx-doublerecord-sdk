@@ -1,21 +1,26 @@
 package com.natchi.screenrecorddemo;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 
+//import com.just.agentweb.AgentWeb;
 //import com.tencent.smtt.sdk.WebSettings;
-
+//
 //import com.tencent.smtt.sdk.WebChromeClient;
 //import com.tencent.smtt.sdk.WebSettings;
 //import com.tencent.smtt.sdk.WebView;
@@ -60,33 +65,48 @@ public class SmartWebDialog extends Dialog implements View.OnClickListener {
 
         setCanceledOnTouchOutside(true);
         initView();
+        initWebView();
     }
 
     WebView webView;
+//    com.tencent.smtt.sdk.WebView webView;
+//    FrameLayout webView;
     TextView iv_close;
     TextView tv_title;
 //    protected com.tencent.smtt.sdk.WebView mWebView;
-//    protected void initWebView() {
-//
-//
-//        mWebView = new WebView(getContext());
+    protected void initWebView() {
+
+
+//        webView = new WebView(getContext());
 //        ViewGroup mContainer = findViewById(R.id.webView);
-//        mContainer.addView(mWebView);
+//        mContainer.addView(webView);
 //
-//        WebSettings webSetting = mWebView.getSettings();
+//        WebSettings webSetting = webView.getSettings();
 //        webSetting.setJavaScriptEnabled(true);
 //        webSetting.setAllowFileAccess(true);
 //        webSetting.setSupportZoom(true);
 //        webSetting.setDatabaseEnabled(true);
 //        webSetting.setAllowFileAccess(true);
 //        webSetting.setDomStorageEnabled(true);
+//        webSettings = mAgentWeb.getAgentWebSettings().getWebSettings();
+//        webSetting.setJavaScriptEnabled(true);
+//        webSetting.setDomStorageEnabled(true);
+//        webSetting.setJavaScriptCanOpenWindowsAutomatically(true);
+//        webSetting.setBuiltInZoomControls(true);
+//        webSetting.setDisplayZoomControls(false);
+//        webSetting.setPluginState(WebSettings.PluginState.ON);
+//        webSetting.setLoadWithOverviewMode(true);
+//        webSetting.setUseWideViewPort(true);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            webSetting.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+//        }
+
+//        initWebViewClient();
+//        initWebChromeClient();
+//        initJavaScriptInterface();
 //
-////        initWebViewClient();
-////        initWebChromeClient();
-////        initJavaScriptInterface();
-//
-////        mWebView.loadUrl(mHomeUrl);
-//    }
+//        mWebView.loadUrl(mHomeUrl);
+    }
     private void initView() {
 //        initWebView();
         webView = findViewById(R.id.webView);
@@ -96,14 +116,17 @@ public class SmartWebDialog extends Dialog implements View.OnClickListener {
 
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
         settings.setSupportZoom(true);
         settings.setBuiltInZoomControls(true);
         settings.setDisplayZoomControls(false);
         settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         settings.setAppCacheEnabled(true);
         settings.setDefaultTextEncodingName("UTF-8");
-        settings.setDomStorageEnabled(true);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
@@ -147,6 +170,8 @@ public class SmartWebDialog extends Dialog implements View.OnClickListener {
 
 
     }
+
+
 
     public static int getWindowWidth(Context context) {
         return ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();

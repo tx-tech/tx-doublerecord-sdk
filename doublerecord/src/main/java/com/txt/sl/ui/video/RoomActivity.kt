@@ -2070,7 +2070,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     }
 
     var webView :WebView ?= null
-    private fun showTextReadPage(promtStr: String, obj: String, url: String) {
+    private fun showTextReadPage(promtStr: String, obj: String, url: String,isPdf :Boolean) {
         hideView()
         hideVideoView()
         page_basetype_textread.visibility(true)
@@ -2093,6 +2093,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
         LogUtils.i("promtStr------$promtStr")
         tv_prompt1.text = promtStr
+        tv_textread_skip.visibility(!isPdf)
         tv_textread_skip.setOnClickListener(
             CheckDoubleClickListener {
                 autoCheckBoolean = true
@@ -2737,7 +2738,15 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                         }
                     }
 
-                } else {
+                } else if(mType == "syncNotice"){
+                    //收到单证阅读字段
+                    TxLogUtils.i("接受到syncNotice")
+                    runOnUiThread {
+                        autoCheckBoolean = true
+                        setFailType("", "")
+                        quickEnterRoom(isSystem = true)
+                    }
+                }else {
                     var finished = data.optBoolean("finished", false)
                     if (finished) { //如果type 为roomMessage 就不处理 为显示是否有无人脸
                         runOnUiThread {
@@ -3341,7 +3350,8 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                             jsonArray.optString(0) + "完成阅读后，请点击【下一步】",
                             stepDataNode!!.optJSONArray("target")!!
                                 .optString(0),
-                            stepDataNode!!.optString("agentUrl", "")
+                            stepDataNode!!.optString("agentUrl", ""),
+                            stepDataNode!!.optBoolean("isPdf", false)
                         )
                     } else {
                         showToastMsg("没有textArray字段！！！")

@@ -13,6 +13,7 @@ import com.common.widget.pickerview.view.OptionsPickerView
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.common.widget.base.BaseActivity
+import com.common.widget.dialog.impl.LoadingPopupView
 import com.txt.sl.R
 import com.txt.sl.config.TXManagerImpl
 import com.txt.sl.entity.bean.*
@@ -43,10 +44,29 @@ class NewOrderSubActivity : BaseActivity() {
 
     override fun getLayoutId(): Int = R.layout.tx_activity_new_order_sub
 
+    var dialog : LoadingPopupView?= null
+    fun showLoading() {
+        dialog = TxPopup.Builder(this).asLoading("获取产品数据")
+        dialog?.show()
+    }
+
+
+    fun hideLoading() {
+        dialog?.dismiss()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        hideLoading()
+    }
 
     fun getProductData() {
+        showLoading()
         SystemHttpRequest.getInstance().getProductData(TXManagerImpl.instance!!.getTenantId(), object : HttpRequestClient.RequestHttpCallBack {
             override fun onSuccess(json: String?) {
+                runOnUiThread {
+                    hideLoading()
+                }
                 if (json!!.isEmpty()) {
                     showToastMsg("insurances 为空")
                     runOnUiThread {
@@ -75,34 +95,6 @@ class NewOrderSubActivity : BaseActivity() {
 
 
 
-                        btn_commit.setOnClickListener {
-
-                            requestSubOrderBean?.apply {
-                                insurancePaymentDown = et_insurancePaymentDown.text.toString()
-                                insurancePaymentPeriods = et_insurancePaymentPeriods.text.toString()
-                                insurancePaymentPrice = et_insurancePaymentPrice.text.toString()
-                                val insurancePaymentYearStr = et_insurancePaymentYear.text.toString()
-                                insurancePaymentYear = if (insurancePaymentYearStr.isEmpty()) {
-                                    -1
-                                } else {
-                                    insurancePaymentYearStr.toInt()
-                                }
-
-                            }
-                            if (checkBean(requestSubOrderBean)) {
-                                LogUtils.i(requestSubOrderBean.toString())
-                                val putExtra = intent.putExtra("requestSubOrderBean", requestSubOrderBean)
-                                if (mPostion != -1) {
-                                    putExtra.putExtra(POSTION, mPostion)
-                                }
-                                setResult(12000, putExtra)
-                                finish()
-                            } else {
-                                TxPopup.Builder(this@NewOrderSubActivity).asConfirm("提交", "信息不能为空！！！", "取消", "好的", OnConfirmListener { }, null, false).show()
-                            }
-
-
-                        }
 
                     }
                 }
@@ -110,7 +102,9 @@ class NewOrderSubActivity : BaseActivity() {
             }
 
             override fun onFail(err: String?, code: Int) {
-
+                runOnUiThread {
+                    hideLoading()
+                }
             }
 
         })
@@ -138,6 +132,36 @@ class NewOrderSubActivity : BaseActivity() {
         initInsuredDatePicker2()
         initInsurances()
         initPolicyholdercertificatetypePicker()
+
+        btn_commit.setOnClickListener {
+
+            requestSubOrderBean?.apply {
+                insurancePaymentDown = et_insurancePaymentDown.text.toString()
+                insurancePaymentPeriods = et_insurancePaymentPeriods.text.toString()
+                insurancePaymentPrice = et_insurancePaymentPrice.text.toString()
+                val insurancePaymentYearStr = et_insurancePaymentYear.text.toString()
+                insurancePaymentYear = if (insurancePaymentYearStr.isEmpty()) {
+                    -1
+                } else {
+                    insurancePaymentYearStr.toInt()
+                }
+
+            }
+            if (checkBean(requestSubOrderBean)) {
+                LogUtils.i(requestSubOrderBean.toString())
+                val putExtra = intent.putExtra("requestSubOrderBean", requestSubOrderBean)
+                if (mPostion != -1) {
+                    putExtra.putExtra(POSTION, mPostion)
+                }
+                setResult(12000, putExtra)
+                finish()
+            } else {
+                TxPopup.Builder(this@NewOrderSubActivity).asConfirm("提交", "信息不能为空！！！", "取消", "好的", OnConfirmListener { }, null, false).show()
+            }
+
+
+        }
+
     }
 
     private fun restoreData() {
@@ -302,6 +326,7 @@ class NewOrderSubActivity : BaseActivity() {
             requestSubOrderBean?.insuranceCode = filterProductDatas?.get(options1)!!.code
             requestSubOrderBean?.insuranceCompany = filterProductDatas?.get(options1)!!.insuranceCompany
             requestSubOrderBean?.ensureTheRenewal = filterProductDatas?.get(options1)!!.isEnsureTheRenewal
+            requestSubOrderBean?.insuranceId = filterProductDatas?.get(options1)!!._id
         })
                 .setTitleText("产品名称")
                 .setDividerColor(Color.BLACK)

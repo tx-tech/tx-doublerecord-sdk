@@ -42,4 +42,5 @@ dependencies {
     api 'com.android.support.constraint:constraint-layout:1.1.0'
     api 'com.lxj:xpopup:1.8.8'
     api project(':doublerecord')
+//    api 'com.github.tx-tech:tx-doublerecord-sdk:1.2.2.0'
 }
