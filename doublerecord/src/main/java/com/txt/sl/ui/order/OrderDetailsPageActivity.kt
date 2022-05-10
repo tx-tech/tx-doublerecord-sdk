@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Handler
 import android.support.v7.widget.LinearLayoutManager
+import android.text.TextUtils
 import android.view.View
 import com.common.widget.base.BaseActivity
 import com.common.widget.dialog.TxPopup
@@ -187,10 +188,18 @@ class OrderDetailsPageActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClick
                             }
 
                             orderDetailsItemlists.add(
-                                OrderDetailsItem(
-                                    "业务单号",
-                                    fields.optString("taskId")
-                                )
+                                if ( TextUtils.isEmpty(fields.optString("insurerQuotationNo"))){
+                                    OrderDetailsItem(
+                                        "业务单号",
+                                        fields.optString("taskId")
+                                    )
+                                }else{
+
+                                    OrderDetailsItem(
+                                        "投保单号",
+                                        fields.optString("insurerQuotationNo")
+                                    )
+                                }
                             )
                             val stringBuffer = StringBuffer()
                             val optJSONArray = fields.optJSONArray("institutionNames")

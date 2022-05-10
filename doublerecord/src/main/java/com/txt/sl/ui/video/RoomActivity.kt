@@ -846,6 +846,8 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onDestroy() {
+        clearLocationMap()
+        isSoundOCRException = false
         sendBroadcast(Intent().apply {
             action = HomeActivity.br_action
         })
@@ -1212,6 +1214,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                             LogUtils.i("$json")
                             val resultObject = JSONObject(json)
                             //投保人Id
+
                             if (resultObject.has("policyholderId")) {
                                 mInsurantId = resultObject.optString("policyholderId")
                                 if (mInsurantId == userId) {
@@ -1234,6 +1237,9 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                             mInsurantId,
                                             name
                                         )
+                                        val locationStr = getLocationStr(userId)
+                                        TxLogUtils.i("getLocationStr(userId)-------$locationStr")
+                                        mTrtcrightvideolayoutmanager?.updateLocationStr(userId, locationStr )
                                         mTRTCCloud!!.startRemoteView(
                                             mInsurantId,
                                             allocCloudVideoView1
@@ -1284,6 +1290,10 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                             mInsuredId,
                                             "被保人：$insuredName"
                                         )
+
+                                        val locationStr = getLocationStr(userId)
+                                        TxLogUtils.i("getLocationStr(userId)-------$locationStr")
+                                        mTrtcrightvideolayoutmanager?.updateLocationStr(userId, locationStr )
                                         mTRTCCloud!!.startRemoteView(
                                             mInsuredId,
                                             allocCloudVideoView1
@@ -2164,8 +2174,9 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
 
     var voiceTimer1: CountDownTimer? = null
-    private fun startVoiceTimer() {
-        voiceTimer1 = object : CountDownTimer(15000, 1000) {
+    private fun startVoiceTimer(millisInFuture :Long = 15000) {
+        TxLogUtils.i("startVoiceTimer")
+        voiceTimer1 = object : CountDownTimer(millisInFuture, 1000) {
             override fun onFinish() {
                 //15s 未识别完
                 //显示重试
@@ -2501,6 +2512,28 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     //节点时间，
     var failTarget: JSONArray? = null
 
+    var isSoundOCRException  = false //判断投保人被保人asr是否异常
+    var locationMsgMap : HashMap<String,String> ?=null
+
+    fun getLocationStr(userId:String) :String{
+        var location = ""
+        if (null != locationMsgMap) {
+            location = locationMsgMap?.get(userId)!!
+        }
+        return  location
+    }
+
+    fun putLocationMap(userId: String,locationMsg: String){
+        if (null == locationMsgMap ){
+            locationMsgMap  = HashMap<String,String>()
+        }
+        locationMsgMap?.put(userId,locationMsg)
+    }
+
+    fun clearLocationMap(){
+        locationMsgMap?.clear()
+    }
+
     override fun onReceiveMSG(data: JSONObject) {
         try {
 
@@ -2510,10 +2543,12 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                 if (mType == "roomMessage") return
                 if (mType == "location") { //收到用户发出的地理位置
                     runOnUiThread {
+                        //onUserVideoAvailable
                         var userId = data.optJSONObject("step").optString("userId")
                         var locationMsg = data.optJSONObject("step").optJSONObject("data")
                             .optString("roomMessage")
                         mTrtcrightvideolayoutmanager?.updateLocationStr(userId, locationMsg)
+                        putLocationMap(userId,locationMsg)
                     }
 
                 } else if (mType == "faceDetection") {
@@ -3053,11 +3088,15 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
                                     }
                                 }
+                                "soundOCR-exception" -> { //asr异常标记位，收到此消息，asr识别都是代理人进行识别
+                                     isSoundOCRException  = true
+                                    TxLogUtils.i("soundOCR-exception")
+                                }
 
                                 "onTouchEnd" -> {
-                                    val stepData = data.getJSONObject("step")
-                                    val dataJson = stepData.getJSONObject("data")
-                                    val imageByte = dataJson.getString("roomMessage")
+                                    val stepData = data.optJSONObject("step")
+                                    val dataJson = stepData.optJSONObject("data")
+                                    val imageByte = dataJson.optString("roomMessage")
                                     LogUtils.i("imageByte--------------" + imageByte)
                                     var mDataList = ArrayList<PointBean>()
                                     mDataList = Gson().fromJson(
@@ -3084,9 +3123,9 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                         autoCheckBoolean = false
                                         setFailType("识别失败", "签字内容与保单信息不匹配")
                                         isPassed = false
-                                        val stepData = data.getJSONObject("step")
-                                        val dataJson = stepData.getJSONObject("data")
-                                        val imageByte = dataJson.getString("roomMessage")
+                                        val stepData = data.optJSONObject("step")
+                                        val dataJson = stepData.optJSONObject("data")
+                                        val imageByte = dataJson.optString("roomMessage")
                                         page12_sign_result.text =
                                             "投保人：${userName}   签名：${imageByte}"
                                         ll_page12_bottom.visibility(false)
@@ -3103,7 +3142,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
                                         tv_page12_sign__retry.setOnClickListener(
                                             CheckDoubleClickListener {
-                                                mCurrentMsg!!.getJSONObject("step")
+                                                mCurrentMsg!!.optJSONObject("step")
                                                     .put("roomType", "originSignFile-retry")
                                                 pushMessage(
                                                     mCurrentMsg!!,
@@ -3141,9 +3180,9 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                     runOnUiThread {
                                         autoCheckBoolean = true
                                         isPassed = true
-                                        val stepData = data.getJSONObject("step")
-                                        val dataJson = stepData.getJSONObject("data")
-                                        val imageByte = dataJson.getString("roomMessage")
+                                        val stepData = data.optJSONObject("step")
+                                        val dataJson = stepData.optJSONObject("data")
+                                        val imageByte = dataJson.optString("roomMessage")
                                         page12_sign_result.text =
                                             "投保人：${userName}   签名：${imageByte}"
                                         ll_page12_bottom.visibility(false)
@@ -3240,19 +3279,23 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                     layout_right.visibility = View.VISIBLE
                     tv_skip.visibility(false)
                     targetJSONArray =
-                        stepDataNode!!.getJSONArray("target")!!
+                        stepDataNode!!.optJSONArray("target")!!
                     failureButtonJSONArray =
-                        stepDataNode!!.getJSONArray("failureButton")!!
+                        stepDataNode!!.optJSONArray("failureButton")!!
                     keywordsRuleJSONObject =
                         stepDataNode!!.optJSONObject("keywordsRule")!!
-                    val targetOb = targetJSONArray!!.getString(0)
+                    val targetOb = targetJSONArray!!.optString(0)
                     val jsonArray = stepDataNode?.optJSONObject("data")
                         ?.optJSONArray("textArray")
                     agentASRPassword = jsonArray!!.optString(0)!!
+
+
+                    //asr异常处理
+
                     if ("agent" == targetOb) {
                         showUserASR(
                             "请代理人回复：",
-                            jsonArray!!.getString(0)!!,
+                            jsonArray!!.optString(0)!!,
                             true
                         )
                         startAudioRecognize()
@@ -3260,15 +3303,23 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                     } else if ("policyholder" == targetOb) {
                         showUserASR(
                             "请投保人回复：",
-                            jsonArray!!.getString(0)!!,
+                            jsonArray!!.optString(0)!!,
                             false
                         )
+                        if (isSoundOCRException) {
+                            startAudioRecognize()
+                            startVoiceTimer(7000)
+                        }
                     } else {
                         showUserASR(
                             "请被保人回复：",
-                            jsonArray!!.getString(0)!!,
+                            jsonArray!!.optString(0)!!,
                             false
                         )
+                        if (isSoundOCRException) {
+                            startAudioRecognize()
+                            startVoiceTimer(5000)
+                        }
                     }
 
                 }
@@ -3301,14 +3352,14 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             "idComparison" -> { //人脸核身
                 runOnUiThread {
                     val title =
-                        stepDataNode!!.getJSONObject("data").getJSONArray("textArray").getString(0)
+                        stepDataNode!!.optJSONObject("data").optJSONArray("textArray").optString(0)
 
                     tv_skip.visibility(false)
 
                     failureButtonJSONArray =
                         stepDataNode?.optJSONArray("failureButton")!!
                     showidComparisonPage(
-                        stepDataNode?.getJSONArray("target")!!,
+                        stepDataNode?.optJSONArray("target")!!,
                         false,
                         title
                     )
@@ -3513,7 +3564,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         val audioRecognizeResultListener: AudioRecognizeResultListener =
             object : AudioRecognizeResultListener {
                 override fun onSuccess(request: AudioRecognizeRequest?, result: String?) {
-                    LogUtils.i("result-------$result")
+                    LogUtils.i("audioRecognizeResultListener","result-------$result")
 
                 }
 
@@ -3522,8 +3573,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                     clientException: ClientException?,
                     serverException: ServerException?
                 ) {
-                    LogUtils.i("onFailure-------$clientException------$serverException")
-                    LogUtils.i("onFinish", stepDataNode.toString())
+                    LogUtils.i("audioRecognizeResultListener","onFailure-------$clientException------$serverException")
                 }
 
                 override fun onSliceSuccess(
@@ -3531,7 +3581,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                     result: AudioRecognizeResult?,
                     order: Int
                 ) {
-                    LogUtils.i("onSliceSuccess-------${result?.text}")
+                    LogUtils.i("audioRecognizeResultListener","onSliceSuccess-------${result?.text}")
 //                    tv_user_content2.visibility(true)
 //                    tv_user_content2.text = result?.text
                 }
@@ -3541,7 +3591,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                     result: AudioRecognizeResult?,
                     order: Int
                 ) {
-                    LogUtils.i("onSegmentSuccess-------${result?.text}")
+                    LogUtils.i("audioRecognizeResultListener","onSegmentSuccess-------${result?.text}")
                     val text = result?.text
                     if (text?.isNotEmpty()!!) {
                         strBuffer.append(result?.text)
@@ -3619,7 +3669,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         Thread(Runnable {
             if (aaiClient != null) {
 
-                LogUtils.i("audioRecognizeRequest-----${audioRecognizeRequest?.requestId}")
+                LogUtils.i("audioRecognizeResultListener","audioRecognizeRequest-----${audioRecognizeRequest?.requestId}")
                 aaiClient?.startAudioRecognize(
                     audioRecognizeRequest,
                     audioRecognizeResultListener,
@@ -3632,6 +3682,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
     fun cancelAbsCredentialProvider() {
         // 1、获得请求的id
+        LogUtils.i("audioRecognizeResultListener","cancelAbsCredentialProvider")
 
         val requestId = audioRecognizeRequest?.requestId
         // 2、调用cancel方法
@@ -3639,7 +3690,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         Thread(Runnable {
             if (aaiClient != null) {
                 //取消语音识别，丢弃当前任务
-                aaiClient!!.cancelAudioRecognize(requestId!!)
+                aaiClient!!.stopAudioRecognize(requestId!!)
             }
         }).start()
     }

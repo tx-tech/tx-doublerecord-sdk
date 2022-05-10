@@ -14,6 +14,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.txt.sl.R;
+import com.txt.sl.config.TXManagerImpl;
 import com.txt.sl.entity.bean.WorkItemBean;
 import com.txt.sl.utils.RoomVideoUiUtils;
 
@@ -40,10 +41,11 @@ public class CheckRemoteDialog extends Dialog implements View.OnClickListener, R
     TextView tv_local;
     TextView tv_confirm;
     TextView tv_remote;
-    TextView  tv_text1;
+    TextView tv_text1;
     RadioGroup ll_person;
     Group group;
 
+    //TXManagerImpl.instance?.getTenantCode().equals("remoteRecord")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +81,12 @@ public class CheckRemoteDialog extends Dialog implements View.OnClickListener, R
     @Override
     public void show() {
         super.show();
-        showLocalAndRemoteView();
+        if (TXManagerImpl.getInstance().getTenantCode().equals("remoteRecord")) {
+            hideRemoteView(true);
+        } else {
+            showLocalAndRemoteView();
+        }
+
         resetView();
         changeMembersView(membersArray);
     }
@@ -97,7 +104,7 @@ public class CheckRemoteDialog extends Dialog implements View.OnClickListener, R
                 mOnItemClickListener.onConfirmClick(isRemote,
                         recordType,
                         workItemBean
-                        );
+                );
                 dismiss();
 
 
@@ -118,20 +125,25 @@ public class CheckRemoteDialog extends Dialog implements View.OnClickListener, R
 
     boolean isRemote = false;
 //recordingMethod '0'现场'1'远程'2'不限 =======>双录方式管控
-    private void showLocalAndRemoteView(){
+
+    private void hideRemoteView(boolean isHide) {
+        tv_remote.setVisibility(isHide ? View.GONE : View.VISIBLE);
+    }
+
+    private void showLocalAndRemoteView() {
         if (null != workItemBean) {
             String recordingMethod = workItemBean.getRecordingMethod();
             if ("0".equals(recordingMethod)) {
                 tv_remote.setVisibility(View.GONE);
                 tv_local.setVisibility(View.VISIBLE);
 
-            }else if ("1".equals(recordingMethod)){
+            } else if ("1".equals(recordingMethod)) {
                 tv_remote.setVisibility(View.VISIBLE);
                 tv_local.setVisibility(View.GONE);
-            }else{
-                if (isSelfInsurance){
+            } else {
+                if (isSelfInsurance) {
                     tv_remote.setVisibility(View.GONE);
-                }else{
+                } else {
                     tv_remote.setVisibility(View.VISIBLE);
                 }
             }
@@ -139,7 +151,7 @@ public class CheckRemoteDialog extends Dialog implements View.OnClickListener, R
 
     }
 
-    private void resetView(){
+    private void resetView() {
         ll_person.clearCheck();
         tv_confirm.setEnabled(false);
         tv_local.setBackground(ContextCompat.getDrawable(mContext, R.drawable.tx_button_gray_all_20));
@@ -152,7 +164,6 @@ public class CheckRemoteDialog extends Dialog implements View.OnClickListener, R
     private void changeView(boolean isRemoteBo) {
 
         isRemote = isRemoteBo;
-
 
 
         if (!isRemoteBo) {
@@ -171,7 +182,7 @@ public class CheckRemoteDialog extends Dialog implements View.OnClickListener, R
                 mMemberArray.add("policyholder");
                 group.setVisibility(View.GONE);
                 tv_confirm.setEnabled(true);
-            }else{
+            } else {
                 group.setVisibility(View.VISIBLE);
                 tv_confirm.setEnabled(false);
             }
@@ -228,13 +239,13 @@ public class CheckRemoteDialog extends Dialog implements View.OnClickListener, R
             mMemberArray.clear();
             mMemberArray.add("policyholder");
             mMemberArray.add("insured");
-            recordType ="0";
+            recordType = "0";
             updateNextBt();
         } else if (checkedId == R.id.minpro_dev) {
             mMemberArray.clear();
             mMemberArray.add("policyholder");
             mMemberArray.add("insured");
-            recordType ="1";
+            recordType = "1";
             updateNextBt();
         }
     }

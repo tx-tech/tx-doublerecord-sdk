@@ -53,6 +53,7 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/tv_taskid_title"
             android:text="业务单号"
             android:layout_width="@dimen/tx_dimen_100dp"
             android:layout_height="wrap_content"

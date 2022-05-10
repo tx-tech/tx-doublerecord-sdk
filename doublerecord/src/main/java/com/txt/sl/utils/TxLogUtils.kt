@@ -132,4 +132,17 @@ object TxLogUtils {
         }
     }
 
+    private fun getTargetStackTraceElement(): String? {
+        var targetStackTrace: StackTraceElement? = null
+        val stackTrace = Thread.currentThread().stackTrace
+        if (stackTrace.size >= 4) {
+            targetStackTrace = stackTrace[4]
+        }
+        var s = ""
+        if (null != targetStackTrace) {
+            s = "(" + targetStackTrace.fileName + ":" + targetStackTrace.lineNumber + ")"
+        }
+        return s
+    }
+
 }

@@ -191,6 +191,7 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
         requestOrderBean?.apply {
             agentCertificateNo = agentCertificateNoStr
             taskId = taskIdStr
+            insurerQuotationNo = taskIdStr
             policyholderName = policyholderNameStr
             policyholderCertificateNo = policyholderCertificateNoStr
             policyholderAge = policyholderAgeStr.toInt()

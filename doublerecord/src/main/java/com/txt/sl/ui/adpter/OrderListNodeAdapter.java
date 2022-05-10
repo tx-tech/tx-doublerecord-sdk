@@ -1,6 +1,7 @@
 package com.txt.sl.ui.adpter;
 
 
+import android.text.TextUtils;
 import android.view.View;
 
 import com.common.widget.recyclerviewadapterhelper.base.BaseMultiItemQuickAdapter;
@@ -47,7 +48,18 @@ public class OrderListNodeAdapter extends BaseMultiItemQuickAdapter<MultiItemEnt
         if (null != workItemBean) {
             helper.setText(R.id.tv_insurantName, workItemBean.getInsurantName());
             helper.setText(R.id.tv_insuranceName, workItemBean.getInsuranceName());
-            helper.setText(R.id.tv_taskid, workItemBean.getTaskId());
+            String insurerQuotationNo = workItemBean.getInsurerQuotationNo();
+            //业务单号 投保单号 如果没有投保单号 就用业务单号
+            boolean empty = TextUtils.isEmpty(insurerQuotationNo);
+            if (empty){
+                helper.setText(R.id.tv_taskid_title,"业务单号" );
+                helper.setText(R.id.tv_taskid, workItemBean.getTaskId());
+            }else{
+                helper.setText(R.id.tv_taskid_title,"投保单号" );
+                helper.setText(R.id.tv_taskid, insurerQuotationNo);
+            }
+
+
 
             String isremoteStr = "";
             if (workItemBean.isIsRemote()) {

@@ -338,6 +338,7 @@ class HomeActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClickListener {
                             policyholderUrl = fieldsObject.optString("policyholderUrl")
                             insuranceUrl = fieldsObject.optString("insuranceUrl")
                             recordingMethod = jsonObject.optString("recordingMethod")
+                            insurerQuotationNo = fieldsObject.optString("insurerQuotationNo")
                         })
 
                     }

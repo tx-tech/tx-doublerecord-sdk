@@ -54,6 +54,7 @@ import com.tencent.trtc.TRTCCloudListener
 import com.txt.sl.R
 import com.txt.sl.TXSdk
 import com.txt.sl.config.TXManagerImpl
+import com.txt.sl.config.TXManagerImpl.Companion.instance
 import com.txt.sl.config.socket.SocketBusiness
 import com.txt.sl.entity.bean.*
 import com.txt.sl.http.https.HttpRequestClient
@@ -2413,12 +2414,12 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                         "soundOCR" -> { //投保人语音识别
                                             runOnUiThread {
                                                 targetJSONArray =
-                                                    stepDataNode!!.getJSONArray("target")!!
+                                                    stepDataNode!!.optJSONArray("target")!!
                                                 failureButtonJSONArray =
                                                     stepDataNode!!.optJSONArray("failureButton")!!
                                                 keywordsRuleJSONObject =
                                                     stepDataNode!!.optJSONObject("keywordsRule")!!
-                                                val targetOb = targetJSONArray!!.getString(0)
+                                                val targetOb = targetJSONArray!!.optString(0)
                                                 if ("agent" == targetOb) {
                                                     startAudioRecognize()
                                                     startVoiceTimer(15000)
@@ -2465,8 +2466,50 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                             }
 
                                         }
+                                        "signFile"->{
+                                            //慧金组合改变展示方式，跟等待操作类似
+                                            if (instance!!.getTenantCode() == "remoteRecord") {
+                                                runOnUiThread {
+                                                    val fillterData = fillterData(stepDataNode!!)
+                                                    showWatingPage(fillterData, fillterData)
 
-                                        "signFile", "textRead" -> {
+                                                }
+                                            }else{
+                                                runOnUiThread {
+
+                                                    val dataObject2 =
+                                                        stepDataNode?.optJSONObject("data")
+                                                    if (dataObject2!!.has("textArray")) {
+                                                        val fillterData = fillterData(stepDataNode!!)
+                                                        startTtsController(
+                                                            fillterData,
+                                                            object : RoomHttpCallBack {
+                                                                override fun onSuccess(json: String?) {
+                                                                }
+
+                                                                override fun onFail(
+                                                                    err: String?,
+                                                                    code: Int
+                                                                ) {
+
+                                                                }
+
+                                                            })
+
+                                                        showTextReadPage(
+                                                            fillterData,
+                                                            stepDataNode!!.optString("clientUrl", ""),
+                                                            stepDataNode!!.optBoolean("isPdf", false)
+                                                        )
+                                                    } else {
+                                                        showToastMsg("没有textArray字段！！！")
+                                                    }
+
+
+                                                }
+                                            }
+                                        }
+                                        "textRead" -> {
                                             runOnUiThread {
 
                                                 val dataObject2 =
@@ -3524,7 +3567,7 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     }
 
     /***
-     *  慧金租户 RemoteRecord
+     *  慧金租户 remoteRecord
      */
 //    public fun jugeTenantIdIsRemoteRecord() :Boolean = TXManagerImpl.instance?.getTenantCode().equals("remoteRecord")
     public fun jugeTenantIdIsRemoteRecord() :Boolean = true

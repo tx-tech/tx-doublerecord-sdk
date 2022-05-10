@@ -131,9 +131,14 @@ public class CheckEnvUtils {
     }
 
     public void stopBatteryState(Context context) {
-        if (null != mBatteryStateBroadcastReceiver) {
-            context.unregisterReceiver(mBatteryStateBroadcastReceiver);
+        try{
+            if (null != mBatteryStateBroadcastReceiver) {
+                context.unregisterReceiver(mBatteryStateBroadcastReceiver);
+            }
+        }catch (Exception e){
+
         }
+
     }
 
     //检测内存空间

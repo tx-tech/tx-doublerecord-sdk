@@ -216,20 +216,21 @@ class SearchActivity : AppMVPActivity<SearchContract.View, SearchPresenter>(), S
                     val jsonArray = jsonOb.getJSONArray("list")
                     val arrayList = ArrayList<WorkItemBean>()
                     for (index in 0 until jsonArray.length()) {
-                        val jsonObject = jsonArray.getJSONObject(index)
-                        val policyholderObject = jsonObject.getJSONObject("policyholder")
-                        val insurancesObject = jsonObject.getJSONArray("insurances")
+                        val jsonObject = jsonArray.optJSONObject(index)
+                        val policyholderObject = jsonObject.optJSONObject("policyholder")
+                        val insurancesObject = jsonObject.optJSONArray("insurances")
+                        val fieldsObject = jsonObject.optJSONObject("fields")
                         val stringBuffer = StringBuffer("")
                         for (index in 0 until insurancesObject.length()) {
-                            val jsonObject1 = insurancesObject.getJSONObject(index)
-                            val infoObject = jsonObject1.getJSONObject("info")
-                            stringBuffer.append(infoObject.getString("name") + " ")
+                            val jsonObject1 = insurancesObject.optJSONObject(index)
+                            val infoObject = jsonObject1.optJSONObject("info")
+                            stringBuffer.append(infoObject.optString("name") + " ")
                         }
                         var list = ArrayList<String>()
                         val optJSONArray = jsonObject.optJSONArray("membersArray")
                         if (null != optJSONArray && optJSONArray.length() > 0) {
                             for (index in 0 until optJSONArray.length()) {
-                                list.add(optJSONArray.getString(index))
+                                list.add(optJSONArray.optString(index))
                             }
                         }
 
@@ -248,6 +249,7 @@ class SearchActivity : AppMVPActivity<SearchContract.View, SearchPresenter>(), S
                             relationship = jsonObject.optString("relationship")
                             policyholderUrl = jsonObject.optString("policyholderUrl")
                             insuranceUrl = jsonObject.optString("insuranceUrl")
+                            insurerQuotationNo = fieldsObject.optString("insurerQuotationNo")
                         })
 
                     }

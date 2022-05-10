@@ -89,6 +89,16 @@ public class WorkItemBean implements Serializable {
     private String insuranceUrl;
     private String recordingMethod;
 
+    private String insurerQuotationNo = "";
+
+    public String getInsurerQuotationNo() {
+        return insurerQuotationNo;
+    }
+
+    public void setInsurerQuotationNo(String insurerQuotationNo) {
+        this.insurerQuotationNo = insurerQuotationNo;
+    }
+
     public String getRecordingMethod() {
         return recordingMethod;
     }

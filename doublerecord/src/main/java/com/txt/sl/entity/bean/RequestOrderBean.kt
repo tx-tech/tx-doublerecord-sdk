@@ -8,6 +8,7 @@ package com.txt.sl.entity.bean
 
 data class RequestOrderBean(
         var taskId: String = "",
+        var insurerQuotationNo: String = "",  //投保单号
         var agentCertificateType: String = "",
         var agentCertificateNo: String = "",
         var policyholderName: String = "",
