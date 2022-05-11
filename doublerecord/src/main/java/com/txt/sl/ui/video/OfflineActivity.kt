@@ -791,14 +791,6 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         mTextBusinessLayout?.contentView?.addView(page_readnextPage1)
 
         mTrtcVideolayout = findEntityBytype.layout as TRTCVideoLayout
-        mTrtcVideolayout!!.setLocationStr(
-            SystemBaiduLocation.instance?.getLocationInfo()?.city + SystemBaiduLocation.instance?.getLocationInfo()?.province
-        )
-
-
-
-
-
         LogUtils.i("width--${allocCloudVideoView1?.width}-----height--${allocCloudVideoView1?.height}")
         // 初始化配置 SDK 参数
         val trtcParams = TRTCParams()
@@ -1826,7 +1818,18 @@ class OfflineActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                 @SuppressLint("SetTextI18n")
                 override fun onTick(millisUntilFinished: Long) {
                     room_time.text = "当前时间：" + DateUtils.getCurrentTime()
+                    if (null != mTrtcVideolayout){
+                        if (null == SystemBaiduLocation.instance?.getLocationInfo()?.city && null == SystemBaiduLocation.instance?.getLocationInfo()?.province) {
+                            mTrtcVideolayout?.setLocationStr(
+                                "暂未获取到地址"
+                            )
+                        }else{
+                            mTrtcVideolayout?.setLocationStr(
+                                SystemBaiduLocation.instance?.getLocationInfo()?.city +SystemBaiduLocation.instance?.getLocationInfo()?.province
+                            )
+                        }
 
+                    }
                 }
 
                 override fun onFinish() {
