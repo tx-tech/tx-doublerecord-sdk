@@ -29,7 +29,7 @@ public class App : Application() {
         txConfig.miniprogramTitle = "智能双录"//显示小程序描述
         txConfig.miniprogramDescription = "智能双录"//显示小程序描述
 
-        TXSdk.getInstance().init(this, TXSdk.Environment.TEST, true, txConfig)
+        TXSdk.getInstance().init(this, TXSdk.Environment.RELEASE, true, txConfig)
         CrashReport.initCrashReport(this, "8351c98a70", true)
         UMConfigure.init(this, "622042e8317aa8776078adcc", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "")
     }

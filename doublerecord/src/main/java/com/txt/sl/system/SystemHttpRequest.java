@@ -74,7 +74,7 @@ public class SystemHttpRequest {
                 mCommonIp = "https://dev1.ikandy.cn:60428";
                 break;
             case RELEASE:
-                mCommonIp = "https://service-support-prod.ikandy.cn";
+                mCommonIp = "https://sl-service-support-prod.cloud-ins.cn";
                 break;
             case POC:
                 mCommonIp = "https://common.cloud-ins.cn";
@@ -407,7 +407,7 @@ public class SystemHttpRequest {
             fieldsJsonObject.put("bankTransferAdvice","https://csms-uat.ebaocloud.com.cn/csms2/mobile/policy-fxbdx/signature/4268?delegated=ZRHJ.zr-longkou&ticket=CSMD%20WlJISjoyMDY2NjEwOTA2MWIwMGJjOTQ0MWY2NTg4N2VlM2Y4ZToxNjQ4NTY5NjAwMDAw&token=nedKneC0kf1PtJTpFMWc&parcel=company-zrhj%2Cproduct-FXBDXXYLQ%2Cagent-zr-longkou&rootUrlFrom=https%3A%2F%2Fappuat.zrbxyun.com%2F%23!%2Fapp%2Ftab%2Fhome&actionType=read&pageStep=sign-signature");
 
             fieldsJsonObject.put("insuranceCompanyLevel2","623c365bf70d00000f0007e8");
-            fieldsJsonObject.put("insuranceCompanyNew","623aaaf92f740000aa0023e8");
+            fieldsJsonObject.put("insuranceCompanyNew","61e91f57106afdbee9e3aee6");
             //
            // 当签字对象为投保人时，取客户推送保单信息接口中的policyHolderSignPage的url，跟同屏SDK交互，获取两个链接
 

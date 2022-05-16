@@ -2518,7 +2518,11 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     fun getLocationStr(userId:String) :String{
         var location = ""
         if (null != locationMsgMap) {
-            location = locationMsgMap?.get(userId)!!
+         location = if (null == locationMsgMap?.get(userId)) {
+              "暂无地址"
+            }else{
+               locationMsgMap?.get(userId)!!
+            }
         }
         return  location
     }

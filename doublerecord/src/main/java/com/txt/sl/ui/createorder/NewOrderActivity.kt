@@ -202,7 +202,7 @@ class NewOrderActivity : BaseActivity(), View.OnClickListener {
             insuredPhone = insuredPhoneStr
             insuranceAllPaymentDown = insuranceAllPaymentDownStr
             institutions = arrayListOf(
-                InstitutionsBean("623acfcf2f740000aa0023eb")
+                InstitutionsBean("623ad2962f740000aa0023ec")
             )
             IntermediaryInstitutions = "测试机构"
             agentCode = "12313"
