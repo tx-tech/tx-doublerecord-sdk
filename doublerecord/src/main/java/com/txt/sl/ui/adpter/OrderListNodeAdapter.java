@@ -70,12 +70,6 @@ public class OrderListNodeAdapter extends BaseMultiItemQuickAdapter<MultiItemEnt
 
             helper.setText(R.id.tv_remote, isremoteStr);
 
-            try {
-                String s = DateUtils.UTCToCST(workItemBean.getUtime());
-                helper.setText(R.id.tv_ctime, s);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
 
 
         }
@@ -84,25 +78,56 @@ public class OrderListNodeAdapter extends BaseMultiItemQuickAdapter<MultiItemEnt
         switch (itemTypeBean.getItemType()) {
             case TYPE_UnRecorded:
                 helper.setText(R.id.tv_ctime_title, "创建时间");
+                try {
+                    String s = DateUtils.UTCToCST(workItemBean.getCtime());
+                    helper.setText(R.id.tv_ctime, s);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
                 helper.addOnClickListener(R.id.tv_item1_sl);
                 view.setVisibility(View.GONE);
                 break;
             case TYPE_Refused:
+                try {
+                    String s = DateUtils.UTCToCST(workItemBean.getUtime());
+                    helper.setText(R.id.tv_ctime, s);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 helper.setText(R.id.tv_ctime_title, "驳回时间");
                 helper.addOnClickListener(R.id.tv_details, R.id.tv_item1_sl);
                 view.setVisibility(View.VISIBLE);
                 break;
             case TYPE_UnUploaded:
+                try {
+                    String s = DateUtils.UTCToCST(workItemBean.getUtime());
+                    helper.setText(R.id.tv_ctime, s);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 helper.setText(R.id.tv_ctime_title, "录制完成时间");
                 helper.addOnClickListener(R.id.tv_unupload_play, R.id.tv_replay, R.id.tv_item2_play);
                 view.setVisibility(View.VISIBLE);
                 break;
             case TYPE_UnChecked:
+                try {
+                    String s = DateUtils.UTCToCST(workItemBean.getUtime());
+                    helper.setText(R.id.tv_ctime, s);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 helper.setText(R.id.tv_ctime_title, "上传时间");
                 helper.addOnClickListener(R.id.tv_playremotevideo);
                 view.setVisibility(View.VISIBLE);
                 break;
             case TYPE_Completed:
+                try {
+                    String s = DateUtils.UTCToCST(workItemBean.getUtime());
+                    helper.setText(R.id.tv_ctime, s);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 helper.setText(R.id.tv_ctime_title, "完成时间");
                 helper.addOnClickListener(R.id.tv_item2_play);
                 view.setVisibility(View.VISIBLE);

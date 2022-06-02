@@ -329,6 +329,7 @@ class HomeActivity : BaseActivity(), CheckRemoteDialog.OnRemoteClickListener {
                             insurantPhone = policyholderObject.optString("phone")
                             insuredName = insuredObject.optString("name")
                             utime = jsonObject.optString("utime")
+                            ctime = jsonObject.optString("ctime")
                             status = jsonObject.optString("status")
                             taskId = jsonObject.optString("taskId")
                             isIsRemote = jsonObject.optBoolean("isRemote")

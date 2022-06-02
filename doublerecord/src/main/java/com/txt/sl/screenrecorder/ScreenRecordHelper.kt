@@ -119,9 +119,7 @@ class ScreenRecordHelper @JvmOverloads constructor(
     }
 
     fun cancelRecord() {
-        saveFile?.delete()
-        saveFile = null
-        stopRecord()
+        stopRecord(true)
         listener?.onCancelRecord()
     }
 
@@ -154,18 +152,27 @@ class ScreenRecordHelper @JvmOverloads constructor(
     /**
      * if you has parameters, the recordAudio will be invalid
      */
-    fun stopRecord(videoDuration: Long = 0, audioDuration: Long = 0, afdd: AssetFileDescriptor? = null) {
+    /**
+     * if you has parameters, the recordAudio will be invalid
+     */
+    fun stopRecord(needDelete:Boolean = false,videoDuration: Long = 0, audioDuration: Long = 0, afdd: AssetFileDescriptor? = null) {
         stop()
         if (audioDuration != 0L && afdd != null) {
             syntheticAudio(videoDuration, audioDuration, afdd)
         } else {
             // saveFile
-            if (saveFile != null) {
-                val newFile = File(savePath, "$saveName.mp4")
-                // 录制结束后修改后缀为 mp4
-                saveFile!!.renameTo(newFile)
-                refreshVideo(newFile)
+            if (needDelete){
+                saveFile?.delete()
+                saveFile = null
+            }else{
+                if (saveFile != null) {
+                    val newFile = File(savePath, "$saveName.mp4")
+                    // 录制结束后修改后缀为 mp4
+                    saveFile!!.renameTo(newFile)
+                    refreshVideo(newFile)
+                }
             }
+
             saveFile = null
         }
 

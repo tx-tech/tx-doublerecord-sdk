@@ -241,6 +241,7 @@ class SearchActivity : AppMVPActivity<SearchContract.View, SearchPresenter>(), S
                             insurantName = policyholderObject.optString("name")
                             insuredPhone = policyholderObject.optString("phone")
                             utime = jsonObject.optString("utime")
+                            ctime = jsonObject.optString("ctime")
                             status = jsonObject.optString("status")
                             taskId = jsonObject.optString("taskId")
                             isIsRemote = jsonObject.optBoolean("isRemote")

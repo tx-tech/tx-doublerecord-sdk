@@ -911,11 +911,16 @@ public class TRTCRightVideoLayoutManager extends RelativeLayout implements TRTCV
         mLayoutEntityList.set(0, indexEntity);
         mLayoutEntityList.set(index, fullEntity);
 
-        for (int i = 0; i < mLayoutEntityList.size(); i++) {
-            TRTCLayoutEntity entity = mLayoutEntityList.get(i);
-            // 需要对 View 树的 zOrder 进行重排，否则在 RelativeLayout 下，存在遮挡情况
-            bringChildToFront(entity.layout);
+        try {
+            for (int i = 0; i < mLayoutEntityList.size(); i++) {
+                TRTCLayoutEntity entity = mLayoutEntityList.get(i);
+                // 需要对 View 树的 zOrder 进行重排，否则在 RelativeLayout 下，存在遮挡情况
+                bringChildToFront(entity.layout);
+            }
+        }catch (Exception e){
+
         }
+
     }
 
 //排序

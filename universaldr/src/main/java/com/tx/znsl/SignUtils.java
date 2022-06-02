@@ -28,6 +28,11 @@ public class SignUtils {
     //正式向量iv
     public static final String reinitVector = BuildConfig.reinitVector;
 
+    //poc向量key
+    public static final String pockey =  BuildConfig.pockey;
+    //poc向量iv
+    public static final String pocinitVector = BuildConfig.pocinitVector;
+
     //加密
     @JvmStatic
     public static String Encrypt(String content) throws Exception {
@@ -36,21 +41,25 @@ public class SignUtils {
             switch (TXSdk.getInstance().getEnvironment()) {
                 case DEV:
                 case TEST:
-                case RELEASE:
                     iv = new IvParameterSpec(initVector.getBytes("UTF-8"));
                     break;
-                default:
+                case RELEASE:
                     iv = new IvParameterSpec(reinitVector.getBytes("UTF-8"));
+                    break;
+                default:
+                    iv = new IvParameterSpec(pocinitVector.getBytes("UTF-8"));
             }
             SecretKeySpec skeySpec;
             switch (TXSdk.getInstance().getEnvironment()) {
                 case DEV:
                 case TEST:
-                case RELEASE:
                     skeySpec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
                     break;
-                default:
+                case RELEASE:
                     skeySpec = new SecretKeySpec(rekey.getBytes("UTF-8"), "AES");
+                    break;
+                default:
+                    skeySpec = new SecretKeySpec(pockey.getBytes("UTF-8"), "AES");
             }
 
 

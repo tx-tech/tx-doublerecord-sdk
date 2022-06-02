@@ -34,8 +34,8 @@
         {"key": "Children", "name": "子女", "children":[]},
         {"key": "Others", "name": "其他", "children":[]},
         {"key": "Siblings", "name": "兄弟姐妹", "children":[]},
-        {"key": "Grandparents", "name": "(外)祖父母", "children":[]},
-        {"key": "Grandchildren", "name": "(外)孙子女", "children":[]}
+        {"key": "GrandParents", "name": "(外)祖父母", "children":[]},
+        {"key": "GrandChildren", "name": "(外)孙子女", "children":[]}
       ]
     },
     {

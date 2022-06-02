@@ -115,7 +115,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
     private var mBackButton //【控件】返回上一级页面
             : ImageView? = null
 
-    private var mTRTCCloud // SDK 核心类
+    private var mTRTCCloud // SDK 核心类policyholder
             : TRTCCloud? = null
     private var mIsFrontCamera = true // 默认摄像头前置
     private var mRemoteUidList // 远端用户Id列表
@@ -1576,14 +1576,25 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                     View.GONE
                 )
             } else {
+                if (roomPerson==3) {
+                    mTrtcrightvideolayoutmanager?.makeFullVideoView(3)
+                    mTrtcrightvideolayoutmanager?.updateSkipLayout(
+                        "insured",
+                        title,
+                        View.VISIBLE,
+                        View.GONE
+                    )
+                }else{
+                    mTrtcrightvideolayoutmanager?.makeFullVideoView(2)
+                    mTrtcrightvideolayoutmanager?.updateSkipLayout(
+                        "insured",
+                        title,
+                        View.VISIBLE,
+                        View.GONE
+                    )
+                }
                 //显示被保人大图
-                mTrtcrightvideolayoutmanager?.makeFullVideoView(3)
-                mTrtcrightvideolayoutmanager?.updateSkipLayout(
-                    "insured",
-                    title,
-                    View.VISIBLE,
-                    View.GONE
-                )
+
             }
         } else {
             showToastMsg("当前没有作用对象")
@@ -1628,13 +1639,24 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                 "policyholder"
             } else {
                 //显示被保人大图
-                mTrtcrightvideolayoutmanager?.makeFullVideoView(3)
-                mTrtcrightvideolayoutmanager?.updateSkipLayout(
-                    "insured",
-                    title,
-                    View.VISIBLE,
-                    View.GONE
-                )
+                    if (roomPerson==2){
+                        mTrtcrightvideolayoutmanager?.makeFullVideoView(2)
+                        mTrtcrightvideolayoutmanager?.updateSkipLayout(
+                            "insured",
+                            title,
+                            View.VISIBLE,
+                            View.GONE
+                        )
+                    }else{
+                        mTrtcrightvideolayoutmanager?.makeFullVideoView(3)
+                        mTrtcrightvideolayoutmanager?.updateSkipLayout(
+                            "insured",
+                            title,
+                            View.VISIBLE,
+                            View.GONE
+                        )
+                    }
+
                 "insured"
             }
             if (jugeTenantIdIsRemoteRecord()) {
@@ -2839,7 +2861,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                         ll_page_voice_result_no.visibility(false)
                                         page_asr_voice.visibility(false)
                                         val jsonObject = stepDataJson?.getJSONObject("data")
-                                        val roomMessage = jsonObject?.getString("roomMessage")
+                                        val roomMessage = jsonObject?.optString("roomMessage")
                                         tv_user_content2.visibility(true)
                                         tv_user_content2.text = roomMessage
 
@@ -2880,7 +2902,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
                                         page_asr_voice.visibility(false)
                                         ll_page_voice_result.visibility(true)
-                                        val jsonObject = stepDataJson?.getJSONObject("data")
+                                        val jsonObject = stepDataJson?.optJSONObject("data")
                                         val roomMessage = jsonObject?.getString("roomMessage")
                                         LogUtils.i("roomMessage-----$roomMessage")
                                         tv_user_content2.visibility(true)
@@ -2894,7 +2916,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                         //找到对应的usedId
                                         isPassed = true
                                         val mUserId = stepDataJson?.optString("userId")
-                                        val jsonObject = stepDataJson?.getJSONObject("data")
+                                        val jsonObject = stepDataJson?.optJSONObject("data")
                                         val roomMessage = jsonObject?.getString("roomMessage")
                                         mTrtcrightvideolayoutmanager?.updateOcrStatus(
                                             mUserId,
@@ -2917,7 +2939,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                         autoCheckBoolean = false
                                         isPassed = false
                                         val mUserId = stepDataJson?.optString("userId")
-                                        val jsonObject = stepDataJson?.getJSONObject("data")
+                                        val jsonObject = stepDataJson?.optJSONObject("data")
                                         val roomMessage = jsonObject?.getString("roomMessage")
                                         mTrtcrightvideolayoutmanager?.updateOcrStatus(
                                             mUserId,
@@ -2954,8 +2976,8 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                 }
                                 "idComparison-collect-fail" -> {
                                     runOnUiThread {
-                                        val dataJson = stepDataJson!!.getJSONObject("data")
-                                        val roomMessage = dataJson.getString("roomMessage")
+                                        val dataJson = stepDataJson!!.optJSONObject("data")
+                                        val roomMessage = dataJson.optString("roomMessage")
                                         failTarget = stepDataJson?.optJSONArray("target")
                                         autoCheckBoolean = false
 
@@ -2978,18 +3000,18 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                             "",
                                             null
                                         )
-                                        val jsonArray = stepDataNode!!.getJSONArray("target")!!
+                                        val jsonArray = stepDataNode!!.optJSONArray("target")!!
                                         val title =
-                                            stepDataNode!!.getJSONObject("data")
-                                                .getJSONArray("textArray").getString(0)
+                                            stepDataNode!!.optJSONObject("data")
+                                                .optJSONArray("textArray").optString(0)
                                         showidComparisonPage(jsonArray, true, title)
                                     }
 
 
                                 }
                                 "onScroll" -> { //滑动中
-                                    val stepData = data.getJSONObject("step")
-                                    val jsonObject = stepData.getJSONObject("data")
+                                    val stepData = data.optJSONObject("step")
+                                    val jsonObject = stepData.optJSONObject("data")
                                     val string = jsonObject.getInt("roomMessage")
                                     runOnUiThread {
                                         ll_page11_content.smoothScrollBy(0, string)
@@ -3006,8 +3028,8 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                             null
                                         )
                                         val title =
-                                            stepDataNode!!.getJSONObject("data")
-                                                .getJSONArray("textArray").getString(0)
+                                            stepDataNode!!.optJSONObject("data")
+                                                .optJSONArray("textArray").optString(0)
                                         runOnUiThread {
                                             showOCRPage(
                                                 title,
@@ -3023,8 +3045,8 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                 "identityOCR-success" -> {
                                     runOnUiThread {
                                         autoCheckBoolean = true
-                                        val dataJson = stepDataJson!!.getJSONObject("data")
-                                        val roomMessage = dataJson.getString("roomMessage")
+                                        val dataJson = stepDataJson!!.optJSONObject("data")
+                                        val roomMessage = dataJson.optString("roomMessage")
                                         val mUserId = stepDataJson?.optString("userId")
                                         mTrtcrightvideolayoutmanager?.updateOcrLayoutByUserId(
                                             mUserId,
@@ -3043,7 +3065,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                                 "identityOCR-fail" -> {
                                     setFailType("识别失败", "OCR识别失败")
                                     runOnUiThread {
-                                        val dataJson = stepDataJson!!.getJSONObject("data")
+                                        val dataJson = stepDataJson!!.optJSONObject("data")
                                         val roomMessage = dataJson.getString("roomMessage")
                                         val mUserId = stepDataJson?.optString("userId")
                                         failTarget = JSONArray()
@@ -3390,7 +3412,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                         val jsonArray =
                             dataObject2.optJSONArray("textArray")
                         val title =
-                            jsonArray.getString(0)
+                            jsonArray.optString(0)
                         startTtsController(title, object : OfflineActivity.RoomHttpCallBack {
                             override fun onSuccess(json: String?) {
 
@@ -3452,7 +3474,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                         val jsonArray =
                             dataObject2.optJSONArray("textArray")
                         val title =
-                            jsonArray.getString(0)
+                            jsonArray.optString(0)
                         startTtsController(title, object : OfflineActivity.RoomHttpCallBack {
                             override fun onSuccess(json: String?) {
 
@@ -3479,7 +3501,7 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                         val jsonArray =
                             dataObject2.optJSONArray("textArray")
                         val title =
-                            jsonArray.getString(0)
+                            jsonArray.optString(0)
                         startTtsController(title, object : OfflineActivity.RoomHttpCallBack {
                             override fun onSuccess(json: String?) {
 
@@ -3491,8 +3513,8 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
 
                         })
                         showOriginTextReadPage(
-                            jsonArray.getString(0) + "完成阅读后，请点击【下一步】",
-                            stepDataNode!!.getJSONArray("target")!!.getString(0)
+                            jsonArray.optString(0) + "完成阅读后，请点击【下一步】",
+                            stepDataNode!!.optJSONArray("target")!!.optString(0)
                         )
                         val fileUrl = stepDataNode!!.optString("fileUrl", "")
                         if (fileUrl.isNotEmpty()) {
@@ -3703,10 +3725,10 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
         if (word.isEmpty()) {
             return false
         }
-        val notContainArray = keywordsRuleJSONObject!!.getJSONArray("notContain")
+        val notContainArray = keywordsRuleJSONObject!!.optJSONArray("notContain")
         var contain = true
         for (index in 0 until notContainArray.length()) {
-            val notContainStr = notContainArray.getString(index)
+            val notContainStr = notContainArray.optString(index)
             contain = word.contains(notContainStr)
             if (contain) {
                 return false
@@ -3718,10 +3740,10 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             return false
         } else {
             //
-            val containsArray = keywordsRuleJSONObject!!.getJSONArray("contains")
+            val containsArray = keywordsRuleJSONObject!!.optJSONArray("contains")
             val stringBuilder = StringBuilder("")
             for (index in 0 until containsArray.length()) {
-                val containsStr = containsArray.getJSONObject(index)
+                val containsStr = containsArray.optJSONObject(index)
                 val conditionsStr = containsStr.optString("conditions")
                 val nameStr = containsStr.optString("name")
                 if (conditionsStr == "and") {
@@ -4085,9 +4107,9 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
             "2" -> {
                 //重试
                 if ("idComparison".equals(stepDataNodeType)) {
-                    mCurrentMsg!!.getJSONObject("step").remove("target")
-                    mCurrentMsg!!.getJSONObject("step").put("target", failTarget)
-                    mCurrentMsg!!.getJSONObject("step").put("roomType", "idComparison-retry")
+                    mCurrentMsg!!.optJSONObject("step").remove("target")
+                    mCurrentMsg!!.optJSONObject("step").put("target", failTarget)
+                    mCurrentMsg!!.optJSONObject("step").put("roomType", "idComparison-retry")
                     pushMessage(mCurrentMsg!!, object : RoomHttpCallBack {
                         override fun onSuccess(json: String?) {
 
@@ -4098,9 +4120,9 @@ class RoomActivity : BaseActivity(), View.OnClickListener, SocketBusiness,
                         }
                     })
                 } else {
-                    mCurrentMsg!!.getJSONObject("step").remove("target")
-                    mCurrentMsg!!.getJSONObject("step").put("target", failTarget)
-                    mCurrentMsg!!.getJSONObject("step").put("roomType", "identityOCR-retry")
+                    mCurrentMsg!!.optJSONObject("step").remove("target")
+                    mCurrentMsg!!.optJSONObject("step").put("target", failTarget)
+                    mCurrentMsg!!.optJSONObject("step").put("roomType", "identityOCR-retry")
                     pushMessage(mCurrentMsg!!, object : RoomHttpCallBack {
                         override fun onSuccess(json: String?) {
 

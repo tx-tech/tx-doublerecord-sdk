@@ -73,6 +73,7 @@ public class WorkItemBean implements Serializable {
      */
 
     private String utime;
+
     /**
      * status :
      */
