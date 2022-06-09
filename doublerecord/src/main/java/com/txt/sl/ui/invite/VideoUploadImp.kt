@@ -57,11 +57,11 @@ public class VideoUploadImp {
             .getCosStsToken(object : HttpRequestClient.RequestHttpCallBack {
                 override fun onSuccess(json: String?) {
                     val jsonObject = JSONObject(json)
-                    val jsonObject1 = jsonObject.getJSONObject("Credentials")
-                    val expiredTime = jsonObject.getLong("ExpiredTime")
-                    val mToken = jsonObject1.getString("Token")
-                    val mTmpSecretId = jsonObject1.getString("TmpSecretId")
-                    val mTmpSecretKey = jsonObject1.getString("TmpSecretKey")
+                    val jsonObject1 = jsonObject.optJSONObject("Credentials")
+                    val expiredTime = jsonObject.optLong("ExpiredTime")
+                    val mToken = jsonObject1.optString("Token")
+                    val mTmpSecretId = jsonObject1.optString("TmpSecretId")
+                    val mTmpSecretKey = jsonObject1.optString("TmpSecretKey")
                     val region = "ap-shanghai"
                     val serviceConfig = CosXmlServiceConfig.Builder()
                         .setRegion(region)
@@ -87,7 +87,7 @@ public class VideoUploadImp {
                             pathFile,
                             onUploadListener
                         )
-                    }catch (e:IllegalArgumentException){
+                    } catch (e: IllegalArgumentException) {
                         //
                         LogUtils.i(e.toString())
                     }
@@ -104,7 +104,7 @@ public class VideoUploadImp {
     }
 
 
-   public var cosxmlUploadTask: COSXMLUploadTask? = null
+    public var cosxmlUploadTask: COSXMLUploadTask? = null
     private fun uploadToS3(
         cosXmlService: CosXmlSimpleService,
         uploadId: String,
@@ -126,9 +126,9 @@ public class VideoUploadImp {
             .toString() //本地文件的绝对路径
         cosxmlUploadTask = transferManager.upload(
             bucket, cosPath,
-            srcPath,if (uploadId.isEmpty()){
+            srcPath, if (uploadId.isEmpty()) {
                 null
-            }else{
+            } else {
                 uploadId
             }
         )
@@ -142,6 +142,13 @@ public class VideoUploadImp {
                 result as COSXMLUploadTask.COSXMLUploadTaskResult
                 TxLogUtils.i("cOSXMLUploadTaskResult：" + result.accessUrl)
                 uploadServiceVideoNew(serviceId!!, preTime!!, result.accessUrl)
+                try {
+                    val srcPath = File(pathFile)
+                    srcPath.delete()
+                } catch (e: Exception) {
+
+                }
+
                 onUploadListener?.onSuccess()
             }
 
@@ -150,7 +157,6 @@ public class VideoUploadImp {
                 clientException: CosXmlClientException?,
                 serviceException: CosXmlServiceException?
             ) {
-
 
 
                 try {
@@ -164,9 +170,9 @@ public class VideoUploadImp {
                                 + clientException?.message + clientException?.errorCode +
                                 "serviceException:" + serviceException?.message + serviceException?.errorCode
                     )
-                }catch (e:Exception){
+                } catch (e: Exception) {
 
-                }finally {
+                } finally {
                     onUploadListener?.onFail()
                 }
 
@@ -179,7 +185,7 @@ public class VideoUploadImp {
             val state = TransferState.getState(it.name)
             if (TransferState.PAUSED == state) {
                 //暂停
-                onUploadListener?.onStateChanged(it,cosxmlUploadTask?.uploadId)
+                onUploadListener?.onStateChanged(it, cosxmlUploadTask?.uploadId)
             }
             TxLogUtils.i("cosxmlUploadTask：" + state)
             TxLogUtils.i("cosxmlUploadTask：" + cosxmlUploadTask?.uploadId)
